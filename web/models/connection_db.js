@@ -4,7 +4,7 @@ const {Sequelize, DataTypes, Model} = require('sequelize');
 const USER='root';
 const HOST='localhost';
 const DATABASE='health_road'
-const PASSWORD='Jhon$19PVT'
+const PASSWORD='######'
 const PORT='3306'
 
 //connection
