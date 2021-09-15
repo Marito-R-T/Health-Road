@@ -1,17 +1,17 @@
 const {Sequelize, DataTypes, Model} = require('sequelize');
 
 //credentials
-const USER='root';
+const USER='postgres';
 const HOST='localhost';
 const DATABASE='health_road'
-const PASSWORD='######'
-const PORT='3306'
+const PASSWORD='Jhon$19PVT'
+const PORT='5432'
 
 //connection
 const sequelize = new Sequelize(DATABASE,USER,PASSWORD,{
     HOST,
     PORT,
-    dialect:'mysql',
+    dialect:'postgres',
     logging:false,
 });
 
@@ -30,7 +30,7 @@ var hospital = sequelize.define('Hospital',{
         allowNull:false,
     },
     direction:{
-        type:DataTypes.STRING(length=100),
+        type:DataTypes.JSON,
         allowNull:false,
     },
     profile_pic:{
@@ -76,7 +76,10 @@ var service = sequelize.define('Service',{
             type:DataTypes.BOOLEAN,
             defaultValue:false
         },
-
+        schedule:{
+            type:DataTypes.JSON,
+            allowNull:false,
+        }
     },{
         freezeTableName: true,
     }
@@ -134,6 +137,14 @@ var user = sequelize.define('User',{
     }
 );
 
+var ambulance_driver=sequelize.define('AmbulanceDriver', {
+    direction:{
+        type:DataTypes.JSON
+    }
+    },{
+        freezeTableName: true
+    }
+);
 
 category.hasMany(service,{onDelete: 'CASCADE',foreignKey:{
     name: 'category_name',
@@ -142,17 +153,19 @@ hospital.hasMany(service,{onDelete: 'CASCADE',foreignKey:{
     name:'hospital_user',
     primaryKey:true,
 }});
-
+user.hasMany(ambulance_driver,{onDelete: 'CASCADE',foreignKey:{
+    name:'user',
+    primaryKey:true,
+    allowNull:false,
+}})
 
 function create_tables(){
     hospital.sync({force:true}).then(function(){});
     category.sync({force:true}).then(function(){});
     service.sync({force:true}).then(function(){});
     user.sync({force:true}).then(function(){});
-    
-    
-    
 }
+
 
 create_tables();
 module.exports = sequelize;
