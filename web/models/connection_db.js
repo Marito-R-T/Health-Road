@@ -31,11 +31,11 @@ var hospital = sequelize.define('Hospital',{
     },
     direction:{
         type:DataTypes.JSON,
-        allowNull:false,
+        allowNull:true,
     },
     profile_pic:{
-        type:DataTypes.STRING(length=100),
-        allowNull:false,
+        type:DataTypes.TEXT,
+        allowNull:true,
     },
     description:{
         type:DataTypes.TEXT,
@@ -78,7 +78,7 @@ var service = sequelize.define('Service',{
         },
         schedule:{
             type:DataTypes.JSON,
-            allowNull:false,
+            defaultValue:{}
         }
     },{
         freezeTableName: true,
@@ -159,6 +159,11 @@ user.hasMany(ambulance_driver,{onDelete: 'CASCADE',foreignKey:{
     allowNull:false,
 }})
 
+function alter_table(){
+    hospital.sync({alter:true}).then(function(){});
+    service.sync({alter:true}).then(function(){});
+
+}
 function create_tables(){
     hospital.sync({force:true}).then(function(){});
     category.sync({force:true}).then(function(){});
@@ -167,5 +172,8 @@ function create_tables(){
 }
 
 
-create_tables();
-module.exports = sequelize;
+//create_tables();
+alter_table();
+module.exports.sequelize = sequelize;
+module.exports.hospital= hospital;
+module.exports.service=service;
