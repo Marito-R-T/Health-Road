@@ -15,18 +15,18 @@ var upload = multer({
 });
 
 //create a hospital
-router.post('/register/', upload.array('profile_pic', 7), (req, res) => {
+router.post('/register/', upload.array('profile_pic', 7), async(req, res) => {
     const user_info = req.body;
     const profile_pic = req.files[0]
-    if ((user.user && user.password &&
-            user.name && user.last_name &&
-            user.celphone && user.email &&
-            user.rol && profile_pic)) {
-        if (!validator.validate(user.email)) {
+    if ((user_info.user && user_info.password &&
+            user_info.name && user_info.last_name &&
+            user_info.celphone && user_info.email &&
+            user_info.rol && profile_pic)) {
+        if (!validator.validate(user_info.email)) {
             res.send("el email no esta escrito correctamente")
         }
 
-        user.create({
+        await user.create({
                 user: user_info.user,
                 password: user_info.password,
                 name: user_info.name,
@@ -45,6 +45,20 @@ router.post('/register/', upload.array('profile_pic', 7), (req, res) => {
                 res.send("registered")
             })
 
+    } else {
+        res.send("error");
+    }
+})
+
+router.post('/login/', async(req, res) => {
+    const user_login = req.body;
+    if ((user_login.user && user_login.password)) {
+        await user.findAll({
+            where: {
+                user: user_login.user,
+                password: user_login.password
+            }
+        });
     } else {
         res.send("error");
     }
