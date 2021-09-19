@@ -1,179 +1,184 @@
-const {Sequelize, DataTypes, Model} = require('sequelize');
+const { Sequelize, DataTypes, Model } = require('sequelize');
 
 //credentials
-const USER='postgres';
-const HOST='localhost';
-const DATABASE='health_road'
-const PASSWORD='Jhon$19PVT'
-const PORT='5432'
+const USER = 'postgres';
+const HOST = 'localhost';
+const DATABASE = 'health_road'
+const PASSWORD = 'Jhon$19PVT'
+const PORT = '5432'
 
 //connection
-const sequelize = new Sequelize(DATABASE,USER,PASSWORD,{
+const sequelize = new Sequelize(DATABASE, USER, PASSWORD, {
     HOST,
     PORT,
-    dialect:'postgres',
-    logging:false,
+    dialect: 'postgres',
+    logging: false,
 });
 
-var hospital = sequelize.define('Hospital',{
-    user:{
-        type:DataTypes.STRING(length=60),
-        allowNull:false,
-        primaryKey:true,
+var hospital = sequelize.define('Hospital', {
+    user: {
+        type: DataTypes.STRING(length = 60),
+        allowNull: false,
+        primaryKey: true,
     },
-    password:{
-        type:DataTypes.STRING(length=50),
-        allowNull:false,
+    password: {
+        type: DataTypes.STRING(length = 50),
+        allowNull: false,
     },
-    name:{
-        type:DataTypes.STRING(length=50),
-        allowNull:false,
+    name: {
+        type: DataTypes.STRING(length = 50),
+        allowNull: false,
     },
-    direction:{
-        type:DataTypes.JSON,
-        allowNull:true,
+    direction: {
+        type: DataTypes.JSON,
+        allowNull: true,
     },
-    profile_pic:{
-        type:DataTypes.TEXT,
-        allowNull:true,
+    profile_pic: {
+        type: DataTypes.TEXT,
+        allowNull: true,
     },
-    description:{
-        type:DataTypes.TEXT,
-        allowNull:false,
+    description: {
+        type: DataTypes.TEXT,
+        allowNull: false,
     },
-    payment_type:{
-        type:DataTypes.INTEGER,
-        allowNull:false,
+    payment_type: {
+        type: DataTypes.INTEGER,
+        allowNull: false,
     },
-    email:{
-        type:DataTypes.STRING(length=30),
-        allowNull:false,
+    email: {
+        type: DataTypes.STRING(length = 30),
+        allowNull: false,
     },
-    director_name:{
-        type:DataTypes.STRING(length=50),
-        allowNull:false,
+    director_name: {
+        type: DataTypes.STRING(length = 50),
+        allowNull: false,
     }
-    },{
-        freezeTableName: true,
-    }
-);
+}, {
+    freezeTableName: true,
+});
 
-var service = sequelize.define('Service',{
-        name:{
-            type:DataTypes.STRING(length=30),
-            allowNull:false,
-            primaryKey:true,
-        },
-        price:{
-            type:DataTypes.DOUBLE,
-            allowNull:false,
-        },
-        description:{
-            type:DataTypes.TEXT,
-            allowNull:false,
-        },
-        status:{
-            type:DataTypes.BOOLEAN,
-            defaultValue:false
-        },
-        schedule:{
-            type:DataTypes.JSON,
-            defaultValue:{}
-        }
-    },{
-        freezeTableName: true,
+var service = sequelize.define('Service', {
+    name: {
+        type: DataTypes.STRING(length = 30),
+        allowNull: false,
+        primaryKey: true,
+    },
+    price: {
+        type: DataTypes.DOUBLE,
+        allowNull: false,
+    },
+    description: {
+        type: DataTypes.TEXT,
+        allowNull: false,
+    },
+    status: {
+        type: DataTypes.BOOLEAN,
+        defaultValue: false
+    },
+    schedule: {
+        type: DataTypes.JSON,
+        defaultValue: {}
     }
-)
+}, {
+    freezeTableName: true,
+})
 
-var category = sequelize.define('Category',{
-    name:{
-        type:DataTypes.STRING(length=30),
-        allowNull:false,
-        primaryKey:true,
+var category = sequelize.define('Category', {
+    name: {
+        type: DataTypes.STRING(length = 30),
+        allowNull: false,
+        primaryKey: true,
     },
-    description:{
-        type:DataTypes.STRING(length=50),
-        allowNull:false,
+    description: {
+        type: DataTypes.STRING(length = 50),
+        allowNull: false,
     }
-    },{
-        freezeTableName: true,
-    }
-);
+}, {
+    freezeTableName: true,
+});
 
-var user = sequelize.define('User',{
-    user:{
-        type:DataTypes.STRING(length=40),
-        allowNull:false,
-        primaryKey:true,
+var user = sequelize.define('User', {
+    user: {
+        type: DataTypes.STRING(length = 40),
+        allowNull: false,
+        primaryKey: true,
     },
-    password:{
-        type:DataTypes.STRING(length=50),
-        allowNull:false,
+    password: {
+        type: DataTypes.STRING(length = 50),
+        allowNull: false,
     },
-    name:{
-        type:DataTypes.STRING(length=40),
-        allowNull:false,
+    name: {
+        type: DataTypes.STRING(length = 40),
+        allowNull: false,
     },
-    last_name:{
-        type:DataTypes.STRING(length=40),
-        allowNull:false,
+    last_name: {
+        type: DataTypes.STRING(length = 40),
+        allowNull: false,
     },
-    profile_pic:{
-        type:DataTypes.STRING(length=50),
-        allowNull:false,
+    profile_pic: {
+        type: DataTypes.STRING(length = 50),
+        allowNull: false,
     },
-    email:{
-        type:DataTypes.STRING(length=50),
+    email: {
+        type: DataTypes.STRING(length = 50),
     },
-    celphone:{
-        type:DataTypes.INTEGER
+    celphone: {
+        type: DataTypes.INTEGER
     },
-    rol:{
-        type:DataTypes.INTEGER,
-        allowNull:false,
+    rol: {
+        type: DataTypes.INTEGER,
+        allowNull: false,
     }
-    },{
-        freezeTableName: true
-    }
-);
+}, {
+    freezeTableName: true
+});
 
-var ambulance_driver=sequelize.define('AmbulanceDriver', {
-    direction:{
-        type:DataTypes.JSON
+var ambulance_driver = sequelize.define('AmbulanceDriver', {
+    direction: {
+        type: DataTypes.JSON
     }
-    },{
-        freezeTableName: true
+}, {
+    freezeTableName: true
+});
+
+category.hasMany(service, {
+    onDelete: 'CASCADE',
+    foreignKey: {
+        name: 'category_name',
     }
-);
+});
+hospital.hasMany(service, {
+    onDelete: 'CASCADE',
+    foreignKey: {
+        name: 'hospital_user',
+        primaryKey: true,
+    }
+});
+user.hasMany(ambulance_driver, {
+    onDelete: 'CASCADE',
+    foreignKey: {
+        name: 'user',
+        primaryKey: true,
+        allowNull: false,
+    }
+})
 
-category.hasMany(service,{onDelete: 'CASCADE',foreignKey:{
-    name: 'category_name',
-}});
-hospital.hasMany(service,{onDelete: 'CASCADE',foreignKey:{
-    name:'hospital_user',
-    primaryKey:true,
-}});
-user.hasMany(ambulance_driver,{onDelete: 'CASCADE',foreignKey:{
-    name:'user',
-    primaryKey:true,
-    allowNull:false,
-}})
-
-function alter_table(){
-    hospital.sync({alter:true}).then(function(){});
-    service.sync({alter:true}).then(function(){});
+function alter_table() {
+    hospital.sync({ alter: true }).then(function() {});
+    service.sync({ alter: true }).then(function() {});
 
 }
-function create_tables(){
-    hospital.sync({force:true}).then(function(){});
-    category.sync({force:true}).then(function(){});
-    service.sync({force:true}).then(function(){});
-    user.sync({force:true}).then(function(){});
+
+function create_tables() {
+    hospital.sync({ force: true }).then(function() {});
+    category.sync({ force: true }).then(function() {});
+    service.sync({ force: true }).then(function() {});
+    user.sync({ force: true }).then(function() {});
 }
 
 
 //create_tables();
 alter_table();
 module.exports.sequelize = sequelize;
-module.exports.hospital= hospital;
-module.exports.service=service;
+module.exports.hospital = hospital;
+module.exports.service = service;

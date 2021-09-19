@@ -1,12 +1,12 @@
 var express = require('express');
 var router = express.Router();
-const {service} = require('../models/connection_db')
+const { service } = require('../models/connection_db')
 
-router.post('/register/',(req,res)=>{
-    const service_info=req.body;
-    if( service_info.name && service_info.price &&
+router.post('/register/', (req, res) => {
+    const service_info = req.body;
+    if (service_info.name && service_info.price &&
         service_info.description
-    ){
+    ) {
         service.create({
             name: service_info.name,
             price: service_info.price,
@@ -15,7 +15,7 @@ router.post('/register/',(req,res)=>{
         })
 
         res.send("nice")
-    }else{
+    } else {
         res.send("error")
     }
 });
