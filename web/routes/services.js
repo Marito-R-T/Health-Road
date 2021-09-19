@@ -1,6 +1,6 @@
 var express = require('express');
 var router = express.Router();
-const {service} = require('../models/connection_db')
+const { service } = require('../models/connection_db')
 
 router.post('/register/',async (req,res)=>{
     const service_info=req.body;

@@ -1,28 +1,28 @@
 var express = require('express');
 var router = express.Router();
 var validator = require('email-validator');
-const {hospital} = require('../models/connection_db')
+const { hospital } = require('../models/connection_db')
 var multer = require('multer');
 const storage = multer.diskStorage({
-    destination:'uploads/',
-    filename:(req,file,cb)=>{
-        cb(null,file.fieldname+'_'+Date.now())
+    destination: 'uploads/',
+    filename: (req, file, cb) => {
+        cb(null, file.fieldname + '_' + Date.now())
     }
 })
 
 var upload = multer({
-    storage:storage
+    storage: storage
 });
 
 //create a hospital
 router.post('/register/',upload.array('profile_pic',7), async (req,res)=>{
     const hospital_info = req.body;
     const profile_pic = req.files[0]
-    if((hospital_info.user && hospital_info.password
-        && hospital_info.name && hospital_info.description
-        && hospital_info.payment_type && hospital_info.email
-        && hospital_info.director_name && profile_pic)){
-        if(!validator.validate(hospital_info.email)){
+    if ((hospital_info.user && hospital_info.password &&
+            hospital_info.name && hospital_info.description &&
+            hospital_info.payment_type && hospital_info.email &&
+            hospital_info.director_name && profile_pic)) {
+        if (!validator.validate(hospital_info.email)) {
             res.send("el email no esta escrito correctamente")
         }
         let val_error="";
