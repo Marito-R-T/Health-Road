@@ -1,7 +1,7 @@
 var express = require('express');
 var router = express.Router();
 var validator = require('email-validator');
-const { hospital } = require('../models/connection_db')
+const { user } = require('../models/connection_db')
 var multer = require('multer');
 const storage = multer.diskStorage({
     destination: 'uploads/',
@@ -16,24 +16,24 @@ var upload = multer({
 
 //create a hospital
 router.post('/register/', upload.array('profile_pic', 7), (req, res) => {
-    const hospital_info = req.body;
+    const user_info = req.body;
     const profile_pic = req.files[0]
-    if ((hospital_info.user && hospital_info.password &&
-            hospital_info.name && hospital_info.description &&
-            hospital_info.payment_type && hospital_info.email &&
-            hospital_info.director_name && profile_pic)) {
-        if (!validator.validate(hospital_info.email)) {
+    if ((user.user && user.password &&
+            user.name && user.last_name &&
+            user.celphone && user.email &&
+            user.rol && profile_pic)) {
+        if (!validator.validate(user.email)) {
             res.send("el email no esta escrito correctamente")
         }
 
-        hospital.create({
-                user: hospital_info.user,
-                password: hospital_info.password,
-                name: hospital_info.name,
-                description: hospital_info.description,
-                payment_type: hospital_info.payment_type,
-                email: hospital_info.email,
-                director_name: hospital_info.director_name,
+        user.create({
+                user: user_info.user,
+                password: user_info.password,
+                name: user_info.name,
+                last_name: user_info.last_name,
+                email: user_info.email,
+                celphone: user_info.celphone,
+                rol: user_info.rol,
                 profile_pic: profile_pic.path
             }).then(e => {
                 console.log("e")
@@ -50,4 +50,4 @@ router.post('/register/', upload.array('profile_pic', 7), (req, res) => {
     }
 })
 
-module.exports.hospital_router = router;
+module.exports.user_router = router;
