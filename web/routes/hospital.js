@@ -15,7 +15,7 @@ var upload = multer({
 });
 
 //create a hospital
-router.post('/register/',upload.array('profile_pic',7),(req,res)=>{
+router.post('/register/',upload.array('profile_pic',7), async (req,res)=>{
     const hospital_info = req.body;
     const profile_pic = req.files[0]
     if((hospital_info.user && hospital_info.password
@@ -25,8 +25,8 @@ router.post('/register/',upload.array('profile_pic',7),(req,res)=>{
         if(!validator.validate(hospital_info.email)){
             res.send("el email no esta escrito correctamente")
         }
-         
-        hospital.create({
+        let val_error="";
+        await hospital.create({
             user:hospital_info.user,
             password:hospital_info.password,
             name:hospital_info.name,
@@ -36,18 +36,16 @@ router.post('/register/',upload.array('profile_pic',7),(req,res)=>{
             director_name:hospital_info.director_name,
             profile_pic:profile_pic.path
         }).then(e=>{
-            console.log("e")
+            val_error = "usuario registrado";
         })
         .catch(err=>{
-            res.send(err);
+            val_error = err.parent.detail;
         })
-        .finally(function(){
-            res.send("registered")
-        })
-        
+        res.send(val_error);
     }else{
-        res.send("error");
+        res.send("error, completar las credenciales");
     }
 })
+
 
 module.exports.hospital_router = router;

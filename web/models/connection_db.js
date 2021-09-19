@@ -177,3 +177,4 @@ alter_table();
 module.exports.sequelize = sequelize;
 module.exports.hospital= hospital;
 module.exports.service=service;
+module.exports.ambulance_driver= ambulance_driver;
