@@ -52,7 +52,11 @@ var hospital = sequelize.define('Hospital', {
     director_name: {
         type: DataTypes.STRING(length = 50),
         allowNull: false,
-    }
+    },
+    status: {
+        type: DataTypes.BOOLEAN,
+        defaultValue: false
+    },
 }, {
     freezeTableName: true,
 });

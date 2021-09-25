@@ -47,5 +47,59 @@ router.post('/register/',upload.array('profile_pic',7), async (req,res)=>{
     }
 })
 
+router.put('/update/',async (req, res) => {
+    const hospital_info = req.body;
+    if ((hospital_info.name && hospital_info.description &&
+        hospital_info.payment_type && hospital_info.email &&
+        hospital_info.director_name && hospital_info.user )) {
+        if (!validator.validate(hospital_info.email)) {
+            res.send("el email no esta escrito correctamente")
+        }
+        let val_error="";
+        await hospital.update({
+            name:hospital_info.name,
+            description:hospital_info.description,
+            payment_type:hospital_info.payment_type,
+            email:hospital_info.email,
+            director_name:hospital_info.director_name,
+        },{
+            where:{
+                user: hospital_info.user
+            }
+        }).then(e=>{
+            val_error = "Actualizacion correcta";
+        })
+        .catch(err=>{
+            val_error = err.parent.detail?err.parent.detail: "No se pudo actualizar";
+        })
+        res.send(val_error);
+    }else{
+        res.send("error, no se pudo actualizar");
+    }
+})
+
+router.delete('/delete/', (req, res) => {
+    const hospital_info = req.body;
+    hospital.update({
+        status:true
+    },{
+        where:{
+            user: hospital_info.user
+        }
+    }).then(() => {
+        res.send("Hospital eliminado")
+    })
+    .catch(err => {
+        if(err.parent){
+            if(err.parent.detail){
+                res.send(err.parent.detail)
+            }else{
+                res.send("No se pudo eliminar")
+            }
+        }else{
+            res.send("No se pudo eliminar")
+        }
+    })
+})
 
 module.exports.hospital_router = router;
