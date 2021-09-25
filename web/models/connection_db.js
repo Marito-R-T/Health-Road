@@ -52,7 +52,11 @@ var hospital = sequelize.define('Hospital', {
     director_name: {
         type: DataTypes.STRING(length = 50),
         allowNull: false,
-    }
+    },
+    status: {
+        type: DataTypes.BOOLEAN,
+        defaultValue: false
+    },
 }, {
     freezeTableName: true,
 });
@@ -180,5 +184,6 @@ function create_tables() {
 //create_tables();
 alter_table();
 module.exports.sequelize = sequelize;
-module.exports.hospital = hospital;
-module.exports.service = service;
+module.exports.hospital= hospital;
+module.exports.service=service;
+module.exports.ambulance_driver= ambulance_driver;
