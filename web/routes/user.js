@@ -1,14 +1,14 @@
 var express = require('express');
 var router = express.Router();
 var validator = require('email-validator');
-const { user } = require('../models/connection_db')
+const { user } = require('../models/connection_db');
 var multer = require('multer');
 const storage = multer.diskStorage({
     destination: 'uploads/',
     filename: (req, file, cb) => {
         cb(null, file.fieldname + '_' + Date.now())
     }
-})
+});
 
 var upload = multer({
     storage: storage
@@ -53,15 +53,21 @@ router.post('/register/', upload.array('profile_pic', 7), async(req, res) => {
 router.post('/login/', async(req, res) => {
     const user_login = req.body;
     if ((user_login.user && user_login.password)) {
-        await user.findAll({
+        await user.findOne({
             where: {
-                user: user_login.user,
-                password: user_login.password
+                [user.and]: [
+                    { user: user_login.user },
+                    { password: user_login.password }
+                ]
             }
         });
     } else {
         res.send("error");
     }
+})
+
+router.post('/logout/', function(req, res) {
+    res.send('Log out')
 })
 
 module.exports.user_router = router;
