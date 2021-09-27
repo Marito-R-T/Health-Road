@@ -83,29 +83,6 @@ router.post('/register_category/', function(req, res) {
     }
 })
 
-router.delete('/delete/', (req, res) => {
-    const service_info = req.body;
-    service.update({
-            status: true,
-        }, {
-            where: {
-                hospital_user: service_info.hospital_user,
-                name: service_info.name,
-            }
-        }).then(() => {
-            res.send("Servicio eliminado")
-        })
-        .catch(err => {
-            if (err.parent) {
-                if (err.parent.detail) {
-                    res.send(err.parent.detail)
-                } else {
-                    res.send("No se pudo eliminar")
-                }
-            } else {
-                res.send("No se pudo eliminar")
-            }
-        })
-})
+
 
 module.exports.services_router = router;

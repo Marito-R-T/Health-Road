@@ -81,6 +81,33 @@ router.put('/update/', async(req, res) => {
     }
 })
 
-
+router.delete('/delete/', async (req, res) => {
+    const hospital_info = req.body;
+    const exist = await hospital.findByPk(hospital_info.user);
+    if (exist) {
+        hospital.update({
+            status: true
+        }, {
+            where: {
+                user: hospital_info.user
+            }
+        }).then(() => {
+            res.send("Hospital eliminado")
+        })
+        .catch(err => {
+            if (err.parent) {
+                if (err.parent.detail) {
+                    res.send(err.parent.detail)
+                } else {
+                    res.send("No se pudo eliminar")
+                }
+            } else {
+                res.send("No se pudo eliminar")
+            }
+        })
+    }else{
+        res.send("No existe el hospital, no se podra eliminar")
+    }
+})
 
 module.exports.hospital_router = router;
