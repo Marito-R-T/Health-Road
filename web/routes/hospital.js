@@ -78,28 +78,6 @@ router.put('/update/', async(req, res) => {
     }
 })
 
-router.delete('/delete/', (req, res) => {
-    const hospital_info = req.body;
-    hospital.update({
-            status: true
-        }, {
-            where: {
-                user: hospital_info.user
-            }
-        }).then(() => {
-            res.send("Hospital eliminado")
-        })
-        .catch(err => {
-            if (err.parent) {
-                if (err.parent.detail) {
-                    res.send(err.parent.detail)
-                } else {
-                    res.send("No se pudo eliminar")
-                }
-            } else {
-                res.send("No se pudo eliminar")
-            }
-        })
-})
+
 
 module.exports.hospital_router = router;
