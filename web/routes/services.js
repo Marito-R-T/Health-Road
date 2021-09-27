@@ -83,9 +83,17 @@ router.post('/register_category/', function(req, res) {
     }
 })
 
-router.delete('/delete/', (req, res) => {
+
+router.delete('/delete/', async (req, res) => {
     const service_info = req.body;
-    service.update({
+    const exist = await service.findOne({
+        where: {
+            hospital_user: service_info.hospital_user,
+            name: service_info.name,
+        }
+    });
+    if (exist) {
+        service.update({
             status: true,
         }, {
             where: {
@@ -106,6 +114,10 @@ router.delete('/delete/', (req, res) => {
                 res.send("No se pudo eliminar")
             }
         })
+    }else{
+        res.send("No se encontro el servicio solicitado")
+    }
+
 })
 
 module.exports.services_router = router;
