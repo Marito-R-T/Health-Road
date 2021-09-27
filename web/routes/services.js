@@ -86,7 +86,12 @@ router.post('/register_category/', function(req, res) {
 
 router.delete('/delete/', async (req, res) => {
     const service_info = req.body;
-    const exist = await hospital.findByPk(hospital_info.user);
+    const exist = await service.findOne({
+        where: {
+            hospital_user: service_info.hospital_user,
+            name: service_info.name,
+        }
+    });
     if (exist) {
         service.update({
             status: true,
