@@ -55,8 +55,10 @@ router.put('/update/', async(req, res) => {
         if (!validator.validate(hospital_info.email)) {
             res.send("el email no esta escrito correctamente")
         }
-        let val_error = "";
-        await hospital.update({
+        let val_error = "No se encontro el hospital";
+        const exist = await hospital.findByPk(hospital_info.user);
+        if (exist) {
+            await hospital.update({
                 name: hospital_info.name,
                 description: hospital_info.description,
                 payment_type: hospital_info.payment_type,
@@ -72,6 +74,7 @@ router.put('/update/', async(req, res) => {
             .catch(err => {
                 val_error = err.parent.detail ? err.parent.detail : "No se pudo actualizar";
             })
+        }
         res.send(val_error);
     } else {
         res.send("error, no se pudo actualizar");
