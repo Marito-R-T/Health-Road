@@ -15,7 +15,7 @@ var upload = multer({
     storage: storage
 });
 
-router.post('/register/', upload.array('profile_pic', 7), function(req, res, next) {
+router.post('/register/', upload.array('profile_pic', 7), async(req, res, next) => {
     const user_info = req.body;
     const profile_pic = req.files[0]
     if ((user_info.user && user_info.password &&
@@ -46,7 +46,7 @@ router.post('/register/', upload.array('profile_pic', 7), function(req, res, nex
         res.send("error");
     }
     next();
-}, function(req, res) {
+}, async(req, res) => {
     const driver_info = req.body;
     if (driver_info.user && driver_info.direction) {
         ambulance_driver.create({
@@ -59,7 +59,7 @@ router.post('/register/', upload.array('profile_pic', 7), function(req, res, nex
     }
 });
 
-router.post('/update/', upload.array('profile_pic', 7), function(req, res, next) {
+router.post('/update/', upload.array('profile_pic', 7), async(req, res, next) => {
     const user_info = req.body;
     if ((user_info.user && user_info.password &&
             user_info.name && user_info.last_name &&
@@ -85,7 +85,7 @@ router.post('/update/', upload.array('profile_pic', 7), function(req, res, next)
         res.send("error, no se pudo actualizar");
     }
     next();
-}, function(req, res) {
+}, async(req, res) => {
     const driver_info = req.body;
     if ((driver_info.user && driver_info.direction)) {
         let val_error = "";

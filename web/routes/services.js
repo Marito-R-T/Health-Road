@@ -26,7 +26,7 @@ router.post('/register/', async(req, res) => {
     }
 });
 
-router.post('/update/', function(req, res) {
+router.post('/update/', async(req, res) => {
     const service_info = req.body;
     if (service_info.name && service_info.price &&
         service_info.description && service_info.hospital_user &&
@@ -57,7 +57,7 @@ router.post('/update/', function(req, res) {
     }
 })
 
-router.post('/register_category/', function(req, res) {
+router.post('/register_category/', async(req, res) => {
     const service_info = req.body;
     if (service_info.name && service_info.hospital_user &&
         service_info.category_name) {
