@@ -59,52 +59,5 @@ router.post('/register/', upload.array('profile_pic', 7), function(req, res, nex
     }
 });
 
-router.post('/update/', upload.array('profile_pic', 7), function(req, res, next) {
-    const user_info = req.body;
-    if ((user_info.user && user_info.password &&
-            user_info.name && user_info.last_name &&
-            user_info.celphone)) {
-        let val_error = "";
-        await user.update({
-                password: user_info.password,
-                name: user_info.name,
-                last_name: user_info.last_name,
-                celphone: user_info.celphone
-            }, {
-                where: {
-                    user: user_info.user
-                }
-            }).then(e => {
-                val_error = "Actualizacion correcta";
-            })
-            .catch(err => {
-                val_error = err.parent.detail ? err.parent.detail : "No se pudo actualizar";
-                res.send(val_error);
-            })
-    } else {
-        res.send("error, no se pudo actualizar");
-    }
-    next();
-}, function(req, res) {
-    const driver_info = req.body;
-    if ((driver_info.user && driver_info.direction)) {
-        let val_error = "";
-        await ambulance_driver.update({
-                direction: driver_info.direction
-            }, {
-                where: {
-                    user: driver_info.user
-                }
-            }).then(e => {
-                val_error = "Actualizacion correcta";
-            })
-            .catch(err => {
-                val_error = err.parent.detail ? err.parent.detail : "No se pudo actualizar";
-            })
-        res.send(val_error);
-    } else {
-        res.send("error, no se pudo actualizar");
-    }
-})
 
 module.exports.ambulance_driver_router = router;
