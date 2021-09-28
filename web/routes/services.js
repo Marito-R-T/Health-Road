@@ -57,34 +57,7 @@ router.post('/update/', function(req, res) {
     }
 })
 
-router.post('/register_category/', function(req, res) {
-    const service_info = req.body;
-    if (service_info.name && service_info.hospital_user &&
-        service_info.category_name) {
-        let val_error = "";
-        await service.update({
-                category_name: service_info.category_name
-            }, {
-                where: {
-                    [service.and]: [
-                        { name: hospital_info.old_name },
-                        { hospital_user: hospital_info.hospital_user }
-                    ]
-                }
-            }).then(e => {
-                val_error = "Actualizacion correcta";
-            })
-            .catch(err => {
-                val_error = err.parent.detail ? err.parent.detail : "No se pudo actualizar";
-            })
-        res.send(val_error);
-    } else {
-        res.send("error, no se pudo actualizar");
-    }
-})
-
-
-router.delete('/delete/', async (req, res) => {
+router.delete('/delete/', (req, res) => {
     const service_info = req.body;
     const exist = await service.findOne({
         where: {
@@ -94,27 +67,27 @@ router.delete('/delete/', async (req, res) => {
     });
     if (exist) {
         service.update({
-            status: true,
-        }, {
-            where: {
-                hospital_user: service_info.hospital_user,
-                name: service_info.name,
-            }
-        }).then(() => {
-            res.send("Servicio eliminado")
-        })
-        .catch(err => {
-            if (err.parent) {
-                if (err.parent.detail) {
-                    res.send(err.parent.detail)
+                status: true,
+            }, {
+                where: {
+                    hospital_user: service_info.hospital_user,
+                    name: service_info.name,
+                }
+            }).then(() => {
+                res.send("Servicio eliminado")
+            })
+            .catch(err => {
+                if (err.parent) {
+                    if (err.parent.detail) {
+                        res.send(err.parent.detail)
+                    } else {
+                        res.send("No se pudo eliminar")
+                    }
                 } else {
                     res.send("No se pudo eliminar")
                 }
-            } else {
-                res.send("No se pudo eliminar")
-            }
-        })
-    }else{
+            })
+    } else {
         res.send("No se encontro el servicio solicitado")
     }
 
