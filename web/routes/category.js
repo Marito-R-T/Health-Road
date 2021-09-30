@@ -16,10 +16,10 @@ router.post('/register/', async(req, res) => {
                 val_error = err.parent.detail;
             })
         res.send(val_error);
-
     } else {
-        res.send("error")
+        let val_error = "error" + category_info.name;
+        res.send(val_error);
     }
 });
 
-module.exports.category_router = router;
+module.exports.categories_router = router;
