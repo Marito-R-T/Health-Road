@@ -83,7 +83,7 @@ router.post('/register_category/', async(req, res) => {
     }
 })
 
-router.delete('/delete/', (req, res) => {
+router.delete('/delete/', async(req, res) => {
     const service_info = req.body;
     const exist = await service.findOne({
         where: {
