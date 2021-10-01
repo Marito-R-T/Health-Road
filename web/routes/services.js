@@ -26,38 +26,48 @@ router.post('/register/', async(req, res) => {
     }
 });
 
-router.post('/update/', async(req, res) => {
+router.put('/update/', async(req, res) => {
     const service_info = req.body;
     if (service_info.name && service_info.price &&
         service_info.description && service_info.hospital_user &&
-        service_info.schedule && service_info.status) {
-        let val_error = "";
-        await service.update({
-                name: service_info.name,
+        service_info.status && service_info.category_name) {
+        let val_error = "No existe el servicio";
+        const exist = await service.findOne( {where: {
+            name: service_info.name,
+            hospital_user: service_info.hospital_user 
+        }});
+       
+        if(exist){
+            await service.update({
                 price: service_info.price,
                 description: service_info.description,
-                schedule: service_info.schedule,
-                status: service_info.status
+                schedule: service_info.schedule?service_info.schedule:{},
+                status: service_info.status,
+                category_name: service_info.category_name
             }, {
                 where: {
-                    [service.and]: [
-                        { name: hospital_info.old_name },
-                        { hospital_user: hospital_info.hospital_user }
-                    ]
+                    name: service_info.name,
+                    hospital_user: service_info.hospital_user 
                 }
             }).then(e => {
                 val_error = "Actualizacion correcta";
             })
             .catch(err => {
-                val_error = err.parent.detail ? err.parent.detail : "No se pudo actualizar";
+                console.log(err);
+                val_error =  "No se pudo actualizar";
             })
-        res.send(val_error);
+            res.send(val_error);
+        }else{
+            res.send(val_error);
+        }
+
+
     } else {
         res.send("error, no se pudo actualizar");
     }
 })
 
-router.post('/register_category/', async(req, res) => {
+router.put('/register_category/', async(req, res) => {
     const service_info = req.body;
     if (service_info.name && service_info.hospital_user &&
         service_info.category_name) {
@@ -66,10 +76,8 @@ router.post('/register_category/', async(req, res) => {
                 category_name: service_info.category_name
             }, {
                 where: {
-                    [service.and]: [
-                        { name: hospital_info.old_name },
-                        { hospital_user: hospital_info.hospital_user }
-                    ]
+                        name: service_info.name,
+                        hospital_user: service_info.hospital_user 
                 }
             }).then(e => {
                 val_error = "Actualizacion correcta";

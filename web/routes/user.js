@@ -25,7 +25,7 @@ router.post('/register/', upload.array('profile_pic', 7), async(req, res) => {
         if (!validator.validate(user_info.email)) {
             res.send("el email no esta escrito correctamente")
         }
-
+        let val_error = ""
         await user.create({
                 user: user_info.user,
                 password: user_info.password,
@@ -36,15 +36,16 @@ router.post('/register/', upload.array('profile_pic', 7), async(req, res) => {
                 rol: user_info.rol,
                 profile_pic: profile_pic.path
             }).then(e => {
-                console.log("e")
+                val_error = "usuario registrado";
             })
             .catch(err => {
-                res.send(err);
+                try {
+                    val_error = err.parent.detail;
+                } catch (error) {
+                    val_error = "No se pudo registrar el usuario"                   
+                }
             })
-            .finally(function() {
-                res.send("registered")
-            })
-
+        res.send(val_error);
     } else {
         res.send("error");
     }
@@ -55,19 +56,29 @@ router.post('/login/', async(req, res) => {
     if ((user_login.user && user_login.password)) {
         await user.findOne({
             where: {
-                [user.and]: [
-                    { user: user_login.user },
-                    { password: user_login.password }
-                ]
+                 user: user_login.user,
+                 password: user_login.password 
             }
-        });
+        }).then(val => {
+            if(val){
+                req.session.user = user_login.user;
+                req.session.email = val.email;
+                res.send("Usuario logeado")
+            }else{
+                res.send("No se encontro el usuario")
+            }
+        }).catch(err => {
+            res.send("Error al iniciar sesion, intente de nuevo");
+        })
     } else {
-        res.send("error");
+        res.send("error al iniciar sesion, intente de nuevo");
     }
 })
 
-router.post('/logout/', function(req, res) {
-    res.send('Log out')
+router.get('/logout/', function(req, res) {
+    req.session.destroy();
+    res.clearCookie(this.cookie, { path: '/' });
+    res.send("s");
 })
 
 module.exports.user_router = router;

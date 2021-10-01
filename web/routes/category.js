@@ -13,7 +13,12 @@ router.post('/register/', async(req, res) => {
                 val_error = "categoria registrada";
             })
             .catch(err => {
-                val_error = err.parent.detail;
+                try {
+                    val_error = err.parent.detail;
+                } catch (error) {
+                    val_error = "No se pudo registrar, intente de nuevo"
+                }
+                
             })
         res.send(val_error);
     } else {
