@@ -63,6 +63,7 @@ router.post('/login/', async(req, res) => {
             if(val){
                 req.session.user = user_login.user;
                 req.session.email = val.email;
+                req.session.rol = val.rol;
                 res.send("Usuario logeado")
             }else{
                 res.send("No se encontro el usuario")

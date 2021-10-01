@@ -27,10 +27,19 @@ var {user_router}=require('./routes/user')
 var {ambulance_driver_router}=require('./routes/ambulance_driver')
 
 
+// Authentication and Authorization Middleware
+var auth = function(req, res, next) {
+  if (req.session && req.session.rol == "0"){
+    return next();
+  }
+  else{
+    return res.sendStatus(401);
+  }
+};
 
-app.use('/hospital',hospital_router);
-app.use('/service',services_router);
-app.use('/category',categories_router);
+app.use('/hospital',auth,hospital_router);
+app.use('/service',auth,services_router);
+app.use('/category',auth,categories_router);
 app.use('/user',user_router);
 app.use('/ambulance-driver',ambulance_driver_router);
 
