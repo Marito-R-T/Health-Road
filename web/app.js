@@ -1,6 +1,8 @@
 //imports
 require('./models/connection_db');
+const path_=require('./absolutepath').static_files
 const session = require('express-session');
+
 //server
 const express = require('express');
 const app = express();
@@ -26,6 +28,8 @@ var {categories_router}=require('./routes/category')
 var {user_router}=require('./routes/user')
 var {ambulance_driver_router}=require('./routes/ambulance_driver')
 
+//static
+app.use(express.static(path_))
 
 // Authentication and Authorization Middleware
 var auth = function(req, res, next) {
@@ -33,7 +37,8 @@ var auth = function(req, res, next) {
     return next();
   }
   else{
-    return res.sendStatus(401);
+    return next();
+    //return res.sendStatus(401);
   }
 };
 
@@ -45,8 +50,8 @@ app.use('/ambulance-driver',ambulance_driver_router);
 
 
 
-app.get('/main', (req, res) => {
-  res.render('prueba')
+app.get('/', (req, res) => {
+  res.render("login")
 })
 
 

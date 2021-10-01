@@ -1,7 +1,12 @@
 var express = require('express');
 var router = express.Router();
 const { service } = require('../models/connection_db');
+const path_=require('../absolutepath').static_files
+router.use((express.static(path_)))
 
+router.use("/register/",(req,res)=>{
+    res.render("registroServicio")
+})
 router.post('/register/', async(req, res) => {
     const service_info = req.body;
     if (service_info.name && service_info.price &&
