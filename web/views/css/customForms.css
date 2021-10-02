@@ -94,7 +94,7 @@
     margin-bottom: 15px;
 }
 .form-contant input:focus, .form-contant textarea:focus {
-	color:#fff;border-color:#fff;
+	color:rgb(7, 7, 7);border-color:rgb(7, 7, 7);
 }
 .actions {
     float: left;
@@ -103,16 +103,17 @@
     justify-content: center;
     margin-top: 10px;
 }
-#submitButton {
+.submitButton {
     padding: 15px 30px;
     background: linear-gradient(to right, #1d86df 0%, #39b49a 100%);
     color: #fff;
     border-radius: 50px;
-    margin-top: 10px;
+    margin: 10px;
 	transition:ease all 1s;
 }
-#submitButton:hover,#submitButton:focus {
+.submitButton:hover,.submitButton:focus {
     background: linear-gradient(to right, #39b49a 0%, #1d86df 100%);
+    color: #fff;
 }
 
 
