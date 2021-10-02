@@ -35,7 +35,7 @@ router.put('/update/', async(req, res) => {
     const service_info = req.body;
     if (service_info.name && service_info.price &&
         service_info.description && service_info.hospital_user &&
-        service_info.status && service_info.category_name) {
+        service_info.status ) {
         let val_error = "No existe el servicio";
         const exist = await service.findOne( {where: {
             name: service_info.name,
@@ -48,7 +48,7 @@ router.put('/update/', async(req, res) => {
                 description: service_info.description,
                 schedule: service_info.schedule?service_info.schedule:{},
                 status: service_info.status,
-                category_name: service_info.category_name
+                category_name: service_info.category_name?service_info.category_name:null
             }, {
                 where: {
                     name: service_info.name,
@@ -131,5 +131,32 @@ router.delete('/delete/', async(req, res) => {
     }
 
 })
+
+router.put('/remove-category/',(req, res) => {
+    const service_info = req.body
+    if(service_info.name){
+        service.update({
+            category_name: null,
+        }, {
+            where: {
+                hospital_user: service_info.hospital_user,
+                name: service_info.name,
+            }
+        }).then((e) => {
+            if(e){
+                res.send("categoria eliminada")
+            }else{
+                res.send("No se pudo eliminar la categoria")
+            }
+        })
+        .catch(err => {
+            try {
+                res.send(err.parent.detail)
+            } catch (error) {
+                res.send("No se pudo eliminar la categoria")
+            }
+        })
+    }
+});
 
 module.exports.services_router = router;
