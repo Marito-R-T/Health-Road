@@ -55,7 +55,11 @@ router.put('/update/', async(req, res) => {
                     hospital_user: service_info.hospital_user 
                 }
             }).then(e => {
-                val_error = "Actualizacion correcta";
+                if(e && e[0]){
+                    res.send("Servicio actualizado correctamente")
+                }else{
+                    res.send("Id incorrecto, No se encontro el servicio")
+                }
             })
             .catch(err => {
                 console.log(err);
@@ -85,10 +89,14 @@ router.put('/register_category/', async(req, res) => {
                         hospital_user: service_info.hospital_user 
                 }
             }).then(e => {
-                val_error = "Actualizacion correcta";
+                if(e && e[0]){
+                    res.send("Categoria agregada correctamente")
+                }else{
+                    res.send("Id incorrecto, No se encontro el servicio")
+                }
             })
             .catch(err => {
-                val_error = err.parent.detail ? err.parent.detail : "No se pudo actualizar";
+                val_error = err.parent.detail ? err.parent.detail : "No se pudo agregar la categoria";
             })
         res.send(val_error);
     } else {
@@ -112,8 +120,12 @@ router.delete('/delete/', async(req, res) => {
                     hospital_user: service_info.hospital_user,
                     name: service_info.name,
                 }
-            }).then(() => {
-                res.send("Servicio eliminado")
+            }).then((e) => {
+                if(e && e[0]){
+                    res.send("Servicio eliminada")
+                }else{
+                    res.send("Id incorrecto, No se encontro el servicio")
+                }
             })
             .catch(err => {
                 if (err.parent) {
@@ -143,10 +155,10 @@ router.put('/remove-category/',(req, res) => {
                 name: service_info.name,
             }
         }).then((e) => {
-            if(e){
+            if(e && e[0]){
                 res.send("categoria eliminada")
             }else{
-                res.send("No se pudo eliminar la categoria")
+                res.send("Id de servicio incorrecto, No se pudo eliminar la categoria")
             }
         })
         .catch(err => {
@@ -158,5 +170,56 @@ router.put('/remove-category/',(req, res) => {
         })
     }
 });
+
+//horario de servicio
+router.get('/get-schedule/',async(req, res)=>{
+    console.log(req.body.hospital_user)
+    await service.findOne({
+        where: {
+            name:req.body.name,
+            hospital_user:req.body.hospital_user          
+        }
+    }).then(e=>{
+        if(e){
+            res.send(e)
+        }else{
+            res.send("No se encontro el servicio")
+        }
+    }).catch(err=>{
+        res.send("No se encontro el servicio")
+    })
+    
+})
+
+router.put('/set-schedule/',(req, res) => {
+    const service_info = req.body
+    const schedule = {
+        "Monday":service_info.Monday,
+        "Tuesday":service_info.Tuesday,
+        "Thursday":service_info.Thursday,
+        "Wednesday":service_info.Wednesday,
+        "Friday":service_info.Friday,
+        "Sunday":service_info.Sunday,
+        "Saturday":service_info.Saturday,
+        "Start":service_info.Start,
+        "End":service_info.End
+    }
+    service.update({
+        schedule:schedule,
+    },{
+        where: {
+            name:service_info.name,
+            hospital_user: service_info.hospital_user
+        }
+    }).then(e=>{
+        if(e && e[0]){
+            res.send("Horario actualizado")
+        }else{
+            res.send("Id equivocado, no se encontro el servicio");
+        }
+    }).catch(error=>{
+        res.send("Error al establecer horario, intente de nuevo")
+    })
+})
 
 module.exports.services_router = router;

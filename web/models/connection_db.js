@@ -89,7 +89,15 @@ var service = sequelize.define('Service', {
     },
     schedule: {
         type: DataTypes.JSON,
-        defaultValue: {}
+        defaultValue: {
+            "Monday":"0",
+            "Tuesday":"0",
+            "Thursday":"0",
+            "Wednesday":"0",
+            "Friday":"0",
+            "Sunday":"0",
+            "Saturday":"0"
+        }
     }
 }, {
     freezeTableName: true,
