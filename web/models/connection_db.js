@@ -148,6 +148,10 @@ var user = sequelize.define('User', {
     rol: {
         type: DataTypes.INTEGER,
         allowNull: false,
+    },
+    status:{
+        type:DataTypes.BOOLEAN,
+        defaultValue:true,
     }
 }, {
     freezeTableName: true
@@ -180,7 +184,7 @@ user.hasMany(ambulance_driver, {
     foreignKey: {
         name: 'user',
         primaryKey: true,
-        allowNull: false,
+         allowNull: false,
     }
 })
 
@@ -190,6 +194,7 @@ function alter_table() {
     category.sync({ alter: true }).then(function() {});
     service.sync({ alter: true }).then(function() {});
     user.sync({ alter: true }).then(function() {});
+    ambulance_driver.sync({ alter: true }).then(function() {});
 }
 
 function create_tables() {
