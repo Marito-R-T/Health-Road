@@ -46,7 +46,8 @@ var hospital = sequelize.define('Hospital', {
     },
     payment_type: {
         type: DataTypes.INTEGER,
-        allowNull: false,
+        allowNull: true,
+        defaultValue:0
     },
     email: {
         type: DataTypes.STRING(length = 30),
@@ -54,12 +55,16 @@ var hospital = sequelize.define('Hospital', {
     },
     director_name: {
         type: DataTypes.STRING(length = 50),
-        allowNull: false,
+        allowNull: true,
     },
     status: {
         type: DataTypes.BOOLEAN,
         defaultValue: false
     },
+    photos: {
+        type:DataTypes.JSON,
+        
+    }
 }, {
     freezeTableName: true,
 });
@@ -152,6 +157,7 @@ category.hasMany(service, {
     onDelete: 'CASCADE',
     foreignKey: {
         name: 'category_name',
+        allowNull:true
     }
 });
 hospital.hasMany(service, {

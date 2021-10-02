@@ -26,8 +26,8 @@ router.post('/register/', upload.array('profile_pic', 7), async(req, res) => {
     const profile_pic = req.files[0]
     if ((hospital_info.user && hospital_info.password &&
             hospital_info.name && hospital_info.description &&
-            hospital_info.payment_type && hospital_info.email &&
-            hospital_info.director_name && profile_pic)) {
+            hospital_info.email &&
+            profile_pic)) {
         if (!validator.validate(hospital_info.email)) {
             res.send("el email no esta escrito correctamente")
         }
@@ -37,9 +37,9 @@ router.post('/register/', upload.array('profile_pic', 7), async(req, res) => {
                 password: hospital_info.password,
                 name: hospital_info.name,
                 description: hospital_info.description,
-                payment_type: hospital_info.payment_type,
+                payment_type: hospital_info.payment_type?hospital_info.payment_type:0,
                 email: hospital_info.email,
-                director_name: hospital_info.director_name,
+                director_name: hospital_info.director_name?hospital_info.director_name:'',
                 profile_pic: profile_pic.path
             }).then(e => {
                 val_error = "usuario registrado";
@@ -56,8 +56,8 @@ router.post('/register/', upload.array('profile_pic', 7), async(req, res) => {
 router.put('/update/', async(req, res) => {
     const hospital_info = req.body;
     if ((hospital_info.name && hospital_info.description &&
-            hospital_info.payment_type && hospital_info.email &&
-            hospital_info.director_name && hospital_info.user)) {
+             hospital_info.email &&
+             hospital_info.user)) {
         if (!validator.validate(hospital_info.email)) {
             res.send("el email no esta escrito correctamente")
         }
@@ -67,9 +67,9 @@ router.put('/update/', async(req, res) => {
             await hospital.update({
                 name: hospital_info.name,
                 description: hospital_info.description,
-                payment_type: hospital_info.payment_type,
+                payment_type: hospital_info.payment_type ? hospital_info.payment_type:0,
                 email: hospital_info.email,
-                director_name: hospital_info.director_name,
+                director_name: hospital_info.director_name ? hospital_info.director_name : '',
             }, {
                 where: {
                     user: hospital_info.user
