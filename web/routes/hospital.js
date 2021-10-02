@@ -116,4 +116,36 @@ router.delete('/delete/', async (req, res) => {
     }
 })
 
+router.put('/add-photo/',upload.single('photo'),async (req, res)=>{
+    let data = await hospital.findByPk(req.body.user)
+    let photos=data.photos
+    if(photos){
+        const count = Object.keys(photos).length+1
+        photos[count.toString()]=req.file.path
+    }else{
+        photos = {}
+        console.log("entro")
+        photos["0"]=req.file.path
+
+    }
+    await hospital.update({photos:photos},
+        {
+        where: {
+            user: req.body.user
+        }
+    }
+    ).then(e=>{
+        if(e){
+            res.send("Foto agregada")
+        }else{
+            res.send("error al agregar foto")
+        }
+    }
+    )
+    .catch(error=>{
+        res.send("No se pudo agregar la foto")
+    }
+    );
+});
+
 module.exports.hospital_router = router;
