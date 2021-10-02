@@ -1,6 +1,7 @@
 var express = require('express');
 var router = express.Router();
 var validator = require('email-validator');
+const path_=require('../absolutepath').static_files
 const { hospital } = require('../models/connection_db');
 var multer = require('multer');
 const storage = multer.diskStorage({
@@ -14,7 +15,12 @@ var upload = multer({
     storage: storage
 });
 
+router.use((express.static(path_)))
 //create a hospital
+router.get('/register',(req,res) => {
+    res.render("registroHospital")
+})
+
 router.post('/register/', upload.array('profile_pic', 7), async(req, res) => {
     const hospital_info = req.body;
     const profile_pic = req.files[0]

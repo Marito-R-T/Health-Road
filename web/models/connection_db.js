@@ -2,12 +2,12 @@ const { Sequelize, DataTypes, Model } = require('sequelize');
 
 //credentials
 //const USER = '
-const USER = 'marito';
-//const USER = 'postgres';
+//const USER = 'marito';
+const USER = 'postgres';
 const HOST = 'localhost';
 const DATABASE = 'health_road';
-const PASSWORD = 'MrT26.';
-//const PASSWORD = 'Jhon$19PVT'
+//const PASSWORD = 'MrT26.';
+const PASSWORD = 'Jhon$19PVT'
 const PORT = '5432';
 
 //connection
@@ -170,6 +170,7 @@ user.hasMany(ambulance_driver, {
     }
 })
 
+
 function alter_table() {
     hospital.sync({ alter: true }).then(function() {});
     category.sync({ alter: true }).then(function() {});
@@ -182,6 +183,8 @@ function create_tables() {
     category.sync({ force: true }).then(function() {});
     service.sync({ force: true }).then(function() {});
     user.sync({ force: true }).then(function() {});
+    ambulance_driver.sync({ force: true }).then(function() {});
+
 }
 
 

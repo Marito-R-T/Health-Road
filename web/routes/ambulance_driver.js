@@ -14,7 +14,8 @@ const storage = multer.diskStorage({
 var upload = multer({
     storage: storage
 });
-
+const path_=require('../absolutepath').static_files
+router.use((express.static(path_)))
 router.post('/register/', upload.array('profile_pic', 7), async(req, res, next) => {
     const user_info = req.body;
     const profile_pic = req.files[0]
@@ -25,7 +26,7 @@ router.post('/register/', upload.array('profile_pic', 7), async(req, res, next) 
         if (!validator.validate(user_info.email)) {
             res.send("el email no esta escrito correctamente")
         }
-
+        let val_error ;
         await user.create({
                 user: user_info.user,
                 password: user_info.password,
@@ -35,36 +36,35 @@ router.post('/register/', upload.array('profile_pic', 7), async(req, res, next) 
                 celphone: user_info.celphone,
                 rol: user_info.rol,
                 profile_pic: profile_pic.path
-            }).then(e => {
-                console.log("e")
             })
             .catch(err => {
-                res.send(err);
+                val_error = "No se pudo registrar el conductor"
             })
-
+        if(val_error){
+            res.send(val_error)
+        }else{
+            await ambulance_driver.create({
+                user: user_info.user,
+                direction: user_info.direction ? user_info.direction : {}
+            }).then(e => {
+                val_error = "conductor registrado";
+            })
+            .catch(err => {
+                val_error = "No se pudo registrar el conductor"
+            })
+            res.send(val_error)
+        }        
     } else {
-        res.send("error");
-    }
-    next();
-}, async(req, res) => {
-    const driver_info = req.body;
-    if (driver_info.user && driver_info.direction) {
-        ambulance_driver.create({
-            user: driver_info.user,
-            direction: driver_info.direction
-        })
-        res.send("nice")
-    } else {
-        res.send("error")
+        res.send("error, no se pudo registrar, intente de nuevo");
     }
 });
 
 router.post('/update/', upload.array('profile_pic', 7), async(req, res, next) => {
     const user_info = req.body;
+    let val_error = "";
     if ((user_info.user && user_info.password &&
             user_info.name && user_info.last_name &&
             user_info.celphone)) {
-        let val_error = "";
         await user.update({
                 password: user_info.password,
                 name: user_info.name,
@@ -74,36 +74,42 @@ router.post('/update/', upload.array('profile_pic', 7), async(req, res, next) =>
                 where: {
                     user: user_info.user
                 }
-            }).then(e => {
-                val_error = "Actualizacion correcta";
             })
             .catch(err => {
-                val_error = err.parent.detail ? err.parent.detail : "No se pudo actualizar";
-                res.send(val_error);
-            })
-    } else {
-        res.send("error, no se pudo actualizar");
-    }
-    next();
-}, async(req, res) => {
-    const driver_info = req.body;
-    if ((driver_info.user && driver_info.direction)) {
-        let val_error = "";
-        await ambulance_driver.update({
-                direction: driver_info.direction
-            }, {
-                where: {
-                    user: driver_info.user
+                try {
+                    val_error = err.parent.detail ? err.parent.detail : "No se pudo actualizar";
+                } catch (error) {
+                    val_error = "No se pudo actualizar";
                 }
-            }).then(e => {
-                val_error = "Actualizacion correcta";
+             
             })
-            .catch(err => {
-                val_error = err.parent.detail ? err.parent.detail : "No se pudo actualizar";
-            })
-        res.send(val_error);
-    } else {
-        res.send("error, no se pudo actualizar");
+    }
+    if(val_error){
+        res.send(val_error)
+    }else{
+        const driver_info = req.body;
+        if ((driver_info.user && driver_info.direction)) {
+            let val_error = "";
+            await ambulance_driver.update({
+                    direction: driver_info.direction
+                }, {
+                    where: {
+                        user: driver_info.user
+                    }
+                }).then(e => {
+                    val_error = "Actualizacion correcta";
+                })
+                .catch(err => {
+                    try {
+                        val_error = err.parent.detail ? err.parent.detail : "No se pudo actualizar";
+                    } catch (error) {
+                        val_error = "No se pudo actualizar";
+                    } 
+                })
+            res.send(val_error);
+        } else {
+            res.send("error, no se pudo actualizar");
+        }
     }
 })
 
