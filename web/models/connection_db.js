@@ -165,6 +165,15 @@ var ambulance_driver = sequelize.define('AmbulanceDriver', {
     freezeTableName: true
 });
 
+var service_rates = sequelize.define('ServiceRates', {
+    score: {
+        type: DataTypes.INTEGER,
+        allowNull: false,
+    }
+}, {
+    freezeTableName: true,
+});
+
 category.hasMany(service, {
     onDelete: 'CASCADE',
     foreignKey: {
@@ -188,6 +197,13 @@ user.hasMany(ambulance_driver, {
     }
 })
 
+service.hasMany(service_rates, {
+    onDelete: 'CASCADE',
+    foreignKey: {
+        name: 'service',
+        allowNull: false,
+    }
+})
 
 function alter_table() {
     hospital.sync({ alter: true }).then(function() {});
@@ -195,6 +211,7 @@ function alter_table() {
     service.sync({ alter: true }).then(function() {});
     user.sync({ alter: true }).then(function() {});
     ambulance_driver.sync({ alter: true }).then(function() {});
+    service_rates.sync({ alter: true }).then(function() {})
 }
 
 function create_tables() {
@@ -203,6 +220,7 @@ function create_tables() {
     service.sync({ force: true }).then(function() {});
     user.sync({ force: true }).then(function() {});
     ambulance_driver.sync({ force: true }).then(function() {});
+    //2021-09-16 12:29:43.541-06
 
 }
 
@@ -215,3 +233,4 @@ module.exports.service = service;
 module.exports.ambulance_driver = ambulance_driver;
 module.exports.user = user;
 module.exports.category = category;
+module.exports.service_rates = service_rates;

@@ -1,10 +1,14 @@
 var express = require('express');
 var router = express.Router();
-const { service } = require('../models/connection_db');
-const path_=require('../absolutepath').static_files
-router.use((express.static(path_)))
+const { service, service_rates,sequelize } = require('../models/connection_db');
+const {static_files,static_files_pdf}=require('../absolutepath')
+const fs = require('fs');
 
-router.use("/register/",(req,res)=>{
+router.use((express.static(static_files)))
+router.use((express.static(static_files_pdf)))
+
+
+router.get("/register/",(req,res)=>{
     res.render("registroServicio")
 })
 router.post('/register/', async(req, res) => {
@@ -222,4 +226,34 @@ router.put('/set-schedule/',(req, res) => {
     })
 })
 
+//see the rates of a service
+router.get("/get-rates/all-services/",async (req, res)=>{
+    const rates = await service.findAll({
+        include:[
+            {
+                model:service_rates,
+                required:true,
+                attributes:[]
+                
+            },
+        ],
+        attributes: [
+            'name',
+            [sequelize.fn('sum', sequelize.col('ServiceRates.score')),'scores']
+        ],
+        group:['name'],
+        logging: console.log
+    })
+    await require('./html_pdf').html_to_pdf(rates)
+    await sleep(1000)
+    var data = await fs.readFileSync(static_files_pdf);
+    res.contentType("application/pdf");
+    res.send(data);
+})
+
+function sleep(ms) {
+    return new Promise((resolve) => {
+      setTimeout(resolve, ms);
+    });
+}
 module.exports.services_router = router;
