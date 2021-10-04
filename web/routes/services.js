@@ -7,7 +7,6 @@ const fs = require('fs');
 router.use((express.static(static_files)))
 router.use((express.static(static_files_pdf)))
 
-
 router.get("/register/",(req,res)=>{
     res.render("registroServicio")
 })

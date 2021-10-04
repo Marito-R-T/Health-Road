@@ -1,21 +1,12 @@
 var express = require('express');
 var router = express.Router();
 var validator = require('email-validator');
-const path_=require('../absolutepath').static_files
+const {static_files, root_path}=require('../absolutepath')
+const fs = require('fs');
 const { hospital } = require('../models/connection_db');
-var multer = require('multer');
-const storage = multer.diskStorage({
-    destination: 'uploads/',
-    filename: (req, file, cb) => {
-        cb(null, file.fieldname + '_' + Date.now())
-    }
-})
+const {upload}= require('./functions')
 
-var upload = multer({
-    storage: storage
-});
-
-router.use((express.static(path_)))
+router.use((express.static(static_files)))
 //create a hospital
 router.get('/register',(req,res) => {
     res.render("registroHospital")
@@ -146,6 +137,34 @@ router.put('/add-photo/',upload.single('photo'),async (req, res)=>{
         res.send("No se pudo agregar la foto")
     }
     );
+});
+
+//delete hospital photos history 59
+router.put('/delete-photos/', async(req, res)=> {
+    const photos={}
+    for (const key in req.body) {
+        const path_img= req.body[key]
+      if(path_img && key!="user"){
+          photos[key]=path_img
+          try {
+            fs.unlinkSync(root_path+"/"+path_img)
+          } catch (error) {}
+      }
+    }
+    await hospital.update({photos: photos},
+        {
+            where: {user:req.body.user}
+        }
+    ).then(e=>{
+        console.log(req.body.user,photos,e)
+        if(e && e[0]){
+            res.send("Fotos eliminadas exitosamente")
+        }else{
+            res.send("No se pudo eliminar la fotos")
+        }
+    }).catch(er=>{
+        res.send("Error al eliminar las fotos, intente de nuevo")
+    })
 });
 
 module.exports.hospital_router = router;
