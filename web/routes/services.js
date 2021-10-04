@@ -1,6 +1,6 @@
 var express = require('express');
 var router = express.Router();
-const { service, service_rates,sequelize } = require('../models/connection_db');
+const { service, service_rates,sequelize} = require('../models/connection_db');
 const {static_files,static_files_pdf}=require('../absolutepath')
 const fs = require('fs');
 
@@ -249,6 +249,28 @@ router.get("/get-rates/all-services/",async (req, res)=>{
     var data = await fs.readFileSync(static_files_pdf);
     res.contentType("application/pdf");
     res.send(data);
+})
+
+//Service mode out-of service historia 43
+router.put('/mode-out-of-service/', async(req, res)=>{
+    const service_info = req.body
+    service.update(
+        {    status:false },
+        {
+            where:{
+                name:service_info.name,
+                hospital_user: service_info.hospital_user,
+            }
+        }
+    ).then(e=>{
+        if(e && e[0]){
+            res.send("El servicio esta fuera de servicio")
+        }else{
+            res.send("Id incorrecto, no se encontro el servicio")
+        }
+    }).catch(err=>{
+        res.send("Error, intente de nuevo")
+    })
 })
 
 function sleep(ms) {
