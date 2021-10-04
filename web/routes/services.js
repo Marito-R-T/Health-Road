@@ -38,8 +38,7 @@ router.post('/register/', async(req, res) => {
 router.put('/update/', async(req, res) => {
     const service_info = req.body;
     if (service_info.name && service_info.price &&
-        service_info.description && service_info.hospital_user &&
-        service_info.status ) {
+        service_info.description && service_info.hospital_user ) {
         let val_error = "No existe el servicio";
         const exist = await service.findOne( {where: {
             name: service_info.name,
@@ -51,7 +50,6 @@ router.put('/update/', async(req, res) => {
                 price: service_info.price,
                 description: service_info.description,
                 schedule: service_info.schedule?service_info.schedule:{},
-                status: service_info.status,
                 category_name: service_info.category_name?service_info.category_name:null
             }, {
                 where: {
