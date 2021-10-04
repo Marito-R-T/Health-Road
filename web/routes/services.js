@@ -272,6 +272,28 @@ router.put('/mode-out-of-service/', async(req, res)=>{
     })
 })
 
+//Reactive service history 75
+router.put('/reactive-mode-out-of-service/', async(req, res)=>{
+    const service_info = req.body
+    service.update(
+        {    status:true },
+        {
+            where:{
+                name:service_info.name,
+                hospital_user: service_info.hospital_user,
+            }
+        }
+    ).then(e=>{
+        if(e && e[0]){
+            res.send("El servicio ha sido reactivado")
+        }else{
+            res.send("Id incorrecto, no se encontro el servicio")
+        }
+    }).catch(err=>{
+        res.send("Error, intente de nuevo")
+    })
+})
+
 function sleep(ms) {
     return new Promise((resolve) => {
       setTimeout(resolve, ms);
