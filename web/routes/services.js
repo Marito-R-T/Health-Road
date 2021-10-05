@@ -331,6 +331,40 @@ router.put('/discount/all-services/',(req, res)=>{
     }
 })
 
+//Offer discount to a specific services history 19
+router.put('/discount/specific-service/',(req, res)=>{
+    const discounts = req.body
+    if(!(discounts.percentage<=100 && discounts.percentage>=0)){
+        res.send("El porcentaje debe ser un valor entre 0 y 100")
+    }else{
+        if(discounts.percentage && discounts.date_initial 
+            && discounts.date_end && discounts.service_name){
+            discount.update(
+                {
+                    percentage:discounts.percentage,
+                    date_initial:new Date(discounts.date_initial),
+                    date_end:new Date(discounts.date_end)
+                },
+                {
+                    where: {
+                        hospital_user: "usuario1",
+                        service_name:discounts.service_name,
+                    }
+                }
+            ).then(e=>{
+                if(e && e[0])
+                    res.send("Descuento establecido")
+                else
+                    res.send("No se pudo establecer el descuento, intente de nuevo")
+            }).catch(err=>{
+                res.send("No se pudo establecer el descuento, intente de nuevo")
+            })
+        }else{
+            res.send("Complete los campos")
+        }
+    }
+})
+
 function sleep(ms) {
     return new Promise((resolve) => {
       setTimeout(resolve, ms);
