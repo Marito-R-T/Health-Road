@@ -1,6 +1,6 @@
 var express = require('express');
 var router = express.Router();
-const { service, service_rates,sequelize} = require('../models/connection_db');
+const { service, service_rates,sequelize,discount } = require('../models/connection_db');
 const {static_files,static_files_pdf}=require('../absolutepath')
 const fs = require('fs');
 
@@ -23,9 +23,19 @@ router.post('/register/', async(req, res) => {
                 hospital_user: 'usuario1'
             }).then(e => {
                 val_error = "servicio registrado";
+                discount.create({
+                    percentage: 0,
+                    service_name: service_info.name,
+                    date_end: new Date(2050,12,30),
+                    hospital_user: 'usuario1'
+                })
             })
             .catch(err => {
-                val_error = err.parent.detail;
+                try {
+                    val_error = err.parent.detail;
+                } catch (error) {
+                    val_error = "No se pudo registrar, intente de nuevo"
+                }
             })
         res.send(val_error);
 
@@ -291,6 +301,34 @@ router.put('/reactive-mode-out-of-service/', async(req, res)=>{
     }).catch(err=>{
         res.send("Error, intente de nuevo")
     })
+})
+
+//Offer discount to all the services history 18
+router.put('/discount/all-services/',(req, res)=>{
+    const discounts = req.body
+    if(discounts.percentage && discounts.date_initial && discounts.date_end){
+        discount.update(
+            {
+                percentage:discounts.percentage,
+                date_initial:new Date(discounts.date_initial),
+                date_end:new Date(discounts.date_end)
+            },
+            {
+                where: {
+                    hospital_user: "usuario1"
+                }
+            }
+        ).then(e=>{
+            if(e && e[0])
+                res.send("Descuento establecido")
+            else
+                res.send("No se pudo establecer el descuento, intente de nuevo")
+        }).catch(err=>{
+            res.send("No se pudo establecer el descuento, intente de nuevo")
+        })
+    }else{
+        res.send("Complete los campos")
+    }
 })
 
 function sleep(ms) {
