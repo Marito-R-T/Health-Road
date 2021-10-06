@@ -21,8 +21,7 @@ router.post('/register/', upload.array('profile_pic', 7), async(req, res, next) 
     const profile_pic = req.files[0]
     if ((user_info.user && user_info.password &&
             user_info.name && user_info.last_name &&
-            user_info.celphone && user_info.email &&
-            user_info.rol && profile_pic)) {
+            user_info.celphone && user_info.email  && profile_pic)) {
         if (!validator.validate(user_info.email)) {
             res.send("el email no esta escrito correctamente")
         }
@@ -34,7 +33,7 @@ router.post('/register/', upload.array('profile_pic', 7), async(req, res, next) 
                 last_name: user_info.last_name,
                 email: user_info.email,
                 celphone: user_info.celphone,
-                rol: user_info.rol,
+                rol: 2,
                 profile_pic: profile_pic.path
             })
             .catch(err => {
