@@ -1,21 +1,12 @@
 var express = require('express');
 var router = express.Router();
 var validator = require('email-validator');
-const path_=require('../absolutepath').static_files
+const {static_files, root_path}=require('../absolutepath')
+const fs = require('fs');
 const { hospital } = require('../models/connection_db');
-var multer = require('multer');
-const storage = multer.diskStorage({
-    destination: 'uploads/',
-    filename: (req, file, cb) => {
-        cb(null, file.fieldname + '_' + Date.now())
-    }
-})
+const {upload}= require('./functions')
 
-var upload = multer({
-    storage: storage
-});
-
-router.use((express.static(path_)))
+router.use((express.static(static_files)))
 //create a hospital
 router.get('/register',(req,res) => {
     res.render("registroHospital")
@@ -26,8 +17,8 @@ router.post('/register/', upload.array('profile_pic', 7), async(req, res) => {
     const profile_pic = req.files[0]
     if ((hospital_info.user && hospital_info.password &&
             hospital_info.name && hospital_info.description &&
-            hospital_info.payment_type && hospital_info.email &&
-            hospital_info.director_name && profile_pic)) {
+            hospital_info.email &&
+            profile_pic)) {
         if (!validator.validate(hospital_info.email)) {
             res.send("el email no esta escrito correctamente")
         }
@@ -37,9 +28,9 @@ router.post('/register/', upload.array('profile_pic', 7), async(req, res) => {
                 password: hospital_info.password,
                 name: hospital_info.name,
                 description: hospital_info.description,
-                payment_type: hospital_info.payment_type,
+                payment_type: hospital_info.payment_type?hospital_info.payment_type:0,
                 email: hospital_info.email,
-                director_name: hospital_info.director_name,
+                director_name: hospital_info.director_name?hospital_info.director_name:'',
                 profile_pic: profile_pic.path
             }).then(e => {
                 val_error = "usuario registrado";
@@ -56,8 +47,8 @@ router.post('/register/', upload.array('profile_pic', 7), async(req, res) => {
 router.put('/update/', async(req, res) => {
     const hospital_info = req.body;
     if ((hospital_info.name && hospital_info.description &&
-            hospital_info.payment_type && hospital_info.email &&
-            hospital_info.director_name && hospital_info.user)) {
+             hospital_info.email &&
+             hospital_info.user)) {
         if (!validator.validate(hospital_info.email)) {
             res.send("el email no esta escrito correctamente")
         }
@@ -67,9 +58,9 @@ router.put('/update/', async(req, res) => {
             await hospital.update({
                 name: hospital_info.name,
                 description: hospital_info.description,
-                payment_type: hospital_info.payment_type,
+                payment_type: hospital_info.payment_type ? hospital_info.payment_type:0,
                 email: hospital_info.email,
-                director_name: hospital_info.director_name,
+                director_name: hospital_info.director_name ? hospital_info.director_name : '',
             }, {
                 where: {
                     user: hospital_info.user
@@ -115,5 +106,65 @@ router.delete('/delete/', async (req, res) => {
         res.send("No existe el hospital, no se podra eliminar")
     }
 })
+
+router.put('/add-photo/',upload.single('photo'),async (req, res)=>{
+    let data = await hospital.findByPk(req.body.user)
+    let photos=data.photos
+    if(photos){
+        const count = Object.keys(photos).length+1
+        photos[count.toString()]=req.file.path
+    }else{
+        photos = {}
+        console.log("entro")
+        photos["0"]=req.file.path
+
+    }
+    await hospital.update({photos:photos},
+        {
+        where: {
+            user: req.body.user
+        }
+    }
+    ).then(e=>{
+        if(e){
+            res.send("Foto agregada")
+        }else{
+            res.send("error al agregar foto")
+        }
+    }
+    )
+    .catch(error=>{
+        res.send("No se pudo agregar la foto")
+    }
+    );
+});
+
+//delete hospital photos history 59
+router.put('/delete-photos/', async(req, res)=> {
+    const photos={}
+    for (const key in req.body) {
+        const path_img= req.body[key]
+      if(path_img && key!="user"){
+          photos[key]=path_img
+          try {
+            fs.unlinkSync(root_path+"/"+path_img)
+          } catch (error) {}
+      }
+    }
+    await hospital.update({photos: photos},
+        {
+            where: {user:req.body.user}
+        }
+    ).then(e=>{
+        console.log(req.body.user,photos,e)
+        if(e && e[0]){
+            res.send("Fotos eliminadas exitosamente")
+        }else{
+            res.send("No se pudo eliminar la fotos")
+        }
+    }).catch(er=>{
+        res.send("Error al eliminar las fotos, intente de nuevo")
+    })
+});
 
 module.exports.hospital_router = router;

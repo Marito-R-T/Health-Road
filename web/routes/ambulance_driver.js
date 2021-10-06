@@ -97,7 +97,11 @@ router.post('/update/', upload.array('profile_pic', 7), async(req, res, next) =>
                         user: driver_info.user
                     }
                 }).then(e => {
-                    val_error = "Actualizacion correcta";
+                    if(e && e[0]){
+                        val_error="Conductor actualizado"
+                    }else{
+                        val_error="Usuario incorrecto, No se pudo actualizar el usuario"
+                    }
                 })
                 .catch(err => {
                     try {
@@ -110,6 +114,43 @@ router.post('/update/', upload.array('profile_pic', 7), async(req, res, next) =>
         } else {
             res.send("error, no se pudo actualizar");
         }
+    }
+})
+
+router.put("/delete/",async(req, res)=>{
+    const user_info = req.body;
+    if(user_info.user){
+        await user.findOne(
+            {
+                where:{
+                    user: user_info.user,
+                    status: true,
+                },
+                include:[
+                    {
+                        model:ambulance_driver,
+                        required:true,
+                    }
+                ]
+            }).then(e=>{
+                if(e){
+                    user.update({
+                        status: false,
+                    },{
+                        where:{
+                            user: user_info.user
+                        }
+                    })
+                    res.send("El perfil del conductor ha sido eliminado")
+                }else{
+                    res.send("error, no se pudo eliminar el perfil")
+                }
+            }).catch(error=>{
+                res.send("Error, intente de nuevo")
+            })
+
+    }else{
+        res.send("Debe escribir un usuario");
     }
 })
 

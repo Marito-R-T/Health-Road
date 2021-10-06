@@ -46,7 +46,8 @@ var hospital = sequelize.define('Hospital', {
     },
     payment_type: {
         type: DataTypes.INTEGER,
-        allowNull: false,
+        allowNull: true,
+        defaultValue:0
     },
     email: {
         type: DataTypes.STRING(length = 30),
@@ -54,12 +55,16 @@ var hospital = sequelize.define('Hospital', {
     },
     director_name: {
         type: DataTypes.STRING(length = 50),
-        allowNull: false,
+        allowNull: true,
     },
     status: {
         type: DataTypes.BOOLEAN,
         defaultValue: false
     },
+    photos: {
+        type:DataTypes.JSON,
+        
+    }
 }, {
     freezeTableName: true,
 });
@@ -84,7 +89,15 @@ var service = sequelize.define('Service', {
     },
     schedule: {
         type: DataTypes.JSON,
-        defaultValue: {}
+        defaultValue: {
+            "Monday":"0",
+            "Tuesday":"0",
+            "Thursday":"0",
+            "Wednesday":"0",
+            "Friday":"0",
+            "Sunday":"0",
+            "Saturday":"0"
+        }
     }
 }, {
     freezeTableName: true,
@@ -135,6 +148,10 @@ var user = sequelize.define('User', {
     rol: {
         type: DataTypes.INTEGER,
         allowNull: false,
+    },
+    status:{
+        type:DataTypes.BOOLEAN,
+        defaultValue:true,
     }
 }, {
     freezeTableName: true
@@ -148,10 +165,36 @@ var ambulance_driver = sequelize.define('AmbulanceDriver', {
     freezeTableName: true
 });
 
+var service_rates = sequelize.define('ServiceRates', {
+    score: {
+        type: DataTypes.INTEGER,
+        allowNull: false,
+    }
+}, {
+    freezeTableName: true,
+});
+
+var discount = sequelize.define('Discount', {
+    percentage:{
+        type: DataTypes.DOUBLE,
+        defaultValue:0,
+        allowNull: false,
+    },
+    date_initial:{
+        type:DataTypes.DATE,
+        defaultValue: Date.now(),
+    },
+    date_end:{
+        type:DataTypes.DATE,
+        defaultValue: Date.now(),
+    }
+})
+
 category.hasMany(service, {
     onDelete: 'CASCADE',
     foreignKey: {
         name: 'category_name',
+        allowNull:true
     }
 });
 hospital.hasMany(service, {
@@ -166,16 +209,37 @@ user.hasMany(ambulance_driver, {
     foreignKey: {
         name: 'user',
         primaryKey: true,
+         allowNull: false,
+    }
+})
+service.hasMany(service_rates, {
+    onDelete: 'CASCADE',
+    foreignKey: {
+        name: 'service',
         allowNull: false,
     }
 })
 
+discount.belongsTo(service,{
+    onDelete: 'CASCADE',
+    foreignKey: {
+        name: 'service_name',
+    }
+})
+
+hospital.hasMany(discount,{
+    onDelete: 'CASCADE',
+    foreignKey: 'hospital_user'
+})
 
 function alter_table() {
     hospital.sync({ alter: true }).then(function() {});
     category.sync({ alter: true }).then(function() {});
     service.sync({ alter: true }).then(function() {});
     user.sync({ alter: true }).then(function() {});
+    ambulance_driver.sync({ alter: true }).then(function() {});
+    service_rates.sync({ alter: true }).then(function() {})
+    discount.sync({ alter: true }).then(function() {})
 }
 
 function create_tables() {
@@ -184,9 +248,10 @@ function create_tables() {
     service.sync({ force: true }).then(function() {});
     user.sync({ force: true }).then(function() {});
     ambulance_driver.sync({ force: true }).then(function() {});
+    discount.sync({ force: true }).then(function() {});
+    //2021-09-16 12:29:43.541-06
 
 }
-
 
 //create_tables();
 alter_table();
@@ -196,3 +261,5 @@ module.exports.service = service;
 module.exports.ambulance_driver = ambulance_driver;
 module.exports.user = user;
 module.exports.category = category;
+module.exports.service_rates = service_rates;
+module.exports.discount = discount;
