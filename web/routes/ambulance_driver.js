@@ -61,15 +61,18 @@ router.post('/register/', upload.array('profile_pic', 7), async(req, res, next) 
 router.post('/update/', upload.array('profile_pic', 7), async(req, res, next) => {
     const user_info = req.body;
     let val_error = "";
-    if ((user_info.user && user_info.password &&
+    const user_ = user_info.user
+    delete user_info["user"]
+    for (const key in user_info) {
+        if(!user_info[key] || user_info[key]==null){
+            delete user_info[key];
+        }
+    }
+    /*if ((user_info.user && user_info.password &&
             user_info.name && user_info.last_name &&
-            user_info.celphone)) {
-        await user.update({
-                password: user_info.password,
-                name: user_info.name,
-                last_name: user_info.last_name,
-                celphone: user_info.celphone
-            }, {
+            user_info.celphone)) {*/
+    
+        await user.update( user_info, {
                 where: {
                     user: user_info.user
                 }
@@ -82,7 +85,7 @@ router.post('/update/', upload.array('profile_pic', 7), async(req, res, next) =>
                 }
              
             })
-    }
+    //
     if(val_error){
         res.send(val_error)
     }else{
