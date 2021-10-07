@@ -181,6 +181,7 @@ var service_rates = sequelize.define('ServiceRates', {
 });
 
 var discount = sequelize.define('Discount', {
+   
     percentage:{
         type: DataTypes.DOUBLE,
         defaultValue:0,
@@ -193,11 +194,6 @@ var discount = sequelize.define('Discount', {
     date_end:{
         type:DataTypes.DATE,
         defaultValue: Date.now(),
-    },
-    service_name: {
-        type: DataTypes.STRING(length = 30),
-        allowNull: false,
-        primaryKey: true,
     },
 })
 
@@ -238,6 +234,12 @@ hospital.hasMany(service, {
         primaryKey: true,
     }
 });
+discount.hasMany(service, {
+    onDelete: 'CASCADE',
+    foreignKey: {
+        allowNull: true,
+    }
+})
 //service.sync({ force: true }).then(function() {});
 
 //rates
@@ -248,22 +250,38 @@ service.hasMany(service_rates, {
         allowNull: false,
     }
 })
+
 //service_rates.sync({ alter: true }).then(function() {})
 
 //descuento
-discount.belongsTo(service,{
+/*
+service.hasMany(discount,{
     onDelete: 'CASCADE',
-    foreignKey: {
-        name: 'service_name',
-        primaryKey: true,
-        allowNull: false,
+    foreignKey:{
+        field:'name'
     }
 })
 
-hospital.hasMany(discount,{
+service.hasMany(discount,{
     onDelete: 'CASCADE',
-    foreignKey: 'hospital_user'
-})
+    foreignKey:{
+        field:'service_name'
+    }
+})*/
+
+/*service.hasOne(discount, { 
+    foreignKey : 'name', 
+    as: 'name',
+    onDelete:'CASCADE'
+});
+service.hasOne(discount, { 
+    foreignKey : 'hospital_user', 
+    as: 'hospital_user',
+    onDelete:'CASCADE'
+});*/
+
+
+
 //discount.sync({ force: true }).then(function() {})
 
 

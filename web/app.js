@@ -28,6 +28,7 @@ var {categories_router}=require('./routes/category')
 var {user_router}=require('./routes/user')
 var {ambulance_driver_router}=require('./routes/ambulance_driver')
 var {user_router_mobile} = require('./routes/user_mobile')
+var {service_router_mobile} = require('./routes/services_mobile')
 
 //static
 app.use(express.static(path_))
@@ -49,6 +50,7 @@ app.use('/category',auth,categories_router);
 app.use('/user',user_router);
 app.use('/ambulance-driver',ambulance_driver_router);
 app.use('/mobile/user/',user_router_mobile);
+app.use('/mobile/service/',service_router_mobile);
 
 
 app.get('/', (req, res) => {
