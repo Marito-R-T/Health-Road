@@ -139,7 +139,7 @@ var user = sequelize.define('User', {
     },
     profile_pic: {
         type: DataTypes.STRING(length = 50),
-        allowNull: false,
+        allowNull: true,
     },
     email: {
         type: DataTypes.STRING(length = 50),
@@ -285,8 +285,7 @@ service.hasOne(discount, {
 
 
 //discount.sync({ force: true }).then(function() {})
-
-
+    
 function alter_table() {
     hospital.sync({ alter: true }).then(function() {});
     category.sync({ alter: true }).then(function() {});

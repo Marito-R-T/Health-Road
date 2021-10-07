@@ -1,7 +1,7 @@
 var express = require('express');
 var router = express.Router();
 const { user } = require('../models/connection_db');
-
+var validator = require('email-validator');
 
 //declaracion de rutas
 
@@ -26,6 +26,39 @@ router.post("/login/",(req, res)=>{
         })
     } else {
         res.json({ error: "Complete los campos requeridos"})
+    }
+})
+
+//register user history 35
+router.post('/register/', async(req, res) => {
+    const user_info = req.body;
+    if ((user_info.user && user_info.password &&
+            user_info.name && user_info.last_name &&
+            user_info.celphone && user_info.email  )) {
+        if (!validator.validate(user_info.email)) {
+            res.send("el email no esta escrito correctamente")
+        }
+        await user.create({
+                user: user_info.user,
+                password: user_info.password,
+                name: user_info.name,
+                last_name: user_info.last_name,
+                email: user_info.email,
+                celphone: user_info.celphone,
+                rol: 3,
+                //profile_pic: user_info.path?:''
+            }).then(e => {
+                if(e){
+                    res.json(e)
+                }else{
+                    res.json({ error:"No se pudo registrar, intente de nuevo"})
+                }
+            })
+            .catch(err => {
+                res.json({ error:"No se pudo registrar, intente de nuevo"})
+            })
+     } else {
+        res.json({ error:"Debe completar los campo"})
     }
 })
 
