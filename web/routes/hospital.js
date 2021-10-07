@@ -38,13 +38,11 @@ router.post('/register/', upload.array('profile_pic', 7), async(req, res) => {
         }else{
             await hospital.create({
                 user: hospital_info.user,
-                password: hospital_info.password,
                 name: hospital_info.name,
                 description: hospital_info.description,
                 payment_type: hospital_info.payment_type?hospital_info.payment_type:0,
-                email: hospital_info.email,
                 director_name: hospital_info.director_name?hospital_info.director_name:'',
-                profile_pic: profile_pic.path
+                
             }).then(e => {
                 val_error = "usuario registrado";
                              

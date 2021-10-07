@@ -9,16 +9,23 @@ router.get('/get-service/',(req, res)=>{
             model:service,
             required:true,
             where: {
-                name: sequelize.where(sequelize.fn('LOWER', sequelize.col('name')), 'LIKE', '%' + req.body.name.toLowerCase() + '%')
-            }
+                name: sequelize.where(sequelize.fn('LOWER', sequelize.col('name')), 'LIKE', '%' + req.body.name.toLowerCase() + '%'),
+                status:true
+            },
+            attributes:["name","description","price"]
         },
+        attributes:["id","percentage"]
+        ,
         logging: console.log
         
     }).then(e=>{
-        res.send(e)
+        if(e){
+            res.json(e)
+        }else{
+            res.json({ error: "No hay servicios con este nombre, intente de nuevo"})
+        }
     }).catch(err=>{
-        console.log(err)
-        res.send("Intente de nuevo")
+        res.json({ error: "Intente de nuevo"})
     })
 })
 

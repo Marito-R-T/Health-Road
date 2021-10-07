@@ -24,10 +24,7 @@ var hospital = sequelize.define('Hospital', {
         allowNull: false,
         primaryKey: true,
     },
-    password: {
-        type: DataTypes.STRING(length = 50),
-        allowNull: false,
-    },
+   
     name: {
         type: DataTypes.STRING(length = 50),
         allowNull: false,
@@ -36,10 +33,19 @@ var hospital = sequelize.define('Hospital', {
         type: DataTypes.JSON,
         allowNull: true,
     },
-    profile_pic: {
+    /*profile_pic: {
         type: DataTypes.TEXT,
         allowNull: true,
     },
+    password: {
+        type: DataTypes.STRING(length = 50),
+        allowNull: false,
+    },
+    email: {
+        type: DataTypes.STRING(length = 30),
+        allowNull: false,
+    },
+    */
     description: {
         type: DataTypes.TEXT,
         allowNull: false,
@@ -48,11 +54,7 @@ var hospital = sequelize.define('Hospital', {
         type: DataTypes.INTEGER,
         allowNull: true,
         defaultValue:0
-    },
-    email: {
-        type: DataTypes.STRING(length = 30),
-        allowNull: false,
-    },
+    },    
     director_name: {
         type: DataTypes.STRING(length = 50),
         allowNull: true,

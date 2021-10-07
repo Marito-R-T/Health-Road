@@ -17,15 +17,15 @@ router.post("/login/",(req, res)=>{
             }
         }).then(val => {
             if(val){
-                res.send(val)
+                res.json(val)
             }else{
-                res.send("No se encontro el usuario")
+                res.json({ error: "No se encontro el usuario"})
             }
         }).catch(err => {
-            res.send("Error al iniciar sesion, intente de nuevo");
+            res.json({ error: "Error al iniciar sesion, intente de nuevo"})
         })
     } else {
-        res.send("Complete los campos requeridos");
+        res.json({ error: "Complete los campos requeridos"})
     }
 })
 
