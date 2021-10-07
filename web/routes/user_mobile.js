@@ -62,4 +62,28 @@ router.post('/register/', async(req, res) => {
     }
 })
 
+//update user history 34
+router.put('/update/',(req, res) => {
+    const user_ = req.body.user
+    delete req.body["user"]
+    for (const key in req.body) {
+        if(!req.body[key] || req.body[key]==null){
+            delete req.body[key];
+        }
+    }
+    user.update(req.body,
+        {
+            where: {user:user_, rol:3}
+        }
+    ).then(e=>{
+        if(e && e[0]){
+            res.send(true)
+        }else{
+            res.send(false)
+        }
+    }).catch(err=>{
+        res.json({ error:"No se pudo actualizar el perfil, intente de nuevo"})
+    })
+})
+
 module.exports.user_router_mobile = router;
