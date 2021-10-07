@@ -3,7 +3,7 @@ var router = express.Router();
 const { service, service_rates,sequelize,discount} = require('../models/connection_db');
 
 //Filter a service by his name, history 7
-router.get('/get-service/',(req, res)=>{
+router.get('/get-services/',(req, res)=>{
     discount.findAll({
         include:{
             model:service,
@@ -16,7 +16,6 @@ router.get('/get-service/',(req, res)=>{
         },
         attributes:["id","percentage"]
         ,
-        logging: console.log
         
     }).then(e=>{
         if(e){
@@ -29,5 +28,26 @@ router.get('/get-service/',(req, res)=>{
     })
 })
 
+//get a specific service history 24
+router.get('/get-info-service/',(req, res)=>{
+    discount.findOne({
+        include:{
+            model:service,
+            required:true,
+            where: {
+                name: req.body.name, 
+                status:true
+            }
+        }
+     }).then(e=>{
+        if(e){
+            res.json(e)
+        }else{
+            res.json({ error: "No hay servicios con este nombre, intente de nuevo"})
+        }
+    }).catch(err=>{
+        res.json({ error: "Intente de nuevo"})
+    })
+})
 
 module.exports.service_router_mobile = router;
