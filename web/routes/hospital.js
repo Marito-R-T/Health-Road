@@ -3,7 +3,7 @@ var router = express.Router();
 var validator = require('email-validator');
 const {static_files, root_path}=require('../absolutepath')
 const fs = require('fs');
-const { hospital } = require('../models/connection_db');
+const { hospital, user } = require('../models/connection_db');
 const {upload}= require('./functions')
 
 router.use((express.static(static_files)))
@@ -23,22 +23,35 @@ router.post('/register/', upload.array('profile_pic', 7), async(req, res) => {
             res.send("el email no esta escrito correctamente")
         }
         let val_error = "";
-        await hospital.create({
+        let exist=false;
+        await user.create({
+            user: hospital_info.user,
+            password: hospital_info.password,
+            name: hospital_info.director_name?hospital_info.director_name:'',
+            email: hospital_info.email,
+            rol: 0,
+            profile_pic: profile_pic.path
+        }).catch(error=>exist=true)
+
+        if(exist){
+            val_error = "El usuario ya existe"
+        }else{
+            await hospital.create({
                 user: hospital_info.user,
-                password: hospital_info.password,
                 name: hospital_info.name,
                 description: hospital_info.description,
                 payment_type: hospital_info.payment_type?hospital_info.payment_type:0,
-                email: hospital_info.email,
                 director_name: hospital_info.director_name?hospital_info.director_name:'',
-                profile_pic: profile_pic.path
+                
             }).then(e => {
                 val_error = "usuario registrado";
+                             
             })
             .catch(err => {
                 val_error = err.parent.detail;
             })
-        res.send(val_error);
+        }
+       res.send(val_error);
     } else {
         res.send("error, completar las credenciales");
     }

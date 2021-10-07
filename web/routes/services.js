@@ -15,30 +15,34 @@ router.post('/register/', async(req, res) => {
     if (service_info.name && service_info.price &&
         service_info.description
     ) {
-        let val_error = "";
-        await service.create({
-                name: service_info.name,
-                price: service_info.price,
-                description: service_info.description,
-                hospital_user: 'usuario1'
-            }).then(e => {
-                val_error = "servicio registrado";
+
+        await service.findOne({
+            where: {
+                hospital_user: 'usuario1' , name: service_info.name
+            }
+        }).then(e=> {
+            console.log(e)
+            if(e){
+                res.send("El servicio ya existe")
+            }else{
                 discount.create({
                     percentage: 0,
                     service_name: service_info.name,
                     date_end: new Date(2050,12,30),
                     hospital_user: 'usuario1'
+                }).then(e=>{
+                    service.create({
+                        name: service_info.name,
+                        price: service_info.price,
+                        description: service_info.description,
+                        hospital_user: 'usuario1',
+                        DiscountId:e.id
+                    })
                 })
-            })
-            .catch(err => {
-                try {
-                    val_error = err.parent.detail;
-                } catch (error) {
-                    val_error = "No se pudo registrar, intente de nuevo"
-                }
-            })
-        res.send(val_error);
-
+                res.send("Servicio registrado")
+            }
+        })
+        
     } else {
         res.send("error")
     }
