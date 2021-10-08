@@ -88,6 +88,7 @@ router.put('/update/',(req, res) => {
     })
 })
 
+//register mail history 5
 router.post('/send-code-mail/',async (req, res)=>{
     var code = ""
     for (let index = 0; index < 8; index++) {
@@ -97,7 +98,7 @@ router.post('/send-code-mail/',async (req, res)=>{
 })
 
 router.post('/validate-code/',(req, res)=>{
-    const exist = user.findOne({
+    user.findOne({
         where:{
             user: req.body.user,
             code:req.body.code
@@ -106,12 +107,29 @@ router.post('/validate-code/',(req, res)=>{
         if(e){
             res.status(201).json(e)
         }else{
-            res.status(401).json({error:"Verifique el codigo"})
+            res.status(401).json({error:"El codigo no es el correcto"})
         }
     }).catch(err=>{
-        res.status(501).json({error:"Verifique el codigo"})
+        res.status(501).json({error:"Intente de nuevo"})
     })
     
+})
+
+//delete mail history 64
+router.delete('/delete-mail-history/',(req, res)=>{
+    user.update({email:null},
+        {where:{user:req.body.user}}
+    ).then(e=>{
+        if(e && e[0]){
+            res.status(200).send(true)
+        }else{
+            res.status(400).send(false)
+        }
+    }).catch(err=>{
+        res.status(500).json(
+        {error:"No se pudo completar la operacion, intente de nuevo"})
+    })
+
 })
 
 module.exports.user_router_mobile = router;
