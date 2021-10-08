@@ -120,6 +120,10 @@ var category = sequelize.define('Category', {
 });
 
 var user = sequelize.define('User', {
+    code:{
+        type: DataTypes.INTEGER,
+        allowNull: true,
+    },
     user: {
         type: DataTypes.STRING(length = 40),
         allowNull: false,
@@ -286,7 +290,7 @@ service.hasOne(discount, {
 
 
 //discount.sync({ force: true }).then(function() {})
-    
+
 function alter_table() {
     hospital.sync({ alter: true }).then(function() {});
     category.sync({ alter: true }).then(function() {});
