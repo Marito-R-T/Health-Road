@@ -143,6 +143,7 @@ var user = sequelize.define('User', {
     },
     email: {
         type: DataTypes.STRING(length = 50),
+        allowNull: true,
     },
     celphone: {
         type: DataTypes.INTEGER,

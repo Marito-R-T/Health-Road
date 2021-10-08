@@ -30,6 +30,7 @@ var {ambulance_driver_router}=require('./routes/ambulance_driver')
 var {user_router_mobile} = require('./routes/user_mobile')
 var {service_router_mobile} = require('./routes/services_mobile')
 var {hospital_router_mobile} = require('./routes/hospital_mobile')
+var {category_router_mobile} = require('./routes/category_mobile')
 
 //static
 app.use(express.static(path_))
@@ -55,7 +56,7 @@ app.use('/ambulance-driver',ambulance_driver_router);
 app.use('/mobile/user/',user_router_mobile);
 app.use('/mobile/service/',service_router_mobile);
 app.use('/mobile/hospital/',hospital_router_mobile);
-
+app.use('/mobile/category/',category_router_mobile);
 
 app.get('/', (req, res) => {
   res.render("login")

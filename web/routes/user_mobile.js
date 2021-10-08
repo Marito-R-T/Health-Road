@@ -34,7 +34,7 @@ router.post('/register/', async(req, res) => {
     const user_info = req.body;
     if ((user_info.user && user_info.password &&
             user_info.name && user_info.last_name &&
-            user_info.celphone && user_info.email  )) {
+            user_info.celphone  )) {
         if (!validator.validate(user_info.email)) {
             res.send("el email no esta escrito correctamente")
         }
@@ -43,7 +43,6 @@ router.post('/register/', async(req, res) => {
                 password: user_info.password,
                 name: user_info.name,
                 last_name: user_info.last_name,
-                email: user_info.email,
                 celphone: user_info.celphone,
                 rol: 3,
                 //profile_pic: user_info.path?:''
