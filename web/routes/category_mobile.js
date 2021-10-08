@@ -6,10 +6,10 @@ const { sequelize,category} = require('../models/connection_db');
 router.get('/show-categories/',(req, res)=>{
     category.findAll()
     .then(e=>{
-        res.json(e)
+        res.status(201).json(e)
     })
     .catch(err=>{
-        res.json({ error: "Error al buscar categorias, intente de nuevo"})
+        res.status(501).json({ error: "Error al buscar categorias, intente de nuevo"})
     })
 })
 

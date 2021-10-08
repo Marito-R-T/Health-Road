@@ -32,6 +32,7 @@ router.post("/login/",(req, res)=>{
 
 //register user history 35
 router.post('/register/', async(req, res) => {
+    
     const user_info = req.body;
     if ((user_info.user && user_info.password &&
             user_info.name && user_info.last_name &&
@@ -48,14 +49,15 @@ router.post('/register/', async(req, res) => {
                 rol: 3,
                 //profile_pic: user_info.path?:''
             }).then(e => {
+                
                 if(e){
-                    res.json(e)
+                    res.status(201).json(e)
                 }else{
-                    res.json({ error:"No se pudo registrar, intente de nuevo"})
+                    res.status(400).json({ error:"No se pudo registrar, intente de nuevo"})
                 }
             })
             .catch(err => {
-                res.json({ error:"No se pudo registrar, intente de nuevo"})
+                res.status(400).json({ error:"No se pudo registrar, intente de nuevo"})
             })
      } else {
         res.json({ error:"Debe completar los campo"})
@@ -77,12 +79,12 @@ router.put('/update/',(req, res) => {
         }
     ).then(e=>{
         if(e && e[0]){
-            res.send(true)
+            res.status(201).send(true)
         }else{
-            res.send(false)
+            res.status(400).send(false)
         }
     }).catch(err=>{
-        res.json({ error:"No se pudo actualizar el perfil, intente de nuevo"})
+        res.status(500).json({ error:"No se pudo actualizar el perfil, intente de nuevo"})
     })
 })
 
@@ -102,12 +104,12 @@ router.post('/validate-code/',(req, res)=>{
         }
     }).then(e=>{
         if(e){
-            res.json(e)
+            res.status(201).json(e)
         }else{
-            res.json({error:"Verifique el codigo"})
+            res.status(401).json({error:"Verifique el codigo"})
         }
     }).catch(err=>{
-        res.json({error:"Verifique el codigo"})
+        res.status(501).json({error:"Verifique el codigo"})
     })
     
 })

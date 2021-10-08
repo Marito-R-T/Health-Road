@@ -19,12 +19,12 @@ router.get('/get-services/',(req, res)=>{
         
     }).then(e=>{
         if(e){
-            res.json(e)
+            res.status(201).json(e)
         }else{
-            res.json({ error: "No hay servicios con este nombre, intente de nuevo"})
+            res.status(401).json({ error: "No hay servicios con este nombre, intente de nuevo"})
         }
     }).catch(err=>{
-        res.json({ error: "Intente de nuevo"})
+        res.status(501).json({ error: "Intente de nuevo"})
     })
 })
 
@@ -41,12 +41,12 @@ router.get('/get-info-service/',(req, res)=>{
         }
      }).then(e=>{
         if(e){
-            res.json(e)
+            res.status(201).json(e)
         }else{
-            res.json({ error: "No hay servicios con este nombre, intente de nuevo"})
+            res.status(401).json({ error: "No hay servicios con este nombre, intente de nuevo"})
         }
     }).catch(err=>{
-        res.json({ error: "Intente de nuevo"})
+        res.status(501).json({ error: "Intente de nuevo"})
     })
 })
 
@@ -60,10 +60,10 @@ router.get('/services-by-category/',(req, res)=>{
         where: { 
             name: sequelize.where(sequelize.fn('LOWER', sequelize.col('Category.name')), 'LIKE', '%' + req.body.name.toLowerCase() + '%'),
         }
-    }).then(e=>res.json(e))
+    }).then(e=>res.status(201).json(e))
     .catch(err=>{
         console.error(err)
-        res.json({ error: "No se encontraron servicios con esta categoria,intente de nuevo"})
+        res.status(501).json({ error: "No se encontraron servicios con esta categoria,intente de nuevo"})
     })
 })
 
@@ -82,10 +82,10 @@ router.get('/services-by-price/',async (req, res)=>{
             name: sequelize.where(sequelize.fn('LOWER', sequelize.col('name')), 'LIKE', '%' + name + '%'),
         
         }
-    }).then(e=>res.json(e))
+    }).then(e=>res.status(201).json(e))
     .catch(err=>{
         console.error(err)
-        res.json({ error: "No se encontraron servicios en este rango,intente de nuevo"})
+        res.status(501).json({ error: "No se encontraron servicios en este rango,intente de nuevo"})
     })
 })
 
