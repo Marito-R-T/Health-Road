@@ -14,13 +14,13 @@ router.get("/info/",(req, res)=>{
     })
     .then(e=>{
         if(e){
-            res.json(e)
+            res.status(201).json(e)
         }else{
-            res.json({ error:"No se encontro el hospital"})
+            res.status(401).json({ error:"No se encontro el hospital"})
         }
     })
     .catch(err=>{
-        res.json({ error: "No se encontro el hospital,intente de nuevo"})
+        res.status(501).json({ error: "No se encontro el hospital,intente de nuevo"})
     })
 })
 
