@@ -1,6 +1,7 @@
 var express = require('express');
 var router = express.Router();
 const { user } = require('../models/connection_db');
+const mail = require('./send_email');
 var validator = require('email-validator');
 
 //declaracion de rutas
@@ -34,7 +35,7 @@ router.post('/register/', async(req, res) => {
     const user_info = req.body;
     if ((user_info.user && user_info.password &&
             user_info.name && user_info.last_name &&
-            user_info.celphone && user_info.email  )) {
+            user_info.celphone  )) {
         if (!validator.validate(user_info.email)) {
             res.send("el email no esta escrito correctamente")
         }
@@ -43,7 +44,6 @@ router.post('/register/', async(req, res) => {
                 password: user_info.password,
                 name: user_info.name,
                 last_name: user_info.last_name,
-                email: user_info.email,
                 celphone: user_info.celphone,
                 rol: 3,
                 //profile_pic: user_info.path?:''
@@ -84,6 +84,32 @@ router.put('/update/',(req, res) => {
     }).catch(err=>{
         res.json({ error:"No se pudo actualizar el perfil, intente de nuevo"})
     })
+})
+
+router.post('/send-code-mail/',async (req, res)=>{
+    var code = ""
+    for (let index = 0; index < 8; index++) {
+        code+=String((Math.floor((Math.random() * (11)))))
+    }
+    await mail.send_code(req,res,code)
+})
+
+router.post('/validate-code/',(req, res)=>{
+    const exist = user.findOne({
+        where:{
+            user: req.body.user,
+            code:req.body.code
+        }
+    }).then(e=>{
+        if(e){
+            res.json(e)
+        }else{
+            res.json({error:"Verifique el codigo"})
+        }
+    }).catch(err=>{
+        res.json({error:"Verifique el codigo"})
+    })
+    
 })
 
 module.exports.user_router_mobile = router;

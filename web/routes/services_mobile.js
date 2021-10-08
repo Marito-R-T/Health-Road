@@ -1,6 +1,6 @@
 var express = require('express');
 var router = express.Router();
-const { service, service_rates,sequelize,discount} = require('../models/connection_db');
+const { service, service_rates,category,sequelize,discount} = require('../models/connection_db');
 
 //Filter a service by his name, history 7
 router.get('/get-services/',(req, res)=>{
@@ -47,6 +47,45 @@ router.get('/get-info-service/',(req, res)=>{
         }
     }).catch(err=>{
         res.json({ error: "Intente de nuevo"})
+    })
+})
+
+//See services by category history 9
+router.get('/services-by-category/',(req, res)=>{
+    category.findAll({
+        include:{
+            model:service,
+            required:true,
+        },
+        where: { 
+            name: sequelize.where(sequelize.fn('LOWER', sequelize.col('Category.name')), 'LIKE', '%' + req.body.name.toLowerCase() + '%'),
+        }
+    }).then(e=>res.json(e))
+    .catch(err=>{
+        console.error(err)
+        res.json({ error: "No se encontraron servicios con esta categoria,intente de nuevo"})
+    })
+})
+
+//filter services by price history 10
+router.get('/services-by-price/',async (req, res)=>{
+    let name = ''
+    if(req.body.name){
+        name=req.body.name.toLowerCase() 
+    }
+    service.findAll({
+        where:{
+            price:{
+                [Op.gte]:req.body.price_gte,
+                [Op.lte]:req.body.price_lte,
+            },
+            name: sequelize.where(sequelize.fn('LOWER', sequelize.col('name')), 'LIKE', '%' + name + '%'),
+        
+        }
+    }).then(e=>res.json(e))
+    .catch(err=>{
+        console.error(err)
+        res.json({ error: "No se encontraron servicios en este rango,intente de nuevo"})
     })
 })
 
