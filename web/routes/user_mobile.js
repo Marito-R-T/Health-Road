@@ -107,7 +107,7 @@ router.post('/validate-code/',(req, res)=>{
         if(e){
             res.status(201).json(e)
         }else{
-            res.status(401).json({error:"El codigo no es el correcto"})
+            res.status(401).json({error:"El codigo de verificacion no es el correcto"})
         }
     }).catch(err=>{
         res.status(501).json({error:"Intente de nuevo"})
@@ -116,7 +116,7 @@ router.post('/validate-code/',(req, res)=>{
 })
 
 //delete mail history 64
-router.delete('/delete-mail-history/',(req, res)=>{
+router.delete('/delete-mail/',(req, res)=>{
     user.update({email:null},
         {where:{user:req.body.user}}
     ).then(e=>{
@@ -132,4 +132,8 @@ router.delete('/delete-mail-history/',(req, res)=>{
 
 })
 
+//change email history 63
+router.put('/change-mail/',async(req, res)=>{
+    
+})
 module.exports.user_router_mobile = router;
