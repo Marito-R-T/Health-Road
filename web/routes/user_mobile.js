@@ -1,6 +1,7 @@
 var express = require('express');
 var router = express.Router();
 const { user } = require('../models/connection_db');
+const mail = require('./send_email');
 var validator = require('email-validator');
 
 //declaracion de rutas
@@ -83,6 +84,32 @@ router.put('/update/',(req, res) => {
     }).catch(err=>{
         res.json({ error:"No se pudo actualizar el perfil, intente de nuevo"})
     })
+})
+
+router.post('/send-code-mail/',async (req, res)=>{
+    var code = ""
+    for (let index = 0; index < 8; index++) {
+        code+=String((Math.floor((Math.random() * (11)))))
+    }
+    await mail.send_code(req,res,code)
+})
+
+router.post('/validate-code/',(req, res)=>{
+    const exist = user.findOne({
+        where:{
+            user: req.body.user,
+            code:req.body.code
+        }
+    }).then(e=>{
+        if(e){
+            res.json(e)
+        }else{
+            res.json({error:"Verifique el codigo"})
+        }
+    }).catch(err=>{
+        res.json({error:"Verifique el codigo"})
+    })
+    
 })
 
 module.exports.user_router_mobile = router;
