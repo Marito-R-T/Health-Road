@@ -6,7 +6,7 @@ async function register_mail (req,res,code) {
         port: 587,
         auth: {
         user: 'ismaelherz2001@gmail.com',
-        pass: 'hernandezGarcia2001'
+        pass: 'contra'
         }
     });
     var mailOptions = {
