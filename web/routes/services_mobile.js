@@ -1,7 +1,7 @@
 var express = require('express');
 var router = express.Router();
 const { service, service_rates,category,sequelize,discount} = require('../models/connection_db');
-
+const Op = require('sequelize').Op
 //Filter a service by his name, history 7
 router.get('/get-services/',(req, res)=>{
     discount.findAll({
