@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+/*import 'package:flutter/material.dart';
 
 void main() {
   runApp(const MyApp());
@@ -110,6 +110,24 @@ class _MyHomePageState extends State<MyHomePage> {
         tooltip: 'Increment',
         child: const Icon(Icons.add),
       ), // This trailing comma makes auto-formatting nicer for build methods.
+    );
+  }
+}*/
+import 'package:flutter/material.dart';
+import 'package:mobile/src/widget/login.dart';
+
+void main() => runApp(const Inicio());
+
+class Inicio extends StatelessWidget {
+  const Inicio({Key? key}) : super(key: key);
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      title: 'Mi primer app interactiva',
+      themeMode: ThemeMode.dark,
+      theme: ThemeData.light(),
+      darkTheme: ThemeData.dark(),
+      home: LoginScreen(),
     );
   }
 }
