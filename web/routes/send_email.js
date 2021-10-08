@@ -21,12 +21,12 @@ async function register_mail (req,res,code) {
         } else {
             user.update({code:code},{where: {user:req.body.user}}).then(e=>{
                 if(e && e[0]){
-                    res.send(true)
+                    res.status(200).send(true)
                 }else{
-                    res.json({error:"Error, el usuario no existe"})
+                    res.status(400).send(false)
                 }
             }).catch(err=>{
-                res.json({error:"Error, el usuario no existe"})
+                res.status(500).send(false)
             })
             
         }

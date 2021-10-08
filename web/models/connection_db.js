@@ -205,7 +205,7 @@ var discount = sequelize.define('Discount', {
 })
 
 //usuarios
-user.sync({ force: true }).then(function() {});
+//user.sync({ force: true }).then(function() {});
 user.hasMany(ambulance_driver, {
     onDelete: 'CASCADE',
     foreignKey: {
@@ -222,12 +222,12 @@ user.hasMany(hospital, {
         allowNull: false,
     }
 })
-ambulance_driver.sync({ force: true }).then(function() {});
-hospital.sync({ force: true }).then(function() {});
+//ambulance_driver.sync({ force: true }).then(function() {});
+//hospital.sync({ force: true }).then(function() {});
 
 
 //-------servbicios
-category.sync({ force: true }).then(function() {});
+//category.sync({ force: true }).then(function() {});
 category.hasMany(service, {
     onDelete: 'CASCADE',
     foreignKey: {
@@ -242,14 +242,14 @@ hospital.hasMany(service, {
         primaryKey: true,
     }
 });
-discount.sync({ force: true }).then(function() {})
+//discount.sync({ force: true }).then(function() {})
 discount.hasMany(service, {
     onDelete: 'CASCADE',
     foreignKey: {
         allowNull: true,
     }
 })
-service.sync({ force: true }).then(function() {});
+//service.sync({ force: true }).then(function() {});
 
 //rates
 service.hasMany(service_rates, {
@@ -260,7 +260,7 @@ service.hasMany(service_rates, {
     }
 })
 
-service_rates.sync({ alter: true }).then(function() {})
+//service_rates.sync({ alter: true }).then(function() {})
 
 
 function alter_table() {
