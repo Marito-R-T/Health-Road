@@ -32,7 +32,8 @@ router.post("/login/",(req, res)=>{
 
 //register user history 35
 router.post('/register/', async(req, res) => {
-    
+    console.log("ENTROOOOOOO")
+    console.log(req.body)
     const user_info = req.body;
     if ((user_info.user && user_info.password &&
             user_info.name && user_info.last_name &&
@@ -60,7 +61,7 @@ router.post('/register/', async(req, res) => {
                 res.status(400).json({ error:"No se pudo registrar, intente de nuevo"})
             })
      } else {
-        res.json({ error:"Debe completar los campo"})
+        res.status(400).json({ error:"Debe completar los campo"})
     }
 })
 

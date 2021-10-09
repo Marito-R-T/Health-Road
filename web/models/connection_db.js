@@ -260,6 +260,14 @@ service.hasMany(service_rates, {
     }
 })
 
+hospital.hasMany(service_rates, {
+    onDelete: 'CASCADE',
+    foreignKey: {
+        name: 'hospital',
+        allowNull: false,
+    }
+})
+
 //service_rates.sync({ alter: true }).then(function() {})
 
 
