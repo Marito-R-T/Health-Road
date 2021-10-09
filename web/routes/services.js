@@ -106,15 +106,15 @@ router.put('/register_category/', async(req, res) => {
                 }
             }).then(e => {
                 if(e && e[0]){
-                    res.send("Categoria agregada correctamente")
+                    return res.send("Categoria agregada correctamente")
                 }else{
-                    res.send("Id incorrecto, No se encontro el servicio")
+                    return res.send("Id incorrecto, No se encontro el servicio")
                 }
             })
             .catch(err => {
                 val_error = err.parent.detail ? err.parent.detail : "No se pudo agregar la categoria";
-            })
-        res.send(val_error);
+                res.send(val_error);
+            })        
     } else {
         res.send("error, no se pudo actualizar");
     }
