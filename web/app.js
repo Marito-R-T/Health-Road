@@ -7,7 +7,7 @@ const session = require('express-session');
 const express = require('express');
 const app = express();
 const port = 3000;
-
+var cors = require('cors')
 //session
 app.use(session({
   secret: '987f4bd6d4315c20b2ec70a46ae846d19d0ce563450c02c5b1bc71d5d580060b',
@@ -15,6 +15,7 @@ app.use(session({
   saveUninitialized: true
 }))
 
+app.use(cors())
 //enable aplication/json and form-urlencoded
 var body_parser = require('body-parser');
 app.use(body_parser.json())
