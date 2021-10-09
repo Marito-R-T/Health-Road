@@ -1,3 +1,4 @@
+
 import "package:http/http.dart" as http;
 import "dart:async";
 import "dart:convert";
@@ -6,25 +7,28 @@ import 'package:mobile/src/models/User.dart';
 class Users {
   Users();
 
-  Future<User> insertUsers(String user, String password, String name,
-      String last_name, String cellphone) async {
+  Future<User?> insertUsers(String user, String password, String name,
+      String lastName, String cellphone) async{
     final response = await http.post(
-      Uri.parse('http://localhost:3000/users/register'),
-      headers: <String, String>{
-        'Content-Type': 'application/json; charset=UTF=8',
+      Uri.parse('http://localhost:3000/mobile/user/register/'),
+      headers: {
+        "Accept": "application/json",
+        "Access-Control-Allow-Origin": "*"
       },
-      body: jsonEncode(<String, String>{
+      body: {
         'user': user,
         'password': password,
         'name': name,
-        'last_name': last_name,
-        'cellphone': cellphone
-      }),
+        'last_name': lastName,
+        'celphone': cellphone
+      },
+      encoding: Encoding.getByName("utf-8"),
     );
     if (response.statusCode == 201) {
       return User.fromJson(jsonDecode(response.body));
-    } else {
-      throw Exception('Failed');
+    }else {
+      print('Error en la entrada');
+      return null;
     }
   }
 }
