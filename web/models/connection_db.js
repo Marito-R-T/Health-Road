@@ -225,6 +225,7 @@ user.hasMany(hospital, {
 //ambulance_driver.sync({ force: true }).then(function() {});
 //hospital.sync({ force: true }).then(function() {});
 
+
 //-------servbicios
 //category.sync({ force: true }).then(function() {});
 category.hasMany(service, {
@@ -241,6 +242,7 @@ hospital.hasMany(service, {
         primaryKey: true,
     }
 });
+//discount.sync({ force: true }).then(function() {})
 discount.hasMany(service, {
     onDelete: 'CASCADE',
     foreignKey: {
@@ -258,38 +260,16 @@ service.hasMany(service_rates, {
     }
 })
 
-//service_rates.sync({ alter: true }).then(function() {})
-
-//descuento
-/*
-service.hasMany(discount,{
+hospital.hasMany(service_rates, {
     onDelete: 'CASCADE',
-    foreignKey:{
-        field:'name'
+    foreignKey: {
+        name: 'hospital',
+        allowNull: false,
     }
 })
 
-service.hasMany(discount,{
-    onDelete: 'CASCADE',
-    foreignKey:{
-        field:'service_name'
-    }
-})*/
+//service_rates.sync({ alter: true }).then(function() {})
 
-/*service.hasOne(discount, { 
-    foreignKey : 'name', 
-    as: 'name',
-    onDelete:'CASCADE'
-});
-service.hasOne(discount, { 
-    foreignKey : 'hospital_user', 
-    as: 'hospital_user',
-    onDelete:'CASCADE'
-});*/
-
-
-
-//discount.sync({ force: true }).then(function() {})
 
 function alter_table() {
     hospital.sync({ alter: true }).then(function() {});
