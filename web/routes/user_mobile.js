@@ -32,7 +32,8 @@ router.post("/login/",(req, res)=>{
 
 //register user history 35
 router.post('/register/', async(req, res) => {
-    
+    console.log("ENTROOOOOOO")
+    console.log(req.body)
     const user_info = req.body;
     console.log("hola que tal");
     console.log(req.body);
@@ -59,8 +60,7 @@ router.post('/register/', async(req, res) => {
                 res.status(400).json({ error:"No se pudo registrar, intente de nuevo"});
             })
      } else {
-        console.log("mmmmmmmmmmmm");
-        res.sendStatus(400);
+        res.status(400).json({ error:"Debe completar los campo"})
     }
 })
 
@@ -88,6 +88,7 @@ router.put('/update/',(req, res) => {
     })
 })
 
+//register mail history 5
 router.post('/send-code-mail/',async (req, res)=>{
     var code = ""
     for (let index = 0; index < 8; index++) {
@@ -97,7 +98,7 @@ router.post('/send-code-mail/',async (req, res)=>{
 })
 
 router.post('/validate-code/',(req, res)=>{
-    const exist = user.findOne({
+    user.findOne({
         where:{
             user: req.body.user,
             code:req.body.code
@@ -106,12 +107,33 @@ router.post('/validate-code/',(req, res)=>{
         if(e){
             res.status(201).json(e)
         }else{
-            res.status(401).json({error:"Verifique el codigo"})
+            res.status(401).json({error:"El codigo de verificacion no es el correcto"})
         }
     }).catch(err=>{
-        res.status(501).json({error:"Verifique el codigo"})
+        res.status(501).json({error:"Intente de nuevo"})
     })
     
 })
 
+//delete mail history 64
+router.delete('/delete-mail/',(req, res)=>{
+    user.update({email:null},
+        {where:{user:req.body.user}}
+    ).then(e=>{
+        if(e && e[0]){
+            res.status(200).send(true)
+        }else{
+            res.status(400).send(false)
+        }
+    }).catch(err=>{
+        res.status(500).json(
+        {error:"No se pudo completar la operacion, intente de nuevo"})
+    })
+
+})
+
+//change email history 63
+router.put('/change-mail/',async(req, res)=>{
+    
+})
 module.exports.user_router_mobile = router;

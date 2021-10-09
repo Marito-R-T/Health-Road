@@ -226,6 +226,7 @@ user.hasMany(hospital, {
 })
 
 
+
 //-------servbicios
 //category.sync({ force: true }).then(function() {});
 //service.sync({ force: true }).then(function() {});
@@ -261,9 +262,15 @@ service.hasMany(service_rates, {
     }
 })
 
+hospital.hasMany(service_rates, {
+    onDelete: 'CASCADE',
+    foreignKey: {
+        name: 'hospital',
+        allowNull: false,
+    }
+})
 
-
-//descuento
+//service_rates.sync({ alter: true }).then(function() {})
 
 
 function alter_table() {
