@@ -68,7 +68,9 @@ router.get('/suggestion-best-hospitals/',(req, res)=>{
         limit:5,
        
     }).then(e=>{
-        res.json(e)
+        res.status(200).json(e)
+    }).catch(err=>{
+        res.status(500).json({error:"No se encontraron sugestiones, intente de nuevo"})
     })
 })
 
