@@ -1,3 +1,4 @@
+
 import "package:http/http.dart" as http;
 import "dart:async";
 import "dart:convert";
@@ -6,19 +7,33 @@ import 'package:mobile/src/models/User.dart';
 class Users {
   Users();
 
+<<<<<<< HEAD
+  Future<User?> insertUsers(String user, String password, String name,
+      String lastName, String cellphone) async{
+=======
   Future<User> insertUsers(String user, String password, String name,
       String lastName, String cellphone) async {
+>>>>>>> 6e0ec53f3956712579617c4839bda983f14238da
     final response = await http.post(
       Uri.parse('http://localhost:3000/mobile/user/register/'),
       headers: {
         "Accept": "application/json",
+<<<<<<< HEAD
+        "Access-Control-Allow-Origin": "*"
+=======
         "Content-Type": "application/x-www-form-urlencoded"
+>>>>>>> 6e0ec53f3956712579617c4839bda983f14238da
       },
-      body: jsonEncode(<String, String>{
+      body: {
         'user': user,
         'password': password,
         'name': name,
         'last_name': lastName,
+<<<<<<< HEAD
+        'celphone': cellphone
+      },
+      encoding: Encoding.getByName("utf-8"),
+=======
         'cellphone': cellphone
       }),
       encoding: Encoding.getByName("utf-8"),
@@ -34,12 +49,14 @@ class Users {
         'last_name': lastName,
         'cellphone': cellphone
       })*/
+>>>>>>> 6e0ec53f3956712579617c4839bda983f14238da
     );
     ;
     if (response.statusCode == 201) {
       return User.fromJson(jsonDecode(response.body));
-    } else {
-      throw Exception('Failed');
+    }else {
+      print('Error en la entrada');
+      return null;
     }
   }
 }
