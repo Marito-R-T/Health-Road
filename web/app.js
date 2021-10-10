@@ -51,9 +51,11 @@ app.use('/ambulance-driver',ambulance_driver_router);
 
 
 app.get('/', (req, res) => {
-  res.render("login")
+  res.render("index")
 })
 
-
+app.get('/login', (req, res) => {
+  res.render("login")
+})
 
 app.listen(port, () => console.log(`Example app listening on port port!`));
