@@ -231,29 +231,4 @@ class _RegisterScreenState extends State<RegisterScreen> {
     );
   }
 
-  /*void buildFutureBuilder(Future<User?> us) {
-    FutureBuilder<User?>(
-      future: us,
-      builder: (context, snapshot) {
-        if (snapshot.hasData) {
-          Navigator.push(
-              context,
-              MaterialPageRoute(
-                  builder: (context) => ProfileScreen()
-              )
-          );
-        } else if (snapshot.hasError) {
-          ScaffoldMessenger.of(context).showSnackBar(
-              const SnackBar(
-                content: Text('Error al registrar usuario'),
-                duration: Duration(seconds: 2),
-              )
-          );
-          ffuser = null;
-        }
-        return const CircularProgressIndicator();
-      },
-    );
-  }*/
-
 }
