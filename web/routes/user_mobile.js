@@ -1,6 +1,6 @@
 var express = require('express');
 var router = express.Router();
-const { user } = require('../models/connection_db');
+const { user,creditCard } = require('../models/connection_db');
 const mail = require('./send_email');
 var validator = require('email-validator');
 
@@ -137,4 +137,22 @@ router.delete('/delete-mail/',(req, res)=>{
 router.put('/change-mail/',async(req, res)=>{
     
 })
+
+//Register credit card historia 6
+router.post('/register-credit-card/',(req, res)=>{
+    creditCard.create({
+        card_number:req.body.card_number,
+        cvv:req.body.cvv,
+        expiration:new Date(req.body.expiration)
+    }).then(e=>{
+        if(e){
+            res.status(200).json(e)
+        }else{
+            res.status(400).json({ error:"No se pudo registrar la tarjeta, intente de nuevo"})
+        }
+    }).catch(err=>{
+        res.status(500).json({ error:"No se pudo registrar la tarjeta, intente de nuevo"})
+    })
+})
+
 module.exports.user_router_mobile = router;

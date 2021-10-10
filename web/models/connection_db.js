@@ -222,6 +222,23 @@ var favorites = sequelize.define('Favorites', {
         defaultValue:true
     }
 })
+
+var creditCard = sequelize.define('CreditCard', {
+    card_number:{
+        type: DataTypes.INTEGER,
+        allowNull: false,
+        primaryKey: true,
+    },
+    expiration:{
+        allowNull: false,
+        type: DataTypes.DATEONLY
+    },
+    cvv:{
+        type: DataTypes.INTEGER,
+        allowNull: false,
+    }
+})
+
 //usuarios
 //user.sync({ force: true }).then(function() {});
 user.hasMany(ambulance_driver, {
@@ -299,6 +316,16 @@ user.hasMany(favorites, {
 
 //favorites.sync({ alter: true }).then(function() {})
 
+//CreditCard
+user.hasOne(creditCard, {
+    onDelete: 'CASCADE',
+    foreignKey: {
+        name:'user'
+    }
+})
+
+//creditCard.sync({ alter: true }).then(function() {})
+
 function alter_table() {
     hospital.sync({ alter: true }).then(function() {});
     category.sync({ alter: true }).then(function() {});
@@ -330,3 +357,4 @@ module.exports.category = category;
 module.exports.service_rates = service_rates;
 module.exports.discount = discount;
 module.exports.favorites = favorites;
+module.exports.creditCard = creditCard;
