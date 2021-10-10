@@ -39,7 +39,7 @@
       <div class="container forms">
          <div class="contact-section">
             <div class="form-contant">
-               <form id="ajax-contact" action="assets/mailer.php" method="post">
+               <form id="ajax-contact" action="" method="post">
                   <div class="row">
                      <div class="col-md-6">
                         <div class="form-group in_name">
@@ -67,12 +67,21 @@
                      </div>
                      <div class="col-md-12">
                         <div class="form-group in_email">
+                           <label> <i class="far fa-lock-alt"></i> Contraseña</label>
+                           <input type="password" class="form-control" placeholder="Contraseña" required="required">
+                        </div>
+                     </div>
+                     <div class="col-md-12">
+                        <div class="form-group in_email">
                            <label> <i class="far fa-user-tag"></i> Rol</label>
                            <select name="Rol">
                               
                            </select>
                         </div>
-
+                        <div class="actions">
+                           <input type="submit" value="Registrar" name="submit" id="submitButton" class="btn small"
+                              title="Submit Your Message!">
+                        </div>
                      </div>
                   </div>
 

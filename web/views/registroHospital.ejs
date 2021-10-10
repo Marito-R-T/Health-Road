@@ -15,6 +15,9 @@
 
 <link rel="stylesheet" href="css/custom.css">
 <link rel="stylesheet" href="css/customForms.css">
+<link rel="stylesheet" href="css/uploadPhoto.css">
+
+<link rel="stylesheet" href="css/map.css">
 <link href="lib/fontawesome/css/all.css" rel="stylesheet">
 <script src='https://api.mapbox.com/mapbox-gl-js/v2.3.1/mapbox-gl.js'></script>
 <link href='https://api.mapbox.com/mapbox-gl-js/v2.3.1/mapbox-gl.css' rel='stylesheet' />
@@ -75,16 +78,20 @@
                         </div>
                         <div class="avatar-upload">
                            <div class="avatar-edit" style="left: 200px;">
-                             <input type='file' id="imageUpload" accept=".png, .jpg, .jpeg ,.jfif" />
-                             <label for="imageUpload"><i class="far fa-edit"></i></label>
-                             <textarea type="text" name="path" id="path" hidden></textarea>
+                              <input type='file' id="imageUpload-profile"
+                                 accept=".png, .jpg, .jpeg ,.jfif" />
+                              <label for="imageUpload-profile"><i style="margin: 8px;"
+                                    class="fas fa-camera"></i></label>
+                              <textarea type="text" name="path" id="path" hidden></textarea>
                            </div>
                            <div class="avatar-preview">
-                             <div id="previsualizacion" style="background-image: url(images/logo-hospital.png);">
-                             </div>
+                              <div id="previsualizacion-profile"
+                                 style="background-image: url(images/logo-hospital.png);">
+
+                              </div>
                            </div>
-                          
-                         </div>
+
+                        </div>
                      </div>
                      
                         <div class="actions">
@@ -139,7 +146,12 @@
 
    </script>
    <script src="js/all.js"></script>
-   <script src="js/custom.js"></script>
+   <script src="js/custom.js"></script> 
+   <script src="js/uploadphoto.js"></script>
+   <script src="js/map.js"></script>
+   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
+      integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
+      crossorigin="anonymous"></script>
 
 
 </body>

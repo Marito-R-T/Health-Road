@@ -36,7 +36,8 @@ p {
     padding: 0;
 }
 .navbar-brand img {
-    width: 220px;
+    width: 30px;
+    display: inline;
 }
 #preloader {
     width: 100%;
@@ -89,7 +90,7 @@ header {
 .header-bottom nav.main-menu ul.nav.navbar-nav > li a:hover, .header-bottom nav.main-menu ul.nav.navbar-nav > li a:focus, .header-bottom nav.main-menu ul.nav.navbar-nav > li a.active {
     color: #fff;
     background: #39b49b;
-    box-shadow: 5px 5px 0 0px #fff;
+    box-shadow: 0px 1px 0 0px #fff;
 }
 .header-top {
     float: left;
@@ -1145,9 +1146,8 @@ header {
     margin-top: 0;
 }
 .navbar-brand img {
-    width: 165px;
+    width: 15px;
     position: relative;
-    right: 10px;
 }
 .right-header {
     display: none;
