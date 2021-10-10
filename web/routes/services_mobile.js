@@ -89,4 +89,21 @@ router.get('/services-by-price/',async (req, res)=>{
     })
 })
 
+//Rate a service history 23
+router.post('/rate-a-service/',(req, res)=>{
+    service_rates.create({
+        score:req.body.score,
+        service:req.body.service,
+        hospital:req.body.hospital
+    }).then(e=>{
+        if(e){
+            res.status(200).json(e);
+        }else{
+            res.status(404).json({ error: "Error al establecer una calificacion"})
+        }
+    }).catch(err=>{
+        res.status(500).json({ error: "Error al establecer una calificacion"})
+    })
+})
+
 module.exports.service_router_mobile = router;
