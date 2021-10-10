@@ -204,6 +204,24 @@ var discount = sequelize.define('Discount', {
     },
 })
 
+var favorites = sequelize.define('Favorites', {
+    user: {
+        type: DataTypes.STRING(length = 40),
+        allowNull: false,
+    },
+    service: {
+        type: DataTypes.STRING(length = 30),
+        allowNull: false,
+    },
+    hospital: {
+        type: DataTypes.STRING(length = 30),
+        allowNull: false,
+    },
+    status:{
+        type: DataTypes.BOOLEAN,
+        defaultValue:true
+    }
+})
 //usuarios
 //user.sync({ force: true }).then(function() {});
 user.hasMany(ambulance_driver, {
@@ -270,6 +288,16 @@ hospital.hasMany(service_rates, {
 
 //service_rates.sync({ alter: true }).then(function() {})
 
+//favorites
+user.hasMany(favorites, {
+    onDelete: 'CASCADE',
+    foreignKey: {
+        name: 'user',
+        allowNull: false,
+    }    
+})
+
+//favorites.sync({ alter: true }).then(function() {})
 
 function alter_table() {
     hospital.sync({ alter: true }).then(function() {});
@@ -301,3 +329,4 @@ module.exports.user = user;
 module.exports.category = category;
 module.exports.service_rates = service_rates;
 module.exports.discount = discount;
+module.exports.favorites = favorites;
