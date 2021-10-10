@@ -143,7 +143,8 @@ router.post('/register-credit-card/',(req, res)=>{
     creditCard.create({
         card_number:req.body.card_number,
         cvv:req.body.cvv,
-        expiration:new Date(req.body.expiration)
+        expiration:new Date(req.body.expiration),
+        user:req.body.user
     }).then(e=>{
         if(e){
             res.status(200).json(e)
@@ -152,6 +153,27 @@ router.post('/register-credit-card/',(req, res)=>{
         }
     }).catch(err=>{
         res.status(500).json({ error:"No se pudo registrar la tarjeta, intente de nuevo"})
+    })
+})
+
+router.put('/update-credit-card/',(req, res)=>{
+    creditCard.update({
+        cvv:req.body.cvv,
+        expiration:new Date(req.body.expiration)
+    },{
+        where:{
+            user:req.body.user,
+            card_number:req.body.card_number,
+        }
+    })
+    .then(e=>{
+        if(e && e[0]){
+            res.status(200).json(e)
+        }else{
+            res.status(400).json({ error:"No se pudo actualizar la tarjeta, intente de nuevo"})
+        }
+    }).catch(err=>{
+        res.status(500).json({ error:"No se pudo actualizar la tarjeta, intente de nuevo"})
     })
 })
 
