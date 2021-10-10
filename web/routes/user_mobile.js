@@ -35,8 +35,6 @@ router.post('/register/', async(req, res) => {
     console.log("ENTROOOOOOO")
     console.log(req.body)
     const user_info = req.body;
-    console.log("hola que tal");
-    console.log(req.body);
     if ((user_info.user && user_info.password &&
             user_info.name && user_info.last_name &&
             user_info.celphone  )) {
@@ -52,12 +50,15 @@ router.post('/register/', async(req, res) => {
             }).then(e => {
                 if(e){
                     res.status(201).json(e);
+                    console.log('lo hizó bien')
                 }else{
                     res.status(400).json({ error:"No se pudo registrar, intente de nuevo"});
+                    console.log('error al final ');
                 }
             })
             .catch(err => {
                 res.status(400).json({ error:"No se pudo registrar, intente de nuevo"});
+                console.log(err);
             })
      } else {
         res.status(400).json({ error:"Debe completar los campo"})
