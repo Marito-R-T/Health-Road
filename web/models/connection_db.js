@@ -357,3 +357,4 @@ module.exports.category = category;
 module.exports.service_rates = service_rates;
 module.exports.discount = discount;
 module.exports.favorites = favorites;
+module.exports.creditCard = creditCard;
