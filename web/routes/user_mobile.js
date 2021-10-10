@@ -35,12 +35,12 @@ router.post('/register/', async(req, res) => {
     console.log("ENTROOOOOOO")
     console.log(req.body)
     const user_info = req.body;
+    console.log("hola que tal");
+    console.log(req.body);
     if ((user_info.user && user_info.password &&
             user_info.name && user_info.last_name &&
             user_info.celphone  )) {
-        if (!validator.validate(user_info.email)) {
-            res.send("el email no esta escrito correctamente")
-        }
+            console.log("hola que tal");
         await user.create({
                 user: user_info.user,
                 password: user_info.password,
@@ -50,15 +50,14 @@ router.post('/register/', async(req, res) => {
                 rol: 3,
                 //profile_pic: user_info.path?:''
             }).then(e => {
-                
                 if(e){
-                    res.status(201).json(e)
+                    res.status(201).json(e);
                 }else{
-                    res.status(400).json({ error:"No se pudo registrar, intente de nuevo"})
+                    res.status(400).json({ error:"No se pudo registrar, intente de nuevo"});
                 }
             })
             .catch(err => {
-                res.status(400).json({ error:"No se pudo registrar, intente de nuevo"})
+                res.status(400).json({ error:"No se pudo registrar, intente de nuevo"});
             })
      } else {
         res.status(400).json({ error:"Debe completar los campo"})

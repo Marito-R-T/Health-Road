@@ -36,7 +36,7 @@ dependencies:
   cupertino_icons: ^1.0.2
   simple_animations: ^4.0.1
   supercharged: ^2.1.1
-  http: any
+  http: ^0.13.4
 
 dev_dependencies:
   flutter_test:
