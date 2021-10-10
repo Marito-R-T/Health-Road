@@ -106,4 +106,24 @@ router.post('/rate-a-service/',(req, res)=>{
     })
 })
 
+//See the service rating history 25
+router.get('/service-rating/',(req, res)=>{
+    service_rates.findOne({
+        attributes:[
+            [sequelize.fn('avg', sequelize.col('score')),'rating']
+        ],
+        where: {
+            service:req.body.service,
+            hospital:req.body.hospital
+        }
+    })
+    .then(e=>{
+        res.json(e)
+    })
+    .catch(err=>{
+        res.send("ss")
+    })
+})
+
+
 module.exports.service_router_mobile = router;
