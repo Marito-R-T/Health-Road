@@ -1,6 +1,6 @@
 var express = require('express');
 var router = express.Router();
-const { service, service_rates,category,sequelize,discount} = require('../models/connection_db');
+const { service,favorites,user, service_rates,category,sequelize,discount} = require('../models/connection_db');
 const Op = require('sequelize').Op
 //Filter a service by his name, history 7
 router.get('/get-services/',(req, res)=>{
@@ -125,5 +125,36 @@ router.get('/service-rating/',(req, res)=>{
     })
 })
 
+
+router.get('/add-favorite-service-rating/',async (req, res)=>{
+    const [user_, created] = await favorites.findOrCreate({
+        where: {
+            user:req.body.user,
+            service:req.body.service,
+            hospital:req.body.hospital
+        },
+        defaults:{
+            user:req.body.user,
+            service:req.body.service,
+            hospital:req.body.hospital
+        }
+    })
+    if(!created){
+        favorites.update({
+            status:!user_.status
+        },{
+            where:{
+                user:req.body.user,
+                service:req.body.service,
+                hospital:req.body.hospital,
+            }
+        }).then(e=>{
+            user_.status=!user_.status
+            res.status(200).json(user_)
+        })
+    }else{
+        res.status(201).json(user_)
+    }
+})
 
 module.exports.service_router_mobile = router;
