@@ -4,7 +4,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="viewport" content="initial-scale=1, maximum-scale=1">
-<title>Registro Usuario</title>
+<title>Registro Categoria</title>
 <link rel="shortcut icon" href="images/fevicon.ico.png" type="image/x-icon" />
 <link rel="apple-touch-icon" href="images/apple-touch-icon.png">
 <link rel="stylesheet" href="css/bootstrap.min.css">
@@ -33,7 +33,7 @@
       <div class="container">
          <div class="heading">
             <span class="icon-logo"><img src="images/icon-logo.png" alt="#"></span>
-            <h2>Registrar Usuario</h2>
+            <h2>Registrar Categoria</h2>
          </div>
       </div>
       <div class="container forms">
@@ -41,46 +41,20 @@
             <div class="form-contant">
                <form id="ajax-contact" action="" method="post">
                   <div class="row">
-                     <div class="col-md-6">
-                        <div class="form-group in_name">
-                           <label> <i class="far fa-user"></i> Nombre </label>
+                     <div class="col-md-12">
+                        <div class="form-group in_email">
+                           <label> <i class="far fa-tags"></i> Nombre</label>
                            <input type="text" class="form-control" placeholder="Nombre" required="required">
                         </div>
                      </div>
-                     <div class="col-md-6">
-                        <div class="form-group in_email">
-                           <label> Apellido</label>
-                           <input type="text" class="form-control" placeholder="Apellido" required="required">
-                        </div>
-                     </div>
                      <div class="col-md-12">
-                        <div class="form-group in_email">
-                           <label> <i class="fas fa-envelope-open-text"></i> Email</label>
-                           <input type="email" class="form-control" placeholder="Email" required="required">
-                        </div>
-                     </div>
-                     <div class="col-md-12">
-                        <div class="form-group in_email">
-                           <label> <i class="far fa-phone-rotary"></i> Telefono</label>
-                           <input type="text" class="form-control" placeholder="Telefono" required="required">
-                        </div>
-                     </div>
-                     <div class="col-md-12">
-                        <div class="form-group in_email">
-                           <label> <i class="far fa-lock-alt"></i> Contraseña</label>
-                           <input type="password" class="form-control" placeholder="Contraseña" required="required">
-                        </div>
-                     </div>
-                     <div class="col-md-12">
-                        <div class="form-group in_email">
-                           <label> <i class="far fa-user-tag"></i> Rol</label>
-                           <select name="Rol">
-                              
-                           </select>
+                        <div class="form-group in_message">
+                           <label> <i class="fal fa-comment-medical"></i> Descripcion </label>
+                           <textarea class="form-control" id="message" rows="5" placeholder="Descripcion"
+                              required="required"></textarea>
                         </div>
                         <div class="actions">
-                           <input type="submit" value="Registrar" name="submit" id="submitButton" class="btn small"
-                              title="Submit Your Message!">
+                           <button type="button"  class="btn small submitButton" ><i class="far fa-save"></i> Guardar</button>
                         </div>
                      </div>
                   </div>
