@@ -1,4 +1,7 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
+import 'package:mobile/src/models/User.dart';
 import 'package:mobile/src/service/http_users.dart';
 import 'package:mobile/src/widget/profile.dart';
 
@@ -17,6 +20,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
   final _name = TextEditingController();
   final _lastname = TextEditingController();
   final _formKey = GlobalKey<FormState>();
+  Future<User?>? ffuser;
 
   @override
   Widget build(BuildContext context) {
@@ -40,7 +44,11 @@ class _RegisterScreenState extends State<RegisterScreen> {
                 _padding(),
                 _celphoneText(),
                 _padding(),
-                _registerButton()
+                Container(
+                  alignment: Alignment.center,
+                  padding: const EdgeInsets.all(8.0),
+                  child:_registerButton(),
+                ),
               ]
             )
           ),
@@ -192,26 +200,28 @@ class _RegisterScreenState extends State<RegisterScreen> {
               // devolverá true si el formulario es válido, o falso si
               // el formulario no es válido.
               if (_formKey.currentState!.validate()) {
-                // Si el formulario es válido, queremos mostrar un Snackbar
-                try {
-                  final user = http_user.insertUsers(
+                ffuser = http_user.insertUsers(
                       _user.value.text, _password.value.text,
                       _name.value.text, _lastname.value.text,
-                      _cellphone.value.text);
-                  Navigator.push(
-                      context,
-                      MaterialPageRoute (
-                          builder: (context) => ProfileScreen()
-                      )
-                  );
-                } on Exception catch (exception) {
-                  ScaffoldMessenger.of(context).showSnackBar(
-                    const SnackBar(
-                      content: Text('Error al registrar usuario'),
-                      duration: Duration(seconds: 2),
-                    )
-                  );
-                }
+                      _cellphone.value.text).then((value) {
+                        print('entro al future');
+                        if(value == null) {
+                          ScaffoldMessenger.of(context).showSnackBar(
+                              const SnackBar(
+                                content: Text('Error al registrar usuario'),
+                                duration: Duration(seconds: 2),
+                              )
+                          );
+                        } else {
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => ProfileScreen()
+                              )
+                          );
+                        }
+                });
+                // Si el formulario es válido, queremos mostrar un Snackbar
               }
             },
             child: Text('Submit'),

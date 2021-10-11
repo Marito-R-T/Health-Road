@@ -1,0 +1,25 @@
+.profile-container{
+    padding-top: 15px;
+}
+
+.basic-information{
+    background: rgba(0, 0, 0, 0.04);
+    height: -moz-available;
+}
+
+.nav-link{
+    color: #185245;
+}
+
+.nav-pills .nav-link.active, .nav-pills .show > .nav-link {
+    color: #fff;
+    background-color: #39b49a;
+}
+.nav-link:focus, .nav-link:hover {
+    color:  #02795f;
+}
+
+.search-container{
+    background: rgba(0, 0, 0, 0.04);
+    height: -moz-available;
+}

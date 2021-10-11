@@ -6,8 +6,8 @@ const { Sequelize, DataTypes, Model } = require('sequelize');
 const USER = 'postgres';
 const HOST = 'localhost';
 const DATABASE = 'health_road';
-//const PASSWORD = 'MrT26.';
-const PASSWORD = 'Jhon$19PVT'
+const PASSWORD = 'MrT26.';
+//const PASSWORD = 'Jhon$19PVT'
 const PORT = '5432';
 
 //connection
@@ -241,6 +241,8 @@ var creditCard = sequelize.define('CreditCard', {
 
 //usuarios
 //user.sync({ force: true }).then(function() {});
+//ambulance_driver.sync({ force: true }).then(function() {});
+//hospital.sync({ force: true }).then(function() {});
 user.hasMany(ambulance_driver, {
     onDelete: 'CASCADE',
     foreignKey: {
@@ -257,12 +259,12 @@ user.hasMany(hospital, {
         allowNull: false,
     }
 })
-//ambulance_driver.sync({ force: true }).then(function() {});
-//hospital.sync({ force: true }).then(function() {});
+
 
 
 //-------servbicios
 //category.sync({ force: true }).then(function() {});
+//service.sync({ force: true }).then(function() {});
 category.hasMany(service, {
     onDelete: 'CASCADE',
     foreignKey: {
@@ -284,9 +286,9 @@ discount.hasMany(service, {
         allowNull: true,
     }
 })
-//service.sync({ force: true }).then(function() {});
 
 //rates
+//service_rates.sync({ alter: true }).then(function() {})
 service.hasMany(service_rates, {
     onDelete: 'CASCADE',
     foreignKey: {

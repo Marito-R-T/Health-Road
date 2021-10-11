@@ -18,9 +18,9 @@ router.post("/login/",(req, res)=>{
             }
         }).then(val => {
             if(val){
-                res.json(val)
+                res.status(201).json(val);
             }else{
-                res.json({ error: "No se encontro el usuario"})
+                res.json({ error: "No se encontro el usuario"});
             }
         }).catch(err => {
             res.json({ error: "Error al iniciar sesion, intente de nuevo"})
@@ -38,9 +38,7 @@ router.post('/register/', async(req, res) => {
     if ((user_info.user && user_info.password &&
             user_info.name && user_info.last_name &&
             user_info.celphone  )) {
-        if (!validator.validate(user_info.email)) {
-            res.send("el email no esta escrito correctamente")
-        }
+            console.log("hola que tal");
         await user.create({
                 user: user_info.user,
                 password: user_info.password,
@@ -50,15 +48,17 @@ router.post('/register/', async(req, res) => {
                 rol: 3,
                 //profile_pic: user_info.path?:''
             }).then(e => {
-                
                 if(e){
-                    res.status(201).json(e)
+                    res.status(201).json(e);
+                    console.log('lo hizó bien')
                 }else{
-                    res.status(400).json({ error:"No se pudo registrar, intente de nuevo"})
+                    res.status(400).json({ error:"No se pudo registrar, intente de nuevo"});
+                    console.log('error al final ');
                 }
             })
             .catch(err => {
-                res.status(400).json({ error:"No se pudo registrar, intente de nuevo"})
+                res.status(400).json({ error:"No se pudo registrar, intente de nuevo"});
+                console.log(err);
             })
      } else {
         res.status(400).json({ error:"Debe completar los campo"})
