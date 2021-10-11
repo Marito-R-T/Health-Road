@@ -32,4 +32,28 @@ class Users {
       return null;
     }
   }
+
+
+  Future<User?> loginUser(String user, String password) async{
+    final response = await http.post(
+        Uri.parse('http://localhost:3000/mobile/user/login/'),
+        headers: {
+          "Accept": "application/json",
+          "Content-Type": "application/x-www-form-urlencoded"
+        },
+        body: {
+          'user': user,
+          'password': password
+        },
+        encoding: Encoding.getByName("utf-8")
+    );
+    print(response.statusCode);
+    if (response.statusCode == 201) {
+      return User.fromJson(jsonDecode(response.body));
+    }else {
+      print('Error en la entrada');
+      return null;
+    }
+  }
+
 }
