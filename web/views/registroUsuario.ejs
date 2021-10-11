@@ -1,26 +1,4 @@
-<!DOCTYPE html>
-<html lang="en">
-<meta charset="utf-8">
-<meta http-equiv="X-UA-Compatible" content="IE=edge">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<meta name="viewport" content="initial-scale=1, maximum-scale=1">
-<title>Registro Usuario</title>
-<link rel="shortcut icon" href="images/fevicon.ico.png" type="image/x-icon" />
-<link rel="apple-touch-icon" href="images/apple-touch-icon.png">
-<link rel="stylesheet" href="css/bootstrap.min.css">
-<link rel="stylesheet" href="style.css">
-<link rel="stylesheet" href="css/colors.css">
-<link rel="stylesheet" href="css/versions.css">
-<link rel="stylesheet" href="css/responsive.css">
-
-<link rel="stylesheet" href="css/custom.css">
-<link rel="stylesheet" href="css/customForms.css">
-<link href="lib/fontawesome/css/all.css" rel="stylesheet">
-<script src="https://polyfill.io/v3/polyfill.min.js?features=default"></script>
-
-
-<script src="js/modernizer.js"></script>
-</head>
+<%- include("include/header", { titulo: 'Health Road - Registro Usuario' }) %>
 
 <body class="clinic_version">
    <div id="preloader">
@@ -94,8 +72,7 @@
 
    </div>
 
-   <script src="js/all.js"></script>
-   <script src="js/custom.js"></script>
+   <%- include("include/scripts") %>
 
 
 </body>
