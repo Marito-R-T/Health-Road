@@ -177,4 +177,18 @@ router.put('/update-credit-card/',(req, res)=>{
     })
 })
 
+//Eliminar tarjeta de credito historia 65
+router.delete('/eliminar-credit-card/',(req, res)=>{
+    creditCard.destroy({
+        where:{
+            user:req.body.user,
+            card_number:req.body.card_number,    
+        }
+    }).then(e=>{
+        res.status(200).json({ error:"tarjeta eliminada"})
+    }).catch(err=>{
+        res.status(200).json({ error:"No se pudo eliminar la tarjeta, intente de nuevo"})
+    })
+})
+
 module.exports.user_router_mobile = router;
