@@ -14,7 +14,7 @@ router.get("/info/",(req, res)=>{
     })
     .then(e=>{
         if(e){
-            res.status(201).json(e)
+            res.status(200).json(e)
         }else{
             res.status(401).json({ error:"No se encontro el hospital"})
         }
@@ -36,7 +36,7 @@ router.get("/info/",(req, res)=>{
     })
     .then(e=>{
         if(e){
-            res.status(201).json(e)
+            res.status(200).json(e)
         }else{
             res.status(401).json({ error:"No se encontro el hospital"})
         }

@@ -19,7 +19,7 @@ router.get('/get-services/',(req, res)=>{
         
     }).then(e=>{
         if(e){
-            res.status(201).json(e)
+            res.status(200).json(e)
         }else{
             res.status(401).json({ error: "No hay servicios con este nombre, intente de nuevo"})
         }
@@ -41,7 +41,7 @@ router.get('/get-info-service/',(req, res)=>{
         }
      }).then(e=>{
         if(e){
-            res.status(201).json(e)
+            res.status(200).json(e)
         }else{
             res.status(401).json({ error: "No hay servicios con este nombre, intente de nuevo"})
         }
@@ -60,7 +60,7 @@ router.get('/services-by-category/',(req, res)=>{
         where: { 
             name: sequelize.where(sequelize.fn('LOWER', sequelize.col('Category.name')), 'LIKE', '%' + req.body.name.toLowerCase() + '%'),
         }
-    }).then(e=>res.status(201).json(e))
+    }).then(e=>res.status(200).json(e))
     .catch(err=>{
         console.error(err)
         res.status(501).json({ error: "No se encontraron servicios con esta categoria,intente de nuevo"})
@@ -82,7 +82,7 @@ router.get('/services-by-price/',async (req, res)=>{
             name: sequelize.where(sequelize.fn('LOWER', sequelize.col('name')), 'LIKE', '%' + name + '%'),
         
         }
-    }).then(e=>res.status(201).json(e))
+    }).then(e=>res.status(200).json(e))
     .catch(err=>{
         console.error(err)
         res.status(501).json({ error: "No se encontraron servicios en este rango,intente de nuevo"})
@@ -153,7 +153,7 @@ router.get('/add-favorite-service-rating/',async (req, res)=>{
             res.status(200).json(user_)
         })
     }else{
-        res.status(201).json(user_)
+        res.status(200).json(user_)
     }
 })
 

@@ -18,7 +18,7 @@ router.post("/login/",(req, res)=>{
             }
         }).then(val => {
             if(val){
-                res.status(201).json(val);
+                res.status(200).json(val);
             }else{
                 res.json({ error: "No se encontro el usuario"});
             }
@@ -49,7 +49,7 @@ router.post('/register/', async(req, res) => {
                 //profile_pic: user_info.path?:''
             }).then(e => {
                 if(e){
-                    res.status(201).json(e);
+                    res.status(200).json(e);
                     console.log('lo hizó bien')
                 }else{
                     res.status(400).json({ error:"No se pudo registrar, intente de nuevo"});
@@ -80,7 +80,7 @@ router.put('/update/',(req, res) => {
         }
     ).then(e=>{
         if(e && e[0]){
-            res.status(201).send(true)
+            res.status(200).send(true)
         }else{
             res.status(400).send(false)
         }
@@ -106,7 +106,7 @@ router.post('/validate-code/',(req, res)=>{
         }
     }).then(e=>{
         if(e){
-            res.status(201).json(e)
+            res.status(200).json(e)
         }else{
             res.status(401).json({error:"El codigo de verificacion no es el correcto"})
         }
