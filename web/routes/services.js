@@ -1,10 +1,13 @@
 var express = require('express');
 var router = express.Router();
-const { service } = require('../models/connection_db');
-const path_=require('../absolutepath').static_files
-router.use((express.static(path_)))
+const { service, service_rates,sequelize,discount } = require('../models/connection_db');
+const {static_files,static_files_pdf}=require('../absolutepath')
+const fs = require('fs');
 
-router.use("/register/",(req,res)=>{
+router.use((express.static(static_files)))
+router.use((express.static(static_files_pdf)))
+
+router.get("/register/",(req,res)=>{
     res.render("registroServicio")
 })
 router.post('/register/', async(req, res) => {
@@ -12,20 +15,34 @@ router.post('/register/', async(req, res) => {
     if (service_info.name && service_info.price &&
         service_info.description
     ) {
-        let val_error = "";
-        await service.create({
-                name: service_info.name,
-                price: service_info.price,
-                description: service_info.description,
-                hospital_user: 'usuario1'
-            }).then(e => {
-                val_error = "servicio registrado";
-            })
-            .catch(err => {
-                val_error = err.parent.detail;
-            })
-        res.send(val_error);
 
+        await service.findOne({
+            where: {
+                hospital_user: 'usuario1' , name: service_info.name
+            }
+        }).then(e=> {
+            console.log(e)
+            if(e){
+                res.send("El servicio ya existe")
+            }else{
+                discount.create({
+                    percentage: 0,
+                    service_name: service_info.name,
+                    date_end: new Date(2050,12,30),
+                    hospital_user: 'usuario1'
+                }).then(e=>{
+                    service.create({
+                        name: service_info.name,
+                        price: service_info.price,
+                        description: service_info.description,
+                        hospital_user: 'usuario1',
+                        DiscountId:e.id
+                    })
+                })
+                res.send("Servicio registrado")
+            }
+        })
+        
     } else {
         res.send("error")
     }
@@ -35,7 +52,7 @@ router.put('/update/', async(req, res) => {
     const service_info = req.body;
     if (service_info.name && service_info.price &&
         service_info.description && service_info.hospital_user &&
-        service_info.status && service_info.category_name) {
+        service_info.status ) {
         let val_error = "No existe el servicio";
         const exist = await service.findOne( {where: {
             name: service_info.name,
@@ -48,20 +65,23 @@ router.put('/update/', async(req, res) => {
                 description: service_info.description,
                 schedule: service_info.schedule?service_info.schedule:{},
                 status: service_info.status,
-                category_name: service_info.category_name
+                category_name: service_info.category_name?service_info.category_name:null
             }, {
                 where: {
                     name: service_info.name,
                     hospital_user: service_info.hospital_user 
                 }
             }).then(e => {
-                val_error = "Actualizacion correcta";
+                if(e && e[0]){
+                    res.send("Servicio actualizado correctamente")
+                }else{
+                    res.send("Id incorrecto, No se encontro el servicio")
+                }
             })
             .catch(err => {
                 console.log(err);
-                val_error =  "No se pudo actualizar";
+                res.send("No se pudo actualizar");
             })
-            res.send(val_error);
         }else{
             res.send(val_error);
         }
@@ -85,10 +105,14 @@ router.put('/register_category/', async(req, res) => {
                         hospital_user: service_info.hospital_user 
                 }
             }).then(e => {
-                val_error = "Actualizacion correcta";
+                if(e && e[0]){
+                    res.send("Categoria agregada correctamente")
+                }else{
+                    res.send("Id incorrecto, No se encontro el servicio")
+                }
             })
             .catch(err => {
-                val_error = err.parent.detail ? err.parent.detail : "No se pudo actualizar";
+                val_error = err.parent.detail ? err.parent.detail : "No se pudo agregar la categoria";
             })
         res.send(val_error);
     } else {
@@ -112,8 +136,12 @@ router.delete('/delete/', async(req, res) => {
                     hospital_user: service_info.hospital_user,
                     name: service_info.name,
                 }
-            }).then(() => {
-                res.send("Servicio eliminado")
+            }).then((e) => {
+                if(e && e[0]){
+                    res.send("Servicio eliminada")
+                }else{
+                    res.send("Id incorrecto, No se encontro el servicio")
+                }
             })
             .catch(err => {
                 if (err.parent) {
@@ -132,4 +160,218 @@ router.delete('/delete/', async(req, res) => {
 
 })
 
+router.put('/remove-category/',(req, res) => {
+    const service_info = req.body
+    if(service_info.name){
+        service.update({
+            category_name: null,
+        }, {
+            where: {
+                hospital_user: service_info.hospital_user,
+                name: service_info.name,
+            }
+        }).then((e) => {
+            if(e && e[0]){
+                res.send("categoria eliminada")
+            }else{
+                res.send("Id de servicio incorrecto, No se pudo eliminar la categoria")
+            }
+        })
+        .catch(err => {
+            try {
+                res.send(err.parent.detail)
+            } catch (error) {
+                res.send("No se pudo eliminar la categoria")
+            }
+        })
+    }
+});
+
+//horario de servicio
+router.get('/get-schedule/',async(req, res)=>{
+    console.log(req.body.hospital_user)
+    await service.findOne({
+        where: {
+            name:req.body.name,
+            hospital_user:req.body.hospital_user          
+        }
+    }).then(e=>{
+        if(e){
+            res.send(e)
+        }else{
+            res.send("No se encontro el servicio")
+        }
+    }).catch(err=>{
+        res.send("No se encontro el servicio")
+    })
+    
+})
+
+router.put('/set-schedule/',(req, res) => {
+    const service_info = req.body
+    const schedule = {
+        "Monday":service_info.Monday,
+        "Tuesday":service_info.Tuesday,
+        "Thursday":service_info.Thursday,
+        "Wednesday":service_info.Wednesday,
+        "Friday":service_info.Friday,
+        "Sunday":service_info.Sunday,
+        "Saturday":service_info.Saturday,
+        "Start":service_info.Start,
+        "End":service_info.End
+    }
+    service.update({
+        schedule:schedule,
+    },{
+        where: {
+            name:service_info.name,
+            hospital_user: service_info.hospital_user
+        }
+    }).then(e=>{
+        if(e && e[0]){
+            res.send("Horario actualizado")
+        }else{
+            res.send("Id equivocado, no se encontro el servicio");
+        }
+    }).catch(error=>{
+        res.send("Error al establecer horario, intente de nuevo")
+    })
+})
+
+//see the rates of a service
+router.get("/get-rates/all-services/",async (req, res)=>{
+    const rates = await service.findAll({
+        include:[
+            {
+                model:service_rates,
+                required:true,
+                attributes:[]
+                
+            },
+        ],
+        attributes: [
+            'name',
+            [sequelize.fn('sum', sequelize.col('ServiceRates.score')),'scores']
+        ],
+        group:['name'],
+        logging: console.log
+    })
+    await require('./html_pdf').html_to_pdf(rates)
+    await sleep(1000)
+    var data = await fs.readFileSync(static_files_pdf);
+    res.contentType("application/pdf");
+    res.send(data);
+})
+
+//Service mode out-of service historia 43
+router.put('/mode-out-of-service/', async(req, res)=>{
+    const service_info = req.body
+    service.update(
+        {    status:false },
+        {
+            where:{
+                name:service_info.name,
+                hospital_user: service_info.hospital_user,
+            }
+        }
+    ).then(e=>{
+        if(e && e[0]){
+            res.send("El servicio esta fuera de servicio")
+        }else{
+            res.send("Id incorrecto, no se encontro el servicio")
+        }
+    }).catch(err=>{
+        res.send("Error, intente de nuevo")
+    })
+})
+
+//Reactive service history 75
+router.put('/reactive-mode-out-of-service/', async(req, res)=>{
+    const service_info = req.body
+    service.update(
+        {    status:true },
+        {
+            where:{
+                name:service_info.name,
+                hospital_user: service_info.hospital_user,
+            }
+        }
+    ).then(e=>{
+        if(e && e[0]){
+            res.send("El servicio ha sido reactivado")
+        }else{
+            res.send("Id incorrecto, no se encontro el servicio")
+        }
+    }).catch(err=>{
+        res.send("Error, intente de nuevo")
+    })
+})
+
+//Offer discount to all the services history 18
+router.put('/discount/all-services/',(req, res)=>{
+    const discounts = req.body
+    if(discounts.percentage && discounts.date_initial && discounts.date_end){
+        discount.update(
+            {
+                percentage:discounts.percentage,
+                date_initial:new Date(discounts.date_initial),
+                date_end:new Date(discounts.date_end)
+            },
+            {
+                where: {
+                    hospital_user: "usuario1"
+                }
+            }
+        ).then(e=>{
+            if(e && e[0])
+                res.send("Descuento establecido")
+            else
+                res.send("No se pudo establecer el descuento, intente de nuevo")
+        }).catch(err=>{
+            res.send("No se pudo establecer el descuento, intente de nuevo")
+        })
+    }else{
+        res.send("Complete los campos")
+    }
+})
+
+//Offer discount to a specific services history 19
+router.put('/discount/specific-service/',(req, res)=>{
+    const discounts = req.body
+    if(!(discounts.percentage<=100 && discounts.percentage>=0)){
+        res.send("El porcentaje debe ser un valor entre 0 y 100")
+    }else{
+        if(discounts.percentage && discounts.date_initial 
+            && discounts.date_end && discounts.service_name){
+            discount.update(
+                {
+                    percentage:discounts.percentage,
+                    date_initial:new Date(discounts.date_initial),
+                    date_end:new Date(discounts.date_end)
+                },
+                {
+                    where: {
+                        hospital_user: "usuario1",
+                        service_name:discounts.service_name,
+                    }
+                }
+            ).then(e=>{
+                if(e && e[0])
+                    res.send("Descuento establecido")
+                else
+                    res.send("No se pudo establecer el descuento, intente de nuevo")
+            }).catch(err=>{
+                res.send("No se pudo establecer el descuento, intente de nuevo")
+            })
+        }else{
+            res.send("Complete los campos")
+        }
+    }
+})
+
+function sleep(ms) {
+    return new Promise((resolve) => {
+      setTimeout(resolve, ms);
+    });
+}
 module.exports.services_router = router;

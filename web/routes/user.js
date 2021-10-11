@@ -22,7 +22,7 @@ router.post('/register/', upload.array('profile_pic', 7), async(req, res) => {
     if ((user_info.user && user_info.password &&
             user_info.name && user_info.last_name &&
             user_info.celphone && user_info.email &&
-            user_info.rol && profile_pic)) {
+            profile_pic)) {
         if (!validator.validate(user_info.email)) {
             res.send("el email no esta escrito correctamente")
         }
@@ -34,7 +34,7 @@ router.post('/register/', upload.array('profile_pic', 7), async(req, res) => {
                 last_name: user_info.last_name,
                 email: user_info.email,
                 celphone: user_info.celphone,
-                rol: user_info.rol,
+                rol: 3,
                 profile_pic: profile_pic.path
             }).then(e => {
                 val_error = "usuario registrado";
@@ -48,7 +48,7 @@ router.post('/register/', upload.array('profile_pic', 7), async(req, res) => {
             })
         res.send(val_error);
     } else {
-        res.send("error");
+        res.send("Complete los campos requeridos");
     }
 })
 
@@ -73,7 +73,7 @@ router.post('/login/', async(req, res) => {
             res.send("Error al iniciar sesion, intente de nuevo");
         })
     } else {
-        res.send("error al iniciar sesion, intente de nuevo");
+        res.send("Complete los campos requeridos");
     }
 })
 
