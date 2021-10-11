@@ -54,8 +54,12 @@ app.get('/', (req, res) => {
   res.render("index")
 })
 
-app.get('/login', (req, res) => {
+app.get('/Login', (req, res) => {
   res.render("login")
+})
+
+app.use((req,res,next)=> {
+  res.status(404).render("404")
 })
 
 app.listen(port, () => console.log(`Example app listening on port port!`));

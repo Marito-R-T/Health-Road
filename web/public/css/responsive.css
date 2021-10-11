@@ -15,6 +15,9 @@
     body.politics_version .app_iphone_01 {
         left: 0%;
     }
+   /*   .navbar-collapse.collapse {
+        display: none!important;
+    } */
 }
 
 @media (max-width: 1200px) {
@@ -32,9 +35,9 @@
     body.watch_version .macbookright {
         right: -7%;
     }
-    .header_style_01 .navbar-brand {
+   /*  .header_style_01 .navbar-brand {
         padding-right: 0;
-    }
+    } */
     .container-fluid {
         width: 100%;
         padding: 0 15px;
@@ -57,15 +60,15 @@
     body.clinic_version .app_iphone_03 {
         right: -10%;
     }
-    .header_style_01 .navbar-default .navbar-nav > li > a {
+    /* .header_style_01 .navbar-default .navbar-nav > li > a {
         font-size: 14px;
-    }
+    } */
     .first-section .lead {
         font-size: 18px;
     }
-    .navbar-default .btn-light {
+  /*   .navbar-default .btn-light {
         display: none;
-    }
+    } */
     body.app_version .app_iphone_01 {
         right: -5% !important;
     }
@@ -180,7 +183,7 @@
     body.seo_version .header_style_01 {
         background-color: #0e0e2e;
     }
-    .navbar-default .btn-light {
+    /* .navbar-default .btn-light {
         display: block;
         width: 100%;
         border: 0 !important;
@@ -190,7 +193,7 @@
     }
     .navbar-collapse {
         margin-top: 15px;
-    }
+    } */
     .header_style_01 {
         background-color: #1f1f1f;
         display: block;
@@ -202,7 +205,7 @@
         width: 100%;
         z-index: 111;
     }
-    .navbar-default .navbar-toggler {
+   /*  .navbar-default .navbar-toggler {
         border-color: #1f1f1f;
         color: #fff !important;
         background-color: #1f1f1f !important;
@@ -229,9 +232,7 @@
         top: 0;
         border-width: 0 0 1px;
     }
-    .navbar-collapse.collapse {
-        display: none!important;
-    }
+   
     .navbar-nav {
         float: none!important;
         margin-top: 7.5px;
@@ -242,7 +243,7 @@
     .navbar-nav>li>a {
         padding-top: 10px;
         padding-bottom: 10px;
-    }
+    } */
     .collapse.in {
         display: block !important;
     }
@@ -252,9 +253,9 @@
         opacity: 1;
         top: 0 !important;
     }
-    .header_style_01 .navbar-default .navbar-nav > li a {
+    /* .header_style_01 .navbar-default .navbar-nav > li a {
         padding: 10px 5px;
-    }
+    } */
     .first-section .col-md-6 {
         width: 100%;
         text-align: center;
@@ -385,7 +386,6 @@
         background-color: #ededed;
         vertical-align: middle;
         width: 49%;
-        float: left;
         border: 0 solid #ededed;
     }
 }

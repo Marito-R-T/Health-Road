@@ -334,7 +334,7 @@ body.clinic_version .first-section h2 {
     font-size: 75px;
     line-height: normal;
     margin-bottom: 20px;
-    margin-top: 20%;
+    margin-top: 5%;
 }
 .service-time h3 {
     float: left;
@@ -1168,6 +1168,9 @@ nav.main-menu .navbar-toggler {
 /** mobile **/
 
 @media (max-width:767px) {
+
+#time-table {bottom: 400px;
+position: sticky;}
 header {
     float: left;
     width: 100%;
@@ -1191,7 +1194,7 @@ header {
 .navbar-header {
     float: right;
     position: absolute;
-    top: 21px;
+    top: 8px;
     right: 20px;
     background: transparent;
     width: 40px;
@@ -1323,9 +1326,8 @@ body.clinic_version .desc {
 
 @media (min-width:768px) and (max-width:991px) {
 
-nav.main-menu .navbar-header {float: left;position: relative;top: 8px;right: 0;background: transparent;width: auto;height: auto;}	
+nav.main-menu .navbar-header {float: left;position: relative;top: 0px;right: 0;background: transparent;width: auto;height: auto;}	
 .right-header {float: right;margin: 11px 0;display: none;}
-nav.main-menu .navbar-toggler {border: solid #fff 2px;}
 .header-top div.container {display: flex;justify-content: center;}
 #navbar.navbar-collapse {float: left;width: 100%;padding: 0;}
 .header-bottom nav.main-menu ul.nav.navbar-nav > li a {color: #fff;font-size: 16px;padding: 15px 15px;
@@ -1333,7 +1335,6 @@ nav.main-menu .navbar-toggler {border: solid #fff 2px;}
 .typewrite {font-size: 45px;}	
 .service-time.middle::before,.service-time.middle::after {display:none;}
 .service-time {margin-top: 0;}
-.service-time.one {margin-top: -340px;}
 .serv p {display: none;}
 .inner-services {margin: 0 0;}
 .form-contant {float: left;position: absolute;width: 100%;background: rgba(0,0,0,.8);z-index: 1;padding: 15px 30px;}
@@ -1347,13 +1348,13 @@ nav.main-menu .navbar-toggler {border: solid #fff 2px;}
 .logo2 img {
     width: 10%;}
 	
-}
+
 }
 
 
 @media (min-width:992px) and (max-width:1000px) {
 
-nav.main-menu .navbar-header {float: left;position: relative;top: 8px;right: 0;background: transparent;width: auto;height: auto;}	
+nav.main-menu .navbar-header {float: left;position: relative;top: 0px;right: 0;background: transparent;width: auto;height: auto;}	
 .right-header {float: right;margin: 11px 0;display: none;}
 nav.main-menu .navbar-toggler {border: solid #fff 2px;}
 .header-top div.container {display: flex;justify-content: center;}

@@ -16,32 +16,37 @@
          <div class="container forms">
             <div class="contact-section">
                <div class="form-contant">
-                  <form id="ajax-contact" action="assets/mailer.php" method="post">
+                  <form id="ajax-contact" action="user/login/" method="post">
                      <div class="row">
                         <div class="col-md-12">
                            <div class="form-group in_name">
-                              <label > <i class="fas fa-user"></i> Usuario</label>
+                              <label > <i class="fas fa-user"></i> Usuario * </label>
                                  <input type="text" class="form-control" placeholder="Usuario" required="required">
                            </div>
                         </div>
                         <div class="col-md-12">
                            <div class="form-group in_email">
-                              <label > <i class="fas fa-key"></i> Password</label>
+                              <label > <i class="fas fa-key"></i> Password * </label>
                               <input type="password" class="form-control" placeholder="Password" required="required">
                            </div>
                         </div>
                         
                         <div class="col-md-12">
                            <div class="actions">
-                              <input type="submit" value="Iniciar Sesion" name="submit" id="submitButton" class="btn small" title="Submit Your Message!">
+                              <button type="submit"  name="submit" id="submitButton" class="btn small">Iniciar Sesion</button>
                            </div>
                         </div>
                      </div>
                   </form>
+                  <form action="/" method="GET">
+                
+            <button type="submit"  id="submitButton" class="btn small">Inicio</button>
+
+                   </form>
                </div>
                
             </div>
-
+          
          </div>
          
       </div>
