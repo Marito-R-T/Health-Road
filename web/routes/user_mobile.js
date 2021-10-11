@@ -1,6 +1,6 @@
 var express = require('express');
 var router = express.Router();
-const { user } = require('../models/connection_db');
+const { user,creditCard } = require('../models/connection_db');
 const mail = require('./send_email');
 var validator = require('email-validator');
 
@@ -18,7 +18,7 @@ router.post("/login/",(req, res)=>{
             }
         }).then(val => {
             if(val){
-                res.status(201).json(val);
+                res.status(200).json(val);
             }else{
                 res.json({ error: "No se encontro el usuario"});
             }
@@ -49,7 +49,7 @@ router.post('/register/', async(req, res) => {
                 //profile_pic: user_info.path?:''
             }).then(e => {
                 if(e){
-                    res.status(201).json(e);
+                    res.status(200).json(e);
                     console.log('lo hizó bien')
                 }else{
                     res.status(400).json({ error:"No se pudo registrar, intente de nuevo"});
@@ -80,7 +80,7 @@ router.put('/update/',(req, res) => {
         }
     ).then(e=>{
         if(e && e[0]){
-            res.status(201).send(true)
+            res.status(200).send(true)
         }else{
             res.status(400).send(false)
         }
@@ -106,7 +106,7 @@ router.post('/validate-code/',(req, res)=>{
         }
     }).then(e=>{
         if(e){
-            res.status(201).json(e)
+            res.status(200).json(e)
         }else{
             res.status(401).json({error:"El codigo de verificacion no es el correcto"})
         }
@@ -137,4 +137,58 @@ router.delete('/delete-mail/',(req, res)=>{
 router.put('/change-mail/',async(req, res)=>{
     
 })
+
+//Register credit card historia 6
+router.post('/register-credit-card/',(req, res)=>{
+    creditCard.create({
+        card_number:req.body.card_number,
+        cvv:req.body.cvv,
+        expiration:new Date(req.body.expiration),
+        user:req.body.user
+    }).then(e=>{
+        if(e){
+            res.status(200).json(e)
+        }else{
+            res.status(400).json({ error:"No se pudo registrar la tarjeta, intente de nuevo"})
+        }
+    }).catch(err=>{
+        res.status(500).json({ error:"No se pudo registrar la tarjeta, intente de nuevo"})
+    })
+})
+
+router.put('/update-credit-card/',(req, res)=>{
+    creditCard.update({
+        cvv:req.body.cvv,
+        expiration:new Date(req.body.expiration)
+    },{
+        where:{
+            user:req.body.user,
+            card_number:req.body.card_number,
+        }
+    })
+    .then(e=>{
+        if(e && e[0]){
+            res.status(200).json(e)
+        }else{
+            res.status(400).json({ error:"No se pudo actualizar la tarjeta, intente de nuevo"})
+        }
+    }).catch(err=>{
+        res.status(500).json({ error:"No se pudo actualizar la tarjeta, intente de nuevo"})
+    })
+})
+
+//Eliminar tarjeta de credito historia 65
+router.delete('/eliminar-credit-card/',(req, res)=>{
+    creditCard.destroy({
+        where:{
+            user:req.body.user,
+            card_number:req.body.card_number,    
+        }
+    }).then(e=>{
+        res.status(200).json({ error:"tarjeta eliminada"})
+    }).catch(err=>{
+        res.status(200).json({ error:"No se pudo eliminar la tarjeta, intente de nuevo"})
+    })
+})
+
 module.exports.user_router_mobile = router;
