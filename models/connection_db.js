@@ -10,23 +10,9 @@ const PASSWORD = 'b6dbf4d79e10aff839a37bfa1a078fbf70ffc7282ebf8ac81c05e229660911
 const PORT = '5432';
 
 //connection
-const sequelize = new Sequelize(DATABASE, USER, PASSWORD, {
-    HOST,
-    PORT,
-    dialect: 'postgres',
-    dialectOptions: {
-        ssl: {
-            require: true,
-            rejectUnauthorized: false // <<<<<<< YOU NEED THIS
-        }
-    },
-    port: 5432,
-    pool: {
-        max: 5,
-        min: 0,
-        idle: 10000
-    }
-});
+const sequelize = new Sequelize(
+    'postgres://rougxvplrsupiu:b6dbf4d79e10aff839a37bfa1a078fbf70ffc7282ebf8ac81c05e229660911e2@ec2-54-209-52-160.compute-1.amazonaws.com:5432/dcbbqpd0tlkl89'
+);
 
 var hospital = sequelize.define('Hospital', {
     user: {
