@@ -24,6 +24,7 @@ router.post('/register/', upload.array('profile_pic', 7), async(req, res) => {
         }
         let val_error = "";
         let exist=false;
+        console.log("ENTROOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO")
         await user.create({
             user: hospital_info.user,
             password: hospital_info.password,
@@ -31,11 +32,14 @@ router.post('/register/', upload.array('profile_pic', 7), async(req, res) => {
             email: hospital_info.email,
             rol: 0,
             profile_pic: profile_pic.path
-        }).catch(error=>exist=true)
-
+        }).catch(error=>{
+            exist=true
+        })
+        console.log("ENTROOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO2")
         if(exist){
             val_error = "El usuario ya existe"
         }else{
+            console.log("ENTROOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO3")
             await hospital.create({
                 user: hospital_info.user,
                 name: hospital_info.name,
@@ -48,7 +52,7 @@ router.post('/register/', upload.array('profile_pic', 7), async(req, res) => {
                              
             })
             .catch(err => {
-                val_error = err.parent.detail;
+                val_error = "No se registro el usuario";
             })
         }
        res.send(val_error);
