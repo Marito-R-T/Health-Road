@@ -1,0 +1,167 @@
+
+.form-group {
+    
+    width: 100%;
+    margin: 0;
+}
+
+.forms{
+    max-width: 750px;
+}
+
+.form-group label{
+    color: #000;
+}
+
+ label{
+    color: #000;
+}
+
+.form-group input, .form-group select {
+    
+    width: 100%;
+    border-radius: 0;
+    border: solid #ccc 1px;
+    padding: 8px 15px;
+    font-weight: 400;
+    font-size: 13px;
+    margin: 12px 0 0;
+    box-shadow: none;
+    color: rgb(70, 69, 69);
+    height: 44px;
+    background: transparent;
+}
+.form-group textarea {
+   
+    width: 100%;
+    border-radius: 0;
+    border: solid #ccc 1px;
+    padding: 8px 15px;
+    font-weight: 400;
+    font-size: 13px;
+    margin: 12px 0 0;
+    box-shadow: none;
+    color: #333;
+    height: 90px;
+}
+.form-group input:focus, .form-group select:focus, .form-group textarea:focus {
+	box-shadow:none;
+}
+.select-section div.form-group:nth-child(1) {
+   
+    width: 49%;
+    margin-right: 2%;
+}
+.select-section div.form-group:nth-child(2) {
+   
+    width: 49%;
+}
+
+.form-group button {
+    background: linear-gradient(to right, #1d86df 0%, #39b49a 100%);
+    border: none;
+    margin-top: 15px;
+    margin-bottom: 5px;
+    color: #fff;
+    padding: 8px 30px;
+    border-radius: 50px;
+    transition: ease all 1s;
+    font-weight: 600;
+}
+.form-group button:hover,.form-group button:focus {
+    background: linear-gradient(to right, #39b49a 0%, #1d86df 100%);
+}
+
+
+
+.contact-section {
+	position:relative;
+}
+.form-contant {
+    position: absolute;
+    width: 100%;
+    background: rgba(0, 0, 0, 0.04);
+    z-index: 1;
+    padding: 60px;
+}
+.form-contant input, .form-contant textarea {
+    background: transparent;
+    padding: 0;
+    border: none;
+    border-bottom: solid rgb(103, 122, 113) 2px;
+    font-size: 15px;
+    font-weight: 300;
+    margin-bottom: 15px;
+}
+.form-contant input:focus, .form-contant textarea:focus {
+	color:rgb(7, 7, 7);border-color:rgb(7, 7, 7);
+}
+.actions {
+    float: left;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    margin-top: 10px;
+}
+.submitButton {
+    padding: 15px 30px;
+    background: linear-gradient(to right, #1d86df 0%, #39b49a 100%);
+    color: #fff;
+    border-radius: 50px;
+    margin: 10px;
+	transition:ease all 1s;
+}
+.submitButton:hover,.submitButton:focus {
+    background: linear-gradient(to right, #39b49a 0%, #1d86df 100%);
+    color: #fff;
+}
+
+
+@media (max-width:767px) {
+
+.form-contant {
+    position: absolute;
+    width: 100%;
+    background: rgba(0, 0, 0, 0.04);
+    z-index: 1;
+    padding: 20px 40px;
+}
+.contact-section {
+    width: 100%;
+}
+
+}
+
+@media (min-width:768px) and (max-width:991px) {
+
+
+.form-contant {position: absolute;width: 100%;background: rgba(0, 0, 0, 0.04);z-index: 1;padding: 15px 30px;}
+
+	
+}
+
+
+@media (min-width:992px) and (max-width:1000px) {
+
+
+.form-contant {position: absolute;width: 100%;background: rgba(0, 0, 0, 0.04);z-index: 1;padding: 15px 30px;}
+
+	
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

@@ -1,0 +1,12 @@
+.modified-buttons{
+    float: right;
+}
+
+.modified-buttons button{
+    background: transparent;
+    border: none;
+}
+
+.modified-buttons button:hover {
+    color: green;
+}
