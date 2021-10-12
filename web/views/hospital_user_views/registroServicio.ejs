@@ -1,0 +1,95 @@
+<%- include("include/header", { titulo: 'Health Road - Registro Servicio' }) %>
+
+<body class="clinic_version">
+   <div id="preloader">
+      <img class="preloader" src="images/loaders/heart-loading2.gif" alt="">
+   </div>
+   <header>
+
+   </header>
+   <div id="getintouch" class="section wb wow fadeIn" style="padding-bottom:0;">
+      <div class="container">
+         <div class="heading">
+            <span class="icon-logo"><img src="images/icon-logo.png" alt="#"></span>
+            <h2>Registro de Servicio</h2>
+         </div>
+      </div>
+      <div class="container forms">
+         <div class="contact-section">
+            <div class="form-contant">
+               <form id="ajax-contact" action="assets/mailer.php" method="post">
+                  <div class="row">
+                     <div class="col-md-12">
+                        <div class="form-group in_name">
+                           <label> <i class="fas fa-hospital-symbol"></i> Nombre</label>
+                           <input type="text" class="form-control" placeholder="Nombre" required="required">
+                        </div>
+                     </div>
+                     <div class="col-md-12">
+                        <div class="form-group in_email">
+                           <label> <i class="fal fa-usd-circle"></i> Precio</label>
+                           <input type="email" class="form-control" placeholder="Email" required="required">
+                        </div>
+                     </div>
+                     <div class="col-md-12">
+                        <div class="col-md-6">
+                           <div class="form-group in_email">
+                              <label> <i class="fas fa-toggle-on"></i> Estado</label>
+                              <select name="Estado">
+                                 <option value="Activo">Activo</option>
+                                 <option value="Desactivado">Desactivado</option>
+                              </select>
+                           </div>
+                        </div>
+                        <div class="col-md-6">
+                           <div class="form-group in_email">
+                              <label> <i class="far fa-bookmark"></i> Categoria</label>
+                              <select name="Categoria">
+                              </select>
+                           </div>
+
+                        </div>
+
+                     </div>
+                     <div class="col-md-12">
+                        <label> <i class="far fa-clock"></i> Horario</label>
+                        <div class="form-group in_email">
+
+                           <div class="col-md-6">
+                              <input type="date" class="form-control" placeholder="Nombre" required="required">
+                           </div>
+                           <div class="col-md-6">
+                              <input type="date" class="form-control" placeholder="Nombre" required="required">
+                           </div>
+
+                        </div>
+                     </div>
+                     <div class="col-md-12">
+                        <div class="form-group in_message">
+                           <label> <i class="fal fa-comment-medical"></i> Descripcion </label>
+                           <textarea class="form-control" id="message" rows="5" placeholder="Descripcion"
+                              required="required"></textarea>
+                        </div>
+
+                        <div class="actions">
+                           <input type="submit" value="Registrar" name="submit" id="submitButton" class="btn small"
+                              title="Submit Your Message!">
+                        </div>
+                     </div>
+                  </div>
+
+               </form>
+            </div>
+
+         </div>
+
+      </div>
+
+   </div>
+
+   <%- include("include/scripts") %>
+
+
+</body>
+
+</html>
