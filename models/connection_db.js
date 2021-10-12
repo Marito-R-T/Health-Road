@@ -212,6 +212,8 @@ var discount = sequelize.define('Discount', {
         type:DataTypes.DATE,
         defaultValue: Date.now(),
     },
+}, {
+    freezeTableName: true,
 })
 
 var favorites = sequelize.define('Favorites', {
@@ -231,6 +233,8 @@ var favorites = sequelize.define('Favorites', {
         type: DataTypes.BOOLEAN,
         defaultValue:true
     }
+}, {
+    freezeTableName: true,
 })
 
 var creditCard = sequelize.define('CreditCard', {
@@ -247,6 +251,8 @@ var creditCard = sequelize.define('CreditCard', {
         type: DataTypes.INTEGER,
         allowNull: false,
     }
+}, {
+    freezeTableName: true,
 })
 
 //usuarios
