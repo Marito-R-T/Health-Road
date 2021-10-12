@@ -63,6 +63,10 @@ app.get('/', (req, res) => {
   res.render("index")
 })
 
+app.get('/prueba/', (req, res) => {
+  res.send("Hola mundo xD")
+})
+
 app.get('/Login', (req, res) => {
   res.render("login")
 })

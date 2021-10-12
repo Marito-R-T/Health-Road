@@ -12,7 +12,17 @@ const PORT = '5432';
 //connection
 const sequelize = new Sequelize(
     'postgres://rougxvplrsupiu:b6dbf4d79e10aff839a37bfa1a078fbf70ffc7282ebf8ac81c05e229660911e2@ec2-54-209-52-160.compute-1.amazonaws.com:5432/dcbbqpd0tlkl89'
-);
+,
+{
+    dialect: 'postgres',
+    protocol: 'postgres',
+    dialectOptions: {
+        ssl: {
+            require: true,
+            rejectUnauthorized: false
+        }
+    }
+});
 
 var hospital = sequelize.define('Hospital', {
     user: {
