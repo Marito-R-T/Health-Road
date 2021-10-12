@@ -1,12 +1,12 @@
 //imports
 require('./models/connection_db');
-const path_=require('./absolutepath').static_files
+const path_=require('./absolutepath').static_files_public
 const session = require('express-session');
 
 //server
 const express = require('express');
 const app = express();
-const port = 3000;
+const port = process.env.PORT || 3000;
 var cors = require('cors')
 //session
 app.use(session({
