@@ -322,7 +322,6 @@ body.clinic_version .first-section h2 {
     float: left;
     width: 100%;
     min-height: 350px;
-    margin-top: -350px;
     padding: 50px;
     color: #fff;
     position: relative;
@@ -856,6 +855,18 @@ body.clinic_version .footer .widget-title h3 {
 	float:left;
 	width:100%;
 }
+#copyright-area {
+
+    bottom: -15%;
+    position: absolute;
+}
+
+#copyright-area-index {
+
+    bottom:0;
+    position: absolute;
+}
+
 .footer-text p {
     margin: 0;
 }
@@ -1225,11 +1236,7 @@ header {
     letter-spacing: 0;
     font-weight: 700;
 }
-.header-bottom nav.main-menu ul.nav.navbar-nav > li a:hover, .header-bottom nav.main-menu ul.nav.navbar-nav > li a:focus, .header-bottom nav.main-menu ul.nav.navbar-nav > li a.active {
-    color: #222;
-    background: transparent;
-    box-shadow: none;
-}		
+		
 .service-time {
     float: left;
     width: 100%;

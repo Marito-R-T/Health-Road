@@ -17,6 +17,8 @@
     color: #000;
 }
 
+
+
 .form-group input, .form-group select {
     
     width: 100%;
@@ -129,6 +131,12 @@
 .contact-section {
     width: 100%;
 }
+#copyright-area {
+
+    bottom: -20%;
+    position: absolute;
+}
+
 
 }
 
