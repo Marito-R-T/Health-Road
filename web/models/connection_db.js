@@ -204,6 +204,41 @@ var discount = sequelize.define('Discount', {
     },
 })
 
+var favorites = sequelize.define('Favorites', {
+    user: {
+        type: DataTypes.STRING(length = 40),
+        allowNull: false,
+    },
+    service: {
+        type: DataTypes.STRING(length = 30),
+        allowNull: false,
+    },
+    hospital: {
+        type: DataTypes.STRING(length = 30),
+        allowNull: false,
+    },
+    status:{
+        type: DataTypes.BOOLEAN,
+        defaultValue:true
+    }
+})
+
+var creditCard = sequelize.define('CreditCard', {
+    card_number:{
+        type: DataTypes.INTEGER,
+        allowNull: false,
+        primaryKey: true,
+    },
+    expiration:{
+        allowNull: false,
+        type: DataTypes.DATEONLY
+    },
+    cvv:{
+        type: DataTypes.INTEGER,
+        allowNull: false,
+    }
+})
+
 //usuarios
 //user.sync({ force: true }).then(function() {});
 //ambulance_driver.sync({ force: true }).then(function() {});
@@ -272,6 +307,26 @@ hospital.hasMany(service_rates, {
 
 //service_rates.sync({ alter: true }).then(function() {})
 
+//favorites
+user.hasMany(favorites, {
+    onDelete: 'CASCADE',
+    foreignKey: {
+        name: 'user',
+        allowNull: false,
+    }    
+})
+
+//favorites.sync({ alter: true }).then(function() {})
+
+//CreditCard
+user.hasOne(creditCard, {
+    onDelete: 'CASCADE',
+    foreignKey: {
+        name:'user'
+    }
+})
+
+//creditCard.sync({ alter: true }).then(function() {})
 
 function alter_table() {
     hospital.sync({ alter: true }).then(function() {});
@@ -303,3 +358,5 @@ module.exports.user = user;
 module.exports.category = category;
 module.exports.service_rates = service_rates;
 module.exports.discount = discount;
+module.exports.favorites = favorites;
+module.exports.creditCard = creditCard;
