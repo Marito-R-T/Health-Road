@@ -3,11 +3,10 @@ const { Sequelize, DataTypes, Model } = require('sequelize');
 //credentials
 //const USER = '
 //const USER = 'marito';
-const USER = 'postgres';
-const HOST = 'localhost';
-const DATABASE = 'health_road';
-const PASSWORD = 'MrT26.';
-//const PASSWORD = 'Jhon$19PVT'
+const USER = 'rougxvplrsupiu';
+const HOST = 'ec2-54-209-52-160.compute-1.amazonaws.com';
+const DATABASE = 'dcbbqpd0tlkl89';
+const PASSWORD = 'b6dbf4d79e10aff839a37bfa1a078fbf70ffc7282ebf8ac81c05e229660911e2';
 const PORT = '5432';
 
 //connection
@@ -15,7 +14,18 @@ const sequelize = new Sequelize(DATABASE, USER, PASSWORD, {
     HOST,
     PORT,
     dialect: 'postgres',
-    logging: false,
+    dialectOptions: {
+        ssl: {
+            require: true,
+            rejectUnauthorized: false // <<<<<<< YOU NEED THIS
+        }
+    },
+    port: 5432,
+    pool: {
+        max: 5,
+        min: 0,
+        idle: 10000
+    }
 });
 
 var hospital = sequelize.define('Hospital', {
