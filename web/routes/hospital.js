@@ -1,17 +1,15 @@
 var express = require('express');
 var router = express.Router();
 var validator = require('email-validator');
-const {static_files, root_path}=require('../absolutepath')
+const {static_files_public, root_path}=require('../absolutepath')
 const fs = require('fs');
 const { hospital, user } = require('../models/connection_db');
 const {upload}= require('./functions')
 
-router.use((express.static(static_files)))
-//create a hospital
-router.get('/register',(req,res) => {
-    res.render("registroHospital")
-})
+router.use((express.static(static_files_public)))
 
+
+//create a hospital historia 17
 router.post('/register/', upload.array('profile_pic', 7), async(req, res) => {
     const hospital_info = req.body;
     const profile_pic = req.files[0]
@@ -32,7 +30,6 @@ router.post('/register/', upload.array('profile_pic', 7), async(req, res) => {
             rol: 0,
             profile_pic: profile_pic.path
         }).catch(error=>exist=true)
-
         if(exist){
             val_error = "El usuario ya existe"
         }else{
@@ -45,10 +42,9 @@ router.post('/register/', upload.array('profile_pic', 7), async(req, res) => {
                 
             }).then(e => {
                 val_error = "usuario registrado";
-                             
             })
             .catch(err => {
-                val_error = err.parent.detail;
+                val_error = "Erro al registrar el hospital, intente de nuevo"
             })
         }
        res.send(val_error);
@@ -57,6 +53,7 @@ router.post('/register/', upload.array('profile_pic', 7), async(req, res) => {
     }
 })
 
+//historia 38
 router.put('/update/', async(req, res) => {
     const hospital_info = req.body;
     if ((hospital_info.name && hospital_info.description &&
@@ -79,18 +76,23 @@ router.put('/update/', async(req, res) => {
                     user: hospital_info.user
                 }
             }).then(e => {
-                val_error = "Actualizacion correcta";
+                if(e && e[0]){
+                    val_error = "Actualizacion correcta";
+                }else{
+                    val_error = "Error al actualizar hospital, verifique que exista";
+                }
             })
             .catch(err => {
-                val_error = err.parent.detail ? err.parent.detail : "No se pudo actualizar";
+                val_error =  "No se pudo actualizar, intente de nuevo";
             })
         }
         res.send(val_error);
     } else {
-        res.send("error, no se pudo actualizar");
+        res.send("error, completar las credenciales");
     }
 })
 
+//historia 39
 router.delete('/delete/', async (req, res) => {
     const hospital_info = req.body;
     const exist = await hospital.findByPk(hospital_info.user);
@@ -101,25 +103,22 @@ router.delete('/delete/', async (req, res) => {
             where: {
                 user: hospital_info.user
             }
-        }).then(() => {
-            res.send("Hospital eliminado")
-        })
-        .catch(err => {
-            if (err.parent) {
-                if (err.parent.detail) {
-                    res.send(err.parent.detail)
-                } else {
-                    res.send("No se pudo eliminar")
-                }
-            } else {
-                res.send("No se pudo eliminar")
+        }).then((e) => {
+            if(e && e[0]){
+                res.send("Hospital eliminado")
+            }else{
+                res.send("Error al eliminar el hospital, verifique que exista")
             }
         })
+        .catch(err => {
+            res.send("No se pudo eliminar, intente de nuevo")
+        })
     }else{
-        res.send("No existe el hospital, no se podra eliminar")
+        res.send("Error al eliminar, no existe el hospital")
     }
 })
 
+//historia 16
 router.put('/add-photo/',upload.single('photo'),async (req, res)=>{
     let data = await hospital.findByPk(req.body.user)
     let photos=data.photos
@@ -128,10 +127,8 @@ router.put('/add-photo/',upload.single('photo'),async (req, res)=>{
         photos[count.toString()]=req.file.path
     }else{
         photos = {}
-        console.log("entro")
         photos["0"]=req.file.path
-
-    }
+   }
     await hospital.update({photos:photos},
         {
         where: {
@@ -139,15 +136,15 @@ router.put('/add-photo/',upload.single('photo'),async (req, res)=>{
         }
     }
     ).then(e=>{
-        if(e){
+        if(e && e[0]){
             res.send("Foto agregada")
         }else{
-            res.send("error al agregar foto")
+            res.send("error al agregar foto, verifique que exista el hospital")
         }
     }
     )
     .catch(error=>{
-        res.send("No se pudo agregar la foto")
+        res.send("No se pudo agregar la foto, intente de nuevo")
     }
     );
 });
