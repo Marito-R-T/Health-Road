@@ -21,7 +21,7 @@ async function register_mail (req,res,code) {
         } else {
             user.update({code:code},{where: {user:req.body.user}}).then(e=>{
                 if(e && e[0]){
-                    res.status(200).send(true)
+                    res.status(201).send(true)
                 }else{
                     res.status(400).send(false)
                 }
