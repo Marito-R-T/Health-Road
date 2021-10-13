@@ -3,7 +3,7 @@ var router = express.Router();
 const { service, service_rates,sequelize,discount } = require('../models/connection_db');
 const {static_files_public,static_files_pdf}=require('../absolutepath')
 const fs = require('fs');
-
+const pdfwritter = require('./html_pdf')
 router.use((express.static(static_files_public)))
 router.use((express.static(static_files_pdf)))
 
@@ -236,11 +236,7 @@ router.get("/get-rates/all-services/",async (req, res)=>{
         group:['name'],
         logging: console.log
     })
-    await require('./html_pdf').html_to_pdf(rates)
-    await sleep(1000)
-    var data = await fs.readFileSync(static_files_pdf);
-    res.contentType("application/pdf");
-    res.send(data);
+    pdfwritter.html_to_pdf(rates,res)
 })
 
 //Service mode out-of service historia 43
