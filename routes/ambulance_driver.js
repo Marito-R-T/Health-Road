@@ -14,7 +14,7 @@ const storage = multer.diskStorage({
 var upload = multer({
     storage: storage
 });
-const path_=require('../absolutepath').static_files
+const path_=require('../absolutepath').static_files_public
 router.use((express.static(path_)))
 router.post('/register/', upload.array('profile_pic', 7), async(req, res, next) => {
     const user_info = req.body;
@@ -70,20 +70,14 @@ router.post('/update/', upload.array('profile_pic', 7), async(req, res, next) =>
     }
     /*if ((user_info.user && user_info.password &&
             user_info.name && user_info.last_name &&
-            user_info.celphone)) {*/
-    
+            user_info.celphone)) {*/    
         await user.update( user_info, {
                 where: {
                     user: user_info.user
                 }
             })
             .catch(err => {
-                try {
-                    val_error = err.parent.detail ? err.parent.detail : "No se pudo actualizar";
-                } catch (error) {
-                    val_error = "No se pudo actualizar";
-                }
-             
+                val_error = "No se pudo actualizar, intente de nuevo";             
             })
     //
     if(val_error){
@@ -106,11 +100,7 @@ router.post('/update/', upload.array('profile_pic', 7), async(req, res, next) =>
                     }
                 })
                 .catch(err => {
-                    try {
-                        val_error = err.parent.detail ? err.parent.detail : "No se pudo actualizar";
-                    } catch (error) {
-                        val_error = "No se pudo actualizar";
-                    } 
+                    val_error = "No se pudo actualizar, intente de nuevo"; 
                 })
             res.send(val_error);
         } else {
