@@ -13,7 +13,7 @@ const storage = multer.diskStorage({
 var upload = multer({
     storage: storage
 });
-const path_=require('../absolutepath').static_files
+const path_=require('../absolutepath').static_files_public
 router.use((express.static(path_)))
 //create a hospital
 router.post('/register/', upload.array('profile_pic', 7), async(req, res) => {
@@ -40,11 +40,7 @@ router.post('/register/', upload.array('profile_pic', 7), async(req, res) => {
                 val_error = "usuario registrado";
             })
             .catch(err => {
-                try {
-                    val_error = err.parent.detail;
-                } catch (error) {
-                    val_error = "No se pudo registrar el usuario"                   
-                }
+                val_error = "No se pudo registrar el usuario" 
             })
         res.send(val_error);
     } else {
