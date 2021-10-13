@@ -14,7 +14,7 @@ router.get("/info/",(req, res)=>{
     })
     .then(e=>{
         if(e){
-            res.status(200).json(e)
+            res.status(201).json(e)
         }else{
             res.status(401).json({ error:"No se encontro el hospital"})
         }
@@ -36,7 +36,7 @@ router.get("/info/",(req, res)=>{
     })
     .then(e=>{
         if(e){
-            res.status(200).json(e)
+            res.status(201).json(e)
         }else{
             res.status(401).json({ error:"No se encontro el hospital"})
         }
@@ -68,7 +68,7 @@ router.get('/suggestion-best-hospitals/',(req, res)=>{
         limit:5,
        
     }).then(e=>{
-        res.status(200).json(e)
+        res.status(201).json(e)
     }).catch(err=>{
         res.status(500).json({error:"No se encontraron sugestiones, intente de nuevo"})
     })
