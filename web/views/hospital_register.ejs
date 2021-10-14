@@ -23,7 +23,7 @@
          <div class="container forms">
             <div class="contact-section">
                <div class="form-contant">
-                  <form id="ajax-contact" action="hospital/register/" method="post" >
+                  <form id="ajax-contact" action="hospital/register/" method="post" enctype="multipart/form-data" >
                      <div class="row" id="first-div">
                         <div class="col-md-6">
                            <div class="form-group in_name">
@@ -39,6 +39,8 @@
                                  required="required">
                            </div>
                         </div>
+                       
+
                         <div class="col-md-12">
                            <div class="form-group in_name">
                               <label> <i class="fas fa-hospital-symbol"></i> Nombre</label>
@@ -50,6 +52,13 @@
                            <div class="form-group in_email">
                               <label> <i class="fas fa-envelope-open-text"></i> Email</label>
                               <input type="email" class="form-control" placeholder="Email" name="email"
+                                 required="required">
+                           </div>
+                        </div>
+                        <div class="col-md-12">
+                           <div class="form-group in_email">
+                              <label> <i class="far fa-hospital-user"></i> Director</label>
+                              <input type="text" class="form-control" placeholder="Director" name="director_name"
                                  required="required">
                            </div>
                         </div>
