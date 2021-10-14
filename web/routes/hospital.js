@@ -1,6 +1,7 @@
 var express = require('express');
 var router = express.Router();
 var validator = require('email-validator');
+var url = require('url');
 const {static_files_public, root_path}=require('../absolutepath')
 const fs = require('fs');
 const { hospital, user } = require('../models/connection_db');
@@ -41,15 +42,15 @@ router.post('/register/', upload.array('profile_pic', 7), async(req, res) => {
                 director_name: hospital_info.director_name?hospital_info.director_name:'',
                 
             }).then(e => {
-                res.render("index",{title: 'Registro Exitoso', message: 'Usuario registrado correctamente',type: 'success'});
+                res.redirect(url.format({ pathname: '/', query: { title: 'Registro Exitoso', message: 'Registro completado exitosamente', type: 'success' } }));
             })
             .catch(err => {
                 val_error = "Error al registrar el hospital, intente de nuevo"
             })
         }
-        res.render("hospital_register",{title: 'Error en Registro', message: val_error ,type: 'error'});
+        res.redirect(url.format({ pathname: '/Signup', query: { title: 'Error en registro', message: val_error , type: 'error' } }));
     } else {
-        res.render("hospital_register",{title: 'Error en campos', message: 'Campos incompletos',type: 'error'});
+        res.redirect(url.format({ pathname: '/Signup', query: { title: 'Error', message: 'Complete las credenciales', type: 'error' } }));
     }
 })
 
