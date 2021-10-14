@@ -1,0 +1,12 @@
+<% if (message) { %>
+    <script>
+        let title = "<%- title %>";
+        let message = "<%- message %>";
+        let type = "<%- type %>";
+        notify.addNotification({
+            type: type,
+            title: title,
+            message: message
+        });
+    </script>
+<% } %>
