@@ -25,41 +25,54 @@
          <div class="container forms">
             <div class="contact-section">
                <div class="form-contant">
-                  <form id="ajax-contact" action="" method="post">
+                  <form id="ajax-contact" action="hospital/register/" method="post" enctype="multipart/form-data" >
                      <div class="row" id="first-div">
                         <div class="col-md-6">
                            <div class="form-group in_name">
                               <label> <i class="far fa-user"></i> Usuario </label>
-                              <input type="text" class="form-control" placeholder="Usuario" required="required">
+                              <input type="text" class="form-control" placeholder="Usuario" name="user"
+                                 required="required">
                            </div>
                         </div>
                         <div class="col-md-6">
                            <div class="form-group in_email">
                               <label> Password</label>
-                              <input type="text" class="form-control" placeholder="Password" required="required">
+                              <input type="password" class="form-control" placeholder="Password" name="password"
+                                 required="required">
                            </div>
                         </div>
+                       
+
                         <div class="col-md-12">
                            <div class="form-group in_name">
                               <label> <i class="fas fa-hospital-symbol"></i> Nombre</label>
-                              <input type="text" class="form-control" placeholder="Nombre" required="required">
+                              <input type="text" class="form-control" placeholder="Nombre" name="name"
+                                 required="required">
                            </div>
                         </div>
                         <div class="col-md-12">
                            <div class="form-group in_email">
                               <label> <i class="fas fa-envelope-open-text"></i> Email</label>
-                              <input type="email" class="form-control" placeholder="Email" required="required">
+                              <input type="email" class="form-control" placeholder="Email" name="email"
+                                 required="required">
+                           </div>
+                        </div>
+                        <div class="col-md-12">
+                           <div class="form-group in_email">
+                              <label> <i class="far fa-hospital-user"></i> Director</label>
+                              <input type="text" class="form-control" placeholder="Director" name="director_name"
+                                 required="required">
                            </div>
                         </div>
                         <div class="col-md-12">
                            <div class="form-group in_message">
                               <label> <i class="fal fa-comment-medical"></i> Descripcion </label>
-                              <textarea class="form-control" id="message" rows="5" placeholder="Descripcion"
-                                 required="required"></textarea>
+                              <textarea class="form-control" id="message" rows="5" name="description"
+                                 placeholder="Descripcion" required="required"></textarea>
                            </div>
                            <div class="actions">
-                              <button type="button" class="btn small submitButton" onclick="secondDiv()"><i
-                                    class="far fa-arrow-circle-right"></i> Siguiente</button>
+                              <a  class="btn small submitButton" onclick="secondDiv()"><i
+                                    class="far fa-arrow-circle-right"></i> Siguiente</a>
                            </div>
                         </div>
                      </div>
@@ -70,10 +83,9 @@
                            </div>
                            <div class="avatar-upload">
                               <div class="avatar-edit" style="left: 200px;">
-                                 <input type='file' id="imageUpload-profile" accept=".png, .jpg, .jpeg ,.jfif" />
+                                 <input type='file' name="profile_pic" id="imageUpload-profile" accept=".png, .jpg, .jpeg ,.jfif" />
                                  <label for="imageUpload-profile"><i style="margin: 8px;"
                                        class="fas fa-camera"></i></label>
-                                 <textarea type="text" name="path" id="path" hidden></textarea>
                               </div>
                               <div class="avatar-preview">
                                  <div id="previsualizacion-profile"
@@ -85,12 +97,12 @@
                         </div>
 
                         <div class="actions">
-                           <button type="button" class="btn small submitButton" onclick="firstDiv()"><i
+                           <a  class="btn small submitButton" onclick="firstDiv()"><i
                                  class="far fa-arrow-circle-left"></i>
-                              Atras</button>
-                           <button type="button" class="btn small submitButton" onclick="thirdDiv()"><i
+                              Atras</a>
+                           <a class="btn small submitButton" onclick="thirdDiv()"><i
                                  class="far fa-arrow-circle-right"></i>
-                              Siguiente</button>
+                              Siguiente</a>
                         </div>
                      </div>
                      <div class="row" id="third-div" hidden>
@@ -99,20 +111,23 @@
                               <label> <i class="far fa-map-marker-alt"></i> Ubicacion</label>
                            </div>
                            <div id='map' style='width: 600px; height: 450px;'></div>
-                           <pre id="coordinates" class="coordinates"></pre>
+
                         </div>
+                        <br>
                         <div class="col-md-12">
                            <div class="actions">
-                              <button type="button" class="btn small submitButton" onclick="secondDiv()"><i
+                              <a  class="btn small submitButton" onclick="secondDiv()"><i
                                     class="far fa-arrow-circle-left"></i>
-                                 Atras</button>
-                              <button class="btn small submitButton"><i class="far fa-save"></i> Registrar</button>
+                                 Atras</a>
+                              <button type="submit" class="btn small submitButton"><i class="far fa-save"></i>
+                                 Registrar</button>
+                                 
                            </div>
                         </div>
                      </div>
-               </div>
 
-               </form>
+                  </form>
+               </div>
             </div>
          </div>
       </div>
