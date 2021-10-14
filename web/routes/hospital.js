@@ -18,7 +18,7 @@ router.post('/register/', upload.array('profile_pic', 7), async(req, res) => {
             hospital_info.email &&
             profile_pic)) {
         if (!validator.validate(hospital_info.email)) {
-            res.render("hospital_register",{error: 'El correo electronico tiene errores de escritura'});
+            res.render("hospital_register",{title: 'Error de escritura', message: 'El correo electronico no concuerda con el formato',type: 'error'});
         }
         let val_error = "";
         let exist=false;
@@ -41,15 +41,15 @@ router.post('/register/', upload.array('profile_pic', 7), async(req, res) => {
                 director_name: hospital_info.director_name?hospital_info.director_name:'',
                 
             }).then(e => {
-                res.render("index",{ message: 'Registro satisfactorio'});
+                res.render("index",{title: 'Registro Exitoso', message: 'Usuario registrado correctamente',type: 'success'});
             })
             .catch(err => {
                 val_error = "Error al registrar el hospital, intente de nuevo"
             })
         }
-        res.render("hospital_register",{ error: val_error});
+        res.render("hospital_register",{title: 'Error en Registro', message: val_error ,type: 'error'});
     } else {
-        res.render("hospital_register",{error: 'Error: los campos no estan completos'});
+        res.render("hospital_register",{title: 'Error en campos', message: 'Campos incompletos',type: 'error'});
     }
 })
 
