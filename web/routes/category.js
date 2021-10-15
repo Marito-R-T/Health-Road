@@ -1,7 +1,7 @@
 var express = require('express');
 var router = express.Router();
 const { category } = require('../models/connection_db');
-const path_=require('../absolutepath').static_files
+const path_=require('../absolutepath').static_files_public
 router.use((express.static(path_)))
 router.post('/register/', async(req, res) => {
     const category_info = req.body;
@@ -14,12 +14,7 @@ router.post('/register/', async(req, res) => {
                 val_error = "categoria registrada";
             })
             .catch(err => {
-                try {
-                    val_error = err.parent.detail;
-                } catch (error) {
-                    val_error = "No se pudo registrar, intente de nuevo"
-                }
-                
+                val_error = "No se pudo registrar, intente de nuevo"              
             })
         res.send(val_error);
     } else {
