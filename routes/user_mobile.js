@@ -10,13 +10,7 @@ var validator = require('email-validator');
 router.post("/login/",(req, res)=>{
     const user_login = req.body;
     if ((user_login.user && user_login.password)) {
-        user.findOne({
-            where: {
-                 user: user_login.user,
-                 password: user_login.password,
-                 rol:3 
-            }
-        }).then(val => {
+        user.findAll().then(val => {
             console.log(val)
             if(val){
                 res.status(201).json(val);
