@@ -17,16 +17,17 @@ router.post("/login/",(req, res)=>{
                  rol:3 
             }
         }).then(val => {
+            console.log(val)
             if(val){
                 res.status(201).json(val);
             }else{
-                res.json({ error: "No se encontro el usuario"});
+                res.status(400).json({ error: "No se encontro el usuario"});
             }
         }).catch(err => {
-            res.json({ error: "Error al iniciar sesion, intente de nuevo"})
+            res.status(400).json({ error: "Error al iniciar sesion, intente de nuevo"})
         })
     } else {
-        res.json({ error: "Complete los campos requeridos"})
+        res.status(400).json({ error: "Complete los campos requeridos"})
     }
 })
 
