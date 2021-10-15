@@ -60,8 +60,15 @@ app.use('/mobile/hospital/',hospital_router_mobile);
 app.use('/mobile/category/',category_router_mobile);
 
 app.get('/', (req, res) => {
+  res.render("index")
+})
+
+app.get('/Login', (req, res) => {
   res.render("login")
 })
 
+app.use((req,res,next)=> {
+  res.status(404).render("404")
+})
 
 app.listen(port, () => console.log(`Example app listening on port port!`));

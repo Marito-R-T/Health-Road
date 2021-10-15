@@ -1,27 +1,23 @@
 var express = require('express');
 var router = express.Router();
 const { service, service_rates,sequelize,discount } = require('../models/connection_db');
-const {static_files,static_files_pdf}=require('../absolutepath')
+const {static_files_public,static_files_pdf}=require('../absolutepath')
 const fs = require('fs');
-
-router.use((express.static(static_files)))
+const pdfwritter = require('./html_pdf')
+router.use((express.static(static_files_public)))
 router.use((express.static(static_files_pdf)))
 
-router.get("/register/",(req,res)=>{
-    res.render("registroServicio")
-})
+//historia 40
 router.post('/register/', async(req, res) => {
     const service_info = req.body;
     if (service_info.name && service_info.price &&
         service_info.description
     ) {
-
         await service.findOne({
             where: {
                 hospital_user: 'usuario1' , name: service_info.name
             }
         }).then(e=> {
-            console.log(e)
             if(e){
                 res.send("El servicio ya existe")
             }else{
@@ -38,16 +34,19 @@ router.post('/register/', async(req, res) => {
                         hospital_user: 'usuario1',
                         DiscountId:e.id
                     })
+                    res.send("Servicio registrado")
+                }).catch(error=>{
+                    res.send("Error al registrar el servicio, intente de nuevo")
                 })
-                res.send("Servicio registrado")
             }
         })
         
     } else {
-        res.send("error")
+        res.send("Complete los campos")
     }
 });
 
+//historia 41
 router.put('/update/', async(req, res) => {
     const service_info = req.body;
     if (service_info.name && service_info.price &&
@@ -57,8 +56,7 @@ router.put('/update/', async(req, res) => {
         const exist = await service.findOne( {where: {
             name: service_info.name,
             hospital_user: service_info.hospital_user 
-        }});
-       
+        }});      
         if(exist){
             await service.update({
                 price: service_info.price,
@@ -79,24 +77,21 @@ router.put('/update/', async(req, res) => {
                 }
             })
             .catch(err => {
-                console.log(err);
-                res.send("No se pudo actualizar");
+                res.send("No se pudo actualizar, intente de nuevo");
             })
         }else{
             res.send(val_error);
         }
-
-
     } else {
-        res.send("error, no se pudo actualizar");
+        res.send("error, complete los campos");
     }
 })
 
+//historia 42
 router.put('/register_category/', async(req, res) => {
     const service_info = req.body;
     if (service_info.name && service_info.hospital_user &&
         service_info.category_name) {
-        let val_error = "";
         await service.update({
                 category_name: service_info.category_name
             }, {
@@ -106,17 +101,16 @@ router.put('/register_category/', async(req, res) => {
                 }
             }).then(e => {
                 if(e && e[0]){
-                    res.send("Categoria agregada correctamente")
+                    return res.send("Categoria agregada correctamente")
                 }else{
-                    res.send("Id incorrecto, No se encontro el servicio")
+                    return res.send("Id incorrecto, No se encontro el servicio")
                 }
             })
             .catch(err => {
-                val_error = err.parent.detail ? err.parent.detail : "No se pudo agregar la categoria";
-            })
-        res.send(val_error);
+                res.send("Error al actualizar, intente de nuevo");
+            })        
     } else {
-        res.send("error, no se pudo actualizar");
+        res.send("error, complete los campos");
     }
 })
 
@@ -144,20 +138,11 @@ router.delete('/delete/', async(req, res) => {
                 }
             })
             .catch(err => {
-                if (err.parent) {
-                    if (err.parent.detail) {
-                        res.send(err.parent.detail)
-                    } else {
-                        res.send("No se pudo eliminar")
-                    }
-                } else {
-                    res.send("No se pudo eliminar")
-                }
+                res.send("No se pudo eliminar, intente de nuevo")
             })
     } else {
         res.send("No se encontro el servicio solicitado")
     }
-
 })
 
 router.put('/remove-category/',(req, res) => {
@@ -178,11 +163,7 @@ router.put('/remove-category/',(req, res) => {
             }
         })
         .catch(err => {
-            try {
-                res.send(err.parent.detail)
-            } catch (error) {
-                res.send("No se pudo eliminar la categoria")
-            }
+            res.send("No se pudo eliminar la categoria, intente de nuevo")
         })
     }
 });
@@ -246,8 +227,7 @@ router.get("/get-rates/all-services/",async (req, res)=>{
                 model:service_rates,
                 required:true,
                 attributes:[]
-                
-            },
+           },
         ],
         attributes: [
             'name',
@@ -256,11 +236,7 @@ router.get("/get-rates/all-services/",async (req, res)=>{
         group:['name'],
         logging: console.log
     })
-    await require('./html_pdf').html_to_pdf(rates)
-    await sleep(1000)
-    var data = await fs.readFileSync(static_files_pdf);
-    res.contentType("application/pdf");
-    res.send(data);
+    pdfwritter.html_to_pdf(rates,res)
 })
 
 //Service mode out-of service historia 43
