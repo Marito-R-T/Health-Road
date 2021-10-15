@@ -79,7 +79,7 @@ router.post('/login/', async (req, res) => {
 router.get('/logout/', function (req, res) {
     req.session.destroy();
     res.clearCookie(this.cookie, { path: '/' });
-    res.send("s");
+    res.redirect(url.format({ pathname: '/', query: { title: 'Sesion Cerrada', message: 'Sesion Cerrada con exito', type: 'success' } }));
 })
 
 module.exports.user_router = router;
