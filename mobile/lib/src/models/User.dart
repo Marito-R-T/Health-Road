@@ -1,4 +1,3 @@
-
 class User {
   final String? user;
   final String? password;
@@ -8,9 +7,14 @@ class User {
   int? celphone;
   int? rol;
 
-  User({required this.user, required this.password,
-  required this.name, required this.last_name, required this.email,
-  required this.celphone, required this.rol});
+  User(
+      {required this.user,
+      required this.password,
+      required this.name,
+      required this.last_name,
+      required this.email,
+      required this.celphone,
+      required this.rol});
 
   factory User.fromJson(Map<String, dynamic> json) {
     return User(
