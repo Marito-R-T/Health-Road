@@ -48,7 +48,7 @@ var auth = function(req, res, next) {
   }
 };
 
-app.use('/hospital',auth,hospital_router);
+app.use('/hospital',hospital_router);
 app.use('/service',auth,services_router);
 app.use('/category',auth,categories_router);
 app.use('/user',user_router);
