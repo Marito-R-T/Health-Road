@@ -25,7 +25,7 @@
          <div class="container forms">
             <div class="contact-section">
                <div class="form-contant">
-                  <form id="ajax-contact" action="hospital/register/" method="post" enctype="multipart/form-data" >
+                  <form id="ajax-contact" action="hospital/register/" method="post" enctype="multipart/form-data">
                      <div class="row" id="first-div">
                         <div class="col-md-6">
                            <div class="form-group in_name">
@@ -41,7 +41,7 @@
                                  required="required">
                            </div>
                         </div>
-                       
+
 
                         <div class="col-md-12">
                            <div class="form-group in_name">
@@ -57,13 +57,15 @@
                                  required="required">
                            </div>
                         </div>
+
                         <div class="col-md-12">
-                           <div class="form-group in_email">
+                           <div class="form-group in_name">
                               <label> <i class="far fa-hospital-user"></i> Director</label>
-                              <input type="text" class="form-control" placeholder="Director" name="director_name"
+                              <input type="text" class="form-control" placeholder="Nombre" name="director_name"
                                  required="required">
                            </div>
                         </div>
+
                         <div class="col-md-12">
                            <div class="form-group in_message">
                               <label> <i class="fal fa-comment-medical"></i> Descripcion </label>
@@ -71,7 +73,7 @@
                                  placeholder="Descripcion" required="required"></textarea>
                            </div>
                            <div class="actions">
-                              <a  class="btn small submitButton" onclick="secondDiv()"><i
+                              <a class="btn small submitButton" onclick="secondDiv()"><i
                                     class="far fa-arrow-circle-right"></i> Siguiente</a>
                            </div>
                         </div>
@@ -81,15 +83,16 @@
                            <div class="form-group in_email">
                               <label> <i class="far fa-image"></i> Foto de Perfil</label>
                            </div>
-                           <div class="avatar-upload">
-                              <div class="avatar-edit" style="left: 200px;">
-                                 <input type='file' name="profile_pic" id="imageUpload-profile" accept=".png, .jpg, .jpeg ,.jfif" />
+                           <div class="avatar-upload" style="margin: auto;">
+                              <div class="avatar-edit">
+                                 <input type='file' name="profile_pic" id="imageUpload-profile"
+                                    accept=".png, .jpg, .jpeg ,.jfif" />
                                  <label for="imageUpload-profile"><i style="margin: 8px;"
                                        class="fas fa-camera"></i></label>
                               </div>
-                              <div class="avatar-preview">
+                              <div class="avatar-preview" style="padding: 0;">
                                  <div id="previsualizacion-profile"
-                                    style="background-image: url(images/logo-hospital.png);">
+                                    style="background-image: url(images/logo-hospital.png); width: 100%; height: 100%;">
                                  </div>
                               </div>
 
@@ -97,7 +100,7 @@
                         </div>
 
                         <div class="actions">
-                           <a  class="btn small submitButton" onclick="firstDiv()"><i
+                           <a class="btn small submitButton" onclick="firstDiv()"><i
                                  class="far fa-arrow-circle-left"></i>
                               Atras</a>
                            <a class="btn small submitButton" onclick="thirdDiv()"><i
@@ -110,18 +113,25 @@
                            <div class="form-group in_email">
                               <label> <i class="far fa-map-marker-alt"></i> Ubicacion</label>
                            </div>
-                           <div id='map' style='width: 600px; height: 450px;'></div>
+                           <div id='map'></div>
+                           <input name="latitude" type="text" hidden id="latitude">
+                           <input name="longitude" type="text" hidden id="longitude">
 
+                        </div>
+                        <div class="form-group in_message">
+                           <label> <i class="far fa-location-circle"></i> Direccion </label>
+                           <textarea class="form-control" id="address" rows="3" name="address"
+                              placeholder="Direccion"></textarea>
                         </div>
                         <br>
                         <div class="col-md-12">
                            <div class="actions">
-                              <a  class="btn small submitButton" onclick="secondDiv()"><i
+                              <a class="btn small submitButton" onclick="secondDiv()"><i
                                     class="far fa-arrow-circle-left"></i>
                                  Atras</a>
                               <button type="submit" class="btn small submitButton"><i class="far fa-save"></i>
                                  Registrar</button>
-                                 
+
                            </div>
                         </div>
                      </div>
@@ -131,6 +141,7 @@
             </div>
          </div>
       </div>
+
       <div class="copyright-area wow fadeIn" id="copyright-area">
          <div class="container">
             <div class="row">
@@ -143,7 +154,10 @@
             </div>
          </div>
       </div>
+
+
       <script>
+
 
 
          function firstDiv() {

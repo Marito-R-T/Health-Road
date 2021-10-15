@@ -17,7 +17,9 @@
     color: #000;
 }
 
-
+.mapboxgl-ctrl input{
+    padding-left: 12%;
+} 
 
 .form-group input, .form-group select {
     
@@ -115,10 +117,10 @@
 }
 .submitButton:hover,.submitButton:focus {
     background: linear-gradient(to right, #39b49a 0%, #1d86df 100%);
-    color: #fff;
+    color: #2d2e2e
 }
 
-
+  
 @media (max-width:767px) {
 
 .form-contant {
@@ -136,6 +138,7 @@
     bottom: -20%;
     position: absolute;
 }
+
 
 
 }

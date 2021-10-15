@@ -19,7 +19,7 @@ router.post('/register/', upload.array('profile_pic', 7), async(req, res) => {
             hospital_info.email &&
             profile_pic)) {
         if (!validator.validate(hospital_info.email)) {
-            res.render("hospital_register",{title: 'Error de escritura', message: 'El correo electronico no concuerda con el formato',type: 'error'});
+            res.redirect(url.format({ pathname: '/Signup', query: { title: 'Error en escritura', message: 'Correo electronico incorrecto' , type: 'error' } }));
         }
         let val_error = "";
         let exist=false;
@@ -40,7 +40,7 @@ router.post('/register/', upload.array('profile_pic', 7), async(req, res) => {
                 description: hospital_info.description,
                 payment_type: hospital_info.payment_type?hospital_info.payment_type:0,
                 director_name: hospital_info.director_name?hospital_info.director_name:'',
-                
+                direction: {latitude: hospital_info.latitude, longitude: hospital_info.longitude, address: hospital_info.address}
             }).then(e => {
                 res.redirect(url.format({ pathname: '/', query: { title: 'Registro Exitoso', message: 'Registro completado exitosamente', type: 'success' } }));
             })
