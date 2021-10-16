@@ -1,4 +1,4 @@
-import 'package:mobile/src/widget/homepage/design_course_app_theme.dart';
+/*import 'package:mobile/src/widget/homepage/design_course_app_theme.dart';
 import 'package:mobile/src/models/UI/category.dart';
 import 'package:mobile/main.dart';
 import 'package:flutter/material.dart';
@@ -284,3 +284,4 @@ class CategoryView extends StatelessWidget {
     );
   }
 }
+*/
