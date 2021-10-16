@@ -2,6 +2,22 @@ var express = require('express');
 var router = express.Router();
 const { service,favorites,user, service_rates,category,sequelize,discount} = require('../models/connection_db');
 const Op = require('sequelize').Op
+
+//obtener todos los servicios
+router.get('/all-services/',(req, res)=>{
+    service.findAll({
+        where: {
+            status:true,
+        }
+    }).then(e=>{
+        if(e){
+            res.status(201).json(e)
+        }else{
+            res.status(404).json({error:"No se encontraron servicios"})
+        }
+    }).catch(e=>res.status(500).json({error:"No se encontraron servicios"}))
+})
+
 //Filter a service by his name, history 7
 router.get('/get-services/',(req, res)=>{
     discount.findAll({

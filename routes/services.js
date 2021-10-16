@@ -15,7 +15,7 @@ router.post('/register/', async(req, res) => {
     ) {
         await service.findOne({
             where: {
-                hospital_user: 'usuario1' , name: service_info.name
+                hospital_user: req.session.user , name: service_info.name
             }
         }).then(e=> {
             if(e){
@@ -25,16 +25,20 @@ router.post('/register/', async(req, res) => {
                     percentage: 0,
                     service_name: service_info.name,
                     date_end: new Date(2050,12,30),
-                    hospital_user: 'usuario1'
+                    hospital_user: req.session.user
                 }).then(e=>{
-                    service.create({
-                        name: service_info.name,
-                        price: service_info.price,
-                        description: service_info.description,
-                        hospital_user: 'usuario1',
-                        DiscountId:e.id
-                    })
-                    res.send("Servicio registrado")
+                    if(e){
+                        service.create({
+                            name: service_info.name,
+                            price: service_info.price,
+                            description: service_info.description,
+                            hospital_user: req.session.user,
+                            DiscountId:e.id
+                        })
+                        res.send("Servicio registrado")
+                    }else{
+                        res.send("Error al crear servicio, verifique que exista el hospital")
+                    }
                 }).catch(error=>{
                     res.send("Error al registrar el servicio, intente de nuevo")
                 })
@@ -295,7 +299,7 @@ router.put('/discount/all-services/',(req, res)=>{
             },
             {
                 where: {
-                    hospital_user: "usuario1"
+                    hospital_user: req.session.user
                 }
             }
         ).then(e=>{
@@ -327,7 +331,7 @@ router.put('/discount/specific-service/',(req, res)=>{
                 },
                 {
                     where: {
-                        hospital_user: "usuario1",
+                        hospital_user: req.session.user,
                         service_name:discounts.service_name,
                     }
                 }

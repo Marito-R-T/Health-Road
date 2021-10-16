@@ -17,14 +17,13 @@ router.post("/login/",(req, res)=>{
                  rol:3 
             }
         }).then(val => {
-            console.log(val)
             if(val){
                 res.status(201).json(val);
             }else{
                 res.status(400).json({ error: "No se encontro el usuario"});
             }
         }).catch(err => {
-            res.status(400).json({ error: "Error al iniciar sesion, intente de nuevo"})
+            res.status(500).json({ error: "Error al iniciar sesion, intente de nuevo"})
         })
     } else {
         res.status(400).json({ error: "Complete los campos requeridos"})
@@ -33,7 +32,6 @@ router.post("/login/",(req, res)=>{
 
 //register user history 35
 router.post('/register/', async(req, res) => {
-    console.log("ENTROOOOOOO")
     console.log(req.body)
     const user_info = req.body;
     if ((user_info.user && user_info.password &&
