@@ -19,7 +19,7 @@ async function register_mail (req,res,code) {
         if (error){
             res.send("Error al enviar")
         } else {
-            user.update({code:code},{where: {user:req.body.user}}).then(e=>{
+            user.update({code:code},{where: {user:req.session.user}}).then(e=>{
                 if(e && e[0]){
                     res.status(201).send(true)
                 }else{

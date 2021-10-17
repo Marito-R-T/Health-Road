@@ -21,13 +21,12 @@ router.get('/all-services/',(req, res)=>{
 
 //Filter a service by his name, history 7
 router.get('/get-services/:name',(req, res)=>{
-    req.body = req.params
     discount.findAll({
         include:{
             model:service,
             required:true,
             where: {
-                name: sequelize.where(sequelize.fn('LOWER', sequelize.col('name')), 'LIKE', '%' + req.body.name.toLowerCase() + '%'),
+                name: sequelize.where(sequelize.fn('LOWER', sequelize.col('name')), 'LIKE', '%' + req.params.name.toLowerCase() + '%'),
                 status:true
             },
             attributes:["name","description","price"]
@@ -47,13 +46,13 @@ router.get('/get-services/:name',(req, res)=>{
 })
 
 //get a specific service history 24
-router.get('/get-info-service/',(req, res)=>{
+router.get('/get-info-service/:name',(req, res)=>{
     discount.findOne({
         include:{
             model:service,
             required:true,
             where: {
-                name: req.body.name, 
+                name: req.params.name, 
                 status:true
             }
         }
@@ -69,14 +68,14 @@ router.get('/get-info-service/',(req, res)=>{
 })
 
 //See services by category history 9
-router.get('/services-by-category/',(req, res)=>{
+router.get('/services-by-category/:name',(req, res)=>{
     category.findAll({
         include:{
             model:service,
             required:true,
         },
         where: { 
-            name: sequelize.where(sequelize.fn('LOWER', sequelize.col('Category.name')), 'LIKE', '%' + req.body.name.toLowerCase() + '%'),
+            name: sequelize.where(sequelize.fn('LOWER', sequelize.col('Category.name')), 'LIKE', '%' + req.params.name.toLowerCase() + '%'),
         }
     }).then(e=>res.status(201).json(e))
     .catch(err=>{
@@ -86,16 +85,16 @@ router.get('/services-by-category/',(req, res)=>{
 })
 
 //filter services by price history 10
-router.get('/services-by-price/',async (req, res)=>{
+router.get('/services-by-price/:name/:price_gte/:price_lte',async (req, res)=>{
     let name = ''
-    if(req.body.name){
-        name=req.body.name.toLowerCase() 
+    if(req.params.name){
+        name=req.params.name.toLowerCase() 
     }
     service.findAll({
         where:{
             price:{
-                [Op.gte]:req.body.price_gte,
-                [Op.lte]:req.body.price_lte,
+                [Op.gte]:req.params.price_gte,
+                [Op.lte]:req.params.price_lte,
             },
             name: sequelize.where(sequelize.fn('LOWER', sequelize.col('name')), 'LIKE', '%' + name + '%'),
         
@@ -125,14 +124,14 @@ router.post('/rate-a-service/',(req, res)=>{
 })
 
 //See the service rating history 25
-router.get('/service-rating/',(req, res)=>{
+router.get('/service-rating/:service/:hospital',(req, res)=>{
     service_rates.findOne({
         attributes:[
             [sequelize.fn('avg', sequelize.col('score')),'rating']
         ],
         where: {
-            service:req.body.service,
-            hospital:req.body.hospital
+            service:req.params.service,
+            hospital:req.params.hospital
         }
     })
     .then(e=>{
@@ -144,7 +143,7 @@ router.get('/service-rating/',(req, res)=>{
 })
 
 
-router.get('/add-favorite-service-rating/',async (req, res)=>{
+router.post('/add-favorite-service-rating/',async (req, res)=>{
     const [user_, created] = await favorites.findOrCreate({
         where: {
             user:req.body.user,

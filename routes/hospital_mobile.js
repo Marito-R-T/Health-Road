@@ -3,13 +3,13 @@ var router = express.Router();
 const { hospital,sequelize,user,service_rates} = require('../models/connection_db');
 
 //get information of a hospital history 8
-router.get("/info/",(req, res)=>{
+router.get("/info/:user",(req, res)=>{
     user.findOne({
         include:{
             model:hospital,
         },
         where:{
-            user:req.body.user
+            user:req.params.user
         }
     })
     .then(e=>{
@@ -25,13 +25,13 @@ router.get("/info/",(req, res)=>{
 })
 
 //search hospital history 56
-router.get("/info/",(req, res)=>{
+router.get("/info/:user",(req, res)=>{
     user.findAll({
         include:{
             model:hospital,
         },
         where:{
-            user: sequelize.where(sequelize.fn('LOWER', sequelize.col('user')), 'LIKE', '%' + req.body.user.toLowerCase() + '%'),
+            user: sequelize.where(sequelize.fn('LOWER', sequelize.col('user')), 'LIKE', '%' + req.params.user.toLowerCase() + '%'),
         }
     })
     .then(e=>{
