@@ -199,7 +199,8 @@ class _RegisterScreenState extends State<RegisterScreen> {
                   Navigator.push(
                       context,
                       MaterialPageRoute(
-                          builder: (context) => NavigationHomeScreen()));
+                          builder: (context) =>
+                              NavigationHomeScreen(user: value)));
                 }
               });
               // Si el formulario es válido, queremos mostrar un Snackbar
