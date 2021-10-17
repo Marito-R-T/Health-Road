@@ -21,7 +21,7 @@ router.get('/all-services/',(req, res)=>{
 
 //Filter a service by his name, history 7
 router.get('/get-services/:name',(req, res)=>{
-    console.log(req.body, req.params, "ZZZZZZZZZZ")
+    req.body = req.params
     discount.findAll({
         include:{
             model:service,
