@@ -157,17 +157,35 @@ class CategoryView extends StatelessWidget {
                                               crossAxisAlignment:
                                                   CrossAxisAlignment.center,
                                               children: <Widget>[
-                                                Text(
-                                                  '${service!.hospital}',
-                                                  textAlign: TextAlign.left,
-                                                  style: TextStyle(
-                                                    fontWeight: FontWeight.w200,
-                                                    fontSize: 12,
-                                                    letterSpacing: 0.27,
-                                                    color: DesignCourseAppTheme
-                                                        .grey,
-                                                  ),
-                                                ),
+                                                service!.category_name != null
+                                                    ? Text(
+                                                        'Categoria: ${service!.category_name}',
+                                                        textAlign:
+                                                            TextAlign.left,
+                                                        style: const TextStyle(
+                                                          fontWeight:
+                                                              FontWeight.w200,
+                                                          fontSize: 12,
+                                                          letterSpacing: 0.27,
+                                                          color:
+                                                              DesignCourseAppTheme
+                                                                  .grey,
+                                                        ),
+                                                      )
+                                                    : Text(
+                                                        'Hospital: ${service!.hospital}',
+                                                        textAlign:
+                                                            TextAlign.left,
+                                                        style: const TextStyle(
+                                                          fontWeight:
+                                                              FontWeight.w200,
+                                                          fontSize: 12,
+                                                          letterSpacing: 0.27,
+                                                          color:
+                                                              DesignCourseAppTheme
+                                                                  .grey,
+                                                        ),
+                                                      ),
                                                 Container(
                                                   child: Row(
                                                     children: <Widget>[
@@ -175,7 +193,7 @@ class CategoryView extends StatelessWidget {
                                                         '${service!.price}',
                                                         textAlign:
                                                             TextAlign.left,
-                                                        style: TextStyle(
+                                                        style: const TextStyle(
                                                           fontWeight:
                                                               FontWeight.w200,
                                                           fontSize: 18,
@@ -185,7 +203,7 @@ class CategoryView extends StatelessWidget {
                                                                   .grey,
                                                         ),
                                                       ),
-                                                      Icon(
+                                                      const Icon(
                                                         Icons.attach_money,
                                                         color:
                                                             DesignCourseAppTheme
@@ -234,7 +252,8 @@ class CategoryView extends StatelessWidget {
                           child: ClipRRect(
                             borderRadius:
                                 const BorderRadius.all(Radius.circular(16.0)),
-                            child: Text('${service!.description}'),
+                            child:
+                                Text('Description: \n ${service!.description}'),
                           ),
                         ),
                       ),

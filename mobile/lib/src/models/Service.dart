@@ -7,6 +7,7 @@ class Service {
   bool? status;
   Map<String, dynamic>? schedule;
   String? hospital;
+  String? category_name;
   //Hospital? hospital;
 
   Service(
@@ -15,7 +16,8 @@ class Service {
       required this.price,
       required this.status,
       required this.schedule,
-      required this.hospital});
+      required this.hospital,
+      required this.category_name});
 
   factory Service.fromJson(Map<String, dynamic> json) {
     return Service(
@@ -25,6 +27,7 @@ class Service {
         status: json['status'],
         schedule: json['schedule'],
         //hospital: Hospital.fromJson(json['hospital_user']));
-        hospital: json['hospital_user']);
+        hospital: json['hospital_user'],
+        category_name: json['category_name']);
   }
 }

@@ -22,7 +22,7 @@ class Services {
   Future<List<Service>> getServices() async {
     final response = await http.get(
         Uri.parse(
-            'https://health-road.herokuapp.com/mobile/service/get-services'),
+            'https://health-road.herokuapp.com/mobile/service/all-services/'),
         headers: {
           "Accept": "application/json",
           "Content-Type": "application/x-www-form-urlencoded"
