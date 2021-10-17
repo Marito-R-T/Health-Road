@@ -15,7 +15,7 @@ router.post('/register/', async(req, res) => {
     ) {
         await service.findOne({
             where: {
-                hospital_user: 'usuario1' , name: service_info.name
+                hospital_user: req.session.user , name: service_info.name
             }
         }).then(e=> {
             if(e){
