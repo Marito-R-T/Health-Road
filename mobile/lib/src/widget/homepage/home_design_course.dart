@@ -1,8 +1,10 @@
 // ignore_for_file: unnecessary_new
 
 import 'package:mobile/src/models/Category.dart';
+import 'package:mobile/src/models/Service.dart';
 import 'package:mobile/src/service/http_category.dart';
-import 'package:mobile/src/widget/homepage/category_list_view.dart';
+import 'package:mobile/src/service/http_service.dart';
+//import 'package:mobile/src/widget/homepage/category_list_view.dart';
 import 'package:mobile/src/widget/homepage/course_info_screen.dart';
 import 'package:mobile/src/widget/homepage/popular_course_list_view.dart';
 import 'package:mobile/main.dart';
@@ -10,6 +12,8 @@ import 'package:flutter/material.dart';
 import 'design_course_app_theme.dart';
 
 class DesignCourseHomeScreen extends StatefulWidget {
+  const DesignCourseHomeScreen({Key? key}) : super(key: key);
+
   @override
   _DesignCourseHomeScreenState createState() => _DesignCourseHomeScreenState();
 }
@@ -17,6 +21,15 @@ class DesignCourseHomeScreen extends StatefulWidget {
 class _DesignCourseHomeScreenState extends State<DesignCourseHomeScreen> {
   String? categoryType;
   Categories categories = Categories();
+  Services services = Services();
+  // ignore: non_constant_identifier_names
+  late Future<List<Service>> Listservices;
+
+  @override
+  void initState() {
+    Listservices = services.getServices();
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -32,6 +45,7 @@ class _DesignCourseHomeScreenState extends State<DesignCourseHomeScreen> {
             getAppBarUI(),
             Expanded(
               child: SingleChildScrollView(
+                controller: ScrollController(),
                 child: Container(
                   height: MediaQuery.of(context).size.height,
                   child: Column(
@@ -84,6 +98,8 @@ class _DesignCourseHomeScreenState extends State<DesignCourseHomeScreen> {
                   if (snapshot.hasData) {
                     List<Category>? categories = snapshot.data;
                     return ListView.builder(
+                      shrinkWrap: true,
+                      physics: const ScrollPhysics(),
                       padding: const EdgeInsets.only(
                           top: 0, bottom: 0, right: 16, left: 16),
                       itemCount: categories?.length,
@@ -112,11 +128,11 @@ class _DesignCourseHomeScreenState extends State<DesignCourseHomeScreen> {
         const SizedBox(
           height: 16,
         ),
-        CategoryListView(
+        /*CategoryListView(
           callBack: () {
             moveTo();
           },
-        ),
+        ),*/
       ],
     );
   }
@@ -139,12 +155,29 @@ class _DesignCourseHomeScreenState extends State<DesignCourseHomeScreen> {
             ),
           ),
           Flexible(
-            child: PopularCourseListView(
-              callBack: () {
-                moveTo();
-              },
-            ),
-          )
+              child: /*PopularCourseListView(
+            callBack: () {
+              moveTo();
+            },
+          )*/
+                  FutureBuilder<List<Service>>(
+            future: Listservices,
+            builder: (context, snapshot) {
+              if (snapshot.hasData) {
+                return PopularCourseListView(
+                  callBack: () {
+                    moveTo();
+                  },
+                  services: snapshot.data!,
+                );
+              } else {
+                return const SizedBox(
+                  width: double.maxFinite,
+                  height: 50,
+                );
+              }
+            },
+          ))
         ],
       ),
     );
@@ -177,6 +210,7 @@ class _DesignCourseHomeScreenState extends State<DesignCourseHomeScreen> {
             onTap: () {
               setState(() {
                 categoryType = categoryTypeData;
+                Listservices = services.getServicesByCategory(categoryTypeData);
               });
             },
             child: Padding(
