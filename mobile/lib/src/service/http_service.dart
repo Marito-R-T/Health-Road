@@ -7,9 +7,10 @@ class Services {
   Services();
 
   Future<List<Service>> getServicesByCategory(String name) async {
-    final queryParameters = {'name': name};
-    final uri = Uri.https('health-road.herokuapp.com',
-        '/mobile/service/services-by-category', queryParameters);
+    final uri = Uri.https(
+      'health-road.herokuapp.com',
+      '/mobile/service/services-by-category/$name/',
+    );
     final response = await http.get(uri);
     /*.then((value) {
       /*Iterable list = json.decode(value.body);
@@ -27,11 +28,24 @@ class Services {
           "Accept": "application/json",
           "Content-Type": "application/x-www-form-urlencoded"
         });
-    print(response.body);
     /*.then((value) {
       /*Iterable list = json.decode(value.body);
       users = list.map((model) => Category.fromJson(model)).toList();*/
     });*/
+    List users = json.decode(response.body);
+    return users.map((m) => Service.fromJson(m)).toList();
+  }
+
+  Future<List<Service>> getServicesByName(String name) async {
+    final uri = Uri.https(
+        'health-road.herokuapp.com', '/mobile/service/get-services/$name/');
+    final response = await http.get(uri);
+    /*.then((value) {
+      /*Iterable list = json.decode(value.body);
+      users = list.map((model) => Category.fromJson(model)).toList();*/
+    });*/
+    print(uri.toString());
+    print(response.body);
     List users = json.decode(response.body);
     return users.map((m) => Service.fromJson(m)).toList();
   }

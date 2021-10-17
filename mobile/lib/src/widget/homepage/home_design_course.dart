@@ -22,6 +22,7 @@ class _DesignCourseHomeScreenState extends State<DesignCourseHomeScreen> {
   String? categoryType;
   Categories categories = Categories();
   Services services = Services();
+  final _searchText = TextEditingController();
   // ignore: non_constant_identifier_names
   late Future<List<Service>> Listservices;
 
@@ -265,6 +266,7 @@ class _DesignCourseHomeScreenState extends State<DesignCourseHomeScreen> {
                       child: Container(
                         padding: const EdgeInsets.only(left: 16, right: 16),
                         child: TextFormField(
+                          controller: _searchText,
                           style: const TextStyle(
                             fontFamily: 'WorkSans',
                             fontWeight: FontWeight.bold,
@@ -287,7 +289,12 @@ class _DesignCourseHomeScreenState extends State<DesignCourseHomeScreen> {
                               color: HexColor('#B9BABC'),
                             ),
                           ),
-                          onEditingComplete: () {},
+                          onEditingComplete: () {
+                            setState(() {
+                              Listservices =
+                                  services.getServicesByName(_searchText.text);
+                            });
+                          },
                         ),
                       ),
                     ),
