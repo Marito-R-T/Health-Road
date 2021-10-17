@@ -18,8 +18,9 @@ router.get('/all-services/',(req, res)=>{
     }).catch(e=>res.status(500).json({error:"No se encontraron servicios"}))
 })
 
+
 //Filter a service by his name, history 7
-router.get('/get-services/',(req, res)=>{
+router.param('/get-services/',(req, res)=>{
     console.log(req.body, req.params, "ZZZZZZZZZZ")
     discount.findAll({
         include:{
