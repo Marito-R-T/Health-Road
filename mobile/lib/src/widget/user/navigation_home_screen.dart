@@ -1,3 +1,4 @@
+import 'package:mobile/src/models/User.dart';
 import 'package:mobile/src/widget/user/app_theme.dart';
 import 'package:mobile/src/widget/user/drawer_user_controller.dart';
 import 'package:mobile/src/widget/user/home_drawer.dart';
@@ -8,6 +9,10 @@ import 'package:mobile/src/widget/user/invite_friend_screen.dart';
 import 'package:flutter/material.dart';
 
 class NavigationHomeScreen extends StatefulWidget {
+  const NavigationHomeScreen({Key? key, required this.user}) : super(key: key);
+
+  final User user;
+
   @override
   _NavigationHomeScreenState createState() => _NavigationHomeScreenState();
 }
@@ -52,7 +57,7 @@ class _NavigationHomeScreenState extends State<NavigationHomeScreen> {
       drawerIndex = drawerIndexdata;
       if (drawerIndex == DrawerIndex.HOME) {
         setState(() {
-          screenView = DesignCourseHomeScreen();
+          screenView = const DesignCourseHomeScreen();
         });
       } else if (drawerIndex == DrawerIndex.Help) {
         setState(() {
