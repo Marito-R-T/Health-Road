@@ -20,7 +20,7 @@ class User {
     return User(
       user: json['user'],
       password: json['password'],
-      name: json['password'],
+      name: json['name'],
       last_name: json['last_name'],
       email: json['email'],
       celphone: json['celphone'],
