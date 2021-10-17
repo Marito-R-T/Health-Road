@@ -1,6 +1,7 @@
 var express = require('express');
 var router = express.Router();
 var validator = require('email-validator');
+var url = require('url');
 const {static_files_public, root_path}=require('../absolutepath')
 const fs = require('fs');
 const { hospital, user } = require('../models/connection_db');
@@ -18,7 +19,7 @@ router.post('/register/', upload.array('profile_pic', 7), async(req, res) => {
             hospital_info.email &&
             profile_pic)) {
         if (!validator.validate(hospital_info.email)) {
-            res.send("el email no esta escrito correctamente")
+            res.redirect(url.format({ pathname: '/Signup', query: { title: 'Error en escritura', message: 'Correo electronico incorrecto' , type: 'error' } }));
         }
         let val_error = "";
         let exist=false;
@@ -39,17 +40,17 @@ router.post('/register/', upload.array('profile_pic', 7), async(req, res) => {
                 description: hospital_info.description,
                 payment_type: hospital_info.payment_type?hospital_info.payment_type:0,
                 director_name: hospital_info.director_name?hospital_info.director_name:'',
-                
+                direction: {latitude: hospital_info.latitude, longitude: hospital_info.longitude, address: hospital_info.address}
             }).then(e => {
-                val_error = "usuario registrado";
+                res.redirect(url.format({ pathname: '/', query: { title: 'Registro Exitoso', message: 'Registro completado exitosamente', type: 'success' } }));
             })
             .catch(err => {
-                val_error = "Erro al registrar el hospital, intente de nuevo"
+                val_error = "Error al registrar el hospital, intente de nuevo"
             })
         }
-       res.send(val_error);
+        res.redirect(url.format({ pathname: '/Signup', query: { title: 'Error en registro', message: val_error , type: 'error' } }));
     } else {
-        res.send("error, completar las credenciales");
+        res.redirect(url.format({ pathname: '/Signup', query: { title: 'Error', message: 'Complete las credenciales', type: 'error' } }));
     }
 })
 
