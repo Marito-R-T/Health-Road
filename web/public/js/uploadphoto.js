@@ -7,7 +7,6 @@
               $('#previsualizacion-profile').css('background-image', 'url(' + e.target.result + ')');
               $('#previsualizacion-profile').hide();
               $('#previsualizacion-profile').fadeIn(650);
-              $('#path').val(e.target.result);
             }
             reader.readAsDataURL(input.files[0]);
           }
@@ -24,7 +23,6 @@
               $('#previsualizacion-cover').css('background-image', 'url(' + e.target.result + ')');
               $('#previsualizacion-cover').hide();
               $('#previsualizacion-cover').fadeIn(650);
-              $('#path').val(e.target.result);
             }
             reader.readAsDataURL(input.files[0]);
           }

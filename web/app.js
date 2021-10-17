@@ -32,6 +32,7 @@ var {user_router_mobile} = require('./routes/user_mobile')
 var {service_router_mobile} = require('./routes/services_mobile')
 var {hospital_router_mobile} = require('./routes/hospital_mobile')
 var {category_router_mobile} = require('./routes/category_mobile')
+var {views_router} = require('./routes/views_router')
 
 //static
 app.use(express.static(path_))
@@ -47,7 +48,7 @@ var auth = function(req, res, next) {
   }
 };
 
-app.use('/hospital',auth,hospital_router);
+app.use('/hospital',hospital_router);
 app.use('/service',auth,services_router);
 app.use('/category',auth,categories_router);
 app.use('/user',user_router);
@@ -59,13 +60,8 @@ app.use('/mobile/service/',service_router_mobile);
 app.use('/mobile/hospital/',hospital_router_mobile);
 app.use('/mobile/category/',category_router_mobile);
 
-app.get('/', (req, res) => {
-  res.render("index")
-})
+app.use('',views_router)
 
-app.get('/Login', (req, res) => {
-  res.render("login")
-})
 
 app.use((req,res,next)=> {
   res.status(404).render("404")

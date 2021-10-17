@@ -6,7 +6,7 @@ const { Sequelize, DataTypes, Model } = require('sequelize');
 const USER = 'postgres';
 const HOST = 'localhost';
 const DATABASE = 'health_road';
-const PASSWORD = 'Jhon$19PVT'
+const PASSWORD = 'Odra20$'
 const PORT = '5432';
 
 //connection

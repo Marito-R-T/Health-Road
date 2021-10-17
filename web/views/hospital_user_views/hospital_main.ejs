@@ -1,4 +1,4 @@
-<%- include("include/header", { titulo: 'Health Road - Hospital' }) %>
+<%- include("../include/header", { titulo: 'Health Road - Hospital' }) %>
 
 <body class="clinic_version">
    <div id="preloader">
@@ -229,7 +229,6 @@
                                        </div>
                                        <div class="col-md-10">
                                           <div>
-
                                              <p class="mb-1">Usuario</p>
                                              <small>Rol</small>
                                              <small class="modified-buttons">
@@ -391,7 +390,11 @@
                   <i class="fas fa-star"></i><i class="fas fa-star-half-alt"></i><i class="far fa-star"></i><i
                      class="far fa-star"></i><i class="far fa-star"></i>
                </div>
-
+               <form action="user/logout/">
+                  <button>
+                     Cerrar Sesion
+                  </button>
+               </form>
 
             </div>
          </div>
@@ -401,7 +404,7 @@
 
    </div>
 
-   <%- include("include/scripts") %>
+   <%- include("../include/scripts") %>
 
 
 

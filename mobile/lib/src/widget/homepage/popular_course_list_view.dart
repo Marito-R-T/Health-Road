@@ -135,7 +135,7 @@ class CategoryView extends StatelessWidget {
                                             child: Text(
                                               service!.name!,
                                               textAlign: TextAlign.left,
-                                              style: TextStyle(
+                                              style: const TextStyle(
                                                 fontWeight: FontWeight.w600,
                                                 fontSize: 16,
                                                 letterSpacing: 0.27,

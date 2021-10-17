@@ -1,0 +1,187 @@
+<%- include("include/header", { titulo: 'Health Road - Registro Hospital' }) %>
+
+
+
+   <body class="clinic_version">
+
+      <div id="preloader">
+         <img class="preloader" src="images/loaders/heart-loading2.gif" alt="">
+      </div>
+      <header>
+         <div class="header-top wow fadeIn">
+            <div class="container">
+               <a class="navbar-brand" href="/">Health<img src="images/icon-logo.png" alt="image">Road</a>
+
+            </div>
+         </div>
+      </header>
+      <div id="getintouch" class="section wb wow fadeIn" style="padding-bottom:0;">
+         <div class="container">
+            <div class="heading">
+               <span class="icon-logo"><img src="images/icon-logo.png" alt="#"></span>
+               <h2>Registro Hospital</h2>
+            </div>
+         </div>
+         <div class="container forms">
+            <div class="contact-section">
+               <div class="form-contant">
+                  <form id="ajax-contact" action="hospital/register/" method="post" enctype="multipart/form-data">
+                     <div class="row" id="first-div">
+                        <div class="col-md-6">
+                           <div class="form-group in_name">
+                              <label> <i class="far fa-user"></i> Usuario </label>
+                              <input type="text" class="form-control" placeholder="Usuario" name="user"
+                                 required="required">
+                           </div>
+                        </div>
+                        <div class="col-md-6">
+                           <div class="form-group in_email">
+                              <label> Password</label>
+                              <input type="password" class="form-control" placeholder="Password" name="password"
+                                 required="required">
+                           </div>
+                        </div>
+
+
+                        <div class="col-md-12">
+                           <div class="form-group in_name">
+                              <label> <i class="fas fa-hospital-symbol"></i> Nombre</label>
+                              <input type="text" class="form-control" placeholder="Nombre" name="name"
+                                 required="required">
+                           </div>
+                        </div>
+                        <div class="col-md-12">
+                           <div class="form-group in_email">
+                              <label> <i class="fas fa-envelope-open-text"></i> Email</label>
+                              <input type="email" class="form-control" placeholder="Email" name="email"
+                                 required="required">
+                           </div>
+                        </div>
+
+                        <div class="col-md-12">
+                           <div class="form-group in_name">
+                              <label> <i class="far fa-hospital-user"></i> Director</label>
+                              <input type="text" class="form-control" placeholder="Nombre" name="director_name"
+                                 required="required">
+                           </div>
+                        </div>
+
+                        <div class="col-md-12">
+                           <div class="form-group in_message">
+                              <label> <i class="fal fa-comment-medical"></i> Descripcion </label>
+                              <textarea class="form-control" id="message" rows="5" name="description"
+                                 placeholder="Descripcion" required="required"></textarea>
+                           </div>
+                           <div class="actions">
+                              <a class="btn small submitButton" onclick="secondDiv()"><i
+                                    class="far fa-arrow-circle-right"></i> Siguiente</a>
+                           </div>
+                        </div>
+                     </div>
+                     <div class="row" id="second-div" hidden>
+                        <div class="col-md-12">
+                           <div class="form-group in_email">
+                              <label> <i class="far fa-image"></i> Foto de Perfil</label>
+                           </div>
+                           <div class="avatar-upload" style="margin: auto;">
+                              <div class="avatar-edit">
+                                 <input type='file' name="profile_pic" id="imageUpload-profile"
+                                    accept=".png, .jpg, .jpeg ,.jfif" />
+                                 <label for="imageUpload-profile"><i style="margin: 8px;"
+                                       class="fas fa-camera"></i></label>
+                              </div>
+                              <div class="avatar-preview" style="padding: 0;">
+                                 <div id="previsualizacion-profile"
+                                    style="background-image: url(images/logo-hospital.png); width: 100%; height: 100%;">
+                                 </div>
+                              </div>
+
+                           </div>
+                        </div>
+
+                        <div class="actions">
+                           <a class="btn small submitButton" onclick="firstDiv()"><i
+                                 class="far fa-arrow-circle-left"></i>
+                              Atras</a>
+                           <a class="btn small submitButton" onclick="thirdDiv()"><i
+                                 class="far fa-arrow-circle-right"></i>
+                              Siguiente</a>
+                        </div>
+                     </div>
+                     <div class="row" id="third-div" hidden>
+                        <div class="col-md-12">
+                           <div class="form-group in_email">
+                              <label> <i class="far fa-map-marker-alt"></i> Ubicacion</label>
+                           </div>
+                           <div id='map'></div>
+                           <input name="latitude" type="text" hidden id="latitude">
+                           <input name="longitude" type="text" hidden id="longitude">
+
+                        </div>
+                        <div class="form-group in_message">
+                           <label> <i class="far fa-location-circle"></i> Direccion </label>
+                           <textarea class="form-control" id="address" rows="3" name="address"
+                              placeholder="Direccion"></textarea>
+                        </div>
+                        <br>
+                        <div class="col-md-12">
+                           <div class="actions">
+                              <a class="btn small submitButton" onclick="secondDiv()"><i
+                                    class="far fa-arrow-circle-left"></i>
+                                 Atras</a>
+                              <button type="submit" class="btn small submitButton"><i class="far fa-save"></i>
+                                 Registrar</button>
+
+                           </div>
+                        </div>
+                     </div>
+
+                  </form>
+               </div>
+            </div>
+         </div>
+      </div>
+
+      <div class="copyright-area wow fadeIn" id="copyright-area">
+         <div class="container">
+            <div class="row">
+               <div class="col-md-8">
+                  <div class="footer-text">
+                     <p>© 2021 HealthRoad. Derechos Reservados.</p>
+                  </div>
+               </div>
+
+            </div>
+         </div>
+      </div>
+
+
+      <script>
+
+
+
+         function firstDiv() {
+            document.getElementById('first-div').hidden = false;
+            document.getElementById('second-div').hidden = true;
+         }
+
+         function secondDiv() {
+            document.getElementById('first-div').hidden = true;
+            document.getElementById('second-div').hidden = false;
+            document.getElementById('third-div').hidden = true;
+         }
+
+         function thirdDiv() {
+            document.getElementById('third-div').hidden = false;
+            document.getElementById('second-div').hidden = true;
+         }
+
+      </script>
+
+      <%- include("include/scripts") %>
+
+
+   </body>
+
+
+   </html>

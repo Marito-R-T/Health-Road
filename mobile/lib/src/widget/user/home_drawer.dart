@@ -1,3 +1,5 @@
+import 'package:mobile/src/models/User.dart';
+import 'package:mobile/src/widget/login.dart';
 import 'package:mobile/src/widget/user/app_theme.dart';
 import 'package:flutter/material.dart';
 
@@ -6,12 +8,14 @@ class HomeDrawer extends StatefulWidget {
       {Key? key,
       this.screenIndex,
       this.iconAnimationController,
-      this.callBackIndex})
+      this.callBackIndex,
+      this.user})
       : super(key: key);
 
   final AnimationController? iconAnimationController;
   final DrawerIndex? screenIndex;
   final Function(DrawerIndex)? callBackIndex;
+  final User? user;
 
   @override
   _HomeDrawerState createState() => _HomeDrawerState();
@@ -30,7 +34,7 @@ class _HomeDrawerState extends State<HomeDrawer> {
       DrawerList(
         index: DrawerIndex.HOME,
         labelName: 'Home',
-        icon: Icon(Icons.home),
+        icon: const Icon(Icons.home),
       ),
       DrawerList(
         index: DrawerIndex.Help,
@@ -41,22 +45,22 @@ class _HomeDrawerState extends State<HomeDrawer> {
       DrawerList(
         index: DrawerIndex.FeedBack,
         labelName: 'FeedBack',
-        icon: Icon(Icons.help),
+        icon: const Icon(Icons.help),
       ),
       DrawerList(
         index: DrawerIndex.Invite,
         labelName: 'Invite Friend',
-        icon: Icon(Icons.group),
+        icon: const Icon(Icons.group),
       ),
       DrawerList(
         index: DrawerIndex.Share,
         labelName: 'Rate the app',
-        icon: Icon(Icons.share),
+        icon: const Icon(Icons.share),
       ),
       DrawerList(
         index: DrawerIndex.About,
         labelName: 'About Us',
-        icon: Icon(Icons.info),
+        icon: const Icon(Icons.info),
       ),
     ];
   }
@@ -114,8 +118,8 @@ class _HomeDrawerState extends State<HomeDrawer> {
                       );
                     },
                   ),
-                  Padding(
-                    padding: const EdgeInsets.only(top: 8, left: 4),
+                  const Padding(
+                    padding: EdgeInsets.only(top: 8, left: 4),
                     child: Text(
                       'Chris Hemsworth',
                       style: TextStyle(
@@ -153,7 +157,7 @@ class _HomeDrawerState extends State<HomeDrawer> {
           Column(
             children: <Widget>[
               ListTile(
-                title: Text(
+                title: const Text(
                   'Sign Out',
                   style: TextStyle(
                     fontFamily: AppTheme.fontName,
@@ -163,7 +167,7 @@ class _HomeDrawerState extends State<HomeDrawer> {
                   ),
                   textAlign: TextAlign.left,
                 ),
-                trailing: Icon(
+                trailing: const Icon(
                   Icons.power_settings_new,
                   color: Colors.red,
                 ),
@@ -182,7 +186,12 @@ class _HomeDrawerState extends State<HomeDrawer> {
   }
 
   void onTapped() {
-    print('Doing Something...'); // Print to console.
+    ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+      content: Text('Log out!!!  SE HA SALIDO DE SU SESIÓN'),
+      duration: Duration(seconds: 3),
+    ));
+    Navigator.push(
+        context, MaterialPageRoute(builder: (context) => LoginScreen()));
   }
 
   Widget inkwell(DrawerList listData) {
@@ -261,14 +270,14 @@ class _HomeDrawerState extends State<HomeDrawer> {
                             0.0,
                             0.0),
                         child: Padding(
-                          padding: EdgeInsets.only(top: 8, bottom: 8),
+                          padding: const EdgeInsets.only(top: 8, bottom: 8),
                           child: Container(
                             width:
                                 MediaQuery.of(context).size.width * 0.75 - 64,
                             height: 46,
                             decoration: BoxDecoration(
                               color: Colors.blue.withOpacity(0.2),
-                              borderRadius: new BorderRadius.only(
+                              borderRadius: const BorderRadius.only(
                                 topLeft: Radius.circular(0),
                                 topRight: Radius.circular(28),
                                 bottomLeft: Radius.circular(0),
