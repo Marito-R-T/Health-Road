@@ -44,7 +44,7 @@ router.post('/register/', async(req, res) => {
         })
         
     } else {
-        res.send("Complete los campos")
+        res.redirect(url.format({ pathname: '/Hospital/Add', query: { title: 'Error', message: 'Complete los campos', type: 'error' } }));
     }
 });
 
