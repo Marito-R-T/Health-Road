@@ -3,6 +3,7 @@ var router = express.Router();
 const { service, service_rates,sequelize,discount } = require('../models/connection_db');
 const {static_files_public,static_files_pdf}=require('../absolutepath')
 const fs = require('fs');
+var url = require('url');
 const pdfwritter = require('./html_pdf')
 router.use((express.static(static_files_public)))
 router.use((express.static(static_files_pdf)))
@@ -19,24 +20,25 @@ router.post('/register/', async(req, res) => {
             }
         }).then(e=> {
             if(e){
-                res.send("El servicio ya existe")
+                res.redirect(url.format({ pathname: '/Hospital/Add', query: { title: 'Error', message: 'Servicio ya registrado', type: 'error' } }));
             }else{
                 discount.create({
                     percentage: 0,
                     service_name: service_info.name,
                     date_end: new Date(2050,12,30),
-                    hospital_user: 'usuario1'
+                    hospital_user: req.session.user
                 }).then(e=>{
                     service.create({
                         name: service_info.name,
                         price: service_info.price,
                         description: service_info.description,
-                        hospital_user: 'usuario1',
+                        hospital_user: req.session.user,
                         DiscountId:e.id
                     })
-                    res.send("Servicio registrado")
+                    res.redirect(url.format({ pathname: '/Hospital', query: { title: 'Registro exitoso', message: 'Servicio registrado', type: 'success' } }));
                 }).catch(error=>{
-                    res.send("Error al registrar el servicio, intente de nuevo")
+                    console.log(error);
+                    res.redirect(url.format({ pathname: '/Hospital/Add', query: { title: 'Error', message: 'Intente de nuevo', type: 'error' } }));
                 })
             }
         })
