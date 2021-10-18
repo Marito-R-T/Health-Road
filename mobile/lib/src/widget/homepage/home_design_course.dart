@@ -4,6 +4,7 @@ import 'package:mobile/src/models/Category.dart';
 import 'package:mobile/src/models/Service.dart';
 import 'package:mobile/src/service/http_category.dart';
 import 'package:mobile/src/service/http_service.dart';
+import 'package:mobile/src/widget/homepage/category_list_view.dart';
 //import 'package:mobile/src/widget/homepage/category_list_view.dart';
 import 'package:mobile/src/widget/homepage/course_info_screen.dart';
 import 'package:mobile/src/widget/homepage/popular_course_list_view.dart';
@@ -129,11 +130,11 @@ class _DesignCourseHomeScreenState extends State<DesignCourseHomeScreen> {
         const SizedBox(
           height: 16,
         ),
-        /*CategoryListView(
+        CategoryListView(
           callBack: () {
             moveTo();
           },
-        ),*/
+        ),
       ],
     );
   }
