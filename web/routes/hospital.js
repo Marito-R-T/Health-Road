@@ -78,8 +78,10 @@ router.post('/update/', async(req, res) => {
             .catch(err => {
                 res.redirect(url.format({ pathname: '/Hospital/Update', query: { title: 'Error', message: 'No se puedo actualizar, intente de nuevo' , type: 'error' } }));
             })
+        }else{
+            res.redirect(url.format({ pathname: '/Hospital/Update', query: { title: 'Error', message: 'No se encontro el hospital' , type: 'error' } }));
         }
-        res.redirect(url.format({ pathname: '/Hospital/Update', query: { title: 'Error', message: 'No se encontro el hospital' , type: 'error' } }));
+        
     } else {
         res.redirect(url.format({ pathname: '/Hospital/Update', query: { title: 'Error', message: 'Campos incompletos' , type: 'error' } }));
     }
