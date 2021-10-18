@@ -7,52 +7,45 @@ const fs = require('fs');
 const { hospital, user } = require('../models/connection_db');
 const {upload}= require('./functions')
 
-router.use((express.static(static_files_public)))
+
 
 
 //create a hospital historia 17
-router.post('/register/', upload.array('profile_pic', 7), async(req, res) => {
-    const hospital_info = req.body;
+router.post('/register/', upload.array('profile_pic', 7), async (req, res) => {
+    const user_info = req.body;
     const profile_pic = req.files[0]
-    if ((hospital_info.user && hospital_info.password &&
-            hospital_info.name && hospital_info.description &&
-            hospital_info.email &&
-            profile_pic)) {
-        if (!validator.validate(hospital_info.email)) {
-            res.redirect(url.format({ pathname: '/Signup', query: { title: 'Error en escritura', message: 'Correo electronico incorrecto' , type: 'error' } }));
+    if ((user_info.user && user_info.password &&
+        user_info.name && user_info.last_name &&
+        user_info.celphone && user_info.email &&
+        profile_pic)) {
+        if (!validator.validate(user_info.email)) {
+            res.send("el email no esta escrito correctamente")
         }
-        let val_error = "";
-        let exist=false;
+        let val_error = ""
         await user.create({
-            user: hospital_info.user,
-            password: hospital_info.password,
-            name: hospital_info.director_name?hospital_info.director_name:'',
-            email: hospital_info.email,
-            rol: 0,
+            user: user_info.user,
+            password: user_info.password,
+            name: user_info.name,
+            last_name: user_info.last_name,
+            email: user_info.email,
+            celphone: user_info.celphone,
+            rol: 3,
             profile_pic: profile_pic.path
-        }).catch(error=>exist=true)
-        if(exist){
-            val_error = "El usuario ya existe"
-        }else{
-            await hospital.create({
-                user: hospital_info.user,
-                name: hospital_info.name,
-                description: hospital_info.description,
-                payment_type: hospital_info.payment_type?hospital_info.payment_type:0,
-                director_name: hospital_info.director_name?hospital_info.director_name:'',
-                direction: {latitude: hospital_info.latitude, longitude: hospital_info.longitude, address: hospital_info.address}
-            }).then(e => {
-                res.redirect(url.format({ pathname: '/', query: { title: 'Registro Exitoso', message: 'Registro completado exitosamente', type: 'success' } }));
-            })
+        }).then(e => {
+            val_error = "usuario registrado";
+        })
             .catch(err => {
-                val_error = "Error al registrar el hospital, intente de nuevo"
+                val_error = "No se pudo registrar el usuario"
             })
-        }
-        res.redirect(url.format({ pathname: '/Signup', query: { title: 'Error en registro', message: val_error , type: 'error' } }));
+        res.send(val_error);
     } else {
-        res.redirect(url.format({ pathname: '/Signup', query: { title: 'Error', message: 'Complete las credenciales', type: 'error' } }));
+        res.send("Complete los campos requeridos");
+        router
     }
 })
+
+
+
 
 //historia 38
 router.put('/update/', async(req, res) => {
