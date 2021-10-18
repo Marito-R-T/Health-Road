@@ -3,7 +3,7 @@ var router = express.Router();
 var url = require('url');
 const { static_files_public, root_path, static_upload } = require('../absolutepath')
 const fs = require('fs');
-const { hospital, user,category } = require('../models/connection_db');
+const { hospital, user, category } = require('../models/connection_db');
 
 
 router.use((express.static(static_files_public)))
@@ -25,7 +25,6 @@ router.get('/', (req, res) => {
       res.redirect(url.format({ pathname: '/', query: { title: 'Error', message: 'Informacion no encontrada', type: 'error' } }));
     }
   }).catch(err => {
-    console.log(err);
     res.redirect(url.format({ pathname: '/', query: { title: 'Error', message: 'Intente de nuevo', type: 'error' } }));
   })
   user.findOne({
@@ -53,14 +52,54 @@ router.get('/', (req, res) => {
 
 router.get('/Add/', (req, res) => {
 
-    res.render("hospital_views/register_service")
-  
+  res.render("hospital_views/register_service")
+
 })
 
 router.get('/AddDriver/', (req, res) => {
 
   res.render("hospital_views/register_user")
 
+})
+
+router.get('/update/', (req, res) => {
+  let hospital_info = {};
+  hospital.findOne({
+    where: {
+      user: req.session.user
+    },
+    attributes: {
+      exclude: ['createdAt', 'updatedAt']
+    },
+  }).then(val => {
+    if (val) {
+      hospital_info.name = val.name;
+      hospital_info.director = val.director_name;
+      hospital_info.description = val.description;
+    } else {
+      res.redirect(url.format({ pathname: '/', query: { title: 'Error', message: 'Informacion no encontrada', type: 'error' } }));
+    }
+  }).catch(err => {
+    res.redirect(url.format({ pathname: '/', query: { title: 'Error', message: 'Intente de nuevo', type: 'error' } }));
+  })
+  user.findOne({
+    where: {
+      user: req.session.user
+    },
+    attributes: {
+      exclude: ['createdAt', 'updatedAt']
+    },
+  }).then(val => {
+    if (val) {
+      hospital_info.email = val.email;
+      res.render("hospital_views/update_information", { hospital: hospital_info });
+    } else {
+      res.redirect(url.format({ pathname: '/', query: { title: 'Error', message: 'Informacion no encontrada', type: 'error' } }));
+    }
+  }).catch(err => {
+    res.redirect(url.format({ pathname: '/', query: { title: 'Error', message: 'Intente de nuevo', type: 'error' } }));
+  })
+  
 })
 
 module.exports.hospital_router_views = router;
