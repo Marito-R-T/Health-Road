@@ -5,7 +5,12 @@
          <img class="preloader" src="images/loaders/heart-loading2.gif" alt="">
       </div>
       <header>
-
+         <div class="header-top wow fadeIn">
+            <div class="container">
+               <a class="navbar-brand" href="/Hospital">Health<img src="images/icon-logo.png" alt="image">Road - Regresar</a>
+   
+            </div>
+         </div>
       </header>
       <div id="getintouch" class="section wb wow fadeIn" style="padding-bottom:0;">
          <div class="container">
@@ -17,105 +22,26 @@
          <div class="container forms">
             <div class="contact-section">
                <div class="form-contant">
-                  <form id="ajax-contact" action="assets/mailer.php" method="post">
+                  <form id="ajax-contact" action="/service/register" method="post">
                      <div class="row">
                         <div class="col-md-12">
                            <div class="form-group in_name">
                               <label> <i class="fas fa-hospital-symbol"></i> Nombre</label>
-                              <input type="text" class="form-control" placeholder="Nombre" required="required">
+                              <input type="text" class="form-control" placeholder="Nombre" name="name" required="required">
                            </div>
                         </div>
                         <div class="col-md-12">
                            <div class="form-group in_email">
-                              <label> <i class="fal fa-usd-circle"></i> Precio</label>
-                              <input type="email" class="form-control" placeholder="Email" required="required">
+                              <label> <i class="fal fa-usd-circle"></i> Precio </label>
+                              <input type="number" min="0" step="0.01" class="form-control" name="price" placeholder="Q."   required="required">
                            </div>
                         </div>
-                        <div class="col-md-12">
-                           <div class="col-md-6">
-                              <div class="form-group in_email">
-                                 <label> <i class="fas fa-toggle-on"></i> Estado</label>
-                                 <select name="Estado">
-                                    <option value="Activo">Activo</option>
-                                    <option value="Desactivado">Desactivado</option>
-                                 </select>
-                              </div>
-                           </div>
-                           <div class="col-md-6">
-                              <div class="form-group in_email">
-                                 <label> <i class="far fa-bookmark"></i> Categoria</label>
-                                 <select name="Categoria">
-                                 </select>
-                              </div>
-
-                           </div>
-
-                        </div>
-                        <div class="col-md-12">
-                           <label> <i class="far fa-clock"></i> Horario</label>
-                           <div class="dias">
-                              <div class="form-check">
-                                 <input class="form-check-input" type="checkbox" value="" id="lunes">
-                                 <label class="form-check-label" for="lunes">
-                                    Lunes
-                                 </label>
-
-                              </div>
-                              <div class="form-check">
-                                 <input class="form-check-input" type="checkbox" value="" id="martes">
-                                 <label class="form-check-label" for="martes">
-                                    Martes
-                                 </label>
-                              </div>
-                              <div class="form-check">
-                                 <input class="form-check-input" type="checkbox" value="" id="miercoles">
-                                 <label class="form-check-label" for="miercoles">
-                                    Miercoles
-                                 </label>
-
-                              </div>
-                              <div class="form-check">
-                                 <input class="form-check-input" type="checkbox" value="" id="jueves">
-                                 <label class="form-check-label" for="jueves">
-                                    Jueves
-                                 </label>
-                              </div>
-                              <div class="form-check">
-                                 <input class="form-check-input" type="checkbox" value="" id="viernes">
-                                 <label class="form-check-label" for="viernes">
-                                    Viernes
-                                 </label>
-
-                              </div>
-                              <div class="form-check">
-                                 <input class="form-check-input" type="checkbox" value="" id="sabado">
-                                 <label class="form-check-label" for="sabado">
-                                    Sabado
-                                 </label>
-                              </div>
-                              <div class="form-check">
-                                 <input class="form-check-input" type="checkbox" value="" id="domingo">
-                                 <label class="form-check-label" for="domingo">
-                                    Domingo
-                                 </label>
-                              </div>
-                           </div>
-
-                           <div class="form-group in_email">
-
-                              <div class="col-md-6">
-                                 <input type="time" class="form-control" required="required">
-                              </div>
-                              <div class="col-md-6">
-                                 <input type="time" class="form-control" required="required">
-                              </div>
-
-                           </div>
-                        </div>
+                       
+                      
                         <div class="col-md-12">
                            <div class="form-group in_message">
                               <label> <i class="fal fa-comment-medical"></i> Descripcion </label>
-                              <textarea class="form-control" id="message" rows="5" placeholder="Descripcion"
+                              <textarea class="form-control" id="message" rows="5" name="description" placeholder="Descripcion"
                                  required="required"></textarea>
                            </div>
 
