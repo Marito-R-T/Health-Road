@@ -55,4 +55,4 @@ router.get('/Add/', (req, res) => {
   res.render("hospital_views/register_service")
 })
 
-module.exports.views_router_auth = router;
+module.exports.hospital_router_views = router;
