@@ -4,8 +4,8 @@ import 'package:mobile/src/animation/fade_animation.dart';
 import 'package:flutter/material.dart';
 import 'package:mobile/src/models/User.dart';
 import 'package:mobile/src/service/http_users.dart';
-import 'package:mobile/src/widget/profile.dart';
 import 'package:mobile/src/widget/register.dart';
+import 'package:mobile/src/widget/user/navigation_home_screen.dart';
 
 class LoginScreen extends StatefulWidget {
   @override
@@ -30,7 +30,7 @@ class _LoginScreenState extends State<LoginScreen> {
               children: <Widget>[
                 Container(
                   height: 400,
-                  decoration: BoxDecoration(
+                  decoration: const BoxDecoration(
                       image: DecorationImage(
                           image: AssetImage('assets/images/background.png'),
                           fit: BoxFit.fill)),
@@ -43,7 +43,7 @@ class _LoginScreenState extends State<LoginScreen> {
                         child: FadeAnimation(
                             1,
                             Container(
-                              decoration: BoxDecoration(
+                              decoration: const BoxDecoration(
                                   image: DecorationImage(
                                       image: AssetImage(
                                           'assets/images/light-1.png'))),
@@ -56,7 +56,7 @@ class _LoginScreenState extends State<LoginScreen> {
                         child: FadeAnimation(
                             1.3,
                             Container(
-                              decoration: BoxDecoration(
+                              decoration: const BoxDecoration(
                                   image: DecorationImage(
                                       image: AssetImage(
                                           'assets/images/light-2.png'))),
@@ -70,135 +70,118 @@ class _LoginScreenState extends State<LoginScreen> {
                         child: FadeAnimation(
                             1.5,
                             Container(
-                              decoration: BoxDecoration(
+                              decoration: const BoxDecoration(
                                   image: DecorationImage(
-                                      image: AssetImage('assets/images/clock.png')
-                                  )
-                              ),
-                            )
-                        ),
+                                      image: AssetImage(
+                                          'assets/images/clock.png'))),
+                            )),
                       ),
                       Positioned(
                         child: FadeAnimation(
                             1.6,
                             Container(
-                              margin: EdgeInsets.only(top: 50),
-                              child: Center(
+                              margin: const EdgeInsets.only(top: 50),
+                              child: const Center(
                                 child: Text(
                                   "Login",
                                   style: TextStyle(
                                       color: Colors.white,
                                       fontSize: 40,
-                                      fontWeight: FontWeight.bold
-                                  ),
+                                      fontWeight: FontWeight.bold),
                                 ),
                               ),
-                            )
-                        ),
+                            )),
                       )
                     ],
                   ),
                 ),
                 Padding(
-                  padding: EdgeInsets.all(30.0),
+                  padding: const EdgeInsets.all(30.0),
                   child: Column(
                     children: <Widget>[
                       Form(
-                        key: _formKey,
-                        child: FadeAnimation(
-                          1.8,
-                          Container(
-                            padding: EdgeInsets.all(5),
-                            decoration: BoxDecoration(
-                                color: Colors.white,
-                                borderRadius: BorderRadius.circular(10),
-                                boxShadow: [
-                                  BoxShadow(
-                                      color: Color.fromRGBO(143, 148, 251, .2),
-                                      blurRadius: 20.0,
-                                      offset: Offset(0, 10))
-                                ]),
-                            child: Column(
-                              children: <Widget>[
-                                Container(
-                                  padding: EdgeInsets.all(8.0),
-                                  decoration: BoxDecoration(
-                                      border: Border(
-                                          bottom:
-                                              BorderSide(color: Colors.grey)
-                                      )
-                                  ),
-                                  child: TextFormField(
-                                      validator: (value) {
-                                        if (value == null || value.isEmpty) {
-                                          return 'Porfavor ingresar usuario';
-                                        }
-                                      },
-                                      decoration: InputDecoration(
-                                          border: InputBorder.none,
-                                          hintText: "User",
-                                          hintStyle: TextStyle(
-                                              color: Colors.grey[400]
-                                          )
+                          key: _formKey,
+                          child: FadeAnimation(
+                              1.8,
+                              Container(
+                                padding: const EdgeInsets.all(5),
+                                decoration: BoxDecoration(
+                                    color: Colors.white,
+                                    borderRadius: BorderRadius.circular(10),
+                                    boxShadow: const [
+                                      BoxShadow(
+                                          color:
+                                              Color.fromRGBO(143, 148, 251, .2),
+                                          blurRadius: 20.0,
+                                          offset: Offset(0, 10))
+                                    ]),
+                                child: Column(
+                                  children: <Widget>[
+                                    Container(
+                                      padding: const EdgeInsets.all(8.0),
+                                      decoration: const BoxDecoration(
+                                          border: Border(
+                                              bottom: BorderSide(
+                                                  color: Colors.grey))),
+                                      child: TextFormField(
+                                        validator: (value) {
+                                          if (value == null || value.isEmpty) {
+                                            return 'Porfavor ingresar usuario';
+                                          }
+                                        },
+                                        decoration: InputDecoration(
+                                            border: InputBorder.none,
+                                            hintText: "User",
+                                            hintStyle: TextStyle(
+                                                color: Colors.grey[400])),
+                                        style: TextStyle(color: Colors.black),
+                                        keyboardType: TextInputType.text,
+                                        controller: _user,
                                       ),
-                                      style: TextStyle(color: Colors.black),
-                                      keyboardType: TextInputType.text,
-                                      controller: _user,
-                                  ),
+                                    ),
+                                    Container(
+                                      padding: EdgeInsets.all(8.0),
+                                      child: TextFormField(
+                                        validator: (value) {
+                                          if (value == null || value.isEmpty) {
+                                            return 'Porfavor ingresar usuario';
+                                          }
+                                        },
+                                        decoration: InputDecoration(
+                                            border: InputBorder.none,
+                                            hintText: "Password",
+                                            hintStyle: TextStyle(
+                                                color: Colors.grey[400])),
+                                        style: const TextStyle(
+                                            color: Colors.black),
+                                        keyboardType: TextInputType.text,
+                                        controller: _pass,
+                                        obscureText: true,
+                                        enableSuggestions: false,
+                                        autocorrect: false,
+                                      ),
+                                    )
+                                  ],
                                 ),
-                                Container(
-                                  padding: EdgeInsets.all(8.0),
-                                  child: TextFormField(
-                                      validator: (value) {
-                                        if (value == null || value.isEmpty) {
-                                          return 'Porfavor ingresar usuario';
-                                        }
-                                      },
-                                      decoration: InputDecoration(
-                                          border: InputBorder.none,
-                                          hintText: "Password",
-                                          hintStyle: TextStyle(
-                                              color: Colors.grey[400]
-                                          )
-                                      ),
-                                      style: TextStyle(color: Colors.black),
-                                      keyboardType: TextInputType.text,
-                                      controller: _pass,
-                                      obscureText: true,
-                                      enableSuggestions: false,
-                                      autocorrect: false,
-                                  ),
-                                )
-                              ],
-                            ),
-                          )
-                  )
-                      ),
-                      SizedBox(
+                              ))),
+                      const SizedBox(
                         height: 30,
                       ),
-                      FadeAnimation(
-                          2,
-                          _LoginButton()
-                      ),
-                      SizedBox(
+                      FadeAnimation(2, _LoginButton()),
+                      const SizedBox(
                         height: 10,
                       ),
-                      FadeAnimation(
-                          1.5,
-                          _Register()
-                      ),
-                      SizedBox(
+                      FadeAnimation(1.5, _Register()),
+                      const SizedBox(
                         height: 30,
                       ),
                       FadeAnimation(
                           1.5,
-                          Text(
+                          const Text(
                             "Forgot Password?",
                             style: TextStyle(
                                 color: Color.fromRGBO(143, 148, 251, 1)),
-                          )
-                      )
+                          ))
                     ],
                   ),
                 )
@@ -210,106 +193,84 @@ class _LoginScreenState extends State<LoginScreen> {
 
   Widget _Register() {
     return StreamBuilder(
-      builder: (BuildContext context, AsyncSnapshot snapshot){
-        return Container(
-            height: 45,
-            decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(10),
-                gradient: LinearGradient(colors: [
-                  Color.fromRGBO(143, 148, 251, 1),
-                  Color.fromRGBO(143, 148, 251, .6),
-                ])),
-            child: Center(
-              child: OutlinedButton.icon(
-                  onPressed: () => Navigator.push(
-                      context,
-                      MaterialPageRoute (
-                          builder: (context) => RegisterScreen()
-                      )
-                  ),
-                  icon: Icon(
-                      Icons.supervised_user_circle_rounded,
-                      color: Colors.white
-                  ),
-                  style: OutlinedButton.styleFrom(
-                    fixedSize: Size(double.maxFinite, double.maxFinite),
-                  ),
-                  /*style: ElevatedButton.styleFrom(
+        builder: (BuildContext context, AsyncSnapshot snapshot) {
+      return Container(
+        height: 45,
+        decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(10),
+            gradient: const LinearGradient(colors: [
+              Color.fromRGBO(143, 148, 251, 1),
+              Color.fromRGBO(143, 148, 251, .6),
+            ])),
+        child: Center(
+          child: OutlinedButton.icon(
+              onPressed: () => Navigator.push(context,
+                  MaterialPageRoute(builder: (context) => RegisterScreen())),
+              icon: const Icon(Icons.supervised_user_circle_rounded,
+                  color: Colors.white),
+              style: OutlinedButton.styleFrom(
+                fixedSize: const Size(double.maxFinite, double.maxFinite),
+              ),
+              /*style: ElevatedButton.styleFrom(
                 padding: EdgeInsets.symmetric(horizontal: 50),
                 elevation: 10,
                 primary: Colors.purpleAccent),*/
-                  label: Text(
-                      "Register",
-                      style: TextStyle(
-                        color: Colors.white
-                      ),
-                  )
-              ),
-            ),
-          );
-      }
-    );
+              label: const Text(
+                "Register",
+                style: TextStyle(color: Colors.white),
+              )),
+        ),
+      );
+    });
   }
 
   Widget _LoginButton() {
     return StreamBuilder(
-        builder: (BuildContext context, AsyncSnapshot snapshot){
-          return
-            Container(
-              height: 50,
-              decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(10),
-                  gradient: LinearGradient(colors: [
-                    Color.fromRGBO(130, 90, 251, 1),
-                    Color.fromRGBO(130, 90, 251, .6),
-                  ])),
-              child: Center(
-                child: OutlinedButton.icon(
-                    onPressed: () {
-                      if (_formKey.currentState!.validate()) {
-                        ffuser = http_user.loginUser(_user.value.text, _pass.value.text)
-                            .then((value) {
-                          print('entro al future');
-                          if(value == null) {
-                            ScaffoldMessenger.of(context).showSnackBar(
-                                const SnackBar(
-                                  content: Text('No existe usuario'),
-                                  duration: Duration(seconds: 2),
-                                )
-                            );
-                          } else {
-                            Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) => ProfileScreen()
-                                )
-                            );
-                          }
-                        });
-                      }
-                    },
-                    icon: Icon(
-                        Icons.verified_user,
-                        color: Colors.white
-                    ),
-                    style: OutlinedButton.styleFrom(
-                      fixedSize: Size(double.maxFinite, double.maxFinite),
-                    ),
-                    /*style: ElevatedButton.styleFrom(
+        builder: (BuildContext context, AsyncSnapshot snapshot) {
+      return Container(
+        height: 50,
+        decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(10),
+            gradient: const LinearGradient(colors: [
+              Color.fromRGBO(130, 90, 251, 1),
+              Color.fromRGBO(130, 90, 251, .6),
+            ])),
+        child: Center(
+          child: OutlinedButton.icon(
+              onPressed: () {
+                if (_formKey.currentState!.validate()) {
+                  ffuser = http_user
+                      .loginUser(_user.value.text, _pass.value.text)
+                      .then((value) {
+                    if (value == null) {
+                      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+                        content: Text('No existe usuario'),
+                        duration: Duration(seconds: 2),
+                      ));
+                    } else {
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) =>
+                                  NavigationHomeScreen(user: value)));
+                    }
+                  });
+                }
+              },
+              icon: const Icon(Icons.verified_user, color: Colors.white),
+              style: OutlinedButton.styleFrom(
+                fixedSize: const Size(double.maxFinite, double.maxFinite),
+              ),
+              /*style: ElevatedButton.styleFrom(
                 padding: EdgeInsets.symmetric(horizontal: 50),
                 elevation: 10,
                 primary: Colors.purpleAccent),*/
-                    label: Text(
-                      "Login",
-                      style: TextStyle(
-                          color: Colors.white
-                      ),
-                    )
-                ),
-              ),
-          );
-        }
-    );
+              label: const Text(
+                "Login",
+                style: TextStyle(color: Colors.white),
+              )),
+        ),
+      );
+    });
   }
-
 }
