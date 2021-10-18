@@ -35,7 +35,8 @@ var {service_router_mobile} = require('./routes/services_mobile')
 var {hospital_router_mobile} = require('./routes/hospital_mobile')
 var {category_router_mobile} = require('./routes/category_mobile')
 var {views_router} = require('./routes/views_router')
-var {views_router_auth} = require('./routes/views_router_aut')
+var {hospital_router_views} = require('./routes/hospital_router')
+var {admin_router} = require('./routes/admin_routes')
 
 //static
 app.use(express.static(path_));
@@ -48,6 +49,18 @@ var auth = function(req, res, next) {
   if (req.session && req.session.rol == "0"){
     return next();
   }
+  
+  else{
+   res.redirect(url.format({ pathname: '/', query: { title: 'Error', message: 'Sesion expirada' , type: 'error' } }));
+  
+  }
+};
+// Authentication and Authorization Middleware
+var auth_admin = function(req, res, next) {
+  
+  if (req.session && req.session.rol == "1"){
+    return next();
+  }
   else{
    res.redirect(url.format({ pathname: '/', query: { title: 'Error', message: 'Sesion expirada' , type: 'error' } }));
   
@@ -56,7 +69,7 @@ var auth = function(req, res, next) {
 
 app.use('/hospital',auth,hospital_router);
 app.use('/service',auth,services_router);
-app.use('/category',auth,categories_router);
+app.use('/category',auth_admin,categories_router);
 app.use('/user',user_router);
 app.use('/ambulance-driver',ambulance_driver_router);
 
@@ -68,7 +81,8 @@ app.use('/mobile/category/',category_router_mobile);
 
 app.use('',views_router);
 
-app.use('/Hospital',auth,views_router_auth);
+app.use('/Hospital',auth,hospital_router_views);
+app.use('/Admin',auth_admin,admin_router);
 
 app.use((req,res,next)=> {
   res.status(404).render("404")

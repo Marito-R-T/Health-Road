@@ -73,7 +73,12 @@ router.post('/login/', async (req, res) => {
                 req.session.user = user_login.user;
                 req.session.email = val.email;
                 req.session.rol = val.rol;
-                res.redirect(url.format({ pathname: '/Hospital/', query: { title: 'Ok', message: 'Sesion iniciada correctamente', type: 'success' } }));
+                if(val.rol == "0"){
+                    res.redirect(url.format({ pathname: '/Hospital/', query: { title: 'Ok', message: 'Sesion iniciada correctamente', type: 'success' } }));
+                }else if(val.rol == "1"){
+                    res.redirect(url.format({ pathname: '/Admin/', query: { title: 'Ok', message: 'Sesion iniciada correctamente', type: 'success' } }));
+                }
+                
 
             } else {
                 res.redirect(url.format({ pathname: '/', query: { title: 'Error', message: 'Usuario no encontrado', type: 'error' } }));
