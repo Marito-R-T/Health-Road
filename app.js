@@ -1,6 +1,6 @@
 //imports
 require('./models/connection_db');
-const path_=require('./absolutepath').static_files_public
+const {static_files_public,static_files_upload}=require('./absolutepath')
 const session = require('express-session');
 
 //server
@@ -34,7 +34,9 @@ var {hospital_router_mobile} = require('./routes/hospital_mobile')
 var {category_router_mobile} = require('./routes/category_mobile')
 
 //static
-app.use(express.static(path_))
+app.use(express.static(static_files_public))
+app.use(express.static(static_files_upload))
+console.log(static_files_upload)
 
 // Authentication and Authorization Middleware
 var auth = function(req, res, next) {
