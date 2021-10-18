@@ -141,9 +141,7 @@ router.get('/all-hospitals/',(req, res)=>{
 
 router.get("/image/:dir/:name",(req, res)=>{
     const url = static_files_upload+'/'+req.params.dir+'/'+req.params.name
-    res.sendFile(fs.readFileSync(
-        url
-    ))
+    res.sendFile(url)
 })
 
 module.exports.hospital_router_mobile = router;
