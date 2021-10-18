@@ -48,16 +48,15 @@ router.post('/register/', upload.array('profile_pic', 7), async (req, res) => {
 
 
 //historia 38
-router.put('/update/', async(req, res) => {
+router.post('/update/', async(req, res) => {
     const hospital_info = req.body;
     if ((hospital_info.name && hospital_info.description &&
-             hospital_info.email &&
-             hospital_info.user)) {
+             hospital_info.email )) {
         if (!validator.validate(hospital_info.email)) {
-            res.send("el email no esta escrito correctamente")
+            res.redirect(url.format({ pathname: '/Hospital/Update', query: { title: 'Error en escritura', message: 'Correo electronico incorrecto' , type: 'error' } }));
         }
         let val_error = "No se encontro el hospital";
-        const exist = await hospital.findByPk(hospital_info.user);
+        const exist = await hospital.findByPk(req.session.user);
         if (exist) {
             await hospital.update({
                 name: hospital_info.name,
@@ -67,22 +66,24 @@ router.put('/update/', async(req, res) => {
                 director_name: hospital_info.director_name ? hospital_info.director_name : '',
             }, {
                 where: {
-                    user: hospital_info.user
+                    user:req.session.user
                 }
             }).then(e => {
                 if(e && e[0]){
-                    val_error = "Actualizacion correcta";
+                    res.redirect(url.format({ pathname: '/Hospital', query: { title: 'Exito', message: 'Actualizacion realizada con exito' , type: 'success' } }));
                 }else{
-                    val_error = "Error al actualizar hospital, verifique que exista";
+                    res.redirect(url.format({ pathname: '/Hospital/Update', query: { title: 'Error', message: 'Error al actualizar, verifica que exista' , type: 'error' } }));
                 }
             })
             .catch(err => {
-                val_error =  "No se pudo actualizar, intente de nuevo";
+                res.redirect(url.format({ pathname: '/Hospital/Update', query: { title: 'Error', message: 'No se puedo actualizar, intente de nuevo' , type: 'error' } }));
             })
+        }else{
+            res.redirect(url.format({ pathname: '/Hospital/Update', query: { title: 'Error', message: 'No se encontro el hospital' , type: 'error' } }));
         }
-        res.send(val_error);
+        
     } else {
-        res.send("error, completar las credenciales");
+        res.redirect(url.format({ pathname: '/Hospital/Update', query: { title: 'Error', message: 'Campos incompletos' , type: 'error' } }));
     }
 })
 
