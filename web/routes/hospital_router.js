@@ -3,7 +3,7 @@ var router = express.Router();
 var url = require('url');
 const { static_files_public, root_path, static_upload } = require('../absolutepath')
 const fs = require('fs');
-const { hospital, user } = require('../models/connection_db');
+const { hospital, user,category } = require('../models/connection_db');
 
 
 router.use((express.static(static_files_public)))
@@ -52,7 +52,18 @@ router.get('/', (req, res) => {
 })
 
 router.get('/Add/', (req, res) => {
-  res.render("hospital_views/register_service")
+  category.findAll({
+    attributes: {
+      exclude: ['description','createdAt', 'updatedAt']
+    },
+    raw:true
+  }).then(val => {
+    res.render("hospital_views/register_service", {categories : val})
+  }).catch(err => {
+    console.log(err);
+    res.redirect(url.format({ pathname: '/Hospital', query: { title: 'Error', message: 'Intente de nuevo', type: 'error' } }));
+  })
+  
 })
 
 module.exports.hospital_router_views = router;
