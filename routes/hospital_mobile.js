@@ -1,12 +1,16 @@
 var express = require('express');
 var router = express.Router();
 const { hospital,sequelize,user,service_rates} = require('../models/connection_db');
-
+const fs = require('fs');
+const static_files_upload = require('../absolutepath').root_path
 //get information of a hospital history 8
-router.get("/info/:user",(req, res)=>{
+router.get("/info-specific/:user",(req, res)=>{
     user.findOne({
         include:{
             model:hospital,
+            where:{
+                status:true,
+            }
         },
         where:{
             user:req.params.user
@@ -14,12 +18,18 @@ router.get("/info/:user",(req, res)=>{
     })
     .then(e=>{
         if(e){
-            res.status(201).json(e)
+            const tmp = e["Hospitals"]
+            let hospital = tmp[0]
+            hospital.dataValues["profile_pic"]=fs.readFileSync(
+                static_files_upload+'/'+e['profile_pic']
+            )
+            res.status(201).json(hospital)
         }else{
             res.status(401).json({ error:"No se encontro el hospital"})
         }
     })
     .catch(err=>{
+        console.error(err)
         res.status(501).json({ error: "No se encontro el hospital,intente de nuevo"})
     })
 })
@@ -29,19 +39,34 @@ router.get("/info/:user",(req, res)=>{
     user.findAll({
         include:{
             model:hospital,
+            where:{
+                status:true,
+            }
         },
         where:{
-            user: sequelize.where(sequelize.fn('LOWER', sequelize.col('user')), 'LIKE', '%' + req.params.user.toLowerCase() + '%'),
-        }
+            user: sequelize.where(sequelize.fn('LOWER', sequelize.col('User.user')), 'LIKE', '%' + req.params.user.toLowerCase() + '%'),
+            
+        },
+        attributes:['user','name','email','profile_pic']
     })
     .then(e=>{
+        let values = []
         if(e){
-            res.status(201).json(e)
+            for (const value of e) {
+                const tmp = value["Hospitals"]
+                let hospital = tmp[0]
+                hospital.dataValues["profile_pic"]=fs.readFileSync(
+                    static_files_upload+'/'+value['profile_pic']
+                )
+                values.push(hospital)
+            }
+            res.status(201).json(values)
         }else{
             res.status(401).json({ error:"No se encontro el hospital"})
         }
     })
     .catch(err=>{
+        console.error(err)
         res.status(501).json({ error: "No se encontro el hospital,intente de nuevo"})
     })
 })
@@ -53,6 +78,9 @@ router.get('/suggestion-best-hospitals/',(req, res)=>{
             model:service_rates,
             required:true,
             attributes:[],
+            where:{
+                status:true,
+            }
             
         },
         attributes: [
@@ -76,17 +104,39 @@ router.get('/suggestion-best-hospitals/',(req, res)=>{
 
 //obtener todos los servicios
 router.get('/all-hospitals/',(req, res)=>{
-    hospital.findAll({
-        where: {
-            status:true,
-        }
-    }).then(e=>{
+    user.findAll({
+        include:{
+            model:hospital,
+            where:{
+                status:true,
+            }
+        },
+        attributes:['user','name','email','profile_pic']
+    })
+    .then(e=>{
+        let values = []
         if(e){
-            res.status(201).json(e)
+            for (const value of e) {
+                const tmp = value["Hospitals"]
+                let hospital = tmp[0]
+                try {
+                    hospital.dataValues["profile_pic"]=fs.readFileSync(
+                        static_files_upload+'/'+value['profile_pic']
+                    )
+                } catch (error) {
+                    
+                }
+                values.push(hospital)
+            }
+            res.status(201).json(values)
         }else{
-            res.status(401).json({error:"No se encontraron servicios"})
+            res.status(401).json({ error:"No se encontro el hospital"})
         }
-    }).catch(e=>res.status(500).json({error:"No se encontraron servicios"}))
+    })
+    .catch(err=>{
+        console.error(err)
+        res.status(501).json({ error: "No se encontro el hospital,intente de nuevo"})
+    })
 })
 
 module.exports.hospital_router_mobile = router;
