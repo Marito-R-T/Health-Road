@@ -35,12 +35,21 @@ router.get('/get-services/:name',(req, res)=>{
         ,
         
     }).then(e=>{
+        let values = []
         if(e){
-            res.status(201).json(e)
+            for (const value of e) {
+                const tmp = value["Services"]
+                let servicio = tmp[0]
+                servicio.dataValues["percentage"]=value["percentage"]
+                
+                values.push(servicio)
+            }
+            res.status(201).json(values)
         }else{
             res.status(401).json({ error: "No hay servicios con este nombre, intente de nuevo"})
         }
     }).catch(err=>{
+        console.error(err)
         res.status(501).json({ error: "Intente de nuevo"})
     })
 })
@@ -58,11 +67,16 @@ router.get('/get-info-service/:name',(req, res)=>{
         }
      }).then(e=>{
         if(e){
-            res.status(201).json(e)
+            const tmp = e["Services"]
+            var servicio = tmp[0]
+            servicio.dataValues["percentage"]=e["percentage"]
+            console.log(servicio)
+            res.status(201).json(servicio)
         }else{
             res.status(401).json({ error: "No hay servicios con este nombre, intente de nuevo"})
         }
     }).catch(err=>{
+        console.log(err)
         res.status(501).json({ error: "Intente de nuevo"})
     })
 })

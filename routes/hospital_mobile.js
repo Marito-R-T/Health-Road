@@ -74,4 +74,19 @@ router.get('/suggestion-best-hospitals/',(req, res)=>{
     })
 })
 
+//obtener todos los servicios
+router.get('/all-hospitals/',(req, res)=>{
+    hospital.findAll({
+        where: {
+            status:true,
+        }
+    }).then(e=>{
+        if(e){
+            res.status(201).json(e)
+        }else{
+            res.status(401).json({error:"No se encontraron servicios"})
+        }
+    }).catch(e=>res.status(500).json({error:"No se encontraron servicios"}))
+})
+
 module.exports.hospital_router_mobile = router;

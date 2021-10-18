@@ -39,6 +39,7 @@ router.post('/register/', upload.array('profile_pic', 7), async(req, res) => {
                 description: hospital_info.description,
                 payment_type: hospital_info.payment_type?hospital_info.payment_type:0,
                 director_name: hospital_info.director_name?hospital_info.director_name:'',
+                status:true
                 
             }).then(e => {
                 val_error = "usuario registrado";
