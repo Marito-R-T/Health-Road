@@ -69,7 +69,7 @@ class _PopularCourseListViewState extends State<PopularCourseListView>
                 crossAxisCount: 2,
                 mainAxisSpacing: 32.0,
                 crossAxisSpacing: 32.0,
-                childAspectRatio: 0.8,
+                childAspectRatio: 2.8,
               ),
             );
           }
@@ -107,7 +107,7 @@ class CategoryView extends StatelessWidget {
               splashColor: Colors.transparent,
               onTap: callback,
               child: SizedBox(
-                height: 280,
+                height: 150,
                 child: Stack(
                   alignment: AlignmentDirectional.bottomCenter,
                   children: <Widget>[
@@ -216,46 +216,43 @@ class CategoryView extends StatelessWidget {
                                               ],
                                             ),
                                           ),
+                                          /*Padding(
+                                            padding: const EdgeInsets.only(
+                                                top: 24, right: 2, left: 2),
+                                            child: Container(
+                                              decoration: BoxDecoration(
+                                                borderRadius:
+                                                    const BorderRadius.all(
+                                                        Radius.circular(6.0)),
+                                                boxShadow: <BoxShadow>[
+                                                  BoxShadow(
+                                                      color:
+                                                          DesignCourseAppTheme
+                                                              .grey
+                                                              .withOpacity(0.2),
+                                                      offset: const Offset(
+                                                          0.0, 0.0),
+                                                      blurRadius: 1.0),
+                                                ],
+                                              ),
+                                              child: ClipRRect(
+                                                borderRadius:
+                                                    const BorderRadius.all(
+                                                        Radius.circular(2.0)),
+                                                child: Text(
+                                                    'Description: \n ${service!.description}'),
+                                              ),
+                                            ),
+                                          ),*/
                                         ],
                                       ),
                                     ),
-                                  ),
-                                  const SizedBox(
-                                    width: 48,
                                   ),
                                 ],
                               ),
                             ),
                           ),
-                          const SizedBox(
-                            height: 48,
-                          ),
                         ],
-                      ),
-                    ),
-                    Container(
-                      child: Padding(
-                        padding:
-                            const EdgeInsets.only(top: 24, right: 16, left: 16),
-                        child: Container(
-                          decoration: BoxDecoration(
-                            borderRadius:
-                                const BorderRadius.all(Radius.circular(16.0)),
-                            boxShadow: <BoxShadow>[
-                              BoxShadow(
-                                  color: DesignCourseAppTheme.grey
-                                      .withOpacity(0.2),
-                                  offset: const Offset(0.0, 0.0),
-                                  blurRadius: 6.0),
-                            ],
-                          ),
-                          child: ClipRRect(
-                            borderRadius:
-                                const BorderRadius.all(Radius.circular(16.0)),
-                            child:
-                                Text('Description: \n ${service!.description}'),
-                          ),
-                        ),
                       ),
                     ),
                   ],

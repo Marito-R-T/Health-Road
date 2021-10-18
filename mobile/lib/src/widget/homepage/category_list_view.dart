@@ -1,5 +1,8 @@
-/*import 'package:mobile/src/widget/homepage/design_course_app_theme.dart';
-import 'package:mobile/src/models/UI/category.dart';
+import 'dart:convert';
+
+import 'package:mobile/src/models/Hospital.dart';
+import 'package:mobile/src/service/http_hospital.dart';
+import 'package:mobile/src/widget/homepage/design_course_app_theme.dart';
 import 'package:mobile/main.dart';
 import 'package:flutter/material.dart';
 
@@ -14,9 +17,12 @@ class CategoryListView extends StatefulWidget {
 class _CategoryListViewState extends State<CategoryListView>
     with TickerProviderStateMixin {
   AnimationController? animationController;
+  Future<List<Hospital>>? listHospital;
+  Hospitals hospitals = Hospitals();
 
   @override
   void initState() {
+    listHospital = hospitals.getHospitals();
     animationController = AnimationController(
         duration: const Duration(milliseconds: 2000), vsync: this);
     super.initState();
@@ -40,21 +46,20 @@ class _CategoryListViewState extends State<CategoryListView>
       child: Container(
         height: 134,
         width: double.infinity,
-        child: FutureBuilder<bool>(
-          future: getData(),
-          builder: (BuildContext context, AsyncSnapshot<bool> snapshot) {
+        child: FutureBuilder<List<Hospital>>(
+          future: listHospital,
+          builder: (context, snapshot) {
             if (!snapshot.hasData) {
               return const SizedBox();
             } else {
               return ListView.builder(
                 padding: const EdgeInsets.only(
                     top: 0, bottom: 0, right: 16, left: 16),
-                itemCount: Category.categoryList.length,
+                itemCount: snapshot.data!.length,
                 scrollDirection: Axis.horizontal,
                 itemBuilder: (BuildContext context, int index) {
-                  final int count = Category.categoryList.length > 10
-                      ? 10
-                      : Category.categoryList.length;
+                  final int count =
+                      snapshot.data!.length > 10 ? 10 : snapshot.data!.length;
                   final Animation<double> animation =
                       Tween<double>(begin: 0.0, end: 1.0).animate(
                           CurvedAnimation(
@@ -63,8 +68,8 @@ class _CategoryListViewState extends State<CategoryListView>
                                   curve: Curves.fastOutSlowIn)));
                   animationController?.forward();
 
-                  return CategoryView(
-                    category: Category.categoryList[index],
+                  return HospitalView(
+                    hospital: snapshot.data![index],
                     animation: animation,
                     animationController: animationController,
                     callback: widget.callBack,
@@ -79,17 +84,17 @@ class _CategoryListViewState extends State<CategoryListView>
   }
 }
 
-class CategoryView extends StatelessWidget {
-  const CategoryView(
+class HospitalView extends StatelessWidget {
+  const HospitalView(
       {Key? key,
-      this.category,
+      this.hospital,
       this.animationController,
       this.animation,
       this.callback})
       : super(key: key);
 
   final VoidCallback? callback;
-  final Category? category;
+  final Hospital? hospital;
   final AnimationController? animationController;
   final Animation<double>? animation;
 
@@ -135,17 +140,33 @@ class CategoryView extends StatelessWidget {
                                           Padding(
                                             padding:
                                                 const EdgeInsets.only(top: 16),
-                                            child: Text(
-                                              category!.title,
-                                              textAlign: TextAlign.left,
-                                              style: const TextStyle(
-                                                fontWeight: FontWeight.w600,
-                                                fontSize: 16,
-                                                letterSpacing: 0.27,
-                                                color: DesignCourseAppTheme
-                                                    .darkerText,
-                                              ),
-                                            ),
+                                            child: hospital!.name != null
+                                                ? Text(
+                                                    hospital!.name!,
+                                                    textAlign: TextAlign.left,
+                                                    style: const TextStyle(
+                                                      fontWeight:
+                                                          FontWeight.w600,
+                                                      fontSize: 16,
+                                                      letterSpacing: 0.27,
+                                                      color:
+                                                          DesignCourseAppTheme
+                                                              .darkerText,
+                                                    ),
+                                                  )
+                                                : const Text(
+                                                    "Sin nombre",
+                                                    textAlign: TextAlign.left,
+                                                    style: TextStyle(
+                                                      fontWeight:
+                                                          FontWeight.w600,
+                                                      fontSize: 16,
+                                                      letterSpacing: 0.27,
+                                                      color:
+                                                          DesignCourseAppTheme
+                                                              .darkerText,
+                                                    ),
+                                                  ),
                                           ),
                                           const Expanded(
                                             child: SizedBox(),
@@ -161,7 +182,7 @@ class CategoryView extends StatelessWidget {
                                                   CrossAxisAlignment.center,
                                               children: <Widget>[
                                                 Text(
-                                                  '${category!.lessonCount} lesson',
+                                                  '${hospital!.description}',
                                                   textAlign: TextAlign.left,
                                                   style: const TextStyle(
                                                     fontWeight: FontWeight.w200,
@@ -175,7 +196,7 @@ class CategoryView extends StatelessWidget {
                                                   child: Row(
                                                     children: <Widget>[
                                                       Text(
-                                                        '${category!.rating}',
+                                                        '${hospital!.payment_type}',
                                                         textAlign:
                                                             TextAlign.left,
                                                         style: const TextStyle(
@@ -189,7 +210,8 @@ class CategoryView extends StatelessWidget {
                                                         ),
                                                       ),
                                                       const Icon(
-                                                        Icons.star,
+                                                        Icons
+                                                            .attach_money_outlined,
                                                         color:
                                                             DesignCourseAppTheme
                                                                 .nearlyBlue,
@@ -212,7 +234,7 @@ class CategoryView extends StatelessWidget {
                                                   CrossAxisAlignment.start,
                                               children: <Widget>[
                                                 Text(
-                                                  '\$${category!.money}',
+                                                  '${hospital!.direction}',
                                                   textAlign: TextAlign.left,
                                                   style: const TextStyle(
                                                     fontWeight: FontWeight.w600,
@@ -257,23 +279,42 @@ class CategoryView extends StatelessWidget {
                         ],
                       ),
                     ),
-                    Container(
-                      child: Padding(
-                        padding: const EdgeInsets.only(
-                            top: 24, bottom: 24, left: 16),
-                        child: Row(
-                          children: <Widget>[
-                            ClipRRect(
-                              borderRadius:
-                                  const BorderRadius.all(Radius.circular(16.0)),
-                              child: AspectRatio(
-                                  aspectRatio: 1.0,
-                                  child: Image.asset(category!.imagePath)),
-                            )
-                          ],
-                        ),
-                      ),
-                    ),
+                    hospital!.photos != null
+                        ? Container(
+                            child: Padding(
+                              padding: const EdgeInsets.only(
+                                  top: 24, bottom: 24, left: 16),
+                              child: Row(
+                                children: <Widget>[
+                                  ClipRRect(
+                                    borderRadius: const BorderRadius.all(
+                                        Radius.circular(16.0)),
+                                    child: AspectRatio(
+                                        aspectRatio: 1.0,
+                                        child: Image.memory(base64Decode(
+                                            hospital!.photos![0]))),
+                                  )
+                                ],
+                              ),
+                            ),
+                          )
+                        : Container(
+                            child: Padding(
+                              padding: const EdgeInsets.only(
+                                  top: 24, bottom: 24, left: 16),
+                              child: Row(
+                                children: const <Widget>[
+                                  ClipRRect(
+                                    borderRadius:
+                                        BorderRadius.all(Radius.circular(16.0)),
+                                    child: AspectRatio(
+                                      aspectRatio: 1.0,
+                                    ),
+                                  )
+                                ],
+                              ),
+                            ),
+                          ),
                   ],
                 ),
               ),
@@ -284,4 +325,3 @@ class CategoryView extends StatelessWidget {
     );
   }
 }
-*/
