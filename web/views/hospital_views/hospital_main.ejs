@@ -28,7 +28,7 @@
                            </div>
                            <div class="avatar-preview">
                               <div id="previsualizacion-profile"
-                                 style="background-image: url(images/logo-hospital.png);">
+                                 style="background-image: url( /<%- hospital.photo  %> );">
 
                               </div>
                            </div>
@@ -406,16 +406,16 @@
                   <label> <i class="fas fa-hospital-symbol"></i> Informacion Basica</label>
                   <hr>
                   <div class="col-md-12">
-                     <label> <i class="far fa-hospital"></i> Nombre</label>
-
+                     <label> <i class="far fa-hospital"></i> Nombre: </label>
+                     <label class="hospital-info"> <%- hospital.name  %> </label>
                   </div>
                   <div class="col-md-12">
-                     <label> <i class="far fa-map-marker-alt"></i> Ubicacion</label>
-
+                     <label> <i class="far fa-map-marker-alt"></i> Ubicacion: </label>
+                     <label class="hospital-info"> <%- hospital.address  %> </label>
                   </div>
                   <div class="col-md-12">
-                     <label><i class="fas fa-at"></i> Correo</label>
-
+                     <label><i class="fas fa-at"></i> Correo: </label>
+                     <label class="hospital-info"> <%- hospital.email  %> </label>
                   </div>
 
                   <div class="col-md-12">
