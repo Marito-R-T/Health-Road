@@ -52,18 +52,15 @@ router.get('/', (req, res) => {
 })
 
 router.get('/Add/', (req, res) => {
-  category.findAll({
-    attributes: {
-      exclude: ['description','createdAt', 'updatedAt']
-    },
-    raw:true
-  }).then(val => {
-    res.render("hospital_views/register_service", {categories : val})
-  }).catch(err => {
-    console.log(err);
-    res.redirect(url.format({ pathname: '/Hospital', query: { title: 'Error', message: 'Intente de nuevo', type: 'error' } }));
-  })
+
+    res.render("hospital_views/register_service")
   
+})
+
+router.get('/AddDriver/', (req, res) => {
+
+  res.render("hospital_views/register_user")
+
 })
 
 module.exports.hospital_router_views = router;
