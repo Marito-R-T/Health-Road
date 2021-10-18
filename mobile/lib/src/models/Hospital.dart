@@ -6,7 +6,7 @@ class Hospital {
   int? payment_type;
   String? director_name;
   bool? status;
-  Map<String, dynamic>? photos;
+  List<String>? photos;
 
   Hospital(
       {required this.user,

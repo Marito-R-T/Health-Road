@@ -1,4 +1,4 @@
-class Category {
+/*class Category {
   Category({
     this.title = '',
     this.imagePath = '',
@@ -75,3 +75,4 @@ class Category {
     ),
   ];
 }
+*/
