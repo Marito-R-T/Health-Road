@@ -20,9 +20,7 @@ router.get("/info-specific/:user",(req, res)=>{
         if(e){
             const tmp = e["Hospitals"]
             let hospital = tmp[0]
-            hospital.dataValues["profile_pic"]=fs.readFileSync(
-                static_files_upload+'/'+e['profile_pic']
-            )
+            hospital.dataValues["profile_pic"]=value['profile_pic']
             res.status(201).json(hospital)
         }else{
             res.status(401).json({ error:"No se encontro el hospital"})
@@ -55,9 +53,7 @@ router.get("/info/:user",(req, res)=>{
             for (const value of e) {
                 const tmp = value["Hospitals"]
                 let hospital = tmp[0]
-                hospital.dataValues["profile_pic"]=fs.readFileSync(
-                    static_files_upload+'/'+value['profile_pic']
-                )
+                hospital.dataValues["profile_pic"]=value['profile_pic']
                 values.push(hospital)
             }
             res.status(201).json(values)
@@ -119,13 +115,7 @@ router.get('/all-hospitals/',(req, res)=>{
             for (const value of e) {
                 const tmp = value["Hospitals"]
                 let hospital = tmp[0]
-                try {
-                    hospital.dataValues["profile_pic"]=fs.readFileSync(
-                        static_files_upload+'/'+value['profile_pic']
-                    )
-                } catch (error) {
-                    
-                }
+                hospital.dataValues["profile_pic"]=value['profile_pic']
                 values.push(hospital)
             }
             res.status(201).json(values)
