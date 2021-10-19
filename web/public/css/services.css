@@ -1,5 +1,6 @@
 .modified-buttons{
     float: right;
+    display: block ruby;
 }
 
 .modified-buttons button{

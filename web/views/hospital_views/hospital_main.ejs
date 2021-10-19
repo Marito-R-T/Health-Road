@@ -50,25 +50,36 @@
                <div class="col-md-9 nav-profile">
                   <ul class="nav nav-tabs" id="myTab" role="tablist">
                      <li class="nav-item" role="presentation">
-                        <button class="nav-link active" id="home-tab" data-bs-toggle="tab" data-bs-target="#home"
-                           type="button" role="tab" aria-controls="home" aria-selected="true">Servicios</button>
+                        <form action="/Hospital/Services">
+                           <button class="nav-link <%- tabs.service %>" id="home-tab" data-bs-toggle="tab"
+                              data-bs-target="#home" type="submit" role="tab" aria-controls="home"
+                              aria-selected="true">Servicios</button>
+                        </form>
+
                      </li>
                      <li class="nav-item" role="presentation">
-                        <button class="nav-link" id="profile-tab" data-bs-toggle="tab" data-bs-target="#profile"
-                           type="button" role="tab" aria-controls="profile" aria-selected="false">Usuario</button>
+                        <form action="/Hospital/Users">
+                           <button type="submit" class="nav-link  <%- tabs.users %>" id="profile-tab" data-bs-toggle="tab"
+                              data-bs-target="#profile" type="button" role="tab" aria-controls="profile"
+                              aria-selected="false">Usuario</button>
+                        </form>
                      </li>
                      <li class="nav-item" role="presentation">
-                        <button class="nav-link" id="contact-tab" data-bs-toggle="tab" data-bs-target="#contact"
-                           type="button" role="tab" aria-controls="contact"
-                           aria-selected="false">Calificaciones</button>
+                        <form action="/Hospital/Rates">
+                           <button type="submit" class="nav-link  <%- tabs.rates %>" id="contact-tab" data-bs-toggle="tab" data-bs-target="#contact"
+                              type="button" role="tab" aria-controls="contact"
+                              aria-selected="false">Calificaciones</button>
+                        </form>
                      </li>
                      <li class="nav-item" role="presentation">
-                        <button class="nav-link" id="gallery-tab" data-bs-toggle="tab" data-bs-target="#gallery"
-                           type="button" role="tab" aria-controls="gallery" aria-selected="false">Galeria</button>
+                        <form action="/Hospital/Gallery">
+                           <button type="submit" class="nav-link  <%- tabs.gallery %>" id="gallery-tab" data-bs-toggle="tab" data-bs-target="#gallery"
+                              type="button" role="tab" aria-controls="gallery" aria-selected="false">Galeria</button>
+                        </form>
                      </li>
                   </ul>
                   <div class="tab-content" id="myTabContent">
-                     <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
+                     <div class="tab-pane fade  <%- tabs.service %>" id="home" role="tabpanel" aria-labelledby="home-tab">
                         <div class="service-control-panel">
                            <div class="service-filter">
 
@@ -84,44 +95,63 @@
 
                         </div>
                         <div class="list-group">
-                           <div class="list-group-item list-group-item-action flex-column align-items-start ">
-                              <div class="row">
-                                 <div class="col-md-2">
-                                    <img width="100px"
-                                       src="https://i.pinimg.com/280x280_RS/2e/45/66/2e4566fd829bcf9eb11ccdb5f252b02f.jpg"
-                                       alt="">
-                                 </div>
-                                 <div class="col-md-10">
-                                    <div>
-                                       <div class="d-flex w-100 justify-content-between">
-                                          <h5 class="mb-1">Nombre Servicio</h5>
-                                          <small>Q. 10000</small>
-                                       </div>
-                                       <p class="mb-1">Descripcion</p>
-                                       <small>Calificacion </small>
-                                       <small> <i class="fas fa-star"></i><i class="fas fa-star-half-alt"></i><i
-                                             class="far fa-star"></i><i class="far fa-star"></i><i
-                                             class="far fa-star"></i></small>
-                                       <small class="modified-buttons">
-                                          <button class="form">
-                                             <i class="far fa-edit"></i>
-                                          </button>
-                                          <button>
-                                             <i class="far fa-trash-alt"></i>
-                                          </button>
-                                       </small>
+                           <% for(var i=0; i<services.length; i++) {%>
+
+
+                              <div class="list-group-item list-group-item-action flex-column align-items-start ">
+                                 <div class="row">
+                                    <div class="col-md-2">
+                                       <img width="100px"
+                                          src="https://i.pinimg.com/280x280_RS/2e/45/66/2e4566fd829bcf9eb11ccdb5f252b02f.jpg"
+                                          alt="">
                                     </div>
+                                    <div class="col-md-10">
+                                       <div>
+                                          <div class="d-flex w-100 justify-content-between">
+                                             <h5 class="mb-1">
+                                                <%= services[i].name %>
+                                             </h5>
+                                             <small>Q. <%= services[i].price %></small>
+                                          </div>
+                                          <p class="mb-1">
+                                             <%= services[i].description %>
+                                          </p>
+                                          <small>Calificacion </small>
+                                          <small> <i class="fas fa-star"></i><i class="fas fa-star-half-alt"></i><i
+                                                class="far fa-star"></i><i class="far fa-star"></i><i
+                                                class="far fa-star"></i></small>
+                                          <small class="modified-buttons">
+                                             <form action="/Hospital/Services/Update">
+                                                <input type="text" hidden class="form-control" name="name"
+                                                   value="<%= services[i].name %>">
+                                                <button type="submit" class="form">
+                                                   <i class="far fa-edit"></i>
+                                                </button>
+                                             </form>
+
+                                             <form action="/Hospital/Services/Delete">
+                                                <input type="text" hidden class="form-control" name="name"
+                                                   value="<%= services[i].name %>">
+                                                <button class="form" type="submit">
+                                                   <i class="far fa-trash-alt"></i>
+                                                </button>
+                                             </form>
+
+                                          </small>
+                                       </div>
 
 
+                                    </div>
                                  </div>
+
+
                               </div>
-
-
-                           </div>
+                              <hr>
+                              <% } %>
                         </div>
 
                      </div>
-                     <div class="tab-pane fade" id="profile" role="tabpanel" aria-labelledby="profile-tab">
+                     <div class="tab-pane fade  <%- tabs.users %>" id="profile" role="tabpanel" aria-labelledby="profile-tab">
 
                         <div class="d-flex align-items-start">
                            <div class="nav flex-column nav-pills me-3" id="v-pills-tab" role="tablist"
@@ -287,12 +317,12 @@
                                           </div>
                                           <div class="col-md-10">
                                              <div>
-   
+
                                                 <p class="mb-1">Usuario</p>
                                                 <small>Rol</small>
-                                                <small> <i class="fas fa-star"></i><i class="fas fa-star-half-alt"></i><i
-                                                      class="far fa-star"></i><i class="far fa-star"></i><i
-                                                      class="far fa-star"></i></small>
+                                                <small> <i class="fas fa-star"></i><i
+                                                      class="fas fa-star-half-alt"></i><i class="far fa-star"></i><i
+                                                      class="far fa-star"></i><i class="far fa-star"></i></small>
                                                 <small class="modified-buttons">
                                                    <button class="form">
                                                       <i class="far fa-edit"></i>
@@ -302,7 +332,7 @@
                                                    </button>
                                                 </small>
                                              </div>
-   
+
                                           </div>
                                        </div>
                                     </div>
@@ -319,7 +349,7 @@
 
 
 
-                     <div class="tab-pane fade" id="contact" role="tabpanel" aria-labelledby="contact-tab">
+                     <div class="tab-pane fade  <%- tabs.rates %>" id="contact" role="tabpanel" aria-labelledby="contact-tab">
 
                         <div class="list-group">
                            <div class="list-group-item list-group-item-action flex-column align-items-start ">
@@ -359,7 +389,7 @@
 
                         </div>
                      </div>
-                     <div class="tab-pane fade" id="gallery" role="tabpanel" aria-labelledby="gallery-tab">
+                     <div class="tab-pane fade  <%- tabs.gallery %>" id="gallery" role="tabpanel" aria-labelledby="gallery-tab">
                         <div class="row">
                            <div class="col-md-6">
                               <div class="card shadow-sm">
@@ -405,26 +435,32 @@
                <div class="col-md-3 basic-information">
                   <label> <i class="fas fa-hospital-symbol"></i> Informacion Basica</label>
                   <small class="modified-buttons">
-                  <form action="/Hospital/Update">
-                     <button type="submit" class="form">
-                        <i class="far fa-edit"></i>
-                     </button>
-                  </form>
-                     
-                    
+                     <form action="/Hospital/Update">
+                        <button type="submit" class="form">
+                           <i class="far fa-edit"></i>
+                        </button>
+                     </form>
+
+
                   </small>
                   <hr>
                   <div class="col-md-12">
                      <label> <i class="far fa-hospital"></i> Nombre: </label>
-                     <label class="hospital-info"> <%- hospital.name  %> </label>
+                     <label class="hospital-info">
+                        <%- hospital.name %>
+                     </label>
                   </div>
                   <div class="col-md-12">
                      <label> <i class="far fa-map-marker-alt"></i> Ubicacion: </label>
-                     <label class="hospital-info"> <%- hospital.address  %> </label>
+                     <label class="hospital-info">
+                        <%- hospital.address %>
+                     </label>
                   </div>
                   <div class="col-md-12">
                      <label><i class="fas fa-at"></i> Correo: </label>
-                     <label class="hospital-info"> <%- hospital.email  %> </label>
+                     <label class="hospital-info">
+                        <%- hospital.email %>
+                     </label>
                   </div>
 
                   <div class="col-md-12">
