@@ -32,10 +32,17 @@ router.post('/register/', async(req, res) => {
                         name: service_info.name,
                         price: service_info.price,
                         description: service_info.description,
+                        category_name: service_info.category_name,
                         hospital_user: req.session.user,
                         DiscountId:e.id
                     })
-                    res.redirect(url.format({ pathname: '/Hospital', query: { title: 'Registro exitoso', message: 'Servicio registrado', type: 'success' } }));
+                    let tab = {
+                        service: 'active show',
+                        users: '',
+                        rates: '',
+                        gallery: ''
+                      }
+                    res.redirect(url.format({ pathname: '/Hospital/Services', query: { title: 'Registro exitoso', message: 'Servicio registrado', type: 'success', tabs:tab } }));
                 }).catch(error=>{
                     console.log(error);
                     res.redirect(url.format({ pathname: '/Hospital/Add', query: { title: 'Error', message: 'Intente de nuevo', type: 'error' } }));

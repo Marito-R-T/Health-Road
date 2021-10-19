@@ -36,8 +36,16 @@
                               <input type="number" min="0" step="0.01" class="form-control" name="price" placeholder="Q."   required="required">
                            </div>
                         </div>
-                       
-                      
+                        <div class="col-md-12">
+                           <div class="form-group in_email">
+                              <label> <i class="far fa-tag"></i> Categoria </label>
+                             <select name="category_name " >
+                              <% for(var i=0; i<categories.length; i++) {%>
+                                 <option value="<%= categories[i].name %>" ><%= categories[i].name %></option>
+                                 <% } %>
+                             </select>
+                           </div>
+                        </div>                      
                         <div class="col-md-12">
                            <div class="form-group in_message">
                               <label> <i class="fal fa-comment-medical"></i> Descripcion </label>

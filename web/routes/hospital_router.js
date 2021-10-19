@@ -3,7 +3,7 @@ var router = express.Router();
 var url = require('url');
 const { static_files_public, root_path, static_upload } = require('../absolutepath')
 const fs = require('fs');
-const { hospital, user, service, ambulance_driver } = require('../models/connection_db');
+const { hospital, user, service, ambulance_driver, category } = require('../models/connection_db');
 
 
 router.use((express.static(static_files_public)))
@@ -51,8 +51,21 @@ router.get('/', (req, res) => {
 })
 
 router.get('/Add/', (req, res) => {
+  let categories = {};
+  category.findAll({
+    attributes: {
+      exclude: ['createdAt', 'updatedAt', 'description']
+    }, raw: true
+  }).then(val => {
+    if (val) {
+      res.render("hospital_views/register_service",{categories: val})
+    } else {
+      res.redirect(url.format({ pathname: '/', query: { title: 'Error', message: 'Informacion no encontrada', type: 'error' } }));
+    }
+  }).catch(err => {
+    res.redirect(url.format({ pathname: '/', query: { title: 'Error', message: 'Intente de nuevo', type: 'error' } }));
+  })
 
-  res.render("hospital_views/register_service")
 
 })
 
@@ -95,7 +108,7 @@ router.get('/Services/', (req, res) => {
   } else {
     service.findAll({
       where: {
-        deleted : false,
+        deleted: false,
         hospital_user: req.session.user
       }, attributes: {
         exclude: ['createdAt', 'updatedAt']
