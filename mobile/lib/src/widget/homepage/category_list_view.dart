@@ -182,7 +182,7 @@ class HospitalView extends StatelessWidget {
                                                   CrossAxisAlignment.center,
                                               children: <Widget>[
                                                 Text(
-                                                  '${hospital!.description}',
+                                                  '${hospital!.direction}',
                                                   textAlign: TextAlign.left,
                                                   style: const TextStyle(
                                                     fontWeight: FontWeight.w200,
@@ -190,34 +190,6 @@ class HospitalView extends StatelessWidget {
                                                     letterSpacing: 0.27,
                                                     color: DesignCourseAppTheme
                                                         .grey,
-                                                  ),
-                                                ),
-                                                Container(
-                                                  child: Row(
-                                                    children: <Widget>[
-                                                      Text(
-                                                        '${hospital!.payment_type}',
-                                                        textAlign:
-                                                            TextAlign.left,
-                                                        style: const TextStyle(
-                                                          fontWeight:
-                                                              FontWeight.w200,
-                                                          fontSize: 18,
-                                                          letterSpacing: 0.27,
-                                                          color:
-                                                              DesignCourseAppTheme
-                                                                  .grey,
-                                                        ),
-                                                      ),
-                                                      const Icon(
-                                                        Icons
-                                                            .attach_money_outlined,
-                                                        color:
-                                                            DesignCourseAppTheme
-                                                                .nearlyBlue,
-                                                        size: 20,
-                                                      ),
-                                                    ],
                                                   ),
                                                 )
                                               ],
@@ -233,38 +205,35 @@ class HospitalView extends StatelessWidget {
                                               crossAxisAlignment:
                                                   CrossAxisAlignment.start,
                                               children: <Widget>[
-                                                Text(
-                                                  '${hospital!.direction}',
-                                                  textAlign: TextAlign.left,
-                                                  style: const TextStyle(
-                                                    fontWeight: FontWeight.w600,
-                                                    fontSize: 18,
-                                                    letterSpacing: 0.27,
-                                                    color: DesignCourseAppTheme
-                                                        .nearlyBlue,
-                                                  ),
-                                                ),
-                                                Container(
-                                                  decoration:
-                                                      const BoxDecoration(
-                                                    color: DesignCourseAppTheme
-                                                        .nearlyBlue,
-                                                    borderRadius:
-                                                        BorderRadius.all(
-                                                            Radius.circular(
-                                                                8.0)),
-                                                  ),
-                                                  child: const Padding(
-                                                    padding:
-                                                        EdgeInsets.all(4.0),
-                                                    child: Icon(
-                                                      Icons.add,
-                                                      color:
-                                                          DesignCourseAppTheme
-                                                              .nearlyWhite,
-                                                    ),
-                                                  ),
-                                                )
+                                                hospital!.direction != null
+                                                    ? Text(
+                                                        '${hospital!.direction}',
+                                                        textAlign:
+                                                            TextAlign.left,
+                                                        style: const TextStyle(
+                                                          fontWeight:
+                                                              FontWeight.w600,
+                                                          fontSize: 14,
+                                                          letterSpacing: 0.27,
+                                                          color:
+                                                              DesignCourseAppTheme
+                                                                  .nearlyBlue,
+                                                        ),
+                                                      )
+                                                    : const Text(
+                                                        'Sin dirección',
+                                                        textAlign:
+                                                            TextAlign.left,
+                                                        style: TextStyle(
+                                                          fontWeight:
+                                                              FontWeight.w600,
+                                                          fontSize: 16,
+                                                          letterSpacing: 0.27,
+                                                          color:
+                                                              DesignCourseAppTheme
+                                                                  .nearlyBlue,
+                                                        ),
+                                                      ),
                                               ],
                                             ),
                                           ),
@@ -279,7 +248,7 @@ class HospitalView extends StatelessWidget {
                         ],
                       ),
                     ),
-                    hospital!.photos != null
+                    hospital!.profile_pic != null
                         ? Container(
                             child: Padding(
                               padding: const EdgeInsets.only(
@@ -291,8 +260,8 @@ class HospitalView extends StatelessWidget {
                                         Radius.circular(16.0)),
                                     child: AspectRatio(
                                         aspectRatio: 1.0,
-                                        child: Image.memory(base64Decode(
-                                            hospital!.photos![0]))),
+                                        child: Image.network(
+                                            'https://health-road.herokuapp.com/mobile/hospital/image/${hospital!.profile_pic}')),
                                   )
                                 ],
                               ),
