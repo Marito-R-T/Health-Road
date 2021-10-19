@@ -95,20 +95,21 @@ router.get('/Services/', (req, res) => {
   } else {
     service.findAll({
       where: {
+        deleted : false,
         hospital_user: req.session.user
       }, attributes: {
         exclude: ['createdAt', 'updatedAt']
       },
       raw: true
-    }).then(val2 => {
-      if (val2) {
+    }).then(val => {
+      if (val) {
         let tab = {
           service: 'active show',
           users: '',
           rates: '',
           gallery: ''
         }
-        res.render("hospital_views/hospital_main", { hospital: response.hospital_info, services: val2, tabs: tab });
+        res.render("hospital_views/hospital_main", { hospital: response.hospital_info, services: val, tabs: tab });
       } else {
         res.redirect(url.format({ pathname: '/', query: { title: 'Error', message: 'Informacion no encontrada', type: 'error' } }));
       }

@@ -116,7 +116,7 @@ router.put('/register_category/', async(req, res) => {
     }
 })
 
-router.delete('/delete/', async(req, res) => {
+router.post('/delete/', async(req, res) => {
     const service_info = req.body;
     const exist = await service.findOne({
         where: {
@@ -126,7 +126,7 @@ router.delete('/delete/', async(req, res) => {
     });
     if (exist) {
         service.update({
-                status: true,
+                deleted: true,
             }, {
                 where: {
                     hospital_user: service_info.hospital_user,

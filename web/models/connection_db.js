@@ -99,6 +99,9 @@ var service = sequelize.define('Service', {
             "Sunday":"0",
             "Saturday":"0"
         }
+    },deleted: {
+        type: DataTypes.BOOLEAN,
+        defaultValue: false
     }
 }, {
     freezeTableName: true,
