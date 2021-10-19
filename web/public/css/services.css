@@ -10,3 +10,15 @@
 .modified-buttons button:hover {
     color: green;
 }
+
+.dias{
+    display: block ruby;
+}
+
+.form-check-input:checked {
+    background-color: #39b49b;
+    border-color: #39b49b;
+}
+.form-check-input[type="checkbox"] {
+    border: solid;
+}
