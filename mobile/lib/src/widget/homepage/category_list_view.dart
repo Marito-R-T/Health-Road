@@ -5,11 +5,11 @@ import 'package:mobile/src/service/http_hospital.dart';
 import 'package:mobile/src/widget/homepage/design_course_app_theme.dart';
 import 'package:mobile/main.dart';
 import 'package:flutter/material.dart';
+import 'package:mobile/src/widget/homepage/hospital_info_screen.dart';
 
 class CategoryListView extends StatefulWidget {
-  const CategoryListView({Key? key, this.callBack}) : super(key: key);
+  const CategoryListView({Key? key}) : super(key: key);
 
-  final Function()? callBack;
   @override
   _CategoryListViewState createState() => _CategoryListViewState();
 }
@@ -19,6 +19,17 @@ class _CategoryListViewState extends State<CategoryListView>
   AnimationController? animationController;
   Future<List<Hospital>>? listHospital;
   Hospitals hospitals = Hospitals();
+
+  void moveToHospital(Hospital hospital) {
+    Navigator.push<dynamic>(
+      context,
+      MaterialPageRoute<dynamic>(
+        builder: (BuildContext context) => HospitalInfoScreen(
+          hospital: hospital,
+        ),
+      ),
+    );
+  }
 
   @override
   void initState() {
@@ -72,7 +83,9 @@ class _CategoryListViewState extends State<CategoryListView>
                     hospital: snapshot.data![index],
                     animation: animation,
                     animationController: animationController,
-                    callback: widget.callBack,
+                    callback: () {
+                      moveToHospital(snapshot.data![index]);
+                    },
                   );
                 },
               );
@@ -98,6 +111,12 @@ class HospitalView extends StatelessWidget {
   final AnimationController? animationController;
   final Animation<double>? animation;
 
+  /*Navigator.push<dynamic>(
+      context,
+      MaterialPageRoute<dynamic>(
+        builder: (BuildContext context) => HospitalInfoScreen(),
+      ),
+    );*/
   @override
   Widget build(BuildContext context) {
     return AnimatedBuilder(

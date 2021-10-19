@@ -7,6 +7,7 @@ import 'package:mobile/src/service/http_service.dart';
 import 'package:mobile/src/widget/homepage/category_list_view.dart';
 //import 'package:mobile/src/widget/homepage/category_list_view.dart';
 import 'package:mobile/src/widget/homepage/course_info_screen.dart';
+import 'package:mobile/src/widget/homepage/hospital_info_screen.dart';
 import 'package:mobile/src/widget/homepage/popular_course_list_view.dart';
 import 'package:mobile/main.dart';
 import 'package:flutter/material.dart';
@@ -130,11 +131,7 @@ class _DesignCourseHomeScreenState extends State<DesignCourseHomeScreen> {
         const SizedBox(
           height: 16,
         ),
-        CategoryListView(
-          callBack: () {
-            moveTo();
-          },
-        ),
+        const CategoryListView(),
       ],
     );
   }
@@ -168,7 +165,7 @@ class _DesignCourseHomeScreenState extends State<DesignCourseHomeScreen> {
               if (snapshot.hasData) {
                 return PopularCourseListView(
                   callBack: () {
-                    moveTo();
+                    moveToService();
                   },
                   services: snapshot.data!,
                 );
@@ -185,7 +182,7 @@ class _DesignCourseHomeScreenState extends State<DesignCourseHomeScreen> {
     );
   }
 
-  void moveTo() {
+  void moveToService() {
     Navigator.push<dynamic>(
       context,
       MaterialPageRoute<dynamic>(
@@ -276,7 +273,7 @@ class _DesignCourseHomeScreenState extends State<DesignCourseHomeScreen> {
                           ),
                           keyboardType: TextInputType.text,
                           decoration: InputDecoration(
-                            labelText: 'Search for course',
+                            labelText: 'Search for service',
                             border: InputBorder.none,
                             helperStyle: TextStyle(
                               fontWeight: FontWeight.bold,
@@ -322,11 +319,6 @@ class _DesignCourseHomeScreenState extends State<DesignCourseHomeScreen> {
       padding: const EdgeInsets.only(top: 8.0, left: 18, right: 18),
       child: Row(
         children: <Widget>[
-          Container(
-            width: 60,
-            height: 60,
-            child: Image.asset('homepage/userImage.png'),
-          ),
           Expanded(
             child: Column(
               mainAxisAlignment: MainAxisAlignment.end,
@@ -343,7 +335,7 @@ class _DesignCourseHomeScreenState extends State<DesignCourseHomeScreen> {
                   ),
                 ),
                 Text(
-                  'Design Course',
+                  'Medical Service',
                   textAlign: TextAlign.left,
                   style: TextStyle(
                     fontWeight: FontWeight.bold,
@@ -354,6 +346,11 @@ class _DesignCourseHomeScreenState extends State<DesignCourseHomeScreen> {
                 ),
               ],
             ),
+          ),
+          SizedBox(
+            width: 60,
+            height: 60,
+            child: Image.asset('homepage/icon-logo.png'),
           ),
         ],
       ),
