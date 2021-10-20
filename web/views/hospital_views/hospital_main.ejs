@@ -85,7 +85,7 @@
 
                            </div>
                            <div class="service-actions">
-                              <form action="/Hospital/Add">
+                              <form action="/Hospital/AddService">
                                  <button class="form">
                                     <i class="far fa-notes-medical"></i> Servicio</i>
                                  </button>
@@ -111,25 +111,29 @@
                                              <h5 class="mb-1">
                                                 <%= services[i].name %>
                                              </h5>
+                                            
                                              <small>Q. <%= services[i].price %></small>
                                           </div>
+                                         
                                           <p class="mb-1">
                                              <%= services[i].description %>
                                           </p>
-                                          <small>Calificacion </small>
+                                          <span class="badge badge-pill badge-secondary"><%= services[i].category_name %></span>
+                                        
+                                        <br>
                                           <small> <i class="fas fa-star"></i><i class="fas fa-star-half-alt"></i><i
                                                 class="far fa-star"></i><i class="far fa-star"></i><i
                                                 class="far fa-star"></i></small>
                                           <small class="modified-buttons">
-                                             <form action="/Hospital/Services/Update">
-                                                <input type="text" hidden class="form-control" name="name"
-                                                   value="<%= services[i].name %>">
+                                             <form action="/Hospital/UpdateService" >
+                                                <input type="text" hidden  class="form-control" name="name"
+                                                   value="<%- services[i].name %>">
                                                 <button type="submit" class="form">
                                                    <i class="far fa-edit"></i>
                                                 </button>
                                              </form>
 
-                                             <form action="/Hospital/Services/Delete">
+                                             <form action="/Hospital/DeleteService">
                                                 <input type="text" hidden class="form-control" name="name"
                                                    value="<%= services[i].name %>">
                                                 <button class="form" type="submit">

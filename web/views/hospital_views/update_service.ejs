@@ -1,4 +1,4 @@
-<%- include("../include/header", { titulo: 'Health Road - Registro Servicio' }) %>
+<%- include("../include/header", { titulo: 'Health Road - Actualizacion Servicio' }) %>
 
    <body class="clinic_version">
       <div id="preloader">
@@ -7,8 +7,9 @@
       <header>
          <div class="header-top wow fadeIn">
             <div class="container">
-               <a class="navbar-brand" href="/Hospital">Health<img src="images/icon-logo.png" alt="image">Road - Regresar</a>
-   
+               <a class="navbar-brand" href="/Hospital">Health<img src="images/icon-logo.png" alt="image">Road -
+                  Regresar</a>
+
             </div>
          </div>
       </header>
@@ -16,41 +17,55 @@
          <div class="container">
             <div class="heading">
                <span class="icon-logo"><img src="images/icon-logo.png" alt="#"></span>
-               <h2>Registro de Servicio</h2>
+               <h2>Actualizacion de Servicio</h2>
             </div>
          </div>
          <div class="container forms">
             <div class="contact-section">
                <div class="form-contant">
-                  <form id="ajax-contact" action="/service/register" method="post">
+                  <form id="ajax-contact" action="/service/update" method="post">
                      <div class="row">
                         <div class="col-md-12">
                            <div class="form-group in_name">
                               <label> <i class="fas fa-hospital-symbol"></i> Nombre</label>
-                              <input type="text" class="form-control" placeholder="Nombre" name="name" required="required">
+                              <input type="text" class="form-control" placeholder="Nombre" value="<%- service.name  %>"
+                                 name="name" required="required">
+                                 <input hidden type="text"  value="<%- service.name  %>"
+                                 name="name_old">
                            </div>
                         </div>
                         <div class="col-md-12">
                            <div class="form-group in_email">
                               <label> <i class="fal fa-usd-circle"></i> Precio </label>
-                              <input type="number" min="0" step="0.01" class="form-control" name="price" placeholder="Q."   required="required">
+                              <input type="number" min="0" step="0.01" class="form-control"
+                                 value="<%- service.price  %>" name="price" placeholder="Q." required="required">
                            </div>
                         </div>
                         <div class="col-md-12">
                            <div class="form-group in_email">
                               <label> <i class="far fa-tag"></i> Categoria </label>
-                             <select name="category_name" >
-                              <% for(var i=0; i<categories.length; i++) {%>
-                                 <option value="<%= categories[i].name %>" ><%= categories[i].name %></option>
-                                 <% } %>
-                             </select>
+                              <select name="category_name">
+                                 <option></option>
+                                 <% for(var i=0; i<categories.length; i++) {
+
+                                    if(service.category_name==categories[i].name){ %>
+
+                                    <option selected value="<%= categories[i].name %>">
+                                       <%= categories[i].name %>
+                                    </option>
+                                    <% }else{ %>
+                                       <option value="<%= categories[i].name %>">
+                                       <%= categories[i].name %>
+                                    </option>
+                                       <%} } %>
+                              </select>
                            </div>
-                        </div>                      
+                        </div>
                         <div class="col-md-12">
                            <div class="form-group in_message">
                               <label> <i class="fal fa-comment-medical"></i> Descripcion </label>
-                              <textarea class="form-control" id="message" rows="5" name="description" placeholder="Descripcion"
-                                 required="required"></textarea>
+                              <textarea class="form-control" id="message" rows="5" name="description"
+                                 placeholder="Descripcion" required="required"><%- service.description  %></textarea>
                            </div>
 
                            <div class="actions">

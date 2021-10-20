@@ -9,7 +9,7 @@ const { Console } = require('console');
 
 
 router.use((express.static(static_files_public)))
- router.get('/', async(req, res) => {
+router.get('/', async (req, res) => {
   let response = await getHospitalInfo(req);
   if (response.message) {
     res.redirect(url.format({
@@ -50,7 +50,7 @@ router.use((express.static(static_files_public)))
 
 })
 
-router.get('/Add/', (req, res) => {
+router.get('/AddService/', (req, res) => {
   let categories = {};
   category.findAll({
     attributes: {
@@ -87,19 +87,61 @@ router.get('/Update/', async (req, res) => {
       }
     }));
   } else {
-    category.findAll({
-      attributes: {
-        exclude: ['createdAt', 'updatedAt', 'description']
-      }, raw: true
+    res.render("hospital_views/update_information", { hospital: response });
+  }
+})
+
+router.get('/UpdateService/', async (req, res) => {
+  let response = await getHospitalInfo(req);
+  const service_info = req.query;
+  console.log(service_info);
+  if (response.message) {
+    res.redirect(url.format({
+      pathname: '/', query:
+      {
+        title: response.message.title,
+        message: response.message.message,
+        type: response.message.type
+      }
+    }));
+  } else {
+    service.findOne({
+      where: {
+        deleted: false,
+        hospital_user: req.session.user,
+        name: service_info.name
+      }, attributes: {
+        exclude: ['createdAt', 'updatedAt']
+      },
+      raw: true
     }).then(val => {
       if (val) {
-        res.render("hospital_views/update_information", { hospital: response, categories: val });
+        let service_info_ = val;
+        console.log(service_info_);
+        category.findAll({
+          attributes: {
+            exclude: ['createdAt', 'updatedAt', 'description']
+          }, raw: true
+        }).then(val => {
+          if (val) {
+
+            res.render("hospital_views/update_service", { service: service_info_, categories: val });
+          } else {
+            res.redirect(url.format({ pathname: '/', query: { title: 'Error', message: 'Informacion no encontrada', type: 'error' } }));
+          }
+        }).catch(err => {
+          res.redirect(url.format({ pathname: '/', query: { title: 'Error', message: 'Intente de nuevo', type: 'error' } }));
+        })
       } else {
         res.redirect(url.format({ pathname: '/', query: { title: 'Error', message: 'Informacion no encontrada', type: 'error' } }));
       }
     }).catch(err => {
+      console.log(err);
       res.redirect(url.format({ pathname: '/', query: { title: 'Error', message: 'Intente de nuevo', type: 'error' } }));
     })
+
+
+
 
 
 
@@ -110,9 +152,9 @@ router.get('/Update/', async (req, res) => {
 
 router.get('/Services/', async (req, res) => {
 
-let response = await getHospitalInfo(req);
-  
-if (response.message) {
+  let response = await getHospitalInfo(req);
+
+  if (response.message) {
     res.redirect(url.format({
       pathname: '/', query:
       {
@@ -153,7 +195,7 @@ if (response.message) {
 
 })
 
-router.get('/Users/', async(req, res) => {
+router.get('/Users/', async (req, res) => {
   let response = await getHospitalInfo(req);
   if (response.message.message) {
     res.redirect(url.format({
@@ -242,8 +284,8 @@ async function getHospitalInfo(req) {
           message_.type = 'error';
           resolve(message_);
         }
-        
-        
+
+
       }).catch(err => {
         console.log(err);
         message_.title = 'Error';
@@ -251,7 +293,7 @@ async function getHospitalInfo(req) {
         message_.type = 'error';
         resolve(message_);
       })
-      ;
+        ;
     }, 1000
     );
   });
