@@ -53,7 +53,7 @@ router.post('/update/', async(req, res) => {
     if ((hospital_info.name && hospital_info.description &&
              hospital_info.email )) {
         if (!validator.validate(hospital_info.email)) {
-            res.redirect(url.format({ pathname: '/Hospital/Update', query: { title: 'Error en escritura', message: 'Correo electronico incorrecto' , type: 'error' } }));
+            res.redirect(url.format({ pathname: '/Hospital/update', query: { title: 'Error en escritura', message: 'Correo electronico incorrecto' , type: 'error' } }));
         }
         let val_error = "No se encontro el hospital";
         const exist = await hospital.findByPk(req.session.user);
@@ -62,7 +62,6 @@ router.post('/update/', async(req, res) => {
                 name: hospital_info.name,
                 description: hospital_info.description,
                 payment_type: hospital_info.payment_type ? hospital_info.payment_type:0,
-                email: hospital_info.email,
                 director_name: hospital_info.director_name ? hospital_info.director_name : '',
             }, {
                 where: {
@@ -70,7 +69,21 @@ router.post('/update/', async(req, res) => {
                 }
             }).then(e => {
                 if(e && e[0]){
-                    res.redirect(url.format({ pathname: '/Hospital', query: { title: 'Exito', message: 'Actualizacion realizada con exito' , type: 'success' } }));
+                    user.update(
+                        {
+                            email: hospital_info.email,
+                        },{
+                        where:{
+                            user: req.session.user
+                        }}
+                    )
+                    let tab = {
+                        service: 'active show',
+                        users: '',
+                        rates: '',
+                        gallery: ''
+                      }
+                    res.redirect(url.format({ pathname: '/Hospital/Services', query: { tabs: tab, title: 'Exito', message: 'Actualizacion realizada con exito' , type: 'success' } }));
                 }else{
                     res.redirect(url.format({ pathname: '/Hospital/Update', query: { title: 'Error', message: 'Error al actualizar, verifica que exista' , type: 'error' } }));
                 }
