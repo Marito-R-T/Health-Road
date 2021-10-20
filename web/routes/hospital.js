@@ -77,12 +77,7 @@ router.post('/update/', async(req, res) => {
                             user: req.session.user
                         }}
                     )
-                    let tab = {
-                        service: 'active show',
-                        users: '',
-                        rates: '',
-                        gallery: ''
-                      }
+                    
                     res.redirect(url.format({ pathname: '/Hospital/Services', query: { tabs: tab, title: 'Exito', message: 'Actualizacion realizada con exito' , type: 'success' } }));
                 }else{
                     res.redirect(url.format({ pathname: '/Hospital/Update', query: { title: 'Error', message: 'Error al actualizar, verifica que exista' , type: 'error' } }));

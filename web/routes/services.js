@@ -36,15 +36,8 @@ router.post('/register/', async(req, res) => {
                         hospital_user: req.session.user,
                         DiscountId:e.id
                     })
-                    let tab = {
-                        service: 'active show',
-                        users: '',
-                        rates: '',
-                        gallery: ''
-                      }
-                    res.redirect(url.format({ pathname: '/Hospital/Services', query: { title: 'Registro exitoso', message: 'Servicio registrado', type: 'success', tabs:tab } }));
+                    res.redirect(url.format({ pathname: '/Hospital/Services', query: { title: 'Registro exitoso', message: 'Servicio registrado', type: 'success' } }));
                 }).catch(error=>{
-                    console.log(error);
                     res.redirect(url.format({ pathname: '/Hospital/Add', query: { title: 'Error', message: 'Intente de nuevo', type: 'error' } }));
                 })
             }
@@ -56,43 +49,43 @@ router.post('/register/', async(req, res) => {
 });
 
 //historia 41
-router.put('/update/', async(req, res) => {
+router.post('/update/', async(req, res) => {
     const service_info = req.body;
     if (service_info.name && service_info.price &&
-        service_info.description && service_info.hospital_user &&
-        service_info.status ) {
+        service_info.description && req.session.user && service_info.name_old) {
         let val_error = "No existe el servicio";
         const exist = await service.findOne( {where: {
             name: service_info.name,
-            hospital_user: service_info.hospital_user 
+            hospital_user: req.session.user 
         }});      
         if(exist){
             await service.update({
+                name: service_info.name,
                 price: service_info.price,
                 description: service_info.description,
                 schedule: service_info.schedule?service_info.schedule:{},
-                status: service_info.status,
                 category_name: service_info.category_name?service_info.category_name:null
             }, {
                 where: {
-                    name: service_info.name,
-                    hospital_user: service_info.hospital_user 
+                    name: service_info.name_old,
+                    hospital_user: req.session.user
                 }
             }).then(e => {
                 if(e && e[0]){
-                    res.send("Servicio actualizado correctamente")
+                    res.redirect(url.format({ pathname: '/Hospital/Services', query: { title: 'Actualizacion exitoso', message: 'Servicio actualizado exitosamente', type: 'success' } }));
+              
                 }else{
-                    res.send("Id incorrecto, No se encontro el servicio")
+                    res.redirect(url.format({ pathname: '/Hospital/Update', query: { title: 'Error', message: 'No se encontro el servicio', type: 'error' } }));
                 }
             })
             .catch(err => {
-                res.send("No se pudo actualizar, intente de nuevo");
+                res.redirect(url.format({ pathname: '/Hospital/Update', query: { title: 'Error', message: 'Error al actualizar, intente de nuevo', type: 'error' } }));
             })
         }else{
             res.send(val_error);
         }
     } else {
-        res.send("error, complete los campos");
+        res.redirect(url.format({ pathname: '/Hospital/Update', query: { title: 'Error', message: 'Complete los campos', type: 'error' } }));
     }
 })
 
