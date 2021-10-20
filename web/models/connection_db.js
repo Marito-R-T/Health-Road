@@ -328,6 +328,15 @@ user.hasOne(creditCard, {
     }
 })
 
+hospital.hasMany(ambulance_driver,{
+    onDelete: 'CASCADE',
+    foreignKey: {
+        allowNull:true,
+        defaultValue:null,
+        name:'hospital_user'
+    }
+})
+//ambulance_driver.sync({ alter: true }).then(function() {});
 //creditCard.sync({ alter: true }).then(function() {})
 
 function alter_table() {
@@ -352,6 +361,7 @@ function create_tables() {
 
 //create_tables();
 //alter_table();
+//ambulance_driver.sync({ alter: true }).then(function() {});
 module.exports.sequelize = sequelize;
 module.exports.hospital = hospital;
 module.exports.service = service;
