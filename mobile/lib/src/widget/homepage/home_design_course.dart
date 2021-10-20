@@ -144,7 +144,7 @@ class _DesignCourseHomeScreenState extends State<DesignCourseHomeScreen> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
           const Text(
-            'Popular Course',
+            'Services',
             textAlign: TextAlign.left,
             style: TextStyle(
               fontWeight: FontWeight.w600,
@@ -164,9 +164,6 @@ class _DesignCourseHomeScreenState extends State<DesignCourseHomeScreen> {
             builder: (context, snapshot) {
               if (snapshot.hasData) {
                 return PopularCourseListView(
-                  callBack: () {
-                    moveToService();
-                  },
                   services: snapshot.data!,
                 );
               } else {
@@ -178,15 +175,6 @@ class _DesignCourseHomeScreenState extends State<DesignCourseHomeScreen> {
             },
           ))
         ],
-      ),
-    );
-  }
-
-  void moveToService() {
-    Navigator.push<dynamic>(
-      context,
-      MaterialPageRoute<dynamic>(
-        builder: (BuildContext context) => CourseInfoScreen(),
       ),
     );
   }
