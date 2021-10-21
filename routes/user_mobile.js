@@ -23,6 +23,7 @@ router.post("/login/",(req, res)=>{
                 res.status(400).json({ error: "No se encontro el usuario"});
             }
         }).catch(err => {
+            console.log(err);
             res.status(500).json({ error: "Error al iniciar sesion, intente de nuevo"})
         })
     } else {
