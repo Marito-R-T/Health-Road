@@ -381,36 +381,28 @@
                             </div>
                             <div class="tab-pane fade  <%- tabs.gallery %>" id="gallery" role="tabpanel" aria-labelledby="gallery-tab">
 
-                                <div class="service-control-panel">
-                                    <div class="service-filter">
 
-                                    </div>
-                                    <div class="service-actions">
-
-
-
-                                        <button class="form" data-bs-toggle="modal" data-bs-target="#add_photo">
-                                            <i class="fal fa-images"></i> Agregar Fotografia
-                                        </button>
-
-                                    </div>
-
-
-                                </div>
                                 <% if(locals.gallery){ %>
+                                    <div class="service-control-panel">
+                                        <div class="service-filter">
+                                        </div>
+                                        <div class="service-actions">
+                                            <button class="form" data-bs-toggle="modal" data-bs-target="#add_photo">
+                                                <i class="fal fa-images"></i> Agregar Fotografia
+                                            </button>
+                                        </div>
+                                    </div>
                                     <div class="row">
-                                        <% var count = Object.keys(gallery).length+1; 
-                                            for(var i=1; i<count; i++) {%>
-                                            <div class="col-md-6">
+                                        <% var count=Object.keys(gallery).length+1; for(var i=1; i<count; i++) {%>
+                                            <div class="col-md-6 gallery-photo ">
                                                 <div class="card shadow-sm">
                                                     <div class="card-body">
                                                         <div class="col-md-12">
-                                                            <img width="95%" src="/<%= gallery[i] %>" alt="">
+                                                            <img src="/<%= gallery[i] %>" alt="">
                                                         </div>
                                                         <div class="d-flex justify-content-between align-items-center">
                                                             <div class="btn-group">
                                                                 <button type="button" class="btn btn-sm btn-outline-secondary">Borrar</button>
-                                                                <button type="button" class="btn btn-sm btn-outline-secondary">Cambiar</button>
                                                             </div>
                                                             <small class="text-muted">9 mins</small>
                                                         </div>
@@ -502,7 +494,7 @@
                                                     class="fas fa-camera"></i></label>
                                         </div>
                                         <div class="photo-preview" style="padding: 0;">
-                                            <div id="previsualizacion-photo" style="background-image: url(images/logo-hospital.png); width: 100%; height: 100%;">
+                                            <div id="previsualizacion-photo" style="background-image: url(images/imagen.png); width: 100%; height: 100%;">
                                             </div>
                                         </div>
 
@@ -511,7 +503,7 @@
                             </div>
                         </div>
                         <div class="modal-footer">
-                            <button type="reset" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                            <button type="reset" class="btn btn-secondary" onclick="reset_photo()" data-bs-dismiss="modal">Cancelar</button>
                             <button type="submit" class="btn btn-primary">Si</button>
                         </div>
                     </div>
