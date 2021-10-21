@@ -54,44 +54,46 @@ router.post('/update/', async (req, res) => {
     if (service_info.name && service_info.price &&
         service_info.description && service_info.confirmation && req.session.user && service_info.name_old) {
         let val_error = "No existe el servicio";
-        if(service_info.name_old != service_info.confirmation){
+        if (service_info.name_old != service_info.confirmation) {
             res.redirect(url.format({ pathname: '/Hospital/UpdateService', query: { title: 'Error', message: 'Incorrecta confirmacion', type: 'error' } }));
-        }
-        const exist = await service.findOne({
-            where: {
-                name: service_info.name_old,
-                hospital_user: req.session.user
-            }
-        });
-        if (exist) {
-            await service.update({
-                name: service_info.name,
-                price: service_info.price,
-                description: service_info.description,
-                schedule: service_info.schedule ? service_info.schedule : {},
-                category_name: service_info.category_name ? service_info.category_name : null
-            }, {
+        } else {
+            const exist = await service.findOne({
                 where: {
                     name: service_info.name_old,
                     hospital_user: req.session.user
                 }
-            }).then(e => {
-                if (e && e[0]) {
-                    res.redirect(url.format({ pathname: '/Hospital/Services', query: { title: 'Actualizacion exitoso', message: 'Servicio actualizado exitosamente', type: 'success' } }));
+            });
+            if (exist) {
+                await service.update({
+                    name: service_info.name,
+                    price: service_info.price,
+                    description: service_info.description,
+                    schedule: service_info.schedule ? service_info.schedule : {},
+                    category_name: service_info.category_name ? service_info.category_name : null
+                }, {
+                    where: {
+                        name: service_info.name_old,
+                        hospital_user: req.session.user
+                    }
+                }).then(e => {
+                    if (e && e[0]) {
+                        res.redirect(url.format({ pathname: '/Hospital/Services', query: { title: 'Actualizacion exitoso', message: 'Servicio actualizado exitosamente', type: 'success' } }));
 
-                } else {
-                    res.redirect(url.format({ pathname: '/Hospital/UpdateService', query: { title: 'Error', message: 'No se encontro el servicio', type: 'error' } }));
-                }
-            })
-                .catch(err => {
-                    res.redirect(url.format({ pathname: '/Hospital/UpdateService', query: { title: 'Error', message: 'Error al actualizar, intente de nuevo', type: 'error' } }));
+                    } else {
+                        res.redirect(url.format({ pathname: '/Hospital/UpdateService', query: { title: 'Error', message: 'No se encontro el servicio', type: 'error' } }));
+                    }
                 })
-        } else {
-            res.send(val_error);
-        }
-    } else {
+                    .catch(err => {
+                        res.redirect(url.format({ pathname: '/Hospital/UpdateService', query: { title: 'Error', message: 'Error al actualizar, intente de nuevo', type: 'error' } }));
+                    })
+            } else {
+                res.send(val_error);
+            }
+        } 
+    }else {
         res.redirect(url.format({ pathname: '/Hospital/UpdateService', query: { title: 'Error', message: 'Complete los campos', type: 'error' } }));
     }
+
 })
 
 //historia 42
@@ -123,36 +125,38 @@ router.put('/register_category/', async (req, res) => {
 
 router.post('/delete/', async (req, res) => {
     const service_info = req.body;
-    if(service_info.name != service_info.confirmation){
+    if (service_info.name != service_info.confirmation) {
         res.redirect(url.format({ pathname: '/Hospital/Services', query: { title: 'Error', message: 'Confirmacion incorrecta', type: 'error' } }));
-    }
-    const exist = await service.findOne({
-        where: {
-            hospital_user: req.session.user,
-            name: service_info.name,
-        }
-    });
-    if (exist) {
-        service.update({
-            deleted: true,
-        }, {
+    } else {
+        const exist = await service.findOne({
             where: {
                 hospital_user: req.session.user,
                 name: service_info.name,
             }
-        }).then((e) => {
-            if (e && e[0]) {
-                res.redirect(url.format({ pathname: '/Hospital/Services', query: { title: 'Eliminacion exitosa', message: 'Servicio eliminado exitosamente', type: 'success' } }));
-            } else {
-                res.redirect(url.format({ pathname: '/Hospital/Services', query: { title: 'Error', message: 'No se encontro el servicio', type: 'error' } }));
-            }
-        })
-            .catch(err => {
-                res.redirect(url.format({ pathname: '/Hospital/UpdateService', query: { title: 'Error', message: 'No se pudo eliminar, intente de nuevo', type: 'error' } }));
+        });
+        if (exist) {
+            service.update({
+                deleted: true,
+            }, {
+                where: {
+                    hospital_user: req.session.user,
+                    name: service_info.name,
+                }
+            }).then((e) => {
+                if (e && e[0]) {
+                    res.redirect(url.format({ pathname: '/Hospital/Services', query: { title: 'Eliminacion exitosa', message: 'Servicio eliminado exitosamente', type: 'success' } }));
+                } else {
+                    res.redirect(url.format({ pathname: '/Hospital/Services', query: { title: 'Error', message: 'No se encontro el servicio', type: 'error' } }));
+                }
             })
-    } else {
-        res.redirect(url.format({ pathname: '/Hospital/Services', query: { title: 'Error', message: 'No se encontro el servicio', type: 'error' } }));
+                .catch(err => {
+                    res.redirect(url.format({ pathname: '/Hospital/UpdateService', query: { title: 'Error', message: 'No se pudo eliminar, intente de nuevo', type: 'error' } }));
+                })
+        } else {
+            res.redirect(url.format({ pathname: '/Hospital/Services', query: { title: 'Error', message: 'No se encontro el servicio', type: 'error' } }));
+        }
     }
+
 })
 
 router.put('/remove-category/', (req, res) => {

@@ -483,6 +483,14 @@
                         Cerrar Sesion
                      </button>
                   </form>
+                  <form action="/service/delete" method="POST">
+                     <button>
+                        Eliminar Hospital
+                     </button>
+                     <input hidden type="text"  id="service_delete_name" name="name">
+                     <%- include("../include/confirmation_message",{message: '¿Esta seguro de eliminar el servicio?' ,
+                        type: 'servicio' }) %>
+                  </form>
 
                </div>
             </div>
