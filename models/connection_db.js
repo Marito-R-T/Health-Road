@@ -3,7 +3,22 @@ const { Sequelize, DataTypes, Model } = require('sequelize');
 //credentials
 //const USER = '
 //const USER = 'marito';
-const USER = 'rougxvplrsupiu';
+
+const USER = 'postgres';
+const HOST = 'localhost';
+const DATABASE = 'health_road';
+const PASSWORD = 'Jhon$19PVT'
+const PORT = '5432';
+
+//connection
+const sequelize = new Sequelize(DATABASE, USER, PASSWORD, {
+    HOST,
+    PORT,
+    dialect: 'postgres',
+    logging: false,
+});
+
+/*const USER = 'rougxvplrsupiu';
 const HOST = 'ec2-54-209-52-160.compute-1.amazonaws.com';
 const DATABASE = 'dcbbqpd0tlkl89';
 const PASSWORD = 'b6dbf4d79e10aff839a37bfa1a078fbf70ffc7282ebf8ac81c05e229660911e2';
@@ -22,7 +37,7 @@ const sequelize = new Sequelize(
             rejectUnauthorized: false
         }
     }
-});
+});*/
 
 var hospital = sequelize.define('Hospital', {
     user: {
@@ -94,6 +109,11 @@ var service = sequelize.define('Service', {
     status: {
         type: DataTypes.BOOLEAN,
         defaultValue: false
+    },
+    deleted: {
+        type: DataTypes.BOOLEAN,
+        defaultValue: false,
+        allowNull:true
     },
     schedule: {
         type: DataTypes.JSON,
@@ -272,8 +292,6 @@ user.hasMany(hospital, {
     }
 })
 
-
-
 //-------servbicios
 //category.sync({ force: true }).then(function() {});
 //service.sync({ force: true }).then(function() {});
@@ -337,6 +355,17 @@ user.hasOne(creditCard, {
         name:'user'
     }
 })
+
+ambulance_driver.hasMany(hospital,{
+    onDelete: 'CASCADE',
+    foreignKey: {
+        allowNull:true,
+        defaultValue:null,
+        name:'hospital_user'
+    }
+})
+//ambulance_driver.sync({ alter: true }).then(function() {});
+//service.sync({ alter: true }).then(function() {});
 
 //creditCard.sync({ alter: true }).then(function() {})
 

@@ -70,7 +70,6 @@ router.put('/update/', async(req, res) => {
                 name: hospital_info.name,
                 description: hospital_info.description,
                 payment_type: hospital_info.payment_type ? hospital_info.payment_type:0,
-                email: hospital_info.email,
                 director_name: hospital_info.director_name ? hospital_info.director_name : '',
             }, {
                 where: {
@@ -78,6 +77,14 @@ router.put('/update/', async(req, res) => {
                 }
             }).then(e => {
                 if(e && e[0]){
+                    user.update(
+                        {
+                            email: hospital_info.email,
+                        },{
+                        where:{
+                            user: hospital_info.user
+                        }}
+                    )
                     val_error = "Actualizacion correcta";
                 }else{
                     val_error = "Error al actualizar hospital, verifique que exista";
@@ -120,9 +127,9 @@ router.delete('/delete/', async (req, res) => {
 })
 
 //historia 16
-router.put('/add-photo/',upload.single('photo'),async (req, res)=>{
+async function get_photos(req) {
     let data = await hospital.findByPk(req.body.user)
-    let photos=data.photos
+    let photos = data.photos
     if(photos){
         const count = Object.keys(photos).length+1
         photos[count.toString()]=req.file.path
@@ -130,7 +137,12 @@ router.put('/add-photo/',upload.single('photo'),async (req, res)=>{
         photos = {}
         photos["0"]=req.file.path
    }
-    await hospital.update({photos:photos},
+   return photos
+}
+
+router.put('/add-photo/',upload.single('photo'),async (req, res)=>{
+    let photos=get_photos(req)
+   await hospital.update({photos:photos},
         {
         where: {
             user: req.body.user

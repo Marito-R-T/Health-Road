@@ -192,35 +192,51 @@ router.get('/get-schedule/',async(req, res)=>{
     
 })
 
+function get_schedule(service_info) {
+    if (service_info.Monday && service_info.Tuesday
+        && service_info.Thursday && service_info.Wednesday
+        && service_info.Friday && service_info.Sunday
+        && service_info.Saturday && service_info.Start
+        && service_info.End){
+            return {
+                "Monday":service_info.Monday=='0'?'0':'1',
+                "Tuesday":service_info.Tuesday=='0'?'0':'1',
+                "Thursday":service_info.Thursday=='0'?'0':'1',
+                "Wednesday":service_info.Wednesday=='0'?'0':'1',
+                "Friday":service_info.Friday=='0'?'0':'1',
+                "Sunday":service_info.Sunday=='0'?'0':'1',
+                "Saturday":service_info.Saturday=='0'?'0':'1',
+                "Start":service_info.Start,
+                "End":service_info.End
+            }
+        
+    }else{
+        return false
+    }
+}
 router.put('/set-schedule/',(req, res) => {
     const service_info = req.body
-    const schedule = {
-        "Monday":service_info.Monday,
-        "Tuesday":service_info.Tuesday,
-        "Thursday":service_info.Thursday,
-        "Wednesday":service_info.Wednesday,
-        "Friday":service_info.Friday,
-        "Sunday":service_info.Sunday,
-        "Saturday":service_info.Saturday,
-        "Start":service_info.Start,
-        "End":service_info.End
+    const schedule = get_schedule(service_info)
+    if(schedule){
+        service.update({
+            schedule:schedule,
+        },{
+            where: {
+                name:service_info.name,
+                hospital_user: service_info.hospital_user
+            }
+        }).then(e=>{
+            if(e && e[0]){
+                res.send("Horario actualizado")
+            }else{
+                res.send("Id equivocado, no se encontro el servicio");
+            }
+        }).catch(error=>{
+            res.send("Error al establecer horario, intente de nuevo")
+        })
+    }else{
+        res.send("Verifique que los campos tenga valores validos")
     }
-    service.update({
-        schedule:schedule,
-    },{
-        where: {
-            name:service_info.name,
-            hospital_user: service_info.hospital_user
-        }
-    }).then(e=>{
-        if(e && e[0]){
-            res.send("Horario actualizado")
-        }else{
-            res.send("Id equivocado, no se encontro el servicio");
-        }
-    }).catch(error=>{
-        res.send("Error al establecer horario, intente de nuevo")
-    })
 })
 
 //see the rates of a service
@@ -316,9 +332,15 @@ router.put('/discount/all-services/',(req, res)=>{
 })
 
 //Offer discount to a specific services history 19
+function  validate_percentage(discounts) {
+    if(!discounts.percentage){
+        return true
+    }
+    return discounts.percentage<=100 && discounts.percentage>=0
+}
 router.put('/discount/specific-service/',(req, res)=>{
     const discounts = req.body
-    if(!(discounts.percentage<=100 && discounts.percentage>=0)){
+    if(!(validate_percentage(discounts))){
         res.send("El porcentaje debe ser un valor entre 0 y 100")
     }else{
         if(discounts.percentage && discounts.date_initial 
@@ -355,3 +377,5 @@ function sleep(ms) {
     });
 }
 module.exports.services_router = router;
+module.exports.validate_percentage = validate_percentage
+module.exports.get_schedule=get_schedule

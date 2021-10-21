@@ -58,22 +58,28 @@ router.post('/register/', upload.array('profile_pic', 7), async(req, res, next) 
     }
 });
 
+function  get_values(user_info) {
+    try {
+        delete user_info["user"]
+        for (const key in user_info) {
+            if(!user_info[key] || user_info[key]==null){
+                delete user_info[key];
+            }
+        }
+        return user_info
+    } catch (error) {
+        return {}
+    }
+}
+
 router.post('/update/', upload.array('profile_pic', 7), async(req, res, next) => {
     const user_info = req.body;
     let val_error = "";
     const user_ = user_info.user
-    delete user_info["user"]
-    for (const key in user_info) {
-        if(!user_info[key] || user_info[key]==null){
-            delete user_info[key];
-        }
-    }
-    /*if ((user_info.user && user_info.password &&
-            user_info.name && user_info.last_name &&
-            user_info.celphone)) {*/    
+    user_info=get_values(user_info)
         await user.update( user_info, {
                 where: {
-                    user: user_info.user
+                    user: user_
                 }
             })
             .catch(err => {
@@ -147,3 +153,4 @@ router.put("/delete/",async(req, res)=>{
 })
 
 module.exports.ambulance_driver_router = router;
+module.exports.get_values=get_values;

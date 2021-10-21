@@ -5,13 +5,13 @@ async function register_mail (req,res,code) {
         host: 'smtp.gmail.com',
         port: 587,
         auth: {
-        user: 'ismaelherz2001@gmail.com',
-        pass: 'contra'
+        user: 'healthroads141618@gmail.com',
+        pass: 'healthroad$20'
         }
     });
     var mailOptions = {
-        from: 'ismaelherz2001@gmail.com',
-        to: 'connerrodas99@gmail.com',
+        from: 'healthroads141618@gmail.com',
+        to: req.params.correo,
         subject: 'Asunto',
         text: code
     };
@@ -19,7 +19,7 @@ async function register_mail (req,res,code) {
         if (error){
             res.send("Error al enviar")
         } else {
-            user.update({code:code},{where: {user:req.session.user}}).then(e=>{
+            user.update({code:code},{where: {user:req.params.user}}).then(e=>{
                 if(e && e[0]){
                     res.status(201).send(true)
                 }else{

@@ -149,10 +149,10 @@ router.get('/service-rating/:service/:hospital',(req, res)=>{
         }
     })
     .then(e=>{
-        res.json(e)
+        res.status(201).json(e)
     })
     .catch(err=>{
-        res.send("ss")
+        res.status(400).json({error: "No se encontraron calificaciones"})
     })
 })
 

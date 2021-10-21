@@ -13,15 +13,19 @@ router.get('/show-categories/',(req, res)=>{
     })
 })
 
-//check diferent prices by category history 12
-router.get('/check-prices-of-service-by-category/:name/:type',async (req, res)=>{
-    const query = `SELECT  "Services"."hospital_user" as "Hospital", 
+function get_query(req) {
+    return `SELECT  "Services"."hospital_user" as "Hospital", 
     "Services"."name" AS "Servicio", "Services"."price" AS "Precio" 
     FROM "Category" AS "Category" INNER JOIN "Service" AS "Services" 
     ON "Category"."name" = "Services"."category_name"
     WHERE "Category"."name"='${req.params.name}' 
     order by "Services"."price" ${req.params.type==1?'ASC':'DESC'}`;
-    const [results,metadata]= await sequelize.query(query)
+}
+//check diferent prices by category history 12
+router.get('/check-prices-of-service-by-category/:name/:type',async (req, res)=>{
+    const [results,metadata]= await sequelize.query(
+        get_query(req)
+    )
     res.status(201).json(results)
 })
 

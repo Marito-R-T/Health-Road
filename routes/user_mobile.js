@@ -89,7 +89,7 @@ router.put('/update/',(req, res) => {
 })
 
 //register mail history 5
-router.post('/send-code-mail/',async (req, res)=>{
+router.get('/send-code-mail/:correo/:user/',async (req, res)=>{
     var code = ""
     for (let index = 0; index < 8; index++) {
         code+=String((Math.floor((Math.random() * (11)))))
@@ -98,13 +98,16 @@ router.post('/send-code-mail/',async (req, res)=>{
 })
 
 router.post('/validate-code/',(req, res)=>{
-    user.findOne({
+    user.update(
+        {
+            email:req.body.email,
+        },{
         where:{
             user: req.body.user,
             code:req.body.code
         }
     }).then(e=>{
-        if(e){
+        if(e && e[0]){
             res.status(201).json(e)
         }else{
             res.status(401).json({error:"El codigo de verificacion no es el correcto"})
