@@ -13,7 +13,7 @@ class RegisterScreen extends StatefulWidget {
 }
 
 class _RegisterScreenState extends State<RegisterScreen> {
-  final http_user = Users();
+  final httpuser = Users();
   final _user = TextEditingController();
   final _password = TextEditingController();
   final _cellphone = TextEditingController();
@@ -149,6 +149,8 @@ class _RegisterScreenState extends State<RegisterScreen> {
             validator: (value) {
               if (value == null || value.isEmpty) {
                 return 'Porfavor ingresar telefono';
+              } else if (int.tryParse(value) == null) {
+                return 'No es un numero';
               }
             },
             keyboardType: TextInputType.text,
@@ -173,6 +175,62 @@ class _RegisterScreenState extends State<RegisterScreen> {
 
   Widget _registerButton() {
     return StreamBuilder(
+        builder: (BuildContext context, AsyncSnapshot snapshot) {
+      return Container(
+        height: 45,
+        decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(10),
+            gradient: const LinearGradient(colors: [
+              Color.fromRGBO(143, 148, 251, 1),
+              Color.fromRGBO(143, 148, 251, .6),
+            ])),
+        child: Center(
+          child: OutlinedButton.icon(
+              onPressed: () {
+                // devolverá true si el formulario es válido, o falso si
+                // el formulario no es válido.
+                if (_formKey.currentState!.validate()) {
+                  ffuser = httpuser
+                      .insertUsers(
+                          _user.value.text,
+                          _password.value.text,
+                          _name.value.text,
+                          _lastname.value.text,
+                          _cellphone.value.text)
+                      .then((value) {
+                    if (value == null) {
+                      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+                        content: Text('Error al registrar usuario'),
+                        duration: Duration(seconds: 2),
+                      ));
+                    } else {
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) =>
+                                  NavigationHomeScreen(user: value)));
+                    }
+                  });
+                  // Si el formulario es válido, queremos mostrar un Snackbar
+                }
+              },
+              icon: const Icon(Icons.supervised_user_circle_rounded,
+                  color: Colors.white),
+              style: OutlinedButton.styleFrom(
+                fixedSize: const Size(double.maxFinite, double.maxFinite),
+              ),
+              /*style: ElevatedButton.styleFrom(
+                padding: EdgeInsets.symmetric(horizontal: 50),
+                elevation: 10,
+                primary: Colors.purpleAccent),*/
+              label: const Text(
+                "Submit",
+                style: TextStyle(color: Colors.white),
+              )),
+        ),
+      );
+    });
+    /*return StreamBuilder(
         builder: (BuildContext context, AsyncSnapshot snapshot) {
       return Container(
         padding: const EdgeInsets.symmetric(vertical: 16.0),
@@ -209,6 +267,6 @@ class _RegisterScreenState extends State<RegisterScreen> {
           child: Text('Submit'),
         ),
       );
-    });
+    });*/
   }
 }
