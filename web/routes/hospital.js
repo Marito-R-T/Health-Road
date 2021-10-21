@@ -126,19 +126,19 @@ router.delete('/delete/', async (req, res) => {
 
 //historia 16
 router.put('/add-photo/', upload.single('photo'), async (req, res) => {
-    let data = await hospital.findByPk(req.body.user)
+    let data = await hospital.findByPk(req.session.user)
     let photos = data.photos
     if (photos) {
         const count = Object.keys(photos).length + 1
-        photos[count.toString()] = req.file.path
+        photos[count.toString()] = req.file.name
     } else {
         photos = {}
-        photos["0"] = req.file.path
+        photos["0"] = req.file.name
     }
     await hospital.update({ photos: photos },
         {
             where: {
-                user: req.body.user
+                user: req.session.user
             }
         }
     ).then(e => {
