@@ -6,6 +6,7 @@ class User {
   String? email;
   int? celphone;
   int? rol;
+  String? profile_pic;
 
   User(
       {required this.user,
@@ -14,17 +15,18 @@ class User {
       required this.last_name,
       required this.email,
       required this.celphone,
-      required this.rol});
+      required this.rol,
+      required this.profile_pic});
 
   factory User.fromJson(Map<String, dynamic> json) {
     return User(
-      user: json['user'],
-      password: json['password'],
-      name: json['name'],
-      last_name: json['last_name'],
-      email: json['email'],
-      celphone: json['celphone'],
-      rol: json['rol'],
-    );
+        user: json['user'],
+        password: json['password'],
+        name: json['name'],
+        last_name: json['last_name'],
+        email: json['email'],
+        celphone: json['celphone'],
+        rol: json['rol'],
+        profile_pic: json['profile_pic']);
   }
 }
