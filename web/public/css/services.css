@@ -1,0 +1,28 @@
+.modified-buttons{
+    float: right;
+    display: block ruby;
+}
+
+.modified-buttons button{
+    background: transparent;
+    border: none;
+}
+
+.modified-buttons button:hover {
+    color: green;
+}
+
+.dias{
+    display: block ruby;
+}
+
+.form-check-input:checked {
+    background-color: #39b49b;
+    border-color: #39b49b;
+}
+.form-check-input[type="checkbox"] {
+    border: solid;
+}
+.badge {
+    background-color: cadetblue;
+}
