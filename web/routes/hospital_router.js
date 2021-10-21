@@ -294,7 +294,7 @@ async function getHospitalInfo(req) {
         resolve(message_);
       })
         ;
-    }, 1000
+    }, 100
     );
   });
 
