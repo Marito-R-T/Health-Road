@@ -149,7 +149,6 @@ class _HelpScreenState extends State<HelpScreen> {
             hintText: 'Ingrese user name',
             labelText: 'User Name:',
           ),
-          enabled: editing,
           // initialValue: widget.user.user,
         ));
     /*});*/
@@ -176,6 +175,7 @@ class _HelpScreenState extends State<HelpScreen> {
             hintText: 'Ingrese su contraseña',
             labelText: 'Password:',
           ),
+          enabled: editing,
           //initialValue: widget.user.password,
         ));
     //});
