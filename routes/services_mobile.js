@@ -29,10 +29,10 @@ router.get('/get-services/:name',(req, res)=>{
                 name: sequelize.where(sequelize.fn('LOWER', sequelize.col('name')), 'LIKE', '%' + req.params.name.toLowerCase() + '%'),
                 status:true
             },
-            attributes:["name","description","price"]
+            //attributes:["name","description","price"]
         },
-        attributes:["id","percentage"]
-        ,
+        //attributes:["id","percentage"]
+        
         
     }).then(e=>{
         let values = []

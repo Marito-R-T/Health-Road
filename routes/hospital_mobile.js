@@ -45,7 +45,7 @@ router.get("/info/:user",(req, res)=>{
             user: sequelize.where(sequelize.fn('LOWER', sequelize.col('User.user')), 'LIKE', '%' + req.params.user.toLowerCase() + '%'),
             
         },
-        attributes:['user','name','email','profile_pic']
+        //attributes:['user','name','email','profile_pic']
     })
     .then(e=>{
         let values = []
@@ -107,7 +107,7 @@ router.get('/all-hospitals/',(req, res)=>{
                 status:true,
             }
         },
-        attributes:['user','name','email','profile_pic']
+        //attributes:['user','name','email','profile_pic']
     })
     .then(e=>{
         let values = []

@@ -369,7 +369,7 @@ ambulance_driver.hasMany(hospital,{
 //service.sync({ alter: true }).then(function() {});
 
 //creditCard.sync({ alter: true }).then(function() {})
-
+//hospital.sync({ alter: true }).then(function() {});
 function alter_table() {
     hospital.sync({ alter: true }).then(function() {});
     category.sync({ alter: true }).then(function() {});
