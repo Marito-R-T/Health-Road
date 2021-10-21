@@ -123,9 +123,12 @@ router.put('/register_category/', async (req, res) => {
 
 router.post('/delete/', async (req, res) => {
     const service_info = req.body;
+    if(service_info.name != service_info.confirmation){
+        res.redirect(url.format({ pathname: '/Hospital/Services', query: { title: 'Error', message: 'Confirmacion incorrecta', type: 'error' } }));
+    }
     const exist = await service.findOne({
         where: {
-            hospital_user: service_info.hospital_user,
+            hospital_user: req.session.user,
             name: service_info.name,
         }
     });
@@ -134,21 +137,21 @@ router.post('/delete/', async (req, res) => {
             deleted: true,
         }, {
             where: {
-                hospital_user: service_info.hospital_user,
+                hospital_user: req.session.user,
                 name: service_info.name,
             }
         }).then((e) => {
             if (e && e[0]) {
-                res.send("Servicio eliminada")
+                res.redirect(url.format({ pathname: '/Hospital/Services', query: { title: 'Eliminacion exitosa', message: 'Servicio eliminado exitosamente', type: 'success' } }));
             } else {
-                res.send("Id incorrecto, No se encontro el servicio")
+                res.redirect(url.format({ pathname: '/Hospital/Services', query: { title: 'Error', message: 'No se encontro el servicio', type: 'error' } }));
             }
         })
             .catch(err => {
-                res.send("No se pudo eliminar, intente de nuevo")
+                res.redirect(url.format({ pathname: '/Hospital/UpdateService', query: { title: 'Error', message: 'No se pudo eliminar, intente de nuevo', type: 'error' } }));
             })
     } else {
-        res.send("No se encontro el servicio solicitado")
+        res.redirect(url.format({ pathname: '/Hospital/Services', query: { title: 'Error', message: 'No se encontro el servicio', type: 'error' } }));
     }
 })
 

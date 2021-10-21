@@ -59,27 +59,29 @@
                      </li>
                      <li class="nav-item" role="presentation">
                         <form action="/Hospital/Users">
-                           <button type="submit" class="nav-link  <%- tabs.users %>" id="profile-tab" data-bs-toggle="tab"
-                              data-bs-target="#profile" type="button" role="tab" aria-controls="profile"
-                              aria-selected="false">Usuario</button>
+                           <button type="submit" class="nav-link  <%- tabs.users %>" id="profile-tab"
+                              data-bs-toggle="tab" data-bs-target="#profile" type="button" role="tab"
+                              aria-controls="profile" aria-selected="false">Usuario</button>
                         </form>
                      </li>
                      <li class="nav-item" role="presentation">
                         <form action="/Hospital/Rates">
-                           <button type="submit" class="nav-link  <%- tabs.rates %>" id="contact-tab" data-bs-toggle="tab" data-bs-target="#contact"
-                              type="button" role="tab" aria-controls="contact"
-                              aria-selected="false">Calificaciones</button>
+                           <button type="submit" class="nav-link  <%- tabs.rates %>" id="contact-tab"
+                              data-bs-toggle="tab" data-bs-target="#contact" type="button" role="tab"
+                              aria-controls="contact" aria-selected="false">Calificaciones</button>
                         </form>
                      </li>
                      <li class="nav-item" role="presentation">
                         <form action="/Hospital/Gallery">
-                           <button type="submit" class="nav-link  <%- tabs.gallery %>" id="gallery-tab" data-bs-toggle="tab" data-bs-target="#gallery"
-                              type="button" role="tab" aria-controls="gallery" aria-selected="false">Galeria</button>
+                           <button type="submit" class="nav-link  <%- tabs.gallery %>" id="gallery-tab"
+                              data-bs-toggle="tab" data-bs-target="#gallery" type="button" role="tab"
+                              aria-controls="gallery" aria-selected="false">Galeria</button>
                         </form>
                      </li>
                   </ul>
                   <div class="tab-content" id="myTabContent">
-                     <div class="tab-pane fade  <%- tabs.service %>" id="home" role="tabpanel" aria-labelledby="home-tab">
+                     <div class="tab-pane fade  <%- tabs.service %>" id="home" role="tabpanel"
+                        aria-labelledby="home-tab">
                         <div class="service-control-panel">
                            <div class="service-filter">
 
@@ -111,35 +113,36 @@
                                              <h5 class="mb-1">
                                                 <%= services[i].name %>
                                              </h5>
-                                            
+
                                              <small>Q. <%= services[i].price %></small>
                                           </div>
-                                         
+
                                           <p class="mb-1">
                                              <%= services[i].description %>
                                           </p>
-                                          <span class="badge badge-pill badge-secondary"><%= services[i].category_name %></span>
-                                        
-                                        <br>
+                                          <span class="badge badge-pill badge-secondary">
+                                             <%= services[i].category_name %>
+                                          </span>
+
+                                          <br>
                                           <small> <i class="fas fa-star"></i><i class="fas fa-star-half-alt"></i><i
                                                 class="far fa-star"></i><i class="far fa-star"></i><i
                                                 class="far fa-star"></i></small>
                                           <small class="modified-buttons">
-                                             <form action="/Hospital/UpdateService" >
-                                                <input type="text" hidden  class="form-control" name="name"
+                                             <form action="/Hospital/UpdateService">
+                                                <input type="text" hidden class="form-control" name="name"
                                                    value="<%- services[i].name %>">
                                                 <button type="submit" class="form">
                                                    <i class="far fa-edit"></i>
                                                 </button>
                                              </form>
 
-                                             <form action="/Hospital/DeleteService">
-                                                <input type="text" hidden class="form-control" name="name"
-                                                   value="<%= services[i].name %>">
-                                                <button class="form" type="submit">
-                                                   <i class="far fa-trash-alt"></i>
-                                                </button>
-                                             </form>
+
+                                             <button class="form" data-bs-toggle="modal"
+                                             data-bs-target="#staticBackdrop"  onclick="send_service_name('<%- services[i].name %>')">
+                                                <i class="far fa-trash-alt"></i>
+                                             </button>
+
 
                                           </small>
                                        </div>
@@ -155,7 +158,8 @@
                         </div>
 
                      </div>
-                     <div class="tab-pane fade  <%- tabs.users %>" id="profile" role="tabpanel" aria-labelledby="profile-tab">
+                     <div class="tab-pane fade  <%- tabs.users %>" id="profile" role="tabpanel"
+                        aria-labelledby="profile-tab">
 
                         <div class="d-flex align-items-start">
                            <div class="nav flex-column nav-pills me-3" id="v-pills-tab" role="tablist"
@@ -353,7 +357,8 @@
 
 
 
-                     <div class="tab-pane fade  <%- tabs.rates %>" id="contact" role="tabpanel" aria-labelledby="contact-tab">
+                     <div class="tab-pane fade  <%- tabs.rates %>" id="contact" role="tabpanel"
+                        aria-labelledby="contact-tab">
 
                         <div class="list-group">
                            <div class="list-group-item list-group-item-action flex-column align-items-start ">
@@ -393,7 +398,8 @@
 
                         </div>
                      </div>
-                     <div class="tab-pane fade  <%- tabs.gallery %>" id="gallery" role="tabpanel" aria-labelledby="gallery-tab">
+                     <div class="tab-pane fade  <%- tabs.gallery %>" id="gallery" role="tabpanel"
+                        aria-labelledby="gallery-tab">
                         <div class="row">
                            <div class="col-md-6">
                               <div class="card shadow-sm">
@@ -485,6 +491,19 @@
 
 
       </div>
+      <form action="/service/delete" method="POST">
+         <input hidden type="text"  id="service_delete_name" name="name">
+         <%- include("../include/confirmation_message",{message: '¿Esta seguro de eliminar el servicio?' ,
+            type: 'servicio' }) %>
+      </form>
+      <script>
+         function send_service_name(name){
+            var input_delete =  document.getElementById('service_delete_name');
+            input_delete.value = name;
+            var paragraph_delte = document.getElementById('name_confirmation');
+            paragraph_delte.innerHTML = name;
+         }
+      </script>
 
       <%- include("../include/scripts") %>
 
