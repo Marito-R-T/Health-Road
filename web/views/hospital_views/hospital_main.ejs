@@ -139,7 +139,8 @@
 
 
                                              <button class="form" data-bs-toggle="modal"
-                                             data-bs-target="#staticBackdrop"  onclick="send_service_name('<%- services[i].name %>')">
+                                                data-bs-target="#delete_service"
+                                                onclick="send_service_name('<%- services[i].name %>')">
                                                 <i class="far fa-trash-alt"></i>
                                              </button>
 
@@ -483,13 +484,13 @@
                         Cerrar Sesion
                      </button>
                   </form>
-                  <form action="/service/delete" method="POST">
-                     <button>
-                        Eliminar Hospital
+                  <form action="/hospital/delete" method="POST">
+                     <button class="form" data-bs-toggle="modal" data-bs-target="#delete_hospital">
+                        <i class="far fa-trash-alt"></i>
                      </button>
-                     <input hidden type="text"  id="service_delete_name" name="name">
-                     <%- include("../include/confirmation_message",{message: '¿Esta seguro de eliminar el servicio?' ,
-                        type: 'servicio' }) %>
+                     <input hidden type="text" name="name">
+                     <%- include("../include/confirmation_message",{id: 'delete_hospital'
+                        ,message: '¿Esta seguro de eliminar el hospital? <br> ' +hospital.name , type: 'hospital' }) %>
                   </form>
 
                </div>
@@ -500,16 +501,14 @@
 
       </div>
       <form action="/service/delete" method="POST">
-         <input hidden type="text"  id="service_delete_name" name="name">
-         <%- include("../include/confirmation_message",{message: '¿Esta seguro de eliminar el servicio?' ,
-            type: 'servicio' }) %>
+         <input hidden type="text" id="service_delete_name" name="name">
+         <%- include("../include/confirmation_message",{ id: 'delete_service'
+            ,message: '¿Esta seguro de eliminar el servicio?' , type: 'servicio' }) %>
       </form>
       <script>
-         function send_service_name(name){
-            var input_delete =  document.getElementById('service_delete_name');
+         function send_service_name(name) {
+            var input_delete = document.getElementById('service_delete_name');
             input_delete.value = name;
-            var paragraph_delte = document.getElementById('name_confirmation');
-            paragraph_delte.innerHTML = name;
          }
       </script>
 
