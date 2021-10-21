@@ -306,7 +306,7 @@ category.hasMany(service, {
 hospital.hasMany(service, {
     onDelete: 'CASCADE',
     foreignKey: {
-        name: 'hospital_user',
+        name: 'user',
         primaryKey: true,
     }
 });
