@@ -16,6 +16,7 @@ router.post('/register/', async (req, res) => {
     ) {
         await service.findOne({
             where: {
+
                 hospital_user: req.session.user, name: service_info.name
             }
         }).then(e => {
@@ -28,6 +29,7 @@ router.post('/register/', async (req, res) => {
                     date_end: new Date(2050, 12, 30),
                     hospital_user: req.session.user
                 }).then(e => {
+
                     service.create({
                         name: service_info.name,
                         price: service_info.price,
@@ -38,6 +40,7 @@ router.post('/register/', async (req, res) => {
                     })
                     res.redirect(url.format({ pathname: '/Hospital/Services', query: { title: 'Registro exitoso', message: 'Servicio registrado', type: 'success' } }));
                 }).catch(error => {
+
                     res.redirect(url.format({ pathname: '/Hospital/Add', query: { title: 'Error', message: 'Intente de nuevo', type: 'error' } }));
                 })
             }

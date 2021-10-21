@@ -8,8 +8,6 @@ const { hospital, user } = require('../models/connection_db');
 const { upload } = require('./functions')
 
 
-
-
 //create a hospital historia 17
 router.post('/register/', upload.array('profile_pic', 7), async (req, res) => {
     const user_info = req.body;

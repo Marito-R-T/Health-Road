@@ -1,12 +1,17 @@
 import 'package:flutter/material.dart';
+import 'package:mobile/src/models/Hospital.dart';
 import 'design_course_app_theme.dart';
 
-class CourseInfoScreen extends StatefulWidget {
+class HospitalInfoScreen extends StatefulWidget {
+  const HospitalInfoScreen({Key? key, required this.hospital})
+      : super(key: key);
+
+  final Hospital hospital;
   @override
-  _CourseInfoScreenState createState() => _CourseInfoScreenState();
+  _HospitalInfoScreenState createState() => _HospitalInfoScreenState();
 }
 
-class _CourseInfoScreenState extends State<CourseInfoScreen>
+class _HospitalInfoScreenState extends State<HospitalInfoScreen>
     with TickerProviderStateMixin {
   final double infoHeight = 364.0;
   AnimationController? animationController;
@@ -20,7 +25,7 @@ class _CourseInfoScreenState extends State<CourseInfoScreen>
         duration: const Duration(milliseconds: 1000), vsync: this);
     animation = Tween<double>(begin: 0.0, end: 1.0).animate(CurvedAnimation(
         parent: animationController!,
-        curve: Interval(0, 1.0, curve: Curves.fastOutSlowIn)));
+        curve: const Interval(0, 1.0, curve: Curves.fastOutSlowIn)));
     setData();
     super.initState();
   }
@@ -56,7 +61,8 @@ class _CourseInfoScreenState extends State<CourseInfoScreen>
               children: <Widget>[
                 AspectRatio(
                   aspectRatio: 1.2,
-                  child: Image.asset('assets/design_course/webInterFace.png'),
+                  child: Image.network(
+                      'https://health-road.herokuapp.com/mobile/hospital/image/${widget.hospital.profile_pic}'),
                 ),
               ],
             ),
@@ -95,9 +101,9 @@ class _CourseInfoScreenState extends State<CourseInfoScreen>
                             padding: const EdgeInsets.only(
                                 top: 32.0, left: 18, right: 16),
                             child: Text(
-                              'Web Design\nCourse',
+                              widget.hospital.name!,
                               textAlign: TextAlign.left,
-                              style: TextStyle(
+                              style: const TextStyle(
                                 fontWeight: FontWeight.w600,
                                 fontSize: 22,
                                 letterSpacing: 0.27,
@@ -112,19 +118,33 @@ class _CourseInfoScreenState extends State<CourseInfoScreen>
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               crossAxisAlignment: CrossAxisAlignment.center,
                               children: <Widget>[
-                                Text(
-                                  '\$28.99',
-                                  textAlign: TextAlign.left,
-                                  style: TextStyle(
-                                    fontWeight: FontWeight.w200,
-                                    fontSize: 22,
-                                    letterSpacing: 0.27,
-                                    color: DesignCourseAppTheme.nearlyBlue,
-                                  ),
-                                ),
+                                (widget.hospital.direction != null &&
+                                        widget.hospital.direction!.isNotEmpty)
+                                    ? Text(
+                                        '${widget.hospital.direction![0]}',
+                                        textAlign: TextAlign.left,
+                                        style: const TextStyle(
+                                          fontWeight: FontWeight.w200,
+                                          fontSize: 22,
+                                          letterSpacing: 0.27,
+                                          color:
+                                              DesignCourseAppTheme.nearlyBlue,
+                                        ),
+                                      )
+                                    : const Text(
+                                        'Sin Dirección',
+                                        textAlign: TextAlign.left,
+                                        style: TextStyle(
+                                          fontWeight: FontWeight.w200,
+                                          fontSize: 22,
+                                          letterSpacing: 0.27,
+                                          color:
+                                              DesignCourseAppTheme.nearlyBlue,
+                                        ),
+                                      ),
                                 Container(
                                   child: Row(
-                                    children: <Widget>[
+                                    children: const <Widget>[
                                       Text(
                                         '4.3',
                                         textAlign: TextAlign.left,
@@ -151,13 +171,63 @@ class _CourseInfoScreenState extends State<CourseInfoScreen>
                             opacity: opacity1,
                             child: Padding(
                               padding: const EdgeInsets.all(8),
-                              child: Row(
-                                children: <Widget>[
-                                  getTimeBoxUI('24', 'Classe'),
-                                  getTimeBoxUI('2hours', 'Time'),
-                                  getTimeBoxUI('24', 'Seat'),
-                                ],
-                              ),
+                              child: widget.hospital.photos != null
+                                  ? ListView.builder(
+                                      padding: const EdgeInsets.only(
+                                          top: 0,
+                                          bottom: 0,
+                                          right: 16,
+                                          left: 16),
+                                      itemCount: widget.hospital.photos!.length,
+                                      scrollDirection: Axis.horizontal,
+                                      itemBuilder:
+                                          (BuildContext context, int index) {
+                                        final int count =
+                                            widget.hospital.photos!.length > 10
+                                                ? 10
+                                                : widget
+                                                    .hospital.photos!.length;
+                                        final Animation<double> animation =
+                                            Tween<double>(begin: 0.0, end: 1.0)
+                                                .animate(CurvedAnimation(
+                                                    parent:
+                                                        animationController!,
+                                                    curve: Interval(
+                                                        (1 / count) * index,
+                                                        1.0,
+                                                        curve: Curves
+                                                            .fastOutSlowIn)));
+                                        animationController?.forward();
+                                        return Container(
+                                          child: Padding(
+                                            padding: const EdgeInsets.only(
+                                                top: 24, bottom: 24, left: 16),
+                                            child: Row(
+                                              children: <Widget>[
+                                                ClipRRect(
+                                                  borderRadius:
+                                                      const BorderRadius.all(
+                                                          Radius.circular(
+                                                              16.0)),
+                                                  child: AspectRatio(
+                                                      aspectRatio: 1.0,
+                                                      child: Image.network(
+                                                          'https://health-road.herokuapp.com/mobile/hospital/image/${widget.hospital.photos![index]}')),
+                                                )
+                                              ],
+                                            ),
+                                          ),
+                                        );
+                                      },
+                                    )
+                                  /*Row(
+                                      children: <Widget>[
+                                        getTimeBoxUI('24', 'Classe'),
+                                        getTimeBoxUI('2hours', 'Time'),
+                                        getTimeBoxUI('24', 'Seat'),
+                                      ],
+                                    )*/
+                                  : Row(),
                             ),
                           ),
                           Expanded(
@@ -168,9 +238,9 @@ class _CourseInfoScreenState extends State<CourseInfoScreen>
                                 padding: const EdgeInsets.only(
                                     left: 16, right: 16, top: 8, bottom: 8),
                                 child: Text(
-                                  'Lorem ipsum is simply dummy text of printing & typesetting industry, Lorem ipsum is simply dummy text of printing & typesetting industry.',
+                                  '${widget.hospital.description}',
                                   textAlign: TextAlign.justify,
-                                  style: TextStyle(
+                                  style: const TextStyle(
                                     fontWeight: FontWeight.w200,
                                     fontSize: 14,
                                     letterSpacing: 0.27,
@@ -179,75 +249,6 @@ class _CourseInfoScreenState extends State<CourseInfoScreen>
                                   maxLines: 3,
                                   overflow: TextOverflow.ellipsis,
                                 ),
-                              ),
-                            ),
-                          ),
-                          AnimatedOpacity(
-                            duration: const Duration(milliseconds: 500),
-                            opacity: opacity3,
-                            child: Padding(
-                              padding: const EdgeInsets.only(
-                                  left: 16, bottom: 16, right: 16),
-                              child: Row(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                crossAxisAlignment: CrossAxisAlignment.center,
-                                children: <Widget>[
-                                  Container(
-                                    width: 48,
-                                    height: 48,
-                                    child: Container(
-                                      decoration: BoxDecoration(
-                                        color: DesignCourseAppTheme.nearlyWhite,
-                                        borderRadius: const BorderRadius.all(
-                                          Radius.circular(16.0),
-                                        ),
-                                        border: Border.all(
-                                            color: DesignCourseAppTheme.grey
-                                                .withOpacity(0.2)),
-                                      ),
-                                      child: Icon(
-                                        Icons.add,
-                                        color: DesignCourseAppTheme.nearlyBlue,
-                                        size: 28,
-                                      ),
-                                    ),
-                                  ),
-                                  const SizedBox(
-                                    width: 16,
-                                  ),
-                                  Expanded(
-                                    child: Container(
-                                      height: 48,
-                                      decoration: BoxDecoration(
-                                        color: DesignCourseAppTheme.nearlyBlue,
-                                        borderRadius: const BorderRadius.all(
-                                          Radius.circular(16.0),
-                                        ),
-                                        boxShadow: <BoxShadow>[
-                                          BoxShadow(
-                                              color: DesignCourseAppTheme
-                                                  .nearlyBlue
-                                                  .withOpacity(0.5),
-                                              offset: const Offset(1.1, 1.1),
-                                              blurRadius: 10.0),
-                                        ],
-                                      ),
-                                      child: Center(
-                                        child: Text(
-                                          'Join Course',
-                                          textAlign: TextAlign.left,
-                                          style: TextStyle(
-                                            fontWeight: FontWeight.w600,
-                                            fontSize: 18,
-                                            letterSpacing: 0.0,
-                                            color: DesignCourseAppTheme
-                                                .nearlyWhite,
-                                          ),
-                                        ),
-                                      ),
-                                    ),
-                                  )
-                                ],
                               ),
                             ),
                           ),
@@ -276,7 +277,7 @@ class _CourseInfoScreenState extends State<CourseInfoScreen>
                   child: Container(
                     width: 60,
                     height: 60,
-                    child: Center(
+                    child: const Center(
                       child: Icon(
                         Icons.favorite,
                         color: DesignCourseAppTheme.nearlyWhite,
@@ -297,7 +298,7 @@ class _CourseInfoScreenState extends State<CourseInfoScreen>
                   child: InkWell(
                     borderRadius:
                         BorderRadius.circular(AppBar().preferredSize.height),
-                    child: Icon(
+                    child: const Icon(
                       Icons.arrow_back_ios,
                       color: DesignCourseAppTheme.nearlyBlack,
                     ),
@@ -338,7 +339,7 @@ class _CourseInfoScreenState extends State<CourseInfoScreen>
               Text(
                 text1,
                 textAlign: TextAlign.center,
-                style: TextStyle(
+                style: const TextStyle(
                   fontWeight: FontWeight.w600,
                   fontSize: 14,
                   letterSpacing: 0.27,
@@ -348,7 +349,7 @@ class _CourseInfoScreenState extends State<CourseInfoScreen>
               Text(
                 txt2,
                 textAlign: TextAlign.center,
-                style: TextStyle(
+                style: const TextStyle(
                   fontWeight: FontWeight.w200,
                   fontSize: 14,
                   letterSpacing: 0.27,

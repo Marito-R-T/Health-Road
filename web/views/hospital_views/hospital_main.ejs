@@ -30,6 +30,7 @@
                               <div id="previsualizacion-profile"
                                  style="background-image: url( /<%- hospital.photo  %> );">
 
+
                               </div>
                            </div>
 
@@ -50,6 +51,7 @@
                <div class="col-md-9 nav-profile">
                   <ul class="nav nav-tabs" id="myTab" role="tablist">
                      <li class="nav-item" role="presentation">
+
                         <form action="/Hospital/Services">
                            <button class="nav-link <%- tabs.service %>" id="home-tab" data-bs-toggle="tab"
                               data-bs-target="#home" type="submit" role="tab" aria-controls="home"
@@ -82,12 +84,15 @@
                   <div class="tab-content" id="myTabContent">
                      <div class="tab-pane fade  <%- tabs.service %>" id="home" role="tabpanel"
                         aria-labelledby="home-tab">
+
                         <div class="service-control-panel">
                            <div class="service-filter">
 
                            </div>
                            <div class="service-actions">
+
                               <form action="/Hospital/AddService">
+
                                  <button class="form">
                                     <i class="far fa-notes-medical"></i> Servicio</i>
                                  </button>
@@ -97,6 +102,7 @@
 
                         </div>
                         <div class="list-group">
+
                            <% for(var i=0; i<services.length; i++) {%>
 
 
@@ -160,6 +166,7 @@
                      </div>
                      <div class="tab-pane fade  <%- tabs.users %>" id="profile" role="tabpanel"
                         aria-labelledby="profile-tab">
+
 
                         <div class="d-flex align-items-start">
                            <div class="nav flex-column nav-pills me-3" id="v-pills-tab" role="tablist"
@@ -326,11 +333,13 @@
                                           <div class="col-md-10">
                                              <div>
 
+
                                                 <p class="mb-1">Usuario</p>
                                                 <small>Rol</small>
                                                 <small> <i class="fas fa-star"></i><i
                                                       class="fas fa-star-half-alt"></i><i class="far fa-star"></i><i
                                                       class="far fa-star"></i><i class="far fa-star"></i></small>
+
                                                 <small class="modified-buttons">
                                                    <button class="form">
                                                       <i class="far fa-edit"></i>
@@ -357,8 +366,10 @@
 
 
 
+
                      <div class="tab-pane fade  <%- tabs.rates %>" id="contact" role="tabpanel"
                         aria-labelledby="contact-tab">
+
 
                         <div class="list-group">
                            <div class="list-group-item list-group-item-action flex-column align-items-start ">
@@ -398,8 +409,10 @@
 
                         </div>
                      </div>
+
                      <div class="tab-pane fade  <%- tabs.gallery %>" id="gallery" role="tabpanel"
                         aria-labelledby="gallery-tab">
+
                         <div class="row">
                            <div class="col-md-6">
                               <div class="card shadow-sm">
@@ -444,6 +457,7 @@
 
                <div class="col-md-3 basic-information">
                   <label> <i class="fas fa-hospital-symbol"></i> Informacion Basica</label>
+
                   <small class="modified-buttons">
                      <form action="/Hospital/Update">
                         <button type="submit" class="form">
@@ -471,6 +485,7 @@
                      <label class="hospital-info">
                         <%- hospital.email %>
                      </label>
+
                   </div>
 
                   <div class="col-md-12">
@@ -491,6 +506,7 @@
 
 
       </div>
+
       <form action="/service/delete" method="POST">
          <input hidden type="text"  id="service_delete_name" name="name">
          <%- include("../include/confirmation_message",{message: '¿Esta seguro de eliminar el servicio?' ,
@@ -504,6 +520,7 @@
             paragraph_delte.innerHTML = name;
          }
       </script>
+
 
       <%- include("../include/scripts") %>
 

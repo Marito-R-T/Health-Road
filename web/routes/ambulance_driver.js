@@ -29,6 +29,7 @@ router.post('/register/', upload.array('profile_pic', 7), async (req, res) => {
             celphone: user_info.celphone,
             rol: 2,
             profile_pic: profile_pic.name
+
         })
             .catch(err => {
                 res.redirect(url.format({ pathname: '/Hospital/AddDriver', query: { title: 'Error', message: 'Conductor ya registrado', type: 'error' } }));

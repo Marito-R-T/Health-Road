@@ -1,7 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:mobile/src/models/Service.dart';
 import 'design_course_app_theme.dart';
 
 class CourseInfoScreen extends StatefulWidget {
+  const CourseInfoScreen({Key? key, required this.service}) : super(key: key);
+
+  final Service service;
   @override
   _CourseInfoScreenState createState() => _CourseInfoScreenState();
 }
@@ -20,7 +24,7 @@ class _CourseInfoScreenState extends State<CourseInfoScreen>
         duration: const Duration(milliseconds: 1000), vsync: this);
     animation = Tween<double>(begin: 0.0, end: 1.0).animate(CurvedAnimation(
         parent: animationController!,
-        curve: Interval(0, 1.0, curve: Curves.fastOutSlowIn)));
+        curve: const Interval(0, 1.0, curve: Curves.fastOutSlowIn)));
     setData();
     super.initState();
   }
@@ -55,13 +59,13 @@ class _CourseInfoScreenState extends State<CourseInfoScreen>
             Column(
               children: <Widget>[
                 AspectRatio(
-                  aspectRatio: 1.2,
-                  child: Image.asset('homepage/webInterFace.png'),
+                  aspectRatio: 2.5,
+                  child: Image.asset('homepage/icon-logo.png'),
                 ),
               ],
             ),
             Positioned(
-              top: (MediaQuery.of(context).size.width / 1.2) - 24.0,
+              top: (MediaQuery.of(context).size.width / 2.5) - 24.0,
               bottom: 0,
               left: 0,
               right: 0,
@@ -95,9 +99,9 @@ class _CourseInfoScreenState extends State<CourseInfoScreen>
                             padding: const EdgeInsets.only(
                                 top: 32.0, left: 18, right: 16),
                             child: Text(
-                              'Web Design\nCourse',
+                              '${widget.service.name}',
                               textAlign: TextAlign.left,
-                              style: TextStyle(
+                              style: const TextStyle(
                                 fontWeight: FontWeight.w600,
                                 fontSize: 22,
                                 letterSpacing: 0.27,
@@ -113,9 +117,9 @@ class _CourseInfoScreenState extends State<CourseInfoScreen>
                               crossAxisAlignment: CrossAxisAlignment.center,
                               children: <Widget>[
                                 Text(
-                                  '\$28.99',
+                                  'Q.${widget.service.price}',
                                   textAlign: TextAlign.left,
-                                  style: TextStyle(
+                                  style: const TextStyle(
                                     fontWeight: FontWeight.w200,
                                     fontSize: 22,
                                     letterSpacing: 0.27,
@@ -124,7 +128,7 @@ class _CourseInfoScreenState extends State<CourseInfoScreen>
                                 ),
                                 Container(
                                   child: Row(
-                                    children: <Widget>[
+                                    children: const <Widget>[
                                       Text(
                                         '4.3',
                                         textAlign: TextAlign.left,
@@ -146,20 +150,6 @@ class _CourseInfoScreenState extends State<CourseInfoScreen>
                               ],
                             ),
                           ),
-                          AnimatedOpacity(
-                            duration: const Duration(milliseconds: 500),
-                            opacity: opacity1,
-                            child: Padding(
-                              padding: const EdgeInsets.all(8),
-                              child: Row(
-                                children: <Widget>[
-                                  getTimeBoxUI('24', 'Classe'),
-                                  getTimeBoxUI('2hours', 'Time'),
-                                  getTimeBoxUI('24', 'Seat'),
-                                ],
-                              ),
-                            ),
-                          ),
                           Expanded(
                             child: AnimatedOpacity(
                               duration: const Duration(milliseconds: 500),
@@ -168,9 +158,9 @@ class _CourseInfoScreenState extends State<CourseInfoScreen>
                                 padding: const EdgeInsets.only(
                                     left: 16, right: 16, top: 8, bottom: 8),
                                 child: Text(
-                                  'Lorem ipsum is simply dummy text of printing & typesetting industry, Lorem ipsum is simply dummy text of printing & typesetting industry.',
+                                  '${widget.service.description}',
                                   textAlign: TextAlign.justify,
-                                  style: TextStyle(
+                                  style: const TextStyle(
                                     fontWeight: FontWeight.w200,
                                     fontSize: 14,
                                     letterSpacing: 0.27,
@@ -205,7 +195,7 @@ class _CourseInfoScreenState extends State<CourseInfoScreen>
                                             color: DesignCourseAppTheme.grey
                                                 .withOpacity(0.2)),
                                       ),
-                                      child: Icon(
+                                      child: const Icon(
                                         Icons.add,
                                         color: DesignCourseAppTheme.nearlyBlue,
                                         size: 28,
@@ -232,9 +222,9 @@ class _CourseInfoScreenState extends State<CourseInfoScreen>
                                               blurRadius: 10.0),
                                         ],
                                       ),
-                                      child: Center(
+                                      child: const Center(
                                         child: Text(
-                                          'Join Course',
+                                          'Get Service',
                                           textAlign: TextAlign.left,
                                           style: TextStyle(
                                             fontWeight: FontWeight.w600,
@@ -262,7 +252,7 @@ class _CourseInfoScreenState extends State<CourseInfoScreen>
               ),
             ),
             Positioned(
-              top: (MediaQuery.of(context).size.width / 1.2) - 24.0 - 35,
+              top: (MediaQuery.of(context).size.width / 2.5) - 24.0 - 35,
               right: 35,
               child: ScaleTransition(
                 alignment: Alignment.center,
@@ -276,7 +266,7 @@ class _CourseInfoScreenState extends State<CourseInfoScreen>
                   child: Container(
                     width: 60,
                     height: 60,
-                    child: Center(
+                    child: const Center(
                       child: Icon(
                         Icons.favorite,
                         color: DesignCourseAppTheme.nearlyWhite,
@@ -297,7 +287,7 @@ class _CourseInfoScreenState extends State<CourseInfoScreen>
                   child: InkWell(
                     borderRadius:
                         BorderRadius.circular(AppBar().preferredSize.height),
-                    child: Icon(
+                    child: const Icon(
                       Icons.arrow_back_ios,
                       color: DesignCourseAppTheme.nearlyBlack,
                     ),
@@ -338,7 +328,7 @@ class _CourseInfoScreenState extends State<CourseInfoScreen>
               Text(
                 text1,
                 textAlign: TextAlign.center,
-                style: TextStyle(
+                style: const TextStyle(
                   fontWeight: FontWeight.w600,
                   fontSize: 14,
                   letterSpacing: 0.27,
@@ -348,7 +338,7 @@ class _CourseInfoScreenState extends State<CourseInfoScreen>
               Text(
                 txt2,
                 textAlign: TextAlign.center,
-                style: TextStyle(
+                style: const TextStyle(
                   fontWeight: FontWeight.w200,
                   fontSize: 14,
                   letterSpacing: 0.27,

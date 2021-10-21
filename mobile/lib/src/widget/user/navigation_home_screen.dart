@@ -61,7 +61,7 @@ class _NavigationHomeScreenState extends State<NavigationHomeScreen> {
         });
       } else if (drawerIndex == DrawerIndex.Help) {
         setState(() {
-          screenView = HelpScreen();
+          screenView = HelpScreen(user: widget.user);
         });
       } else if (drawerIndex == DrawerIndex.FeedBack) {
         setState(() {

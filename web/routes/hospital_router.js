@@ -3,6 +3,7 @@ var router = express.Router();
 var url = require('url');
 const { static_files_public, root_path, static_upload } = require('../absolutepath')
 const fs = require('fs');
+
 const { hospital, user, service, ambulance_driver, category } = require('../models/connection_db');
 const { response } = require('express');
 const { Console } = require('console');
@@ -59,15 +60,19 @@ router.get('/AddService/', (req, res) => {
   }).then(val => {
     if (val) {
       res.render("hospital_views/register_service", { categories: val })
+
     } else {
       res.redirect(url.format({ pathname: '/', query: { title: 'Error', message: 'Informacion no encontrada', type: 'error' } }));
     }
   }).catch(err => {
+
+
     res.redirect(url.format({ pathname: '/', query: { title: 'Error', message: 'Intente de nuevo', type: 'error' } }));
   })
 
 
 })
+
 
 router.get('/AddDriver/', (req, res) => {
 
