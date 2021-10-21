@@ -1,7 +1,7 @@
 var express = require('express');
 var router = express.Router();
 var validator = require('email-validator');
-const { ambulance_driver } = require('../models/connection_db');
+const { ambulance_driver, hospital } = require('../models/connection_db');
 const { user } = require('../models/connection_db');
 var url = require('url');
 const {upload}= require('./functions')
@@ -28,14 +28,16 @@ router.post('/register/', upload.array('profile_pic', 7), async (req, res) => {
             email: user_info.email,
             celphone: user_info.celphone,
             rol: 2,
-            profile_pic: profile_pic.path
+            profile_pic: profile_pic.name
+
         })
             .catch(err => {
                 res.redirect(url.format({ pathname: '/Hospital/AddDriver', query: { title: 'Error', message: 'Conductor ya registrado', type: 'error' } }));
             })
          await ambulance_driver.create({
                 user: user_info.user,
-                direction: user_info.direction ? user_info.direction : {}
+                direction: user_info.direction ? user_info.direction : {},
+                hospital_user: req.session.user
             }).then(e => {
                 res.redirect(url.format({ pathname: '/Hospital', query: { title: 'Registro exitoso', message: 'Conductor registrado', type: 'success' } }));
             })

@@ -1,5 +1,6 @@
 .modified-buttons{
     float: right;
+    display: block ruby;
 }
 
 .modified-buttons button{
@@ -21,4 +22,6 @@
 }
 .form-check-input[type="checkbox"] {
     border: solid;
-}
+
+.badge {
+    background-color: cadetblue;
