@@ -22,10 +22,11 @@
                <h2>Actualizar Hospital</h2>
             </div>
          </div>
+         <form id="ajax-contact" action="/hospital/update" method="POST" >
          <div class="container forms">
             <div class="contact-section">
                <div class="form-contant">
-                  <form id="ajax-contact" action="/hospital/update" method="POST" >
+                 
                      <div class="row" id="first-div">
                         
 
@@ -65,8 +66,13 @@
                         <div class="col-md-12">
                            <div class="actions">
                               
-                                 <button type="submit" class="btn small submitButton"><i class="far fa-save"></i>
-                                    Actualizar</button>
+                              <div class="actions">
+                                 <button type="button" class="btn small submitButton" data-bs-toggle="modal"
+                                    data-bs-target="#staticBackdrop">
+                                    <i class="far fa-save"></i>
+                                    Actualizar
+                                 </button>
+                              </div>
                             
                              
 
@@ -74,10 +80,12 @@
                         </div>
                      </div>
 
-                  </form>
+                 
                </div>
             </div>
          </div>
+         <%- include("../include/confirmation_message",{message : '¿Estas seguro de actualizar la informacion?'}) %>
+      </form>
       </div>
 
       <div class="copyright-area wow fadeIn" id="copyright-area">

@@ -20,18 +20,18 @@
                <h2>Actualizacion de Servicio</h2>
             </div>
          </div>
-         <div class="container forms">
-            <div class="contact-section">
-               <div class="form-contant">
-                  <form id="ajax-contact" action="/service/update" method="post">
+         <form id="ajax-contact" action="/service/update" method="post">
+            <div class="container forms">
+               <div class="contact-section">
+                  <div class="form-contant">
+
                      <div class="row">
                         <div class="col-md-12">
                            <div class="form-group in_name">
                               <label> <i class="fas fa-hospital-symbol"></i> Nombre</label>
                               <input type="text" class="form-control" placeholder="Nombre" value="<%- service.name  %>"
                                  name="name" required="required">
-                                 <input hidden type="text"  value="<%- service.name  %>"
-                                 name="name_old">
+                              <input hidden type="text" value="<%- service.name  %>" name="name_old">
                            </div>
                         </div>
                         <div class="col-md-12">
@@ -47,7 +47,6 @@
                               <select name="category_name">
                                  <option></option>
                                  <% for(var i=0; i<categories.length; i++) {
-
                                     if(service.category_name==categories[i].name){ %>
 
                                     <option selected value="<%= categories[i].name %>">
@@ -55,8 +54,8 @@
                                     </option>
                                     <% }else{ %>
                                        <option value="<%= categories[i].name %>">
-                                       <%= categories[i].name %>
-                                    </option>
+                                          <%= categories[i].name %>
+                                       </option>
                                        <%} } %>
                               </select>
                            </div>
@@ -69,19 +68,23 @@
                            </div>
 
                            <div class="actions">
-                              <button type="submit" class="btn small submitButton"><i class="far fa-save"></i>
-                                 Registrar</button>
+                              <button type="button" class="btn small submitButton" data-bs-toggle="modal"
+                                 data-bs-target="#staticBackdrop">
+                                 <i class="far fa-save"></i>
+                                 Actualizar
+                              </button>
                            </div>
                         </div>
                      </div>
 
-                  </form>
+
+                  </div>
+
                </div>
 
             </div>
-
-         </div>
-
+            <%- include("../include/confirmation_message",{message : '¿Estas seguro de actualizar el servicio?'}) %>
+         </form>
       </div>
 
       <%- include("../include/scripts") %>
