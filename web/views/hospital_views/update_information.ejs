@@ -69,7 +69,7 @@
                               
                               <div class="actions">
                                  <button type="button" class="btn small submitButton" data-bs-toggle="modal"
-                                    data-bs-target="#staticBackdrop">
+                                    data-bs-target="#update_hospital">
                                     <i class="far fa-save"></i>
                                     Actualizar
                                  </button>
@@ -85,7 +85,7 @@
                </div>
             </div>
          </div>
-         <%- include("../include/confirmation_message",{message:'¿Esta seguro de actualizar la informacion del hospital?' ,type: 'hospital'}) %>
+         <%- include("../include/confirmation_message",{id:'update_hospital',message:'¿Esta seguro de actualizar la informacion del hospital? <br>'+hospital.name ,type: 'hospital'}) %>
       </form>
       </div>
 

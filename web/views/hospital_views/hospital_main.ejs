@@ -28,7 +28,7 @@
                            </div>
                            <div class="avatar-preview">
                               <div id="previsualizacion-profile"
-                                 style="background-image: url( /<%- hospital.photo  %> );">
+                                 style="background-image: url( /<%- hospital.photo  %>);">
 
 
                               </div>
@@ -525,6 +525,8 @@
          function send_service_name(name) {
             var input_delete = document.getElementById('service_delete_name');
             input_delete.value = name;
+            var pg_delete = document.getElementById('delete_service_pg');
+            pg_delete.innerHTML = name;
          }
       </script>
 
