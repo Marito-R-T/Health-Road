@@ -80,13 +80,13 @@ router.put('/update/',(req, res) => {
         }
     ).then(e=>{
         if(e && e[0]){
-            res.status(201).send(
+            res.status(201).json(
                 user.findOne({
                     where: {user:user_, rol:3}
                 })
             )
         }else{
-            res.status(400).send(false)
+            res.status(400).json({ error:"No se pudo actualizar el perfil, intente de nuevo"})
         }
     }).catch(err=>{
         res.status(500).json({ error:"No se pudo actualizar el perfil, intente de nuevo"})
