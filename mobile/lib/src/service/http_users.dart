@@ -42,7 +42,7 @@ class Users {
     if (response.statusCode == 201) {
       return User.fromJson(jsonDecode(response.body));
     } else {
-      print('Error en la entrada');
+      print(response.body);
       return null;
     }
   }
@@ -67,6 +67,35 @@ class Users {
     if (response.statusCode == 201) {
       return true;
     } else {
+      return false;
+    }
+  }
+
+  void emailSend(String user, String email) async {
+    await http.get(
+        Uri.parse(
+            'https://health-road.herokuapp.com/mobile/user/send-code-mail/$email/$user'),
+        headers: {
+          "Accept": "application/json",
+          "Content-Type": "application/x-www-form-urlencoded"
+        });
+  }
+
+  Future<bool> verifyCode(String user, String code, String email) async {
+    final response = await http.post(
+        Uri.parse(
+            'https://health-road.herokuapp.com/mobile/user/validate-code/'),
+        headers: {
+          "Accept": "application/json",
+          "Content-Type": "application/x-www-form-urlencoded"
+        },
+        body: {'user': user, 'code': code, 'email': email},
+        encoding: Encoding.getByName("utf-8"));
+    print(response.body);
+    if (response.statusCode == 201) {
+      return jsonDecode(response.body[0]);
+    } else {
+      print('Error en la entrada');
       return false;
     }
   }

@@ -131,7 +131,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
             },
             keyboardType: TextInputType.text,
             controller: _lastname,
-            decoration: InputDecoration(
+            decoration: const InputDecoration(
               icon: Icon(Icons.text_fields),
               hintText: 'Ingrese su apellido',
               labelText: 'Last name:',
@@ -144,7 +144,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
     return StreamBuilder(
         builder: (BuildContext context, AsyncSnapshot snapshot) {
       return Container(
-          padding: EdgeInsets.symmetric(horizontal: 50.0),
+          padding: const EdgeInsets.symmetric(horizontal: 50.0),
           child: TextFormField(
             validator: (value) {
               if (value == null || value.isEmpty) {
@@ -153,7 +153,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                 return 'No es un numero';
               }
             },
-            keyboardType: TextInputType.text,
+            keyboardType: TextInputType.phone,
             controller: _cellphone,
             decoration: const InputDecoration(
               icon: Icon(Icons.settings_cell),

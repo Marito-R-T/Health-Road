@@ -5,6 +5,7 @@ import 'package:mobile/src/service/http_users.dart';
 import 'package:mobile/src/widget/homepage/design_course_app_theme.dart';
 import 'package:mobile/src/widget/user/app_theme.dart';
 import 'package:flutter/material.dart';
+import 'package:email_validator/email_validator.dart';
 
 class HelpScreen extends StatefulWidget {
   const HelpScreen({Key? key, required this.user}) : super(key: key);
@@ -27,10 +28,18 @@ class _HelpScreenState extends State<HelpScreen> {
   var _cellphone;
   var _name;
   var _lastname;
+  var _email;
+  var _code;
   ///////////////////////////////////////////////////////
 
   final _formKey = GlobalKey<FormState>();
+  final _formKeyEmail = GlobalKey<FormState>();
+  final _formKeyCode = GlobalKey<FormState>();
   bool? editing = false;
+  bool? editingemail = false;
+  bool? sendingcode = false;
+  String? code;
+  final _prueba = TextEditingController();
 
   @override
   void initState() {
@@ -40,6 +49,8 @@ class _HelpScreenState extends State<HelpScreen> {
     _cellphone = TextEditingController(text: widget.user.celphone.toString());
     _name = TextEditingController(text: widget.user.name);
     _lastname = TextEditingController(text: widget.user.last_name);
+    _email = TextEditingController(text: widget.user.email);
+    _code = TextEditingController();
     ///////////////////////////////////////////////////////
     super.initState();
   }
@@ -51,82 +62,124 @@ class _HelpScreenState extends State<HelpScreen> {
       child: SafeArea(
         top: false,
         child: Scaffold(
-          backgroundColor: AppTheme.nearlyWhite,
-          body: Column(
-            children: <Widget>[
-              Form(
-                  key: _formKey,
-                  child: Column(children: <Widget>[
-                    const Center(
-                      child: Padding(
-                        padding: EdgeInsets.only(top: 8.0, left: 18, right: 16),
-                        child: Text(
-                          'PROFILE',
-                          textAlign: TextAlign.left,
-                          style: TextStyle(
-                            fontWeight: FontWeight.w600,
-                            fontSize: 22,
-                            letterSpacing: 0.27,
-                            color: DesignCourseAppTheme.darkerText,
+            backgroundColor: AppTheme.nearlyWhite,
+            body: ListView(
+              children: <Widget>[
+                const Center(
+                  child: Padding(
+                    padding: EdgeInsets.only(top: 8.0, left: 18, right: 16),
+                    child: Text(
+                      'PROFILE',
+                      textAlign: TextAlign.left,
+                      style: TextStyle(
+                        fontWeight: FontWeight.w600,
+                        fontSize: 22,
+                        letterSpacing: 0.27,
+                        color: DesignCourseAppTheme.darkerText,
+                      ),
+                    ),
+                  ),
+                ),
+                _padding(),
+                Center(
+                  child: Row(
+                    children: <Widget>[
+                      const SizedBox(
+                        width: 10,
+                      ), //SizedBox
+                      const Text(
+                        'Edit Information',
+                        style: TextStyle(fontSize: 18.0),
+                      ), //Text
+                      const SizedBox(width: 10), //SizedBox
+                      /** Checkbox Widget **/
+                      Checkbox(
+                        value: editing,
+                        onChanged: (bool? value) {
+                          setState(() {
+                            editing = value;
+                          });
+                        },
+                      ), //Checkbox
+                    ], //<Widget>[]
+                  ),
+                ),
+                Form(
+                    key: _formKey,
+                    child: Column(children: <Widget>[
+                      _userText(),
+                      _padding(),
+                      _passwordText(),
+                      _padding(),
+                      _nameText(),
+                      _padding(),
+                      _lastnameText(),
+                      _padding(),
+                      _celphoneText(),
+                      _padding(),
+                      Container(
+                        alignment: Alignment.center,
+                        padding: const EdgeInsets.all(8.0),
+                        child: _registerButton(),
+                      ),
+                      _padding(),
+                    ])),
+                Center(
+                  child: Row(
+                    children: <Widget>[
+                      const SizedBox(
+                        width: 10,
+                      ), //SizedBox
+                      widget.user.email == null
+                          ? const Text(
+                              'Add Email',
+                              style: TextStyle(fontSize: 18.0),
+                            )
+                          : const Text(
+                              'change Email',
+                              style: TextStyle(fontSize: 18.0),
+                            ), //Text
+                      const SizedBox(width: 10), //SizedBox
+                      /** Checkbox Widget **/
+                      Checkbox(
+                        value: editingemail,
+                        onChanged: (bool? value) {
+                          setState(() {
+                            editingemail = value;
+                          });
+                        },
+                      ), //Checkbox
+                    ], //<Widget>[]
+                  ),
+                ),
+                Form(
+                    key: _formKeyEmail,
+                    child: Column(
+                      children: [
+                        Row(children: <Widget>[
+                          _emailText(),
+                          Container(
+                            width: 200,
+                            alignment: Alignment.center,
+                            padding: const EdgeInsets.only(left: 10, right: 10),
+                            child: _emailButton(),
                           ),
-                        ),
-                      ),
-                    ),
-                    /*Row(
-                children: [
-                  /*Container(
-                    width: 200,
-                    padding: EdgeInsets.only(
-                        top: MediaQuery.of(context).padding.top,
-                        left: 50,
-                        right: 16),
-                    child: Image.asset('images/helpImage.png'),
-                  ),*/
-                ],
-              ),*/
-                    _padding(),
-                    Center(
-                      child: Row(
-                        children: <Widget>[
-                          const SizedBox(
-                            width: 10,
-                          ), //SizedBox
-                          const Text(
-                            'Edit Information',
-                            style: TextStyle(fontSize: 22.0),
-                          ), //Text
-                          const SizedBox(width: 10), //SizedBox
-                          /** Checkbox Widget **/
-                          Checkbox(
-                            value: editing,
-                            onChanged: (bool? value) {
-                              setState(() {
-                                editing = value;
-                              });
-                            },
-                          ), //Checkbox
-                        ], //<Widget>[]
-                      ),
-                    ),
-                    _userText(),
-                    _padding(),
-                    _passwordText(),
-                    _padding(),
-                    _nameText(),
-                    _padding(),
-                    _lastnameText(),
-                    _padding(),
-                    _celphoneText(),
-                    _padding(),
-                    Container(
-                      alignment: Alignment.center,
-                      padding: const EdgeInsets.all(8.0),
-                      child: _registerButton(),
-                    ),
-                  ])),
-            ],
-          ),
-        ),
+                        ]),
+                        _padding(),
+                      ],
+                    )),
+                Form(
+                    key: _formKeyCode,
+                    child: Column(children: [
+                      _emailCode(),
+                      _padding(),
+                      Container(
+                          alignment: Alignment.center,
+                          padding: const EdgeInsets.only(left: 200, right: 200),
+                          child: _confirmEmailButton()),
+                    ])),
+              ],
+            )),
       ),
     );
   }
@@ -149,6 +202,7 @@ class _HelpScreenState extends State<HelpScreen> {
             hintText: 'Ingrese user name',
             labelText: 'User Name:',
           ),
+          enabled: false,
           // initialValue: widget.user.user,
         ));
     /*});*/
@@ -242,7 +296,7 @@ class _HelpScreenState extends State<HelpScreen> {
               return 'No es un numero';
             }
           },
-          keyboardType: TextInputType.text,
+          keyboardType: TextInputType.phone,
           controller: _cellphone,
           decoration: const InputDecoration(
             icon: Icon(Icons.settings_cell),
@@ -316,6 +370,165 @@ class _HelpScreenState extends State<HelpScreen> {
                 primary: Colors.purpleAccent),*/
           label: const Text(
             "Submit",
+            style: TextStyle(color: Colors.white),
+          ),
+        ),
+      ),
+    );
+    //});
+  }
+
+  Widget _emailText() {
+    /*return StreamBuilder(
+        builder: (BuildContext context, AsyncSnapshot snapshot) {*/
+    return Container(
+        width: 420,
+        padding: const EdgeInsets.symmetric(horizontal: 10.0),
+        child: TextFormField(
+            validator: (value) {
+              if (value == null || value.isEmpty) {
+                return 'Porfavor ingresar email';
+              } else if (!EmailValidator.validate(value)) {
+                return 'No ha ingresado un email valido';
+              }
+            },
+            keyboardType: TextInputType.emailAddress,
+            controller: _email,
+            decoration: const InputDecoration(
+              icon: Icon(Icons.email),
+              hintText: 'Ingrese email',
+              labelText: 'Email:',
+            ),
+            enabled: editingemail
+            // initialValue: widget.user.user,
+            ));
+    /*});*/
+  }
+
+  Widget _emailButton() {
+    /*return StreamBuilder(
+        builder: (BuildContext context, AsyncSnapshot snapshot) {*/
+    return Container(
+      height: 45,
+      decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(10),
+          gradient: const LinearGradient(colors: [
+            Color.fromRGBO(143, 148, 251, 1),
+            Color.fromRGBO(143, 148, 251, .6),
+          ])),
+      child: Center(
+        child: OutlinedButton.icon(
+          onPressed: () {
+            // devolverá true si el formulario es válido, o falso si
+            // el formulario no es válido.
+            if (editingemail! && _formKeyEmail.currentState!.validate()) {
+              // Si el formulario es válido, queremos mostrar un Snackbar
+              httpuser.emailSend(_user.text, _email.text);
+              setState(() {
+                sendingcode = true;
+                editingemail = false;
+              });
+              ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+                content: Text('El codigo ha sido enviado con exito'),
+                duration: Duration(seconds: 2),
+              ));
+            }
+          },
+          icon: const Icon(Icons.qr_code, color: Colors.white),
+          style: OutlinedButton.styleFrom(
+            fixedSize: const Size(double.maxFinite, double.maxFinite),
+          ),
+          /*style: ElevatedButton.styleFrom(
+                padding: EdgeInsets.symmetric(horizontal: 50),
+                elevation: 10,
+                primary: Colors.purpleAccent),*/
+          label: const Text(
+            "Send Code",
+            style: TextStyle(color: Colors.white),
+          ),
+        ),
+      ),
+    );
+    //});
+  }
+
+  Widget _emailCode() {
+    /*return StreamBuilder(
+        builder: (BuildContext context, AsyncSnapshot snapshot) {*/
+    return Container(
+        padding: const EdgeInsets.only(left: 200, right: 200),
+        child: TextFormField(
+          validator: (value) {
+            if (value == null || value.isEmpty) {
+              return 'Confirmar Code';
+            } else if (int.tryParse(value) == null) {
+              return 'No es un Codigo';
+            }
+          },
+          keyboardType: TextInputType.text,
+          controller: _code,
+          decoration: const InputDecoration(
+            icon: Icon(Icons.email),
+            hintText: 'Ingrese Codigo',
+            labelText: 'code:',
+          ),
+          enabled: sendingcode,
+          // initialValue: widget.user.user,
+        ));
+    /*});*/
+  }
+
+  Widget _confirmEmailButton() {
+    /*return StreamBuilder(
+        builder: (BuildContext context, AsyncSnapshot snapshot) {*/
+    return Container(
+      height: 30,
+      decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(10),
+          gradient: const LinearGradient(colors: [
+            Color.fromRGBO(143, 148, 251, 1),
+            Color.fromRGBO(143, 148, 251, .6),
+          ])),
+      child: Center(
+        child: OutlinedButton.icon(
+          onPressed: () {
+            // devolverá true si el formulario es válido, o falso si
+            // el formulario no es válido.
+            // Si el formulario es válido, queremos mostrar un Snackbar
+            if (sendingcode!) {
+              httpuser
+                  .verifyCode(_user.text, _code.text, _email.text)
+                  .then((value) {
+                setState(() {
+                  sendingcode = false;
+                });
+                if (value) {
+                  ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+                    content: Text(
+                        'Verificado correctamente \n vuelva a loguearse para ver el cambio'),
+                    duration: Duration(seconds: 2),
+                  ));
+                } else {
+                  ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+                    content: Text(
+                        'El codigo es incorrecto \n vuelva a intentarlo más tarde'),
+                    duration: Duration(seconds: 2),
+                  ));
+                }
+              });
+            }
+          },
+          icon: const Icon(Icons.supervised_user_circle_rounded,
+              color: Colors.white),
+          style: OutlinedButton.styleFrom(
+            fixedSize: const Size(double.maxFinite, double.maxFinite),
+          ),
+          /*style: ElevatedButton.styleFrom(
+                padding: EdgeInsets.symmetric(horizontal: 50),
+                elevation: 10,
+                primary: Colors.purpleAccent),*/
+          label: const Text(
+            "Save Email",
             style: TextStyle(color: Colors.white),
           ),
         ),
