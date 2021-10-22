@@ -44,8 +44,6 @@ class Services {
       /*Iterable list = json.decode(value.body);
       users = list.map((model) => Category.fromJson(model)).toList();*/
     });*/
-    print(uri.toString());
-    print(response.body);
     List users = json.decode(response.body);
     return users.map((m) => Service.fromJson(m)).toList();
   }
