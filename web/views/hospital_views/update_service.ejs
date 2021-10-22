@@ -171,7 +171,7 @@
                         </div>
                         <form action="/service/reactive-mode-out-of-service" method="post">
                             <input hidden type="text" value="<%- service.name  %>" name="name">
-                            <%- include("../include/confirmation_message",{id: 'update_service' ,
+                            <%- include("../include/confirmation_message",{id: 'reactive_service' ,
                                 message: '¿Esta seguro de habilitar el servicio? <br> ' +service.name,
                                 type: 'servicio' , funtion : 'reverse_disable()' }) %>
                         </form>
