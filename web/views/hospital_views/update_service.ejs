@@ -27,8 +27,11 @@
                             type="button" role="tab" aria-controls="home" aria-selected="true">Informacion</button>
                     </li>
                     <li class="nav-item" role="presentation">
-                        <button class="nav-link" id="profile-tab" data-bs-toggle="tab" data-bs-target="#profile"
-                            type="button" role="tab" aria-controls="profile" aria-selected="false">Horario</button>
+
+                        <button type="submit" class="nav-link " id="contact-tab" data-bs-toggle="tab"
+                            data-bs-target="#profile" type="button" role="tab" aria-controls="contact"
+                            aria-selected="false">Horario</button>
+
                     </li>
                     <li class="nav-item" role="presentation">
                         <button class="nav-link" id="contact-tab" data-bs-toggle="tab" data-bs-target="#contact"
@@ -37,7 +40,7 @@
                     </li>
                 </ul>
                 <div class="tab-content" id="myTabContent">
-                    <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
+                    <div class="tab-pane fade show active   " id="home" role="tabpanel" aria-labelledby="home-tab">
                         <form id="ajax-contact" action="/service/update" method="post">
                             <div class="container forms">
                                 <div class="contact-section">
@@ -103,8 +106,107 @@
                                 message: '¿Esta seguro de actualizar la informacion del servicio? <br> ' +service.name,
                                 type: 'servicio' }) %>
                         </form>
+
                     </div>
-                    <div class="tab-pane fade" id="profile" role="tabpanel" aria-labelledby="profile-tab">
+                    <div class="tab-pane fade   " id="profile" role="tabpanel"
+                        aria-labelledby="profile-tab">
+                        <form id="ajax-contact" action="/service/set-schedule" method="post">
+                            <div class="container forms">
+                                <div class="contact-section">
+                                    <div class="form-contant">
+                                        <div class="row">
+
+                                            <div class="col-md-12">
+                                                <div class="form-group in_name">
+                                                    <label> <i class="far fa-calendar-week"></i> Horario</label>
+                                                    <input hidden type="text" value="<%- service.name  %>" name="name">
+                                                </div>
+                                            </div>
+                                            <div class="col-md-12">
+                                                <div class="form-group in_email">
+                                                    <div class="form-check form-check-inline">
+                                                        <input class="form-check-input excluyed" type="checkbox"
+                                                            id="inlineCheckbox1" name="Monday" <%-
+                                                            service.schedule.Monday %> value="checked">
+                                                        <label class="form-check-label"
+                                                            for="inlineCheckbox1">Lunes</label>
+                                                    </div>
+                                                    <div class="form-check form-check-inline">
+                                                        <input class="form-check-input excluyed" type="checkbox"
+                                                            id="inlineCheckbox2" name="Tuesday" <%-
+                                                            service.schedule.Tuesday %> value="checked">
+                                                        <label class="form-check-label"
+                                                            for="inlineCheckbox2">Martes</label>
+                                                    </div>
+                                                    <div class="form-check form-check-inline">
+                                                        <input class="form-check-input excluyed" type="checkbox"
+                                                            id="inlineCheckbox3" name="Wednesday" <%-
+                                                            service.schedule.Wednesday %> value="checked">
+                                                        <label class="form-check-label"
+                                                            for="inlineCheckbox3">Miercoles</label>
+                                                    </div>
+                                                    <div class="form-check form-check-inline">
+                                                        <input class="form-check-input excluyed" type="checkbox"
+                                                            id="inlineCheckbox4" name="Thursday" <%-
+                                                            service.schedule.Thursday %> value="checked">
+                                                        <label class="form-check-label"
+                                                            for="inlineCheckbox4">Jueves</label>
+                                                    </div>
+                                                    <div class="form-check form-check-inline">
+                                                        <input class="form-check-input excluyed" type="checkbox"
+                                                            id="inlineCheckbox5" name="Friday" <%-
+                                                            service.schedule.Friday %> value="checked">
+                                                        <label class="form-check-label"
+                                                            for="inlineCheckbox5">Viernes</label>
+                                                    </div>
+                                                    <div class="form-check form-check-inline">
+                                                        <input class="form-check-input excluyed" type="checkbox"
+                                                            id="inlineCheckbox6" name="Saturday" <%-
+                                                            service.schedule.Saturday %> value="checked">
+                                                        <label class="form-check-label"
+                                                            for="inlineCheckbox6">Sabado</label>
+                                                    </div>
+                                                    <div class="form-check form-check-inline">
+                                                        <input class="form-check-input excluyed" type="checkbox"
+                                                            id="inlineCheckbox7" name="Sunday" <%-
+                                                            service.schedule.Sunday %> value="checked">
+                                                        <label class="form-check-label"
+                                                            for="inlineCheckbox7">Domingo</label>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <hr>
+                                            <div class="col-md-12">
+                                                <div class="form-group in_message">
+                                                    <label> <i class="far fa-clock"></i> Hora Inicio
+                                                    </label>
+                                                    <input type="time" name="Start"
+                                                        value="<%- service.schedule.Start  %>" required>
+                                                </div>
+                                                <div class="form-group in_message">
+                                                    <label> <i class="far fa-clock"></i> Hora Fin
+                                                    </label>
+                                                    <input type="time" name="End" value="<%- service.schedule.End  %>"
+                                                        required>
+                                                </div>
+                                                <div class="actions">
+                                                    <button type="submit" class="btn small submitButton"
+                                                        data-bs-toggle="modal" data-bs-target="#set_schedule"  />
+                                                    <i class="far fa-save"></i>
+                                                    Actualizar
+                                                    </button>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                </div>
+                            </div>
+                            <%- include("../include/confirmation_message",{id: 'set_schedule' ,
+                                message: '¿Esta seguro de actualizar el horario del servicio? <br> ' +service.name,
+                                type: 'servicio' }) %>
+                        </form>
+
                     </div>
                     <div class="tab-pane fade" id="contact" role="tabpanel" aria-labelledby="contact-tab">
 
@@ -122,24 +224,25 @@
                                                             <input type="radio" class="btn-check" name="status"
                                                                 id="success-outlined" autocomplete="off"
                                                                 data-bs-toggle="modal"
-                                                                data-bs-target="#reactive_service"
-                                                                <% if (service.status) { %>
-                                                                    checked
-                                                                <% } %>
+                                                                data-bs-target="#reactive_service" <% if
+                                                                (service.status) { %>
+                                                            checked
+                                                            <% } %>
                                                                 >
-                                                            <label class="btn btn-outline-success"
-                                                                for="success-outlined">Activo</label>
+                                                                <label class="btn btn-outline-success"
+                                                                    for="success-outlined">Activo</label>
 
-                                                            <input type="radio" class="btn-check" name="status"
-                                                                id="danger-outlined" autocomplete="off"
-                                                                data-bs-toggle="modal" data-bs-target="#out_of_service"
-                                                                <% if (!service.status) { %>
-                                                                    checked
-                                                               <% } %>
-                                                                >
-                                                            <label class="btn btn-outline-danger"
-                                                                for="danger-outlined">Fuera de Servicio</label>
-                                                          
+                                                                <input type="radio" class="btn-check" name="status"
+                                                                    id="danger-outlined" autocomplete="off"
+                                                                    data-bs-toggle="modal"
+                                                                    data-bs-target="#out_of_service" <% if
+                                                                    (!service.status) { %>
+                                                                checked
+                                                                <% } %>
+                                                                    >
+                                                                    <label class="btn btn-outline-danger"
+                                                                        for="danger-outlined">Fuera de Servicio</label>
+
                                                         </div>
                                                         <br>
                                                     </div>
@@ -172,8 +275,8 @@
                         <form action="/service/reactive-mode-out-of-service" method="post">
                             <input hidden type="text" value="<%- service.name  %>" name="name">
                             <%- include("../include/confirmation_message",{id: 'reactive_service' ,
-                                message: '¿Esta seguro de habilitar el servicio? <br> ' +service.name,
-                                type: 'servicio' , funtion : 'reverse_disable()' }) %>
+                                message: '¿Esta seguro de habilitar el servicio? <br> ' +service.name, type: 'servicio'
+                                , funtion : 'reverse_disable()' }) %>
                         </form>
 
                         <form action="/service/mode-out-of-service" method="post">
@@ -182,6 +285,7 @@
                                 message: '¿Esta seguro de deshabilitar el  servicio? <br> ' +service.name,
                                 type: 'servicio' , funtion : 'reverse_active()' }) %>
                         </form>
+
                     </div>
                 </div>
             </div>

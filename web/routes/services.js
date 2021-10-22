@@ -189,27 +189,32 @@ router.put('/remove-category/', (req, res) => {
 
 //horario de servicio
 router.get('/get-schedule/', async (req, res) => {
-    console.log(req.body.hospital_user)
     await service.findOne({
         where: {
-            name: req.body.name,
-            hospital_user: req.body.hospital_user
+            name: req.query.name,
+            hospital_user: req.session.user
         }
     }).then(e => {
         if (e) {
-            res.send(e)
+            e.schedule.service_name = req.query.name;
+            res.render("hospital_views/update_service", { schedule: e.schedule });
         } else {
-            res.send("No se encontro el servicio")
+            res.redirect(url.format({ pathname: '/Hospital/Services', query: { title: 'Error', message: 'No se encontro el servicio', type: 'error' } }));
         }
     }).catch(err => {
-        res.send("No se encontro el servicio")
+        res.redirect(url.format({ pathname: '/Hospital/Services', query: { title: 'Error', message: 'No se encontro el servicio', type: 'error' } }));
     })
 
 })
 
-router.put('/set-schedule/', (req, res) => {
-    const service_info = req.body
-    const schedule = {
+router.post('/set-schedule/', (req, res) => {
+    const service_info = req.body;
+    if(service_info.confirmation != service_info.name){
+        res.redirect(url.format({ pathname: '/Hospital/UpdateService', query: { title: 'Error', message: 'Confirmacion incorrecta', type: 'error' } }));
+    }else{
+
+   
+     const schedule = {
         "Monday": service_info.Monday,
         "Tuesday": service_info.Tuesday,
         "Thursday": service_info.Thursday,
@@ -225,17 +230,18 @@ router.put('/set-schedule/', (req, res) => {
     }, {
         where: {
             name: service_info.name,
-            hospital_user: service_info.hospital_user
+            hospital_user: req.session.user
         }
     }).then(e => {
         if (e && e[0]) {
-            res.send("Horario actualizado")
+            res.redirect(url.format({ pathname: '/Hospital/Services', query: { title: 'Actualizacion exitosa', message: 'Horario actualizado', type: 'success' } }));
         } else {
-            res.send("Id equivocado, no se encontro el servicio");
+            res.redirect(url.format({ pathname: '/Hospital/Services', query: { title: 'Error', message: 'No se encontro el servicio', type: 'error' } }));
         }
     }).catch(error => {
-        res.send("Error al establecer horario, intente de nuevo")
-    })
+        res.redirect(url.format({ pathname: '/Hospital/UpdateService', query: { title: 'Error', message: 'No se actualizo el horario', type: 'error' } }));
+    }) 
+}
 })
 
 //see the rates of a service
