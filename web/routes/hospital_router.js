@@ -101,7 +101,6 @@ router.get('/Update/', async(req, res) => {
 router.get('/UpdateService/', async(req, res) => {
     let response = await getHospitalInfo(req);
     const service_info = req.query;
-    console.log(service_info);
     if (response.message) {
         res.redirect(url.format({
             pathname: '/',
@@ -125,7 +124,6 @@ router.get('/UpdateService/', async(req, res) => {
         }).then(val => {
             if (val) {
                 let service_info_ = val;
-                console.log(service_info_);
                 category.findAll({
                     attributes: {
                         exclude: ['createdAt', 'updatedAt', 'description']
