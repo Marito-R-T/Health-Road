@@ -168,7 +168,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
     return StreamBuilder(
         builder: (BuildContext context, AsyncSnapshot snapshot) {
       return Container(
-        padding: EdgeInsets.symmetric(vertical: 10),
+        padding: const EdgeInsets.symmetric(vertical: 10),
       );
     });
   }
@@ -204,11 +204,12 @@ class _RegisterScreenState extends State<RegisterScreen> {
                         duration: Duration(seconds: 2),
                       ));
                     } else {
+                      User.logged = value;
                       Navigator.push(
                           context,
                           MaterialPageRoute(
                               builder: (context) =>
-                                  NavigationHomeScreen(user: value)));
+                                  const NavigationHomeScreen()));
                     }
                   });
                   // Si el formulario es válido, queremos mostrar un Snackbar

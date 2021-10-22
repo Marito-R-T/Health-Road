@@ -9,20 +9,16 @@ import 'package:email_validator/email_validator.dart';
 import 'package:confirm_dialog/confirm_dialog.dart';
 
 class HelpScreen extends StatefulWidget {
-  const HelpScreen({Key? key, required this.user}) : super(key: key);
-
-  final User user;
+  const HelpScreen({Key? key}) : super(key: key);
 
   @override
   // ignore: no_logic_in_create_state
-  _HelpScreenState createState() => _HelpScreenState(user);
+  _HelpScreenState createState() => _HelpScreenState();
 }
 
 class _HelpScreenState extends State<HelpScreen> {
   final httpuser = Users();
-  User user;
 
-  _HelpScreenState(this.user);
   ////////////// TEXT EDITING CONTROLLERS ///////////////
   var _user;
   var _password;
@@ -45,12 +41,12 @@ class _HelpScreenState extends State<HelpScreen> {
   @override
   void initState() {
     ////////////// TEXT EDITING CONTROLLERS ///////////////
-    _user = TextEditingController(text: widget.user.user);
-    _password = TextEditingController(text: widget.user.password);
-    _cellphone = TextEditingController(text: widget.user.celphone.toString());
-    _name = TextEditingController(text: widget.user.name);
-    _lastname = TextEditingController(text: widget.user.last_name);
-    _email = TextEditingController(text: widget.user.email);
+    _user = TextEditingController(text: User.logged!.user);
+    _password = TextEditingController(text: User.logged!.password);
+    _cellphone = TextEditingController(text: User.logged!.celphone.toString());
+    _name = TextEditingController(text: User.logged!.name);
+    _lastname = TextEditingController(text: User.logged!.last_name);
+    _email = TextEditingController(text: User.logged!.email);
     _code = TextEditingController();
     ///////////////////////////////////////////////////////
     super.initState();
@@ -141,7 +137,7 @@ class _HelpScreenState extends State<HelpScreen> {
                         flex: 5,
                         child: Container(
                           padding: const EdgeInsets.symmetric(horizontal: 10),
-                          child: widget.user.email == null
+                          child: User.logged!.email == null
                               ? const Text(
                                   'Add Email',
                                   style: TextStyle(fontSize: 18.0),
@@ -152,7 +148,7 @@ class _HelpScreenState extends State<HelpScreen> {
                                 ),
                         ),
                       ),
-                      widget.user.email != null
+                      User.logged!.email != null
                           ? Expanded(
                               flex: 2,
                               child: Container(
@@ -348,10 +344,13 @@ class _HelpScreenState extends State<HelpScreen> {
                       _lastname.text, _cellphone.text)
                   .then((value) {
                 setState(() {
-                  if (value) {
+                  if (value != null) {
+                    setState(() {
+                      User.logged = value;
+                    });
                     ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
-                      content: Text(
-                          'Se ha modificado exitosamente la información \nvuelva a registrarse para notar los cambios'),
+                      content:
+                          Text('Se ha modificado exitosamente la información'),
                       duration: Duration(seconds: 2),
                     ));
                   } else {
@@ -402,7 +401,7 @@ class _HelpScreenState extends State<HelpScreen> {
               hintText: 'Ingrese email',
               labelText: 'Email:',
             ),
-            enabled: editingemail
+            enabled: (editingemail! && !sendingcode!)
             // initialValue: widget.user.user,
             ));
     /*});*/
@@ -424,7 +423,9 @@ class _HelpScreenState extends State<HelpScreen> {
           onPressed: () {
             // devolverá true si el formulario es válido, o falso si
             // el formulario no es válido.
-            if (editingemail! && _formKeyEmail.currentState!.validate()) {
+            if (editingemail! &&
+                !sendingcode! &&
+                _formKeyEmail.currentState!.validate()) {
               // Si el formulario es válido, queremos mostrar un Snackbar
               httpuser.emailSend(_user.text, _email.text);
               setState(() {
@@ -495,18 +496,15 @@ class _HelpScreenState extends State<HelpScreen> {
             // el formulario no es válido.
             // Si el formulario es válido, queremos mostrar un Snackbar
             if (sendingcode!) {
-              if (widget.user.email == null ||
+              if (User.logged!.email == null ||
                   await confirm(context,
                       title: const Text('Change Email'),
                       content: const Text('Are you want change your email?'))) {
                 httpuser
                     .verifyCode(_user.text, _code.text, _email.text)
                     .then((value) {
-                  setState(() {
-                    sendingcode = false;
-                  });
                   if (value) {
-                    if (widget.user.email != null) {
+                    if (User.logged!.email != null) {
                       ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
                         content:
                             Text('Su email ha sido cambiado correctamente'),
@@ -515,10 +513,13 @@ class _HelpScreenState extends State<HelpScreen> {
                     } else {
                       ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
                         content: Text(
-                            'Verificado correctamente \n vuelva a loguearse para ver el cambio'),
+                            'Verificado correctamente, se ha agregado el email'),
                         duration: Duration(seconds: 2),
                       ));
                     }
+                    setState(() {
+                      User.logged!.email = _email.text;
+                    });
                   } else {
                     ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
                       content: Text(
@@ -529,13 +530,16 @@ class _HelpScreenState extends State<HelpScreen> {
                 });
               }
             }
+            setState(() {
+              sendingcode = false;
+            });
           },
           icon: const Icon(Icons.supervised_user_circle_rounded,
               color: Colors.white),
           style: OutlinedButton.styleFrom(
             fixedSize: const Size(double.maxFinite, double.maxFinite),
           ),
-          label: widget.user.email == null
+          label: User.logged!.email == null
               ? const Text(
                   "Save Email",
                   style: TextStyle(color: Colors.white),
@@ -566,8 +570,11 @@ class _HelpScreenState extends State<HelpScreen> {
             if (await confirm(context,
                 title: const Text('Delete Email'),
                 content: const Text('Are you want delete your email?'))) {
-              httpuser.deleteEmail(widget.user.user!).then((value) {
+              httpuser.deleteEmail(User.logged!.user).then((value) {
                 if (value) {
+                  setState(() {
+                    User.logged!.email = null;
+                  });
                   ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
                     content: Text('Se ha eliminado el Email!'),
                     duration: Duration(seconds: 2),
@@ -585,6 +592,9 @@ class _HelpScreenState extends State<HelpScreen> {
                 duration: Duration(seconds: 2),
               ));
             }
+            setState(() {
+              sendingcode = false;
+            });
           },
           icon: const Icon(Icons.supervised_user_circle_rounded,
               color: Colors.white),

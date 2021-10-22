@@ -47,7 +47,7 @@ class Users {
     }
   }
 
-  Future<bool> updateUser(String user, String password, String name,
+  Future<User?> updateUser(String user, String password, String name,
       String lastName, String cellphone) async {
     final response = await http.put(
         Uri.parse('https://health-road.herokuapp.com/mobile/user/update/'),
@@ -65,9 +65,9 @@ class Users {
         encoding: Encoding.getByName("utf-8"));
     print(response.statusCode);
     if (response.statusCode == 201) {
-      return true;
+      return User.fromJson(jsonDecode(response.body));
     } else {
-      return false;
+      return null;
     }
   }
 
