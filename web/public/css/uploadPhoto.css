@@ -1,0 +1,178 @@
+.avatar-upload {
+    position: relative;
+    max-width: 205px;
+    width: 75%;
+    height: 75%;
+}
+
+.avatar-upload .avatar-edit {
+    position: absolute;
+    right: 12px;
+    z-index: 1;
+    top: 10px;
+}
+
+.avatar-upload .avatar-edit input {
+    display: none;
+}
+
+.avatar-upload .avatar-edit label {
+    display: inline-block;
+    width: 34px;
+    height: 34px;
+    margin-bottom: 0;
+    border-radius: 100%;
+    background: #c7c4c4;
+    color: #181717;
+    cursor: pointer;
+    font-weight: normal;
+    transition: all 0.2s ease-in-out;
+}
+
+.avatar-upload .avatar-edit label:hover {
+    background: #1817175e;
+    color: #d6d6d6;
+    border-color: #d6d6d6;
+}
+
+.avatar-upload .avatar-edit label:after {
+    color: #757575;
+    position: absolute;
+    top: 10px;
+    left: 0;
+    right: 0;
+    text-align: center;
+    margin: auto;
+}
+
+.avatar-preview {
+    width: 192px;
+    height: 192px;
+    position: relative;
+    border-radius: 100%;
+    padding-top: 20%;
+}
+
+.avatar-preview #previsualizacion-profile {
+    padding-top: 25%;
+    width: 90%;
+    height: 90%;
+    border-radius: 100%;
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center;
+}
+
+.cover-upload {
+    position: relative;
+}
+
+.cover-upload .cover-edit {
+    position: absolute;
+    right: 12px;
+    z-index: 1;
+    top: 10px;
+}
+
+.cover-upload .cover-edit input {
+    display: none;
+}
+
+.cover-upload .cover-edit label {
+    display: inline-block;
+    width: 34px;
+    height: 34px;
+    margin-bottom: 0;
+    border-radius: 100%;
+    background: #c7c4c4;
+    color: #181717;
+    cursor: pointer;
+    font-weight: normal;
+    transition: all 0.2s ease-in-out;
+}
+
+.cover-upload .cover-edit label:hover {
+    background: #1817178e;
+    color: #d6d6d6;
+    border-color: #d6d6d6;
+}
+
+.cover-upload .cover-edit label:after {
+    color: #757575;
+    position: absolute;
+    top: 10px;
+    left: 0;
+    right: 0;
+    text-align: center;
+    margin: auto;
+}
+
+.cover-preview {
+    height: 200px;
+    position: relative;
+    box-shadow: 0px 2px 4px 0px rgba(0, 0, 0, 0.1);
+}
+
+.cover-preview div {
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center;
+}
+
+.photo-upload {
+    position: relative;
+}
+
+.photo-upload .photo-edit {
+    position: absolute;
+    right: 12px;
+    z-index: 1;
+    top: 10px;
+}
+
+.photo-upload .photo-edit input {
+    display: none;
+}
+
+.photo-upload .photo-edit label {
+    display: inline-block;
+    width: 34px;
+    height: 34px;
+    margin-bottom: 0;
+    border-radius: 100%;
+    background: #c7c4c4;
+    color: #181717;
+    cursor: pointer;
+    font-weight: normal;
+    transition: all 0.2s ease-in-out;
+}
+
+.photo-upload .photo-edit label:hover {
+    background: #1817178e;
+    color: #d6d6d6;
+    border-color: #d6d6d6;
+}
+
+.photo-upload .photo-edit label:after {
+    color: #757575;
+    position: absolute;
+    top: 10px;
+    left: 0;
+    right: 0;
+    text-align: center;
+    margin: auto;
+}
+
+.photo-preview {
+    height: 250px;
+    position: relative;
+    box-shadow: 0px 2px 4px 0px rgba(0, 0, 0, 0.1);
+    width: 250px;
+    margin: auto;
+}
+
+.photo-preview div {
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center;
+}
