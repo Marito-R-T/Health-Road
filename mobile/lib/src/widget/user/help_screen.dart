@@ -490,31 +490,44 @@ class _HelpScreenState extends State<HelpScreen> {
           ])),
       child: Center(
         child: OutlinedButton.icon(
-          onPressed: () {
+          onPressed: () async {
             // devolverá true si el formulario es válido, o falso si
             // el formulario no es válido.
             // Si el formulario es válido, queremos mostrar un Snackbar
             if (sendingcode!) {
-              httpuser
-                  .verifyCode(_user.text, _code.text, _email.text)
-                  .then((value) {
-                setState(() {
-                  sendingcode = false;
+              if (widget.user.email == null ||
+                  await confirm(context,
+                      title: const Text('Change Email'),
+                      content: const Text('Are you want change your email?'))) {
+                httpuser
+                    .verifyCode(_user.text, _code.text, _email.text)
+                    .then((value) {
+                  setState(() {
+                    sendingcode = false;
+                  });
+                  if (value) {
+                    if (widget.user.email != null) {
+                      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+                        content:
+                            Text('Su email ha sido cambiado correctamente'),
+                        duration: Duration(seconds: 2),
+                      ));
+                    } else {
+                      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+                        content: Text(
+                            'Verificado correctamente \n vuelva a loguearse para ver el cambio'),
+                        duration: Duration(seconds: 2),
+                      ));
+                    }
+                  } else {
+                    ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+                      content: Text(
+                          'El codigo es incorrecto \n vuelva a intentarlo más tarde'),
+                      duration: Duration(seconds: 2),
+                    ));
+                  }
                 });
-                if (value) {
-                  ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
-                    content: Text(
-                        'Verificado correctamente \n vuelva a loguearse para ver el cambio'),
-                    duration: Duration(seconds: 2),
-                  ));
-                } else {
-                  ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
-                    content: Text(
-                        'El codigo es incorrecto \n vuelva a intentarlo más tarde'),
-                    duration: Duration(seconds: 2),
-                  ));
-                }
-              });
+              }
             }
           },
           icon: const Icon(Icons.supervised_user_circle_rounded,
@@ -522,10 +535,15 @@ class _HelpScreenState extends State<HelpScreen> {
           style: OutlinedButton.styleFrom(
             fixedSize: const Size(double.maxFinite, double.maxFinite),
           ),
-          label: const Text(
-            "Save Email",
-            style: TextStyle(color: Colors.white),
-          ),
+          label: widget.user.email == null
+              ? const Text(
+                  "Save Email",
+                  style: TextStyle(color: Colors.white),
+                )
+              : const Text(
+                  "Change Email",
+                  style: TextStyle(color: Colors.white),
+                ),
         ),
       ),
     );
@@ -545,7 +563,9 @@ class _HelpScreenState extends State<HelpScreen> {
       child: Center(
         child: OutlinedButton.icon(
           onPressed: () async {
-            if (await confirm(context)) {
+            if (await confirm(context,
+                title: const Text('Delete Email'),
+                content: const Text('Are you want delete your email?'))) {
               httpuser.deleteEmail(widget.user.user!).then((value) {
                 if (value) {
                   ScaffoldMessenger.of(context).showSnackBar(const SnackBar(

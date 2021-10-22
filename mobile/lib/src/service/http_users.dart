@@ -91,11 +91,9 @@ class Users {
         },
         body: {'user': user, 'code': code, 'email': email},
         encoding: Encoding.getByName("utf-8"));
-    print(response.body);
     if (response.statusCode == 201) {
-      return jsonDecode(response.body[0]);
+      return true;
     } else {
-      print('Error en la entrada');
       return false;
     }
   }
