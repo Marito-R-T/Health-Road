@@ -110,10 +110,21 @@
 
                                                                 <small>Q. <%= services[i].price %></small>
                                                             </div>
+                                                            <div class="d-flex w-100 justify-content-between">
+                                                                <p class="mb-1">
+                                                                    <%= services[i].description %>
+                                                                </p>
+                                                                <% if(services[i].status) {%>
+                                                                    <span class="badge badge-pill badge-secondary" style="height: -moz-available; align-self: center;">
+                                                                        Activo
+                                                                    </span>
+                                                                    <% }else{ %>
+                                                                        <span class="badge badge-pill out-service" style="height: -moz-available; align-self: center;">
+                                                                            Fuera de servicio
+                                                                    </span>
 
-                                                            <p class="mb-1">
-                                                                <%= services[i].description %>
-                                                            </p>
+                                                                        <%} %>
+                                                            </div>
                                                             <span class="badge badge-pill badge-secondary">
                                                                 <%= services[i].category_name %>
                                                             </span>
