@@ -6,6 +6,7 @@ import 'package:mobile/src/widget/homepage/design_course_app_theme.dart';
 import 'package:mobile/src/widget/user/app_theme.dart';
 import 'package:flutter/material.dart';
 import 'package:email_validator/email_validator.dart';
+import 'package:confirm_dialog/confirm_dialog.dart';
 
 class HelpScreen extends StatefulWidget {
   const HelpScreen({Key? key, required this.user}) : super(key: key);
@@ -84,14 +85,6 @@ class _HelpScreenState extends State<HelpScreen> {
                 Center(
                   child: Row(
                     children: <Widget>[
-                      const SizedBox(
-                        width: 10,
-                      ), //SizedBox
-                      const Text(
-                        'Edit Information',
-                        style: TextStyle(fontSize: 18.0),
-                      ), //Text
-                      const SizedBox(width: 10), //SizedBox
                       /** Checkbox Widget **/
                       Checkbox(
                         value: editing,
@@ -101,6 +94,14 @@ class _HelpScreenState extends State<HelpScreen> {
                           });
                         },
                       ), //Checkbox
+                      const SizedBox(
+                        width: 10,
+                      ), //SizedBox
+                      const Text(
+                        'Edit Information',
+                        style: TextStyle(fontSize: 18.0),
+                      ), //Text
+                      const SizedBox(width: 10), //SizedBox
                     ], //<Widget>[]
                   ),
                 ),
@@ -127,19 +128,6 @@ class _HelpScreenState extends State<HelpScreen> {
                 Center(
                   child: Row(
                     children: <Widget>[
-                      const SizedBox(
-                        width: 10,
-                      ), //SizedBox
-                      widget.user.email == null
-                          ? const Text(
-                              'Add Email',
-                              style: TextStyle(fontSize: 18.0),
-                            )
-                          : const Text(
-                              'change Email',
-                              style: TextStyle(fontSize: 18.0),
-                            ), //Text
-                      const SizedBox(width: 10), //SizedBox
                       /** Checkbox Widget **/
                       Checkbox(
                         value: editingemail,
@@ -148,7 +136,30 @@ class _HelpScreenState extends State<HelpScreen> {
                             editingemail = value;
                           });
                         },
-                      ), //Checkbox
+                      ), //Checkbox//S
+                      Expanded(
+                        flex: 5,
+                        child: Container(
+                          padding: const EdgeInsets.symmetric(horizontal: 10),
+                          child: widget.user.email == null
+                              ? const Text(
+                                  'Add Email',
+                                  style: TextStyle(fontSize: 18.0),
+                                )
+                              : const Text(
+                                  'Change Email',
+                                  style: TextStyle(fontSize: 18.0),
+                                ),
+                        ),
+                      ),
+                      widget.user.email != null
+                          ? Expanded(
+                              flex: 2,
+                              child: Container(
+                                  padding: const EdgeInsets.only(
+                                      left: 10.0, right: 10.0),
+                                  child: _deleteEmailButton()))
+                          : Expanded(flex: 1, child: Container())
                     ], //<Widget>[]
                   ),
                 ),
@@ -157,12 +168,16 @@ class _HelpScreenState extends State<HelpScreen> {
                     child: Column(
                       children: [
                         Row(children: <Widget>[
-                          _emailText(),
-                          Container(
-                            width: 200,
-                            alignment: Alignment.center,
-                            padding: const EdgeInsets.only(left: 10, right: 10),
-                            child: _emailButton(),
+                          Expanded(
+                            flex: 3,
+                            child: _emailText(),
+                          ),
+                          Expanded(
+                            flex: 1,
+                            child: Container(
+                                padding: const EdgeInsets.symmetric(
+                                    horizontal: 10.0),
+                                child: _emailButton()),
                           ),
                         ]),
                         _padding(),
@@ -175,7 +190,7 @@ class _HelpScreenState extends State<HelpScreen> {
                       _padding(),
                       Container(
                           alignment: Alignment.center,
-                          padding: const EdgeInsets.only(left: 200, right: 200),
+                          padding: const EdgeInsets.only(left: 100, right: 100),
                           child: _confirmEmailButton()),
                     ])),
               ],
@@ -236,8 +251,6 @@ class _HelpScreenState extends State<HelpScreen> {
   }
 
   Widget _nameText() {
-    /*return StreamBuilder(
-        builder: (BuildContext context, AsyncSnapshot snapshot) {*/
     return Container(
         padding: const EdgeInsets.symmetric(horizontal: 50.0),
         child: TextFormField(
@@ -260,8 +273,6 @@ class _HelpScreenState extends State<HelpScreen> {
   }
 
   Widget _lastnameText() {
-    /*return StreamBuilder(
-        builder: (BuildContext context, AsyncSnapshot snapshot) {*/
     return Container(
         padding: const EdgeInsets.symmetric(horizontal: 50.0),
         child: TextFormField(
@@ -284,8 +295,6 @@ class _HelpScreenState extends State<HelpScreen> {
   }
 
   Widget _celphoneText() {
-    /*return StreamBuilder(
-        builder: (BuildContext context, AsyncSnapshot snapshot) {*/
     return Container(
         padding: const EdgeInsets.symmetric(horizontal: 50.0),
         child: TextFormField(
@@ -319,8 +328,6 @@ class _HelpScreenState extends State<HelpScreen> {
   }
 
   Widget _registerButton() {
-    /*return StreamBuilder(
-        builder: (BuildContext context, AsyncSnapshot snapshot) {*/
     return Container(
       height: 45,
       decoration: BoxDecoration(
@@ -364,10 +371,6 @@ class _HelpScreenState extends State<HelpScreen> {
           style: OutlinedButton.styleFrom(
             fixedSize: const Size(double.maxFinite, double.maxFinite),
           ),
-          /*style: ElevatedButton.styleFrom(
-                padding: EdgeInsets.symmetric(horizontal: 50),
-                elevation: 10,
-                primary: Colors.purpleAccent),*/
           label: const Text(
             "Submit",
             style: TextStyle(color: Colors.white),
@@ -438,10 +441,6 @@ class _HelpScreenState extends State<HelpScreen> {
           style: OutlinedButton.styleFrom(
             fixedSize: const Size(double.maxFinite, double.maxFinite),
           ),
-          /*style: ElevatedButton.styleFrom(
-                padding: EdgeInsets.symmetric(horizontal: 50),
-                elevation: 10,
-                primary: Colors.purpleAccent),*/
           label: const Text(
             "Send Code",
             style: TextStyle(color: Colors.white),
@@ -456,7 +455,7 @@ class _HelpScreenState extends State<HelpScreen> {
     /*return StreamBuilder(
         builder: (BuildContext context, AsyncSnapshot snapshot) {*/
     return Container(
-        padding: const EdgeInsets.only(left: 200, right: 200),
+        padding: const EdgeInsets.only(left: 100, right: 100),
         child: TextFormField(
           validator: (value) {
             if (value == null || value.isEmpty) {
@@ -523,10 +522,6 @@ class _HelpScreenState extends State<HelpScreen> {
           style: OutlinedButton.styleFrom(
             fixedSize: const Size(double.maxFinite, double.maxFinite),
           ),
-          /*style: ElevatedButton.styleFrom(
-                padding: EdgeInsets.symmetric(horizontal: 50),
-                elevation: 10,
-                primary: Colors.purpleAccent),*/
           label: const Text(
             "Save Email",
             style: TextStyle(color: Colors.white),
@@ -534,6 +529,54 @@ class _HelpScreenState extends State<HelpScreen> {
         ),
       ),
     );
-    //});
+  }
+
+  Widget _deleteEmailButton() {
+    /*return StreamBuilder(
+        builder: (BuildContext context, AsyncSnapshot snapshot) {*/
+    return Container(
+      height: 45,
+      decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(10),
+          gradient: const LinearGradient(colors: [
+            Color.fromRGBO(143, 148, 251, 1),
+            Color.fromRGBO(143, 148, 251, .6),
+          ])),
+      child: Center(
+        child: OutlinedButton.icon(
+          onPressed: () async {
+            if (await confirm(context)) {
+              httpuser.deleteEmail(widget.user.user!).then((value) {
+                if (value) {
+                  ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+                    content: Text('Se ha eliminado el Email!'),
+                    duration: Duration(seconds: 2),
+                  ));
+                } else {
+                  ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+                    content: Text('No se pudo eliminar'),
+                    duration: Duration(seconds: 2),
+                  ));
+                }
+              });
+            } else {
+              ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+                content: Text('Se ha cancelado!'),
+                duration: Duration(seconds: 2),
+              ));
+            }
+          },
+          icon: const Icon(Icons.supervised_user_circle_rounded,
+              color: Colors.white),
+          style: OutlinedButton.styleFrom(
+            fixedSize: const Size(double.maxFinite, double.maxFinite),
+          ),
+          label: const Text(
+            "Delete",
+            style: TextStyle(color: Colors.white),
+          ),
+        ),
+      ),
+    );
   }
 }

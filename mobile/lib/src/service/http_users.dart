@@ -99,4 +99,20 @@ class Users {
       return false;
     }
   }
+
+  Future<bool> deleteEmail(String user) async {
+    final response = await http.delete(
+        Uri.parse('https://health-road.herokuapp.com/mobile/user/delete-mail/'),
+        headers: {
+          "Accept": "application/json",
+          "Content-Type": "application/x-www-form-urlencoded"
+        },
+        body: {'user': user},
+        encoding: Encoding.getByName("utf-8"));
+    if (response.statusCode == 201) {
+      return true;
+    } else {
+      return false;
+    }
+  }
 }
