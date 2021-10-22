@@ -209,7 +209,7 @@
 
                     </div>
                     <div class="tab-pane fade" id="contact" role="tabpanel" aria-labelledby="contact-tab">
-
+                        <form action="/service/discount/specific-service" method="POST">
                         <div class="container forms">
                             <div class="contact-section">
                                 <div class="form-contant">
@@ -253,25 +253,49 @@
                                         </div>
 
                                         <hr>
+                                       
                                         <div class="col-md-12">
                                             <div class="form-group in_email">
-                                                <label> <i class="fal fa-usd-circle"></i> Descuento </label>
-                                                <input type="number" min="0" step="0.01" class="form-control"
-                                                    value="<%- service.price  %>" name="price" placeholder="Q."
+                                                <label> <i class="fas fa-percent"></i> Descuento-Vigente </label>
+                                                <input type="number" value="<%- service.DiscountId  %>" hidden name="id_discount" >
+                                                <input type="number" min="0" max="100" class="form-control"
+                                                    value="<%- discount.percentage  %>" name="percentage" placeholder="%"
                                                     required="required">
                                             </div>
                                         </div>
-                                        <div class="actions">
-                                            <button type="button" class="btn small submitButton" data-bs-toggle="modal"
-                                                data-bs-target="#update_service">
-                                                <i class="far fa-save"></i>
-                                                Actualizar
-                                            </button>
+                                        <div >
+                                            <div class="form-group in_message">
+                                                    <label> <i class="far fa-clock"></i> Fecha Inicio
+                                                    </label>
+                                                    <input type="date" name="date_initial"
+                                                        value="<%- discount.date_initial  %>" required>
+                                                </div>
+                                                <div class="form-group in_message">
+                                                    <label> <i class="far fa-clock"></i> Fecha Fin
+                                                    </label>
+                                                    <input type="date" name="date_end" value="<%- discount.date_end  %>"
+                                                        required>
+                                                </div>
+                                                <div class="actions">
+                                                    <button type="submit" class="btn small submitButton"
+                                                        data-bs-toggle="modal" data-bs-target="#set_discount"  />
+                                                    <i class="far fa-save"></i>
+                                                    Actualizar
+                                                    </button>
+                                                </div>
                                         </div>
+                                        
+                                    
                                     </div>
                                 </div>
                             </div>
                         </div>
+
+                        <input hidden type="text" value="<%- service.name  %>" name="service_name">
+                        <%- include("../include/confirmation_message",{id: 'set_discount' ,
+                                message: '¿Esta seguro de actualizar el descuento del servicio? <br> ' +service.name,
+                                type: 'servicio' }) %>
+                    </form>
                         <form action="/service/reactive-mode-out-of-service" method="post">
                             <input hidden type="text" value="<%- service.name  %>" name="name">
                             <%- include("../include/confirmation_message",{id: 'reactive_service' ,
