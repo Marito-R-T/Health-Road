@@ -1,0 +1,544 @@
+<%- include("../include/header", { titulo: 'Health Road - Hospital' }) %>
+
+    <body class="clinic_version">
+        <div id="preloader">
+            <img class="preloader" src="images/loaders/heart-loading2.gif" alt="">
+        </div>
+        <header>
+
+        </header>
+        <div id="getintouch" class="section wb wow fadeIn" style="padding-bottom:0;">
+            <div class="container">
+                <div class="img-profile">
+
+                    <div class="cover-upload">
+                        <div class="cover-edit">
+                            <input type='file' id="imageUpload-cover" accept=".png, .jpg, .jpeg ,.jfif" />
+                            <label for="imageUpload-cover"><i style="margin: 8px;" class="fas fa-camera"></i></label>
+                            <textarea type="text" name="path" id="path" hidden></textarea>
+                        </div>
+                        <div class="cover-preview">
+                            <div id="previsualizacion-cover" style="background-image: url(images/logo-hospital.png);">
+                                <div class="avatar-upload">
+                                    <div class="avatar-edit" style="left: 200px;">
+                                        <input type='file' id="imageUpload-profile" accept=".png, .jpg, .jpeg ,.jfif" />
+                                        <label for="imageUpload-profile"><i style="margin: 8px;"
+                                                class="fas fa-camera"></i></label>
+                                        <textarea type="text" name="path" id="path" hidden></textarea>
+                                    </div>
+                                    <div class="avatar-preview">
+                                        <div id="previsualizacion-profile" style="background-image: url( /<%- hospital.photo  %> );">
+
+
+                                        </div>
+                                    </div>
+
+                                </div>
+
+                            </div>
+                        </div>
+
+                    </div>
+
+
+
+                </div>
+            </div>
+            <div class="container profile-container">
+                <div class="row">
+
+                    <div class="col-md-9 nav-profile">
+                        <ul class="nav nav-tabs" id="myTab" role="tablist">
+                            <li class="nav-item" role="presentation">
+
+                                <form action="/Hospital/Services">
+                                    <button class="nav-link <%- tabs.service %>" id="home-tab" data-bs-toggle="tab" data-bs-target="#home" type="submit" role="tab" aria-controls="home" aria-selected="true">Servicios</button>
+                                </form>
+
+                            </li>
+                            <li class="nav-item" role="presentation">
+                                <form action="/Hospital/Users">
+                                    <button type="submit" class="nav-link  <%- tabs.users %>" id="profile-tab" data-bs-toggle="tab" data-bs-target="#profile" type="button" role="tab" aria-controls="profile" aria-selected="false">Usuario</button>
+                                </form>
+                            </li>
+                            <li class="nav-item" role="presentation">
+                                <form action="/Hospital/Rates">
+                                    <button type="submit" class="nav-link  <%- tabs.rates %>" id="contact-tab" data-bs-toggle="tab" data-bs-target="#contact" type="button" role="tab" aria-controls="contact" aria-selected="false">Calificaciones</button>
+                                </form>
+                            </li>
+                            <li class="nav-item" role="presentation">
+                                <form action="/Hospital/Gallery">
+                                    <button type="submit" class="nav-link  <%- tabs.gallery %>" id="gallery-tab" data-bs-toggle="tab" data-bs-target="#gallery" type="button" role="tab" aria-controls="gallery" aria-selected="false">Galeria</button>
+                                </form>
+                            </li>
+                        </ul>
+                        <div class="tab-content" id="myTabContent">
+                            <div class="tab-pane fade  <%- tabs.service %>" id="home" role="tabpanel" aria-labelledby="home-tab">
+                                <% if(locals.services){ %>
+                                    <div class="service-control-panel">
+                                        <div class="service-filter">
+
+                                        </div>
+                                        <div class="service-actions">
+
+                                            <form action="/Hospital/AddService">
+
+                                                <button class="form">
+                                                    <i class="far fa-notes-medical"></i> Servicio</i>
+                                                </button>
+                                            </form>
+                                        </div>
+
+
+                                    </div>
+                                    <div class="list-group">
+
+                                        <% for(var i=0; i<services.length; i++) {%>
+
+
+                                            <div class="list-group-item list-group-item-action flex-column align-items-start ">
+                                                <div class="row">
+                                                    <div class="col-md-2">
+                                                        <img width="100px" src="https://i.pinimg.com/280x280_RS/2e/45/66/2e4566fd829bcf9eb11ccdb5f252b02f.jpg" alt="">
+                                                    </div>
+                                                    <div class="col-md-10">
+                                                        <div>
+                                                            <div class="d-flex w-100 justify-content-between">
+                                                                <h5 class="mb-1">
+                                                                    <%= services[i].name %>
+                                                                </h5>
+
+                                                                <small>Q. <%= services[i].price %></small>
+                                                            </div>
+                                                            <div class="d-flex w-100 justify-content-between">
+                                                                <p class="mb-1">
+                                                                    <%= services[i].description %>
+                                                                </p>
+                                                                <% if(services[i].status) {%>
+                                                                    <span class="badge badge-pill badge-secondary" style="height: -moz-available; align-self: center;">
+                                                                        Activo
+                                                                    </span>
+                                                                    <% }else{ %>
+                                                                        <span class="badge badge-pill out-service" style="height: -moz-available; align-self: center;">
+                                                                            Fuera de servicio
+                                                                    </span>
+
+                                                                        <%} %>
+                                                            </div>
+                                                            <span class="badge badge-pill badge-secondary">
+                                                                <%= services[i].category_name %>
+                                                            </span>
+
+                                                            <br>
+                                                            <small> <i class="fas fa-star"></i><i
+                                                                    class="fas fa-star-half-alt"></i><i
+                                                                    class="far fa-star"></i><i
+                                                                    class="far fa-star"></i><i
+                                                                    class="far fa-star"></i></small>
+                                                            <small class="modified-buttons">
+                                                                <form action="/Hospital/UpdateService">
+                                                                    <input type="text" hidden class="form-control"
+                                                                        name="name" value="<%- services[i].name %>">
+                                                                    <button type="submit" class="form">
+                                                                        <i class="far fa-edit"></i>
+                                                                    </button>
+                                                                </form>
+
+
+                                                                <button class="form" data-bs-toggle="modal"
+                                                                    data-bs-target="#delete_service"
+                                                                    onclick="send_service_name('<%- services[i].name %>')">
+                                                                    <i class="far fa-trash-alt"></i>
+                                                                </button>
+
+
+                                                            </small>
+                                                        </div>
+
+
+                                                    </div>
+                                                </div>
+
+
+                                            </div>
+                                            <hr>
+                                            <% } %>
+                                    </div>
+                                    <% } %>
+
+                            </div>
+                            <div class="tab-pane fade  <%- tabs.users %>" id="profile" role="tabpanel" aria-labelledby="profile-tab">
+
+
+                                <div class="d-flex align-items-start">
+                                    <div class="nav flex-column nav-pills me-3" id="v-pills-tab" role="tablist" aria-orientation="vertical">
+                                        <button class="nav-link active" id="v-pills-admin-tab" data-bs-toggle="pill" data-bs-target="#v-pills-admin" type="button" role="tab" aria-controls="v-pills-admin" aria-selected="true">Administrador</button>
+                                        <button class="nav-link" id="v-pills-adminAmbulance-tab" data-bs-toggle="pill" data-bs-target="#v-pills-adminAmbulance" type="button" role="tab" aria-controls="v-pills-adminAmbulance" aria-selected="false">Administradores
+                                            de
+                                            Ambulancia</button>
+                                        <button class="nav-link" id="v-pills-drivers-tab" data-bs-toggle="pill" data-bs-target="#v-pills-drivers" type="button" role="tab" aria-controls="v-pills-drivers" aria-selected="false">Conductores de
+                                            Ambulancia</button>
+                                    </div>
+                                    <div class="tab-content" id="v-pills-tabContent">
+                                        <div class="tab-pane fade show active" id="v-pills-admin" role="tabpanel" aria-labelledby="v-pills-admin-tab">
+                                            <div class="img-profile">
+
+                                                <div class="cover-upload">
+                                                    <div class="cover-edit">
+                                                        <input type='file' id="imageUpload-cover" accept=".png, .jpg, .jpeg ,.jfif" />
+                                                        <label for="imageUpload-cover"><i style="margin: 8px;"
+                                                                class="fas fa-camera"></i></label>
+                                                        <textarea type="text" name="path" id="path" hidden></textarea>
+                                                    </div>
+                                                    <div class="cover-preview">
+                                                        <div id="previsualizacion-cover" style="background-image: url(images/logo-hospital.png);">
+                                                            <div class="avatar-upload">
+                                                                <div class="avatar-edit" style="left: 200px;">
+                                                                    <input type='file' id="imageUpload-profile" accept=".png, .jpg, .jpeg ,.jfif" />
+                                                                    <label for="imageUpload-profile"><i
+                                                                            style="margin: 8px;"
+                                                                            class="fas fa-camera"></i></label>
+                                                                    <textarea type="text" name="path" id="path" hidden></textarea>
+                                                                </div>
+                                                                <div class="avatar-preview">
+                                                                    <div id="previsualizacion-profile" style="background-image: url(https://i.pinimg.com/280x280_RS/2e/45/66/2e4566fd829bcf9eb11ccdb5f252b02f.jpg);">
+
+                                                                    </div>
+                                                                </div>
+
+                                                            </div>
+
+                                                        </div>
+                                                    </div>
+
+                                                </div>
+                                                <div class="information-user">
+                                                    <div class=" col-md-12 form-contant" style="width: 44%;">
+                                                        <form id="ajax-contact" action="" method="post">
+                                                            <div class="row">
+                                                                <div class="col-md-6">
+                                                                    <div class="form-group in_name">
+                                                                        <label> <i class="far fa-user"></i> Nombre
+                                                                        </label>
+                                                                        <input type="text" class="form-control" placeholder="Nombre" required="required">
+                                                                    </div>
+                                                                </div>
+                                                                <div class="col-md-6">
+                                                                    <div class="form-group in_email">
+                                                                        <label> Apellido</label>
+                                                                        <input type="text" class="form-control" placeholder="Apellido" required="required">
+                                                                    </div>
+                                                                </div>
+                                                                <div class="col-md-12">
+                                                                    <div class="form-group in_email">
+                                                                        <label> <i
+                                                                                class="fas fa-envelope-open-text"></i>
+                                                                            Email</label>
+                                                                        <input type="email" class="form-control" placeholder="Email" required="required">
+                                                                    </div>
+                                                                </div>
+                                                                <div class="col-md-12">
+                                                                    <div class="form-group in_email">
+                                                                        <label> <i class="far fa-phone-rotary"></i>
+                                                                            Telefono</label>
+                                                                        <input type="text" class="form-control" placeholder="Telefono" required="required">
+                                                                    </div>
+                                                                </div>
+                                                                <div class="col-md-12">
+                                                                    <div class="form-group in_email">
+                                                                        <label> <i class="far fa-lock-alt"></i>
+                                                                            Password</label>
+                                                                        <input type="password" class="form-control" placeholder="Password" required="required">
+                                                                    </div>
+                                                                </div>
+                                                                <div class="col-md-12">
+                                                                    <div class="form-group in_email">
+                                                                        <label> <i class="far fa-user-tag"></i>
+                                                                            Rol</label>
+                                                                        <select name="Rol">
+
+                                                                        </select>
+                                                                    </div>
+                                                                    <div class="actions">
+                                                                        <input type="submit" value="Guardar" name="submit" id="submitButton" class="btn small" title="Submit Your Message!">
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+
+                                                        </form>
+                                                    </div>
+                                                </div>
+
+
+
+                                            </div>
+                                        </div>
+                                        <div class="tab-pane fade" id="v-pills-adminAmbulance" role="tabpanel" aria-labelledby="v-pills-adminAmbulance-tab">
+                                            <div class="list-group">
+                                                <div class="list-group-item list-group-item-action flex-column align-items-start ">
+                                                    <div class="row">
+                                                        <div class="col-md-2">
+                                                            <img width="100px" src="https://i.pinimg.com/280x280_RS/2e/45/66/2e4566fd829bcf9eb11ccdb5f252b02f.jpg" alt="">
+                                                        </div>
+                                                        <div class="col-md-10">
+                                                            <div>
+                                                                <p class="mb-1">Usuario</p>
+                                                                <small>Rol</small>
+                                                                <small class="modified-buttons">
+                                                                    <button class="form">
+                                                                        <i class="far fa-edit"></i>
+                                                                    </button>
+                                                                    <button>
+                                                                        <i class="far fa-trash-alt"></i>
+                                                                    </button>
+                                                                </small>
+                                                            </div>
+
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="tab-pane fade" id="v-pills-drivers" role="tabpanel" aria-labelledby="v-pills-drivers-tab">
+                                            <div class="service-filter">
+
+                                            </div>
+                                            <div class="service-actions">
+                                                <form action="/Hospital/AddDriver">
+                                                    <button class="form">
+                                                        <i class="far fa-ambulance"></i> Nuevo
+                                                    </button>
+                                                </form>
+                                            </div>
+                                            <div class="list-group">
+                                                <div class="list-group-item list-group-item-action flex-column align-items-start ">
+                                                    <div class="row">
+                                                        <div class="col-md-2">
+                                                            <img width="100px" src="https://i.pinimg.com/280x280_RS/2e/45/66/2e4566fd829bcf9eb11ccdb5f252b02f.jpg" alt="">
+                                                        </div>
+                                                        <div class="col-md-10">
+                                                            <div>
+
+
+                                                                <p class="mb-1">Usuario</p>
+                                                                <small>Rol</small>
+                                                                <small> <i class="fas fa-star"></i><i
+                                                                        class="fas fa-star-half-alt"></i><i
+                                                                        class="far fa-star"></i><i
+                                                                        class="far fa-star"></i><i
+                                                                        class="far fa-star"></i></small>
+
+                                                                <small class="modified-buttons">
+                                                                    <button class="form">
+                                                                        <i class="far fa-edit"></i>
+                                                                    </button>
+                                                                    <button>
+                                                                        <i class="far fa-trash-alt"></i>
+                                                                    </button>
+                                                                </small>
+                                                            </div>
+
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                        </div>
+
+
+
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="tab-pane fade  <%- tabs.rates %>" id="contact" role="tabpanel" aria-labelledby="contact-tab">
+
+
+                                <div class="list-group">
+                                    <div class="list-group-item list-group-item-action flex-column align-items-start ">
+                                        <div class="row">
+                                            <div class="col-md-2">
+                                                <img width="100px" src="https://i.pinimg.com/280x280_RS/2e/45/66/2e4566fd829bcf9eb11ccdb5f252b02f.jpg" alt="">
+                                            </div>
+                                            <div class="col-md-10">
+                                                <div>
+                                                    <div class="d-flex w-100 justify-content-between">
+                                                        <h5 class="mb-1">Titulo</h5>
+                                                        <small>3 dias atras</small>
+                                                    </div>
+                                                    <p class="mb-1">Contenido</p>
+                                                    <small>Usuario</small>
+                                                    <small> <i class="fas fa-star"></i><i
+                                                            class="fas fa-star-half-alt"></i><i
+                                                            class="far fa-star"></i><i class="far fa-star"></i><i
+                                                            class="far fa-star"></i></small>
+                                                    <small class="modified-buttons">
+                                                        <button class="form">
+                                                            <i class="far fa-edit"></i>
+                                                        </button>
+                                                        <button>
+                                                            <i class="far fa-trash-alt"></i>
+                                                        </button>
+                                                    </small>
+                                                </div>
+
+
+                                            </div>
+                                        </div>
+
+
+                                    </div>
+
+                                </div>
+                            </div>
+                            <div class="tab-pane fade  <%- tabs.gallery %>" id="gallery" role="tabpanel" aria-labelledby="gallery-tab">
+
+
+                                <% if(locals.gallery){ %>
+                                    <div class="service-control-panel">
+                                        <div class="service-filter">
+                                        </div>
+                                        <div class="service-actions">
+                                            <button class="form" data-bs-toggle="modal" data-bs-target="#add_photo">
+                                                <i class="fal fa-images"></i> Agregar Fotografia
+                                            </button>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <% var count=Object.keys(gallery).length+1; for(var i=1; i<count; i++) {%>
+                                            <div class="col-md-6 gallery-photo ">
+                                                <div class="card shadow-sm">
+                                                    <div class="card-body">
+                                                        <div class="col-md-12">
+                                                            <img src="/<%= gallery[i] %>" alt="">
+                                                        </div>
+                                                        <div class="d-flex justify-content-between align-items-center">
+                                                            <div class="btn-group">
+                                                                <button type="button" class="btn btn-sm btn-outline-secondary">Borrar</button>
+                                                            </div>
+                                                            <small class="text-muted">9 mins</small>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <% } %>
+                                    </div>
+                                    <% } %>
+
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-3 basic-information">
+                        <label> <i class="fas fa-hospital-symbol"></i> Informacion Basica</label>
+
+                        <small class="modified-buttons">
+                            <form action="/Hospital/Update">
+                                <button type="submit" class="form">
+                                    <i class="far fa-edit"></i>
+                                </button>
+                            </form>
+
+
+                        </small>
+                        <hr>
+                        <div class="col-md-12">
+                            <label> <i class="far fa-hospital"></i> Nombre: </label>
+                            <label class="hospital-info">
+                                <%- hospital.name %>
+                            </label>
+                        </div>
+                        <div class="col-md-12">
+                            <label> <i class="far fa-map-marker-alt"></i> Ubicacion: </label>
+                            <label class="hospital-info">
+                                <%- hospital.address %>
+                            </label>
+                        </div>
+                        <div class="col-md-12">
+                            <label><i class="fas fa-at"></i> Correo: </label>
+                            <label class="hospital-info">
+                                <%- hospital.email %>
+                            </label>
+
+                        </div>
+
+                        <div class="col-md-12">
+                            <label> Calificacion</label><br>
+                            <i class="fas fa-star"></i><i class="fas fa-star-half-alt"></i><i class="far fa-star"></i><i class="far fa-star"></i><i class="far fa-star"></i>
+                        </div>
+                        <form action="user/logout/">
+                            <button>
+                                Cerrar Sesion
+                            </button>
+                        </form>
+                        <form action="/hospital/delete" method="POST">
+                            <button class="form" data-bs-toggle="modal" data-bs-target="#delete_hospital">
+                                <i class="far fa-trash-alt"></i>
+                            </button>
+                            <input hidden type="text" name="name">
+                            <%- include("../include/confirmation_message",{id: 'delete_hospital'
+                                ,message: '¿Esta seguro de eliminar el hospital? <br> ' +hospital.name ,
+                                type: 'hospital' }) %>
+                        </form>
+
+                    </div>
+                </div>
+            </div>
+
+
+
+        </div>
+        <form action="/hospital/add-photo" method="POST" enctype="multipart/form-data">
+            <input hidden type="text" id="service_delete_name" name="name">
+            <div class="modal fade" id="add_photo" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="staticBackdropLabel">Añadir Fotografia</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                            <div class="container">
+                                <div class="img-profile">
+                                    <div class="photo-upload" style="margin: auto;">
+                                        <div class="photo-edit">
+                                            <input type='file' name="photo" id="photo" accept=".png, .jpg, .jpeg ,.jfif" required />
+                                            <label for="photo"><i style="margin: 8px;"
+                                                    class="fas fa-camera"></i></label>
+                                        </div>
+                                        <div class="photo-preview" style="padding: 0;">
+                                            <div id="previsualizacion-photo" style="background-image: url(images/imagen.png); width: 100%; height: 100%;">
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="reset" class="btn btn-secondary" onclick="reset_photo()" data-bs-dismiss="modal">Cancelar</button>
+                            <button type="submit" class="btn btn-primary">Si</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </form>
+
+        <form action="/service/delete" method="POST">
+            <input hidden type="text" id="service_delete_name" name="name">
+            <%- include("../include/confirmation_message",{ id: 'delete_service'
+                ,message: '¿Esta seguro de eliminar el servicio?' , type: 'servicio' }) %>
+        </form>
+        <script>
+            function send_service_name(name) {
+                var input_delete = document.getElementById('service_delete_name');
+                input_delete.value = name;
+            }
+        </script>
+
+
+        <%- include("../include/scripts") %>
+
+
+
+    </body>
+
+    </html>
