@@ -16,7 +16,7 @@
                 <input type="text" class="form-control" placeholder="Nombre" name="confirmation" required="required">
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                <button type="button" class="btn btn-secondary" <% if(locals.funtion){%> onclick='<%- funtion %>' <% } %>   data-bs-dismiss="modal">Cancelar</button>
                 <button type="submit" class="btn btn-primary">Si</button>
             </div>
         </div>
