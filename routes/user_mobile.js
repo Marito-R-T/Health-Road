@@ -80,7 +80,11 @@ router.put('/update/',(req, res) => {
         }
     ).then(e=>{
         if(e && e[0]){
-            res.status(201).send(true)
+            res.status(201).send(
+                user.findOne({
+                    where: {user:user_, rol:3}
+                })
+            )
         }else{
             res.status(400).send(false)
         }
