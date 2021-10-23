@@ -1,13 +1,13 @@
 // ignore_for_file: unnecessary_new
 
 import 'package:mobile/src/models/Category.dart';
+import 'package:mobile/src/models/Hospital.dart';
 import 'package:mobile/src/models/Service.dart';
 import 'package:mobile/src/service/http_category.dart';
+import 'package:mobile/src/service/http_hospital.dart';
 import 'package:mobile/src/service/http_service.dart';
 import 'package:mobile/src/widget/homepage/category_list_view.dart';
 //import 'package:mobile/src/widget/homepage/category_list_view.dart';
-import 'package:mobile/src/widget/homepage/course_info_screen.dart';
-import 'package:mobile/src/widget/homepage/hospital_info_screen.dart';
 import 'package:mobile/src/widget/homepage/popular_course_list_view.dart';
 import 'package:mobile/main.dart';
 import 'package:flutter/material.dart';
@@ -25,12 +25,17 @@ class _DesignCourseHomeScreenState extends State<DesignCourseHomeScreen> {
   Categories categories = Categories();
   Services services = Services();
   final _searchText = TextEditingController();
+  Hospitals hospitals = Hospitals();
   // ignore: non_constant_identifier_names
   late Future<List<Service>> Listservices;
+  late Future<List<Hospital>?> nameHospital;
+  bool? searchService = true;
+  bool? searchHospital = false;
 
   @override
   void initState() {
     Listservices = services.getServices();
+    nameHospital = hospitals.getHospitals();
     super.initState();
   }
 
@@ -131,7 +136,23 @@ class _DesignCourseHomeScreenState extends State<DesignCourseHomeScreen> {
         const SizedBox(
           height: 16,
         ),
-        const CategoryListView(),
+        /*nhospital != null
+            ? CategoryListView(
+                name: nhospital,
+              )
+            : CategoryListView(),*/
+        FutureBuilder<List<Hospital>?>(
+          future: nameHospital,
+          builder: (context, snapshot) {
+            if (snapshot.hasData) {
+              return CategoryListView(
+                listHospital: snapshot.data!,
+              );
+            } else {
+              return Container();
+            }
+          },
+        ),
       ],
     );
   }
@@ -232,7 +253,7 @@ class _DesignCourseHomeScreenState extends State<DesignCourseHomeScreen> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
           Container(
-            width: MediaQuery.of(context).size.width * 0.75,
+            width: MediaQuery.of(context).size.width * 0.95,
             height: 64,
             child: Padding(
               padding: const EdgeInsets.only(top: 8, bottom: 8),
@@ -276,10 +297,21 @@ class _DesignCourseHomeScreenState extends State<DesignCourseHomeScreen> {
                             ),
                           ),
                           onEditingComplete: () {
-                            setState(() {
-                              Listservices =
-                                  services.getServicesByName(_searchText.text);
-                            });
+                            if (searchService!) {
+                              setState(() {
+                                Listservices = services
+                                    .getServicesByName(_searchText.text);
+                              });
+                            } else if (searchHospital!) {
+                              print('hola entró');
+                              setState(() {
+                                nameHospital = hospitals
+                                    .getHospitalsByName(_searchText.text);
+                                //nhospital = _searchText.text;
+                              });
+                              /*listView..setHospitals(hospitals
+                                  .getHospitalsByName(_searchText.text));*/
+                            }
                           },
                         ),
                       ),
@@ -288,15 +320,50 @@ class _DesignCourseHomeScreenState extends State<DesignCourseHomeScreen> {
                       width: 60,
                       height: 60,
                       child: Icon(Icons.search, color: HexColor('#B9BABC')),
-                    )
+                    ),
+                    const Text(
+                      'Service',
+                      textAlign: TextAlign.left,
+                      style: TextStyle(
+                        fontWeight: FontWeight.w600,
+                        fontSize: 14,
+                        letterSpacing: 0.20,
+                        color: DesignCourseAppTheme.darkerText,
+                      ),
+                    ),
+                    Checkbox(
+                      value: searchService,
+                      onChanged: (bool? value) {
+                        setState(() {
+                          searchService = value;
+                          searchHospital = value == false;
+                        });
+                      },
+                    ),
+                    const Text(
+                      'Hospital',
+                      textAlign: TextAlign.left,
+                      style: TextStyle(
+                        fontWeight: FontWeight.w600,
+                        fontSize: 14,
+                        letterSpacing: 0.20,
+                        color: DesignCourseAppTheme.darkerText,
+                      ),
+                    ),
+                    Checkbox(
+                      value: searchHospital,
+                      onChanged: (bool? value) {
+                        setState(() {
+                          searchHospital = value;
+                          searchService = value == false;
+                        });
+                      },
+                    ),
                   ],
                 ),
               ),
             ),
           ),
-          const Expanded(
-            child: SizedBox(),
-          )
         ],
       ),
     );
