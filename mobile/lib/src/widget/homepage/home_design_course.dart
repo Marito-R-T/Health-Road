@@ -26,11 +26,13 @@ class _DesignCourseHomeScreenState extends State<DesignCourseHomeScreen> {
   Services services = Services();
   final _searchText = TextEditingController();
   Hospitals hospitals = Hospitals();
+  RangeValues _currentRangeValues = const RangeValues(0, 1000);
   // ignore: non_constant_identifier_names
-  late Future<List<Service>> Listservices;
+  late Future<List<Service>?> Listservices;
   late Future<List<Hospital>?> nameHospital;
   bool? searchService = true;
   bool? searchHospital = false;
+  String? ultimoService;
 
   @override
   void initState() {
@@ -59,6 +61,20 @@ class _DesignCourseHomeScreenState extends State<DesignCourseHomeScreen> {
                   child: Column(
                     children: <Widget>[
                       getSearchBarUI(),
+                      const Padding(
+                        padding: EdgeInsets.only(top: 8.0, left: 18, right: 16),
+                        child: Text(
+                          'Range Price Service',
+                          textAlign: TextAlign.left,
+                          style: TextStyle(
+                            fontWeight: FontWeight.w600,
+                            fontSize: 12,
+                            letterSpacing: 0.27,
+                            color: DesignCourseAppTheme.darkerText,
+                          ),
+                        ),
+                      ),
+                      getRangeSlider(),
                       getCategoryUI(),
                       Flexible(
                         child: getPopularCourseUI(),
@@ -175,12 +191,7 @@ class _DesignCourseHomeScreenState extends State<DesignCourseHomeScreen> {
             ),
           ),
           Flexible(
-              child: /*PopularCourseListView(
-            callBack: () {
-              moveTo();
-            },
-          )*/
-                  FutureBuilder<List<Service>>(
+              child: FutureBuilder<List<Service>?>(
             future: Listservices,
             builder: (context, snapshot) {
               if (snapshot.hasData) {
@@ -302,6 +313,7 @@ class _DesignCourseHomeScreenState extends State<DesignCourseHomeScreen> {
                                 Listservices = services
                                     .getServicesByName(_searchText.text);
                               });
+                              ultimoService = _searchText.text;
                             } else if (searchHospital!) {
                               print('hola entró');
                               setState(() {
@@ -311,6 +323,18 @@ class _DesignCourseHomeScreenState extends State<DesignCourseHomeScreen> {
                               });
                               /*listView..setHospitals(hospitals
                                   .getHospitalsByName(_searchText.text));*/
+                            }
+                          },
+                          onChanged: (value) {
+                            if (value.isEmpty) {
+                              setState(() {
+                                if (searchService!) {
+                                  Listservices = services.getServices();
+                                  ultimoService = null;
+                                } else if (searchHospital!) {
+                                  nameHospital = hospitals.getHospitals();
+                                }
+                              });
                             }
                           },
                         ),
@@ -409,6 +433,31 @@ class _DesignCourseHomeScreenState extends State<DesignCourseHomeScreen> {
           ),
         ],
       ),
+    );
+  }
+
+  Widget getRangeSlider() {
+    return RangeSlider(
+      values: _currentRangeValues,
+      min: 0,
+      max: 1000,
+      divisions: 100,
+      labels: RangeLabels(
+        _currentRangeValues.start.round().toString(),
+        _currentRangeValues.end.round().toString(),
+      ),
+      onChanged: (RangeValues values) {
+        setState(() {
+          _currentRangeValues = values;
+          if (ultimoService == null) {
+            Listservices =
+                services.getServicesByPrice(values.start, values.end);
+          } else {
+            Listservices = services.getServicesByPriceName(
+                ultimoService!, values.start, values.end);
+          }
+        });
+      },
     );
   }
 }

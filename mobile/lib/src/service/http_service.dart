@@ -6,7 +6,7 @@ import 'package:mobile/src/models/Service.dart';
 class Services {
   Services();
 
-  Future<List<Service>> getServicesByCategory(String name) async {
+  Future<List<Service>?> getServicesByCategory(String name) async {
     final uri = Uri.https(
       'health-road.herokuapp.com',
       '/mobile/service/services-by-category/$name/',
@@ -16,11 +16,15 @@ class Services {
       /*Iterable list = json.decode(value.body);
       users = list.map((model) => Category.fromJson(model)).toList();*/
     });*/
-    List users = json.decode(response.body);
-    return users.map((m) => Service.fromJson(m)).toList();
+    if (response.statusCode == 201) {
+      List users = json.decode(response.body);
+      return users.map((m) => Service.fromJson(m)).toList();
+    } else {
+      return null;
+    }
   }
 
-  Future<List<Service>> getServices() async {
+  Future<List<Service>?> getServices() async {
     final response = await http.get(
         Uri.parse(
             'https://health-road.herokuapp.com/mobile/service/all-services/'),
@@ -32,11 +36,15 @@ class Services {
       /*Iterable list = json.decode(value.body);
       users = list.map((model) => Category.fromJson(model)).toList();*/
     });*/
-    List users = json.decode(response.body);
-    return users.map((m) => Service.fromJson(m)).toList();
+    if (response.statusCode == 201) {
+      List users = json.decode(response.body);
+      return users.map((m) => Service.fromJson(m)).toList();
+    } else {
+      return null;
+    }
   }
 
-  Future<List<Service>> getServicesByName(String name) async {
+  Future<List<Service>?> getServicesByName(String name) async {
     final uri = Uri.https(
         'health-road.herokuapp.com', '/mobile/service/get-services/$name/');
     final response = await http.get(uri);
@@ -44,7 +52,44 @@ class Services {
       /*Iterable list = json.decode(value.body);
       users = list.map((model) => Category.fromJson(model)).toList();*/
     });*/
-    List users = json.decode(response.body);
-    return users.map((m) => Service.fromJson(m)).toList();
+    if (response.statusCode == 201) {
+      List users = json.decode(response.body);
+      return users.map((m) => Service.fromJson(m)).toList();
+    } else {
+      return null;
+    }
+  }
+
+  Future<List<Service>?> getServicesByPriceName(
+      String name, double gte, double lte) async {
+    final uri = Uri.https('health-road.herokuapp.com',
+        '/mobile/service/services-by-price/$name/$gte/$lte');
+    final response = await http.get(uri);
+    /*.then((value) {
+      /*Iterable list = json.decode(value.body);
+      users = list.map((model) => Category.fromJson(model)).toList();*/
+    });*/
+    if (response.statusCode == 201) {
+      List users = json.decode(response.body);
+      return users.map((m) => Service.fromJson(m)).toList();
+    } else {
+      return null;
+    }
+  }
+
+  Future<List<Service>?> getServicesByPrice(double gte, double lte) async {
+    final uri = Uri.https('health-road.herokuapp.com',
+        '/mobile/service/services-by-price/$gte/$lte');
+    final response = await http.get(uri);
+    /*.then((value) {
+      /*Iterable list = json.decode(value.body);
+      users = list.map((model) => Category.fromJson(model)).toList();*/
+    });*/
+    if (response.statusCode == 201) {
+      List users = json.decode(response.body);
+      return users.map((m) => Service.fromJson(m)).toList();
+    } else {
+      return null;
+    }
   }
 }
