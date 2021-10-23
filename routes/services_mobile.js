@@ -119,7 +119,24 @@ router.get('/services-by-price/:name/:price_gte/:price_lte',async (req, res)=>{
         res.status(501).json({ error: "No se encontraron servicios en este rango,intente de nuevo"})
     })
 })
-
+router.get('/services-by-price/:price_gte/:price_lte',async (req, res)=>{
+    let name = ''
+    if(req.params.name){
+        name=req.params.name.toLowerCase() 
+    }
+    service.findAll({
+        where:{
+            price:{
+                [Op.gte]:req.params.price_gte,
+                [Op.lte]:req.params.price_lte,
+            },
+        }
+    }).then(e=>res.status(201).json(e))
+    .catch(err=>{
+        console.error(err)
+        res.status(501).json({ error: "No se encontraron servicios en este rango,intente de nuevo"})
+    })
+})
 //Rate a service history 23
 router.post('/rate-a-service/',(req, res)=>{
     service_rates.create({
