@@ -489,7 +489,7 @@
                                 aria-labelledby="gallery-tab">
 
 
-                                <% if(locals.gallery){ %>
+                               
                                     <div class="service-control-panel">
                                         <div class="service-filter">
                                         </div>
@@ -499,8 +499,9 @@
                                             </button>
                                         </div>
                                     </div>
+                                    <% if(locals.gallery){ %>
                                     <div class="row">
-                                        <% var count=Object.keys(gallery).length+1; for(var i=1; i<count; i++) {%>
+                                        <% var count=Object.keys(gallery).length+1; for(var i=0; i<count-1; i++) {%>
                                             <div class="col-md-6 gallery-photo ">
                                                 <div class="card shadow-sm">
                                                     <div class="card-body">
@@ -509,8 +510,7 @@
                                                         </div>
                                                         <div class="d-flex justify-content-between align-items-center">
                                                             <div class="btn-group">
-                                                                <button type="button"
-                                                                    class="btn btn-sm btn-outline-secondary">Borrar</button>
+                                                                <button type="button"  data-bs-toggle="modal" onclick="send_id_photo('<%- i %>','<%- gallery[i] %>')" data-bs-target="#delete-photo" class="btn btn-sm btn-outline-secondary">Borrar</button>
                                                             </div>
                                                             <small class="text-muted">9 mins</small>
                                                         </div>
@@ -629,10 +629,25 @@
             <%- include("../include/confirmation_message",{ id: 'delete_service'
                 ,message: '¿Esta seguro de eliminar el servicio?' , type: 'servicio' }) %>
         </form>
+
+        <form action="/hospital/delete-photos" method="POST">
+            <input hidden type="text" id="id_delete_photo" name="id_photo">
+            <input hidden type="text" id="name_photo" name="name">
+            <%- include("../include/confirmation_message",{ id: 'delete-photo'
+                ,message: '¿Esta seguro de eliminar la foto?' , type: 'Hospital' }) %>
+        </form>
+
+
         <script>
             function send_service_name(name) {
                 var input_delete = document.getElementById('service_delete_name');
                 input_delete.value = name;
+            }
+            function send_id_photo(id,name) {
+                var input_photo = document.getElementById('id_delete_photo');
+                input_photo.value = id;
+                var name_photo = document.getElementById('name_photo');
+                name_photo.value = name;
             }
         </script>
 
