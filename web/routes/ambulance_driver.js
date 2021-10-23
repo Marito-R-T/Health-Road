@@ -10,9 +10,7 @@ const path_ = require('../absolutepath').static_files_public
 router.use((express.static(path_)))
 router.post('/register/', upload.array('profile_pic', 7), async(req, res) => {
     const user_info = req.body;
-    console.log(user_info);
     const profile_pic = req.files[0]
-    console.log(profile_pic);
     if ((user_info.user && user_info.password &&
             user_info.name && user_info.last_name &&
             user_info.celphone && user_info.email && profile_pic)) {
