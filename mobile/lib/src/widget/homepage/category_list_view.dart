@@ -8,7 +8,9 @@ import 'package:flutter/material.dart';
 import 'package:mobile/src/widget/homepage/hospital_info_screen.dart';
 
 class CategoryListView extends StatefulWidget {
-  const CategoryListView({Key? key}) : super(key: key);
+  const CategoryListView({Key? key, required this.listHospital})
+      : super(key: key);
+  final List<Hospital> listHospital;
 
   @override
   _CategoryListViewState createState() => _CategoryListViewState();
@@ -17,7 +19,6 @@ class CategoryListView extends StatefulWidget {
 class _CategoryListViewState extends State<CategoryListView>
     with TickerProviderStateMixin {
   AnimationController? animationController;
-  Future<List<Hospital>>? listHospital;
   Hospitals hospitals = Hospitals();
 
   void moveToHospital(Hospital hospital) {
@@ -33,7 +34,6 @@ class _CategoryListViewState extends State<CategoryListView>
 
   @override
   void initState() {
-    listHospital = hospitals.getHospitals();
     animationController = AnimationController(
         duration: const Duration(milliseconds: 2000), vsync: this);
     super.initState();
@@ -57,39 +57,30 @@ class _CategoryListViewState extends State<CategoryListView>
       child: Container(
         height: 134,
         width: double.infinity,
-        child: FutureBuilder<List<Hospital>>(
-          future: listHospital,
-          builder: (context, snapshot) {
-            if (!snapshot.hasData) {
-              return const SizedBox();
-            } else {
-              return ListView.builder(
-                padding: const EdgeInsets.only(
-                    top: 0, bottom: 0, right: 16, left: 16),
-                itemCount: snapshot.data!.length,
-                scrollDirection: Axis.horizontal,
-                itemBuilder: (BuildContext context, int index) {
-                  final int count =
-                      snapshot.data!.length > 10 ? 10 : snapshot.data!.length;
-                  final Animation<double> animation =
-                      Tween<double>(begin: 0.0, end: 1.0).animate(
-                          CurvedAnimation(
-                              parent: animationController!,
-                              curve: Interval((1 / count) * index, 1.0,
-                                  curve: Curves.fastOutSlowIn)));
-                  animationController?.forward();
+        child: ListView.builder(
+          padding:
+              const EdgeInsets.only(top: 0, bottom: 0, right: 16, left: 16),
+          itemCount: widget.listHospital.length,
+          scrollDirection: Axis.horizontal,
+          itemBuilder: (BuildContext context, int index) {
+            final int count = widget.listHospital.length > 10
+                ? 10
+                : widget.listHospital.length;
+            final Animation<double> animation =
+                Tween<double>(begin: 0.0, end: 1.0).animate(CurvedAnimation(
+                    parent: animationController!,
+                    curve: Interval((1 / count) * index, 1.0,
+                        curve: Curves.fastOutSlowIn)));
+            animationController?.forward();
 
-                  return HospitalView(
-                    hospital: snapshot.data![index],
-                    animation: animation,
-                    animationController: animationController,
-                    callback: () {
-                      moveToHospital(snapshot.data![index]);
-                    },
-                  );
-                },
-              );
-            }
+            return HospitalView(
+              hospital: widget.listHospital[index],
+              animation: animation,
+              animationController: animationController,
+              callback: () {
+                moveToHospital(widget.listHospital[index]);
+              },
+            );
           },
         ),
       ),
@@ -201,7 +192,7 @@ class HospitalView extends StatelessWidget {
                                                   CrossAxisAlignment.center,
                                               children: <Widget>[
                                                 Text(
-                                                  '${hospital!.direction}',
+                                                  hospital!.user,
                                                   textAlign: TextAlign.left,
                                                   style: const TextStyle(
                                                     fontWeight: FontWeight.w200,

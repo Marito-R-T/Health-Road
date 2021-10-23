@@ -25,7 +25,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(title: Text("Register")),
+        appBar: AppBar(title: const Text("Register")),
         body: Column(children: <Widget>[
           Form(
               key: _formKey,
@@ -53,7 +53,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
     return StreamBuilder(
         builder: (BuildContext context, AsyncSnapshot snapshot) {
       return Container(
-          padding: EdgeInsets.symmetric(horizontal: 50.0),
+          padding: const EdgeInsets.symmetric(horizontal: 50.0),
           child: TextFormField(
             validator: (value) {
               if (value == null || value.isEmpty) {
@@ -62,7 +62,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
             },
             keyboardType: TextInputType.text,
             controller: _user,
-            decoration: InputDecoration(
+            decoration: const InputDecoration(
               icon: Icon(Icons.confirmation_number),
               hintText: 'Ingrese user name',
               labelText: 'User Name:',
@@ -75,7 +75,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
     return StreamBuilder(
         builder: (BuildContext context, AsyncSnapshot snapshot) {
       return Container(
-          padding: EdgeInsets.symmetric(horizontal: 50.0),
+          padding: const EdgeInsets.symmetric(horizontal: 50.0),
           child: TextFormField(
             validator: (value) {
               if (value == null || value.isEmpty) {
@@ -87,7 +87,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
             obscureText: true,
             enableSuggestions: false,
             autocorrect: false,
-            decoration: InputDecoration(
+            decoration: const InputDecoration(
               icon: Icon(Icons.confirmation_number),
               hintText: 'Ingrese su contraseña',
               labelText: 'Password:',
@@ -100,7 +100,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
     return StreamBuilder(
         builder: (BuildContext context, AsyncSnapshot snapshot) {
       return Container(
-          padding: EdgeInsets.symmetric(horizontal: 50.0),
+          padding: const EdgeInsets.symmetric(horizontal: 50.0),
           child: TextFormField(
             validator: (value) {
               if (value == null || value.isEmpty) {
@@ -109,7 +109,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
             },
             keyboardType: TextInputType.text,
             controller: _name,
-            decoration: InputDecoration(
+            decoration: const InputDecoration(
               icon: Icon(Icons.text_fields),
               hintText: 'Ingrese su nombre',
               labelText: 'Nombre:',
@@ -122,7 +122,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
     return StreamBuilder(
         builder: (BuildContext context, AsyncSnapshot snapshot) {
       return Container(
-          padding: EdgeInsets.symmetric(horizontal: 50.0),
+          padding: const EdgeInsets.symmetric(horizontal: 50.0),
           child: TextFormField(
             validator: (value) {
               if (value == null || value.isEmpty) {
@@ -131,7 +131,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
             },
             keyboardType: TextInputType.text,
             controller: _lastname,
-            decoration: InputDecoration(
+            decoration: const InputDecoration(
               icon: Icon(Icons.text_fields),
               hintText: 'Ingrese su apellido',
               labelText: 'Last name:',
@@ -144,7 +144,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
     return StreamBuilder(
         builder: (BuildContext context, AsyncSnapshot snapshot) {
       return Container(
-          padding: EdgeInsets.symmetric(horizontal: 50.0),
+          padding: const EdgeInsets.symmetric(horizontal: 50.0),
           child: TextFormField(
             validator: (value) {
               if (value == null || value.isEmpty) {
@@ -153,7 +153,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                 return 'No es un numero';
               }
             },
-            keyboardType: TextInputType.text,
+            keyboardType: TextInputType.phone,
             controller: _cellphone,
             decoration: const InputDecoration(
               icon: Icon(Icons.settings_cell),
@@ -168,7 +168,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
     return StreamBuilder(
         builder: (BuildContext context, AsyncSnapshot snapshot) {
       return Container(
-        padding: EdgeInsets.symmetric(vertical: 10),
+        padding: const EdgeInsets.symmetric(vertical: 10),
       );
     });
   }
@@ -204,11 +204,12 @@ class _RegisterScreenState extends State<RegisterScreen> {
                         duration: Duration(seconds: 2),
                       ));
                     } else {
+                      User.logged = value;
                       Navigator.push(
                           context,
                           MaterialPageRoute(
                               builder: (context) =>
-                                  NavigationHomeScreen(user: value)));
+                                  const NavigationHomeScreen()));
                     }
                   });
                   // Si el formulario es válido, queremos mostrar un Snackbar
@@ -230,43 +231,5 @@ class _RegisterScreenState extends State<RegisterScreen> {
         ),
       );
     });
-    /*return StreamBuilder(
-        builder: (BuildContext context, AsyncSnapshot snapshot) {
-      return Container(
-        padding: const EdgeInsets.symmetric(vertical: 16.0),
-        child: ElevatedButton(
-          onPressed: () {
-            // devolverá true si el formulario es válido, o falso si
-            // el formulario no es válido.
-            if (_formKey.currentState!.validate()) {
-              ffuser = http_user
-                  .insertUsers(
-                      _user.value.text,
-                      _password.value.text,
-                      _name.value.text,
-                      _lastname.value.text,
-                      _cellphone.value.text)
-                  .then((value) {
-                print('entro al future');
-                if (value == null) {
-                  ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
-                    content: Text('Error al registrar usuario'),
-                    duration: Duration(seconds: 2),
-                  ));
-                } else {
-                  Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) =>
-                              NavigationHomeScreen(user: value)));
-                }
-              });
-              // Si el formulario es válido, queremos mostrar un Snackbar
-            }
-          },
-          child: Text('Submit'),
-        ),
-      );
-    });*/
   }
 }

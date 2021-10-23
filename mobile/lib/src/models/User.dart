@@ -1,5 +1,10 @@
 class User {
-  final String? user;
+  ///Static User
+  static User? logged;
+
+  ///Static User
+
+  final String user;
   final String? password;
   String? name;
   String? last_name;

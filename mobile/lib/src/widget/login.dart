@@ -204,8 +204,10 @@ class _LoginScreenState extends State<LoginScreen> {
             ])),
         child: Center(
           child: OutlinedButton.icon(
-              onPressed: () => Navigator.push(context,
-                  MaterialPageRoute(builder: (context) => RegisterScreen())),
+              onPressed: () => Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => const RegisterScreen())),
               icon: const Icon(Icons.supervised_user_circle_rounded,
                   color: Colors.white),
               style: OutlinedButton.styleFrom(
@@ -248,11 +250,12 @@ class _LoginScreenState extends State<LoginScreen> {
                         duration: Duration(seconds: 2),
                       ));
                     } else {
+                      User.logged = value;
                       Navigator.push(
                           context,
                           MaterialPageRoute(
                               builder: (context) =>
-                                  NavigationHomeScreen(user: value)));
+                                  const NavigationHomeScreen()));
                     }
                   });
                 }
