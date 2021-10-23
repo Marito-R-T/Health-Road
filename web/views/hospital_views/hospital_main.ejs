@@ -27,7 +27,8 @@
                                         <textarea type="text" name="path" id="path" hidden></textarea>
                                     </div>
                                     <div class="avatar-preview">
-                                        <div id="previsualizacion-profile" style="background-image: url( /<%- hospital.photo  %> );">
+                                        <div id="previsualizacion-profile"
+                                            style="background-image: url( /<%- hospital.photo  %> );">
 
 
                                         </div>
@@ -52,28 +53,37 @@
                             <li class="nav-item" role="presentation">
 
                                 <form action="/Hospital/Services">
-                                    <button class="nav-link <%- tabs.service %>" id="home-tab" data-bs-toggle="tab" data-bs-target="#home" type="submit" role="tab" aria-controls="home" aria-selected="true">Servicios</button>
+                                    <button class="nav-link <%- tabs.service %>" id="home-tab" data-bs-toggle="tab"
+                                        data-bs-target="#home" type="submit" role="tab" aria-controls="home"
+                                        aria-selected="true">Servicios</button>
                                 </form>
 
                             </li>
                             <li class="nav-item" role="presentation">
                                 <form action="/Hospital/Users">
-                                    <button type="submit" class="nav-link  <%- tabs.users %>" id="profile-tab" data-bs-toggle="tab" data-bs-target="#profile" type="button" role="tab" aria-controls="profile" aria-selected="false">Usuario</button>
+                                    <button type="submit" class="nav-link  <%- tabs.users %>" id="profile-tab"
+                                        data-bs-toggle="tab" data-bs-target="#profile" type="button" role="tab"
+                                        aria-controls="profile" aria-selected="false">Usuario</button>
                                 </form>
                             </li>
                             <li class="nav-item" role="presentation">
                                 <form action="/Hospital/Rates">
-                                    <button type="submit" class="nav-link  <%- tabs.rates %>" id="contact-tab" data-bs-toggle="tab" data-bs-target="#contact" type="button" role="tab" aria-controls="contact" aria-selected="false">Calificaciones</button>
+                                    <button type="submit" class="nav-link  <%- tabs.rates %>" id="contact-tab"
+                                        data-bs-toggle="tab" data-bs-target="#contact" type="button" role="tab"
+                                        aria-controls="contact" aria-selected="false">Calificaciones</button>
                                 </form>
                             </li>
                             <li class="nav-item" role="presentation">
                                 <form action="/Hospital/Gallery">
-                                    <button type="submit" class="nav-link  <%- tabs.gallery %>" id="gallery-tab" data-bs-toggle="tab" data-bs-target="#gallery" type="button" role="tab" aria-controls="gallery" aria-selected="false">Galeria</button>
+                                    <button type="submit" class="nav-link  <%- tabs.gallery %>" id="gallery-tab"
+                                        data-bs-toggle="tab" data-bs-target="#gallery" type="button" role="tab"
+                                        aria-controls="gallery" aria-selected="false">Galeria</button>
                                 </form>
                             </li>
                         </ul>
                         <div class="tab-content" id="myTabContent">
-                            <div class="tab-pane fade  <%- tabs.service %>" id="home" role="tabpanel" aria-labelledby="home-tab">
+                            <div class="tab-pane fade  <%- tabs.service %>" id="home" role="tabpanel"
+                                aria-labelledby="home-tab">
                                 <% if(locals.services){ %>
                                     <div class="service-control-panel">
                                         <div class="service-filter">
@@ -84,22 +94,72 @@
                                             <form action="/Hospital/AddService">
 
                                                 <button class="form">
-                                                    <i class="far fa-notes-medical"></i> Servicio</i>
+                                                    <i class="fad fa-notes-medical"></i> Servicio</i>
                                                 </button>
                                             </form>
+                                            <form action="/service/discount/all-services" method="POST">
+                                                <p>
+
+                                                    <button class="form " type="button" data-bs-toggle="collapse"
+                                                        data-bs-target="#collapseExample" aria-expanded="false"
+                                                        aria-controls="collapseExample">
+                                                        <i class="fad fa-percent"></i> Descuento</i>
+                                                    </button>
+                                                </p>
+                                                <div class="collapse" id="collapseExample">
+                                                    <div class="card card-body">
+                                                        <div class="col-md-12">
+                                                            <div class="form-group in_email">
+                                                                <label> <i class="fas fa-percent"></i> Descuento
+                                                                </label>
+
+                                                                <input type="number" min="0" max="100"
+                                                                    class="form-control" value="" name="percentage"
+                                                                    placeholder="%" required="required">
+                                                            </div>
+                                                        </div>
+                                                        <div>
+                                                            <div class="form-group in_message">
+                                                                <label> <i class="far fa-clock"></i> Fecha Inicio
+                                                                </label>
+                                                                <input type="date" name="date_initial" value=""
+                                                                    required>
+                                                            </div>
+                                                            <div class="form-group in_message">
+                                                                <label> <i class="far fa-clock"></i> Fecha Fin
+                                                                </label>
+                                                                <input type="date" name="date_end" value="" required>
+                                                            </div>
+                                                            <div class="actions">
+                                                                <button type="submit" class="btn small submitButton"
+                                                                    data-bs-toggle="modal"
+                                                                    data-bs-target="#set_discount" />
+                                                                <i class="far fa-save"></i>
+                                                                Actualizar
+                                                                </button>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <%- include("../include/confirmation_message",{id: 'set_discount' ,
+                                                    message: '¿Esta seguro de aplicar este descuento? <br> ' ,
+                                                    type: 'Hospital' }) %>
+                                            </form>
                                         </div>
-
-
                                     </div>
                                     <div class="list-group">
 
                                         <% for(var i=0; i<services.length; i++) {%>
 
 
-                                            <div class="list-group-item list-group-item-action flex-column align-items-start ">
+                                            <div
+                                                class="list-group-item list-group-item-action flex-column align-items-start ">
                                                 <div class="row">
                                                     <div class="col-md-2">
-                                                        <img width="100px" src="https://i.pinimg.com/280x280_RS/2e/45/66/2e4566fd829bcf9eb11ccdb5f252b02f.jpg" alt="">
+                                                        <img width="100px"
+                                                            src="https://i.pinimg.com/280x280_RS/2e/45/66/2e4566fd829bcf9eb11ccdb5f252b02f.jpg"
+                                                            alt="">
                                                     </div>
                                                     <div class="col-md-10">
                                                         <div>
@@ -115,13 +175,15 @@
                                                                     <%= services[i].description %>
                                                                 </p>
                                                                 <% if(services[i].status) {%>
-                                                                    <span class="badge badge-pill badge-secondary" style="height: -moz-available; align-self: center;">
+                                                                    <span class="badge badge-pill badge-secondary"
+                                                                        style="height: -moz-available; align-self: center;">
                                                                         Activo
                                                                     </span>
                                                                     <% }else{ %>
-                                                                        <span class="badge badge-pill out-service" style="height: -moz-available; align-self: center;">
+                                                                        <span class="badge badge-pill out-service"
+                                                                            style="height: -moz-available; align-self: center;">
                                                                             Fuera de servicio
-                                                                    </span>
+                                                                        </span>
 
                                                                         <%} %>
                                                             </div>
@@ -167,41 +229,55 @@
                                     <% } %>
 
                             </div>
-                            <div class="tab-pane fade  <%- tabs.users %>" id="profile" role="tabpanel" aria-labelledby="profile-tab">
+                            <div class="tab-pane fade  <%- tabs.users %>" id="profile" role="tabpanel"
+                                aria-labelledby="profile-tab">
 
 
                                 <div class="d-flex align-items-start">
-                                    <div class="nav flex-column nav-pills me-3" id="v-pills-tab" role="tablist" aria-orientation="vertical">
-                                        <button class="nav-link active" id="v-pills-admin-tab" data-bs-toggle="pill" data-bs-target="#v-pills-admin" type="button" role="tab" aria-controls="v-pills-admin" aria-selected="true">Administrador</button>
-                                        <button class="nav-link" id="v-pills-adminAmbulance-tab" data-bs-toggle="pill" data-bs-target="#v-pills-adminAmbulance" type="button" role="tab" aria-controls="v-pills-adminAmbulance" aria-selected="false">Administradores
+                                    <div class="nav flex-column nav-pills me-3" id="v-pills-tab" role="tablist"
+                                        aria-orientation="vertical">
+                                        <button class="nav-link active" id="v-pills-admin-tab" data-bs-toggle="pill"
+                                            data-bs-target="#v-pills-admin" type="button" role="tab"
+                                            aria-controls="v-pills-admin" aria-selected="true">Administrador</button>
+                                        <button class="nav-link" id="v-pills-adminAmbulance-tab" data-bs-toggle="pill"
+                                            data-bs-target="#v-pills-adminAmbulance" type="button" role="tab"
+                                            aria-controls="v-pills-adminAmbulance" aria-selected="false">Administradores
                                             de
                                             Ambulancia</button>
-                                        <button class="nav-link" id="v-pills-drivers-tab" data-bs-toggle="pill" data-bs-target="#v-pills-drivers" type="button" role="tab" aria-controls="v-pills-drivers" aria-selected="false">Conductores de
+                                        <button class="nav-link" id="v-pills-drivers-tab" data-bs-toggle="pill"
+                                            data-bs-target="#v-pills-drivers" type="button" role="tab"
+                                            aria-controls="v-pills-drivers" aria-selected="false">Conductores de
                                             Ambulancia</button>
                                     </div>
                                     <div class="tab-content" id="v-pills-tabContent">
-                                        <div class="tab-pane fade show active" id="v-pills-admin" role="tabpanel" aria-labelledby="v-pills-admin-tab">
+                                        <div class="tab-pane fade show active" id="v-pills-admin" role="tabpanel"
+                                            aria-labelledby="v-pills-admin-tab">
                                             <div class="img-profile">
 
                                                 <div class="cover-upload">
                                                     <div class="cover-edit">
-                                                        <input type='file' id="imageUpload-cover" accept=".png, .jpg, .jpeg ,.jfif" />
+                                                        <input type='file' id="imageUpload-cover"
+                                                            accept=".png, .jpg, .jpeg ,.jfif" />
                                                         <label for="imageUpload-cover"><i style="margin: 8px;"
                                                                 class="fas fa-camera"></i></label>
                                                         <textarea type="text" name="path" id="path" hidden></textarea>
                                                     </div>
                                                     <div class="cover-preview">
-                                                        <div id="previsualizacion-cover" style="background-image: url(images/logo-hospital.png);">
+                                                        <div id="previsualizacion-cover"
+                                                            style="background-image: url(images/logo-hospital.png);">
                                                             <div class="avatar-upload">
                                                                 <div class="avatar-edit" style="left: 200px;">
-                                                                    <input type='file' id="imageUpload-profile" accept=".png, .jpg, .jpeg ,.jfif" />
+                                                                    <input type='file' id="imageUpload-profile"
+                                                                        accept=".png, .jpg, .jpeg ,.jfif" />
                                                                     <label for="imageUpload-profile"><i
                                                                             style="margin: 8px;"
                                                                             class="fas fa-camera"></i></label>
-                                                                    <textarea type="text" name="path" id="path" hidden></textarea>
+                                                                    <textarea type="text" name="path" id="path"
+                                                                        hidden></textarea>
                                                                 </div>
                                                                 <div class="avatar-preview">
-                                                                    <div id="previsualizacion-profile" style="background-image: url(https://i.pinimg.com/280x280_RS/2e/45/66/2e4566fd829bcf9eb11ccdb5f252b02f.jpg);">
+                                                                    <div id="previsualizacion-profile"
+                                                                        style="background-image: url(https://i.pinimg.com/280x280_RS/2e/45/66/2e4566fd829bcf9eb11ccdb5f252b02f.jpg);">
 
                                                                     </div>
                                                                 </div>
@@ -220,13 +296,15 @@
                                                                     <div class="form-group in_name">
                                                                         <label> <i class="far fa-user"></i> Nombre
                                                                         </label>
-                                                                        <input type="text" class="form-control" placeholder="Nombre" required="required">
+                                                                        <input type="text" class="form-control"
+                                                                            placeholder="Nombre" required="required">
                                                                     </div>
                                                                 </div>
                                                                 <div class="col-md-6">
                                                                     <div class="form-group in_email">
                                                                         <label> Apellido</label>
-                                                                        <input type="text" class="form-control" placeholder="Apellido" required="required">
+                                                                        <input type="text" class="form-control"
+                                                                            placeholder="Apellido" required="required">
                                                                     </div>
                                                                 </div>
                                                                 <div class="col-md-12">
@@ -234,21 +312,24 @@
                                                                         <label> <i
                                                                                 class="fas fa-envelope-open-text"></i>
                                                                             Email</label>
-                                                                        <input type="email" class="form-control" placeholder="Email" required="required">
+                                                                        <input type="email" class="form-control"
+                                                                            placeholder="Email" required="required">
                                                                     </div>
                                                                 </div>
                                                                 <div class="col-md-12">
                                                                     <div class="form-group in_email">
                                                                         <label> <i class="far fa-phone-rotary"></i>
                                                                             Telefono</label>
-                                                                        <input type="text" class="form-control" placeholder="Telefono" required="required">
+                                                                        <input type="text" class="form-control"
+                                                                            placeholder="Telefono" required="required">
                                                                     </div>
                                                                 </div>
                                                                 <div class="col-md-12">
                                                                     <div class="form-group in_email">
                                                                         <label> <i class="far fa-lock-alt"></i>
                                                                             Password</label>
-                                                                        <input type="password" class="form-control" placeholder="Password" required="required">
+                                                                        <input type="password" class="form-control"
+                                                                            placeholder="Password" required="required">
                                                                     </div>
                                                                 </div>
                                                                 <div class="col-md-12">
@@ -260,7 +341,10 @@
                                                                         </select>
                                                                     </div>
                                                                     <div class="actions">
-                                                                        <input type="submit" value="Guardar" name="submit" id="submitButton" class="btn small" title="Submit Your Message!">
+                                                                        <input type="submit" value="Guardar"
+                                                                            name="submit" id="submitButton"
+                                                                            class="btn small"
+                                                                            title="Submit Your Message!">
                                                                     </div>
                                                                 </div>
                                                             </div>
@@ -273,12 +357,16 @@
 
                                             </div>
                                         </div>
-                                        <div class="tab-pane fade" id="v-pills-adminAmbulance" role="tabpanel" aria-labelledby="v-pills-adminAmbulance-tab">
+                                        <div class="tab-pane fade" id="v-pills-adminAmbulance" role="tabpanel"
+                                            aria-labelledby="v-pills-adminAmbulance-tab">
                                             <div class="list-group">
-                                                <div class="list-group-item list-group-item-action flex-column align-items-start ">
+                                                <div
+                                                    class="list-group-item list-group-item-action flex-column align-items-start ">
                                                     <div class="row">
                                                         <div class="col-md-2">
-                                                            <img width="100px" src="https://i.pinimg.com/280x280_RS/2e/45/66/2e4566fd829bcf9eb11ccdb5f252b02f.jpg" alt="">
+                                                            <img width="100px"
+                                                                src="https://i.pinimg.com/280x280_RS/2e/45/66/2e4566fd829bcf9eb11ccdb5f252b02f.jpg"
+                                                                alt="">
                                                         </div>
                                                         <div class="col-md-10">
                                                             <div>
@@ -299,7 +387,8 @@
                                                 </div>
                                             </div>
                                         </div>
-                                        <div class="tab-pane fade" id="v-pills-drivers" role="tabpanel" aria-labelledby="v-pills-drivers-tab">
+                                        <div class="tab-pane fade" id="v-pills-drivers" role="tabpanel"
+                                            aria-labelledby="v-pills-drivers-tab">
                                             <div class="service-filter">
 
                                             </div>
@@ -311,10 +400,13 @@
                                                 </form>
                                             </div>
                                             <div class="list-group">
-                                                <div class="list-group-item list-group-item-action flex-column align-items-start ">
+                                                <div
+                                                    class="list-group-item list-group-item-action flex-column align-items-start ">
                                                     <div class="row">
                                                         <div class="col-md-2">
-                                                            <img width="100px" src="https://i.pinimg.com/280x280_RS/2e/45/66/2e4566fd829bcf9eb11ccdb5f252b02f.jpg" alt="">
+                                                            <img width="100px"
+                                                                src="https://i.pinimg.com/280x280_RS/2e/45/66/2e4566fd829bcf9eb11ccdb5f252b02f.jpg"
+                                                                alt="">
                                                         </div>
                                                         <div class="col-md-10">
                                                             <div>
@@ -350,14 +442,17 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="tab-pane fade  <%- tabs.rates %>" id="contact" role="tabpanel" aria-labelledby="contact-tab">
+                            <div class="tab-pane fade  <%- tabs.rates %>" id="contact" role="tabpanel"
+                                aria-labelledby="contact-tab">
 
 
                                 <div class="list-group">
                                     <div class="list-group-item list-group-item-action flex-column align-items-start ">
                                         <div class="row">
                                             <div class="col-md-2">
-                                                <img width="100px" src="https://i.pinimg.com/280x280_RS/2e/45/66/2e4566fd829bcf9eb11ccdb5f252b02f.jpg" alt="">
+                                                <img width="100px"
+                                                    src="https://i.pinimg.com/280x280_RS/2e/45/66/2e4566fd829bcf9eb11ccdb5f252b02f.jpg"
+                                                    alt="">
                                             </div>
                                             <div class="col-md-10">
                                                 <div>
@@ -390,7 +485,8 @@
 
                                 </div>
                             </div>
-                            <div class="tab-pane fade  <%- tabs.gallery %>" id="gallery" role="tabpanel" aria-labelledby="gallery-tab">
+                            <div class="tab-pane fade  <%- tabs.gallery %>" id="gallery" role="tabpanel"
+                                aria-labelledby="gallery-tab">
 
 
                                 <% if(locals.gallery){ %>
@@ -413,7 +509,8 @@
                                                         </div>
                                                         <div class="d-flex justify-content-between align-items-center">
                                                             <div class="btn-group">
-                                                                <button type="button" class="btn btn-sm btn-outline-secondary">Borrar</button>
+                                                                <button type="button"
+                                                                    class="btn btn-sm btn-outline-secondary">Borrar</button>
                                                             </div>
                                                             <small class="text-muted">9 mins</small>
                                                         </div>
@@ -462,7 +559,8 @@
 
                         <div class="col-md-12">
                             <label> Calificacion</label><br>
-                            <i class="fas fa-star"></i><i class="fas fa-star-half-alt"></i><i class="far fa-star"></i><i class="far fa-star"></i><i class="far fa-star"></i>
+                            <i class="fas fa-star"></i><i class="fas fa-star-half-alt"></i><i class="far fa-star"></i><i
+                                class="far fa-star"></i><i class="far fa-star"></i>
                         </div>
                         <form action="user/logout/">
                             <button>
@@ -488,7 +586,8 @@
         </div>
         <form action="/hospital/add-photo" method="POST" enctype="multipart/form-data">
             <input hidden type="text" id="service_delete_name" name="name">
-            <div class="modal fade" id="add_photo" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+            <div class="modal fade" id="add_photo" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+                aria-labelledby="staticBackdropLabel" aria-hidden="true">
                 <div class="modal-dialog">
                     <div class="modal-content">
                         <div class="modal-header">
@@ -500,12 +599,14 @@
                                 <div class="img-profile">
                                     <div class="photo-upload" style="margin: auto;">
                                         <div class="photo-edit">
-                                            <input type='file' name="photo" id="photo" accept=".png, .jpg, .jpeg ,.jfif" required />
+                                            <input type='file' name="photo" id="photo" accept=".png, .jpg, .jpeg ,.jfif"
+                                                required />
                                             <label for="photo"><i style="margin: 8px;"
                                                     class="fas fa-camera"></i></label>
                                         </div>
                                         <div class="photo-preview" style="padding: 0;">
-                                            <div id="previsualizacion-photo" style="background-image: url(images/imagen.png); width: 100%; height: 100%;">
+                                            <div id="previsualizacion-photo"
+                                                style="background-image: url(images/imagen.png); width: 100%; height: 100%;">
                                             </div>
                                         </div>
 
@@ -514,7 +615,8 @@
                             </div>
                         </div>
                         <div class="modal-footer">
-                            <button type="reset" class="btn btn-secondary" onclick="reset_photo()" data-bs-dismiss="modal">Cancelar</button>
+                            <button type="reset" class="btn btn-secondary" onclick="reset_photo()"
+                                data-bs-dismiss="modal">Cancelar</button>
                             <button type="submit" class="btn btn-primary">Si</button>
                         </div>
                     </div>

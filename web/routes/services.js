@@ -309,7 +309,7 @@ router.post('/reactive-mode-out-of-service/', async (req, res) => {
 })
 
 //Offer discount to all the services history 18
-router.put('/discount/all-services/', (req, res) => {
+router.post('/discount/all-services/', (req, res) => {
     const discounts = req.body
     if (discounts.percentage && discounts.date_initial && discounts.date_end) {
         discount.update({
@@ -317,15 +317,14 @@ router.put('/discount/all-services/', (req, res) => {
             date_initial: new Date(discounts.date_initial),
             date_end: new Date(discounts.date_end)
         }, {
-            where: {
-                hospital_user: "usuario1"
-            }
-        }).then(e => {
+            include: [{ model: service, where: { hospital_user: req.session.user, deleted:false } }]
+        }).then(e => { 
             if (e && e[0])
                 res.send("Descuento establecido")
             else
                 res.send("No se pudo establecer el descuento, intente de nuevo")
         }).catch(err => {
+            console.log(err);
             res.send("No se pudo establecer el descuento, intente de nuevo")
         })
     } else {
@@ -348,8 +347,8 @@ router.post('/discount/specific-service/', (req, res) => {
             console.log('segundo');
             if (discounts.percentage && discounts.date_initial &&
                 discounts.date_end && discounts.service_name) {
-                    console.log('tercero');
-                    discount.update({
+                console.log('tercero');
+                discount.update({
                     percentage: discounts.percentage,
                     date_initial: new Date(discounts.date_initial),
                     date_end: new Date(discounts.date_end)
