@@ -4,6 +4,8 @@ const { service, service_rates, sequelize, discount } = require('../models/conne
 const { static_files_public, static_files_pdf } = require('../absolutepath')
 const fs = require('fs');
 var url = require('url');
+var Sequelize = require('sequelize');
+const Op = Sequelize.Op;
 const pdfwritter = require('./html_pdf')
 router.use((express.static(static_files_public)))
 router.use((express.static(static_files_pdf)))
@@ -309,45 +311,42 @@ router.post('/reactive-mode-out-of-service/', async (req, res) => {
 })
 
 //Offer discount to all the services history 18
-router.post('/discount/all-services/', (req, res) => {
+router.post('/discount/all-services/', async (req, res) => {
     const discounts = req.body
-    if (discounts.percentage && discounts.date_initial && discounts.date_end) {
-        discount.update({
-            percentage: discounts.percentage,
-            date_initial: new Date(discounts.date_initial),
-            date_end: new Date(discounts.date_end)
-        }, {
-            include: [{ model: service, where: { hospital_user: req.session.user, deleted:false } }]
-        }).then(e => { 
-            if (e && e[0])
-                res.send("Descuento establecido")
-            else
-                res.send("No se pudo establecer el descuento, intente de nuevo")
-        }).catch(err => {
-            console.log(err);
-            res.send("No se pudo establecer el descuento, intente de nuevo")
-        })
+    if (discounts.confirmation != discounts.hospital_name) {
+        res.redirect(url.format({ pathname: '/Hospital/Services', query: { title: 'Error', message: 'Confirmacion incorrecta', type: 'error' } }));
     } else {
-        res.send("Complete los campos")
+        if (discounts.percentage && discounts.date_initial && discounts.date_end) {
+            await sequelize.query('UPDATE "Discounts" set "percentage" = ' + discounts.percentage + ' , "date_initial" = \'' + discounts.date_initial + '\' , "date_end" = \'' + discounts.date_end + '\' FROM "Service" where "Service"."DiscountId" = "Discounts"."id" and "Service"."hospital_user" = \'' + req.session.user + '\' and "Service"."deleted" = FALSE',
+                {
+                    type: Sequelize.QueryTypes.UPDATE,
+                }).then(e => {
+                    if (e && e[0]) {
+                        res.redirect(url.format({ pathname: '/Hospital/Services', query: { title: 'Exito', message: 'Descuento actualizado', type: 'success' } }));
+                    }
+                    else {
+                        res.redirect(url.format({ pathname: '/Hospital/Services', query: { title: 'Error', message: 'Descuento no actualizado, intente de nuevo', type: 'error' } }));
+                    }
+                }).catch(err => {
+                    res.redirect(url.format({ pathname: '/Hospital/Services', query: { title: 'Error', message: 'Descuento no actualizado, intente de nuevo', type: 'error' } }));
+                })
+        } else {
+            res.redirect(url.format({ pathname: '/Hospital/Services', query: { title: 'Error', message: 'Campos incompletos', type: 'error' } }));
+        }
     }
 })
 
 //Offer discount to a specific services history 19
 router.post('/discount/specific-service/', (req, res) => {
     const discounts = req.body
-    console.log(discounts);
     if (discounts.confirmation != discounts.service_name) {
         res.redirect(url.format({ pathname: '/Hospital/UpdateService', query: { title: 'Error', message: 'Confirmacion incorrecta', type: 'error' } }));
     } else {
-        console.log('primer');
         if (!(discounts.percentage <= 100 && discounts.percentage >= 0)) {
-            console.log('error');
             res.redirect(url.format({ pathname: '/Hospital/UpdateService', query: { title: 'Error', message: 'Porcentaje incorrecto, valor esperado entre 1 y 100', type: 'error' } }));
         } else {
-            console.log('segundo');
             if (discounts.percentage && discounts.date_initial &&
                 discounts.date_end && discounts.service_name) {
-                console.log('tercero');
                 discount.update({
                     percentage: discounts.percentage,
                     date_initial: new Date(discounts.date_initial),
@@ -365,7 +364,6 @@ router.post('/discount/specific-service/', (req, res) => {
                     }
 
                 }).catch(err => {
-                    console.log(err);
                     res.redirect(url.format({ pathname: '/Hospital/UpdateService', query: { title: 'Error', message: 'Descuento no actualizado, intente de nuevo', type: 'error' } }));
                 })
             } else {

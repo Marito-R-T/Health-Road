@@ -44,7 +44,6 @@ router.get('/', async (req, res) => {
                 res.redirect(url.format({ pathname: '/', query: { title: 'Error', message: 'Informacion no encontrada', type: 'error' } }));
             }
         }).catch(err => {
-            console.log(err);
             res.redirect(url.format({ pathname: '/', query: { title: 'Error', message: 'Intente de nuevo', type: 'error' } }));
         })
     }
@@ -132,7 +131,6 @@ router.get('/UpdateService/', async (req, res) => {
                 }).then(val => {
                     if (val) {
                         let categories_info = val;
-                        console.log(service_info_);
                         discount.findOne({
                             where: {
                                 id: service_info_.DiscountId
@@ -144,7 +142,6 @@ router.get('/UpdateService/', async (req, res) => {
                         }).then(val => {
                             if (val) {
                                 let discount_info = val;
-                                console.log(discount_info);
                                 res.render("hospital_views/update_service", { service: service_info_, categories: categories_info, discount: discount_info });
                             } else {
                                 res.redirect(url.format({ pathname: '/', query: { title: 'Error', message: 'Informacion no encontrada', type: 'error' } }));
@@ -203,7 +200,6 @@ router.get('/Services/', async (req, res) => {
                 res.redirect(url.format({ pathname: '/', query: { title: 'Error', message: 'Informacion no encontrada', type: 'error' } }));
             }
         }).catch(err => {
-            console.log(err);
             res.redirect(url.format({ pathname: '/', query: { title: 'Error', message: 'Intente de nuevo', type: 'error' } }));
         })
     }
@@ -246,7 +242,6 @@ router.get('/Users/', async (req, res) => {
                 res.redirect(url.format({ pathname: '/', query: { title: 'Error', message: 'Informacion no encontrada', type: 'error' } }));
             }
         }).catch(err => {
-            console.log(err);
             res.redirect(url.format({ pathname: '/', query: { title: 'Error', message: 'Intente de nuevo', type: 'error' } }));
         })
     }
@@ -311,7 +306,6 @@ async function getHospitalInfo(req) {
 
 
             }).catch(err => {
-                console.log(err);
                 message_.title = 'Error';
                 message_.message = 'Intente de nuevo';
                 message_.type = 'error';
