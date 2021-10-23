@@ -4,13 +4,13 @@ var url = require('url');
 const { static_files_public, root_path, static_upload } = require('../absolutepath')
 const fs = require('fs');
 
-const { hospital, user, service, ambulance_driver, category } = require('../models/connection_db');
+const { hospital, user, service, ambulance_driver, category, discount } = require('../models/connection_db');
 const { response } = require('express');
 const { Console } = require('console');
 
 
 router.use((express.static(static_files_public)))
-router.get('/', async(req, res) => {
+router.get('/', async (req, res) => {
     let response = await getHospitalInfo(req);
     if (response.message) {
         res.redirect(url.format({
@@ -82,7 +82,7 @@ router.get('/AddDriver/', (req, res) => {
 
 })
 
-router.get('/Update/', async(req, res) => {
+router.get('/Update/', async (req, res) => {
     let response = await getHospitalInfo(req);
     if (response.message) {
         res.redirect(url.format({
@@ -98,7 +98,7 @@ router.get('/Update/', async(req, res) => {
     }
 })
 
-router.get('/UpdateService/', async(req, res) => {
+router.get('/UpdateService/', async (req, res) => {
     let response = await getHospitalInfo(req);
     const service_info = req.query;
     if (response.message) {
@@ -131,8 +131,27 @@ router.get('/UpdateService/', async(req, res) => {
                     raw: true
                 }).then(val => {
                     if (val) {
-
-                        res.render("hospital_views/update_service", { service: service_info_, categories: val });
+                        let categories_info = val;
+                        console.log(service_info_);
+                        discount.findOne({
+                            where: {
+                                id: service_info_.DiscountId
+                            },
+                            attributes: {
+                                exclude: ['createdAt', 'updatedAt']
+                            },
+                            raw: true
+                        }).then(val => {
+                            if (val) {
+                                let discount_info = val;
+                                console.log(discount_info);
+                                res.render("hospital_views/update_service", { service: service_info_, categories: categories_info, discount: discount_info });
+                            } else {
+                                res.redirect(url.format({ pathname: '/', query: { title: 'Error', message: 'Informacion no encontrada', type: 'error' } }));
+                            }
+                        }).catch(err => {
+                            res.redirect(url.format({ pathname: '/', query: { title: 'Error', message: 'Intente de nuevo', type: 'error' } }));
+                        })
                     } else {
                         res.redirect(url.format({ pathname: '/', query: { title: 'Error', message: 'Informacion no encontrada', type: 'error' } }));
                     }
@@ -143,21 +162,12 @@ router.get('/UpdateService/', async(req, res) => {
                 res.redirect(url.format({ pathname: '/', query: { title: 'Error', message: 'Informacion no encontrada', type: 'error' } }));
             }
         }).catch(err => {
-            console.log(err);
             res.redirect(url.format({ pathname: '/', query: { title: 'Error', message: 'Intente de nuevo', type: 'error' } }));
         })
-
-
-
-
-
-
-
-
     }
 })
 
-router.get('/Services/', async(req, res) => {
+router.get('/Services/', async (req, res) => {
 
     let response = await getHospitalInfo(req);
 
@@ -203,7 +213,7 @@ router.get('/Services/', async(req, res) => {
 
 })
 
-router.get('/Users/', async(req, res) => {
+router.get('/Users/', async (req, res) => {
     let response = await getHospitalInfo(req);
     if (response.message.message) {
         res.redirect(url.format({
@@ -246,7 +256,7 @@ router.get('/Users/', async(req, res) => {
 
 })
 
-router.get('/Gallery/', async(req, res) => {
+router.get('/Gallery/', async (req, res) => {
     let response = await getHospitalInfo(req);
     if (response.message) {
         res.redirect(url.format({

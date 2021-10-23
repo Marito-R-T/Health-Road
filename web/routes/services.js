@@ -209,39 +209,39 @@ router.get('/get-schedule/', async (req, res) => {
 
 router.post('/set-schedule/', (req, res) => {
     const service_info = req.body;
-    if(service_info.confirmation != service_info.name){
+    if (service_info.confirmation != service_info.name) {
         res.redirect(url.format({ pathname: '/Hospital/UpdateService', query: { title: 'Error', message: 'Confirmacion incorrecta', type: 'error' } }));
-    }else{
+    } else {
 
-   
-     const schedule = {
-        "Monday": service_info.Monday,
-        "Tuesday": service_info.Tuesday,
-        "Thursday": service_info.Thursday,
-        "Wednesday": service_info.Wednesday,
-        "Friday": service_info.Friday,
-        "Sunday": service_info.Sunday,
-        "Saturday": service_info.Saturday,
-        "Start": service_info.Start,
-        "End": service_info.End
+
+        const schedule = {
+            "Monday": service_info.Monday,
+            "Tuesday": service_info.Tuesday,
+            "Thursday": service_info.Thursday,
+            "Wednesday": service_info.Wednesday,
+            "Friday": service_info.Friday,
+            "Sunday": service_info.Sunday,
+            "Saturday": service_info.Saturday,
+            "Start": service_info.Start,
+            "End": service_info.End
+        }
+        service.update({
+            schedule: schedule,
+        }, {
+            where: {
+                name: service_info.name,
+                hospital_user: req.session.user
+            }
+        }).then(e => {
+            if (e && e[0]) {
+                res.redirect(url.format({ pathname: '/Hospital/Services', query: { title: 'Actualizacion exitosa', message: 'Horario actualizado', type: 'success' } }));
+            } else {
+                res.redirect(url.format({ pathname: '/Hospital/Services', query: { title: 'Error', message: 'No se encontro el servicio', type: 'error' } }));
+            }
+        }).catch(error => {
+            res.redirect(url.format({ pathname: '/Hospital/UpdateService', query: { title: 'Error', message: 'No se actualizo el horario', type: 'error' } }));
+        })
     }
-    service.update({
-        schedule: schedule,
-    }, {
-        where: {
-            name: service_info.name,
-            hospital_user: req.session.user
-        }
-    }).then(e => {
-        if (e && e[0]) {
-            res.redirect(url.format({ pathname: '/Hospital/Services', query: { title: 'Actualizacion exitosa', message: 'Horario actualizado', type: 'success' } }));
-        } else {
-            res.redirect(url.format({ pathname: '/Hospital/Services', query: { title: 'Error', message: 'No se encontro el servicio', type: 'error' } }));
-        }
-    }).catch(error => {
-        res.redirect(url.format({ pathname: '/Hospital/UpdateService', query: { title: 'Error', message: 'No se actualizo el horario', type: 'error' } }));
-    }) 
-}
 })
 
 //see the rates of a service
@@ -334,33 +334,46 @@ router.put('/discount/all-services/', (req, res) => {
 })
 
 //Offer discount to a specific services history 19
-router.put('/discount/specific-service/', (req, res) => {
+router.post('/discount/specific-service/', (req, res) => {
     const discounts = req.body
-    if (!(discounts.percentage <= 100 && discounts.percentage >= 0)) {
-        res.send("El porcentaje debe ser un valor entre 0 y 100")
+    console.log(discounts);
+    if (discounts.confirmation != discounts.service_name) {
+        res.redirect(url.format({ pathname: '/Hospital/UpdateService', query: { title: 'Error', message: 'Confirmacion incorrecta', type: 'error' } }));
     } else {
-        if (discounts.percentage && discounts.date_initial &&
-            discounts.date_end && discounts.service_name) {
-            discount.update({
-                percentage: discounts.percentage,
-                date_initial: new Date(discounts.date_initial),
-                date_end: new Date(discounts.date_end)
-            }, {
-                where: {
-                    hospital_user: "usuario1",
-                    service_name: discounts.service_name,
-                }
-            }).then(e => {
-                if (e && e[0])
-                    res.send("Descuento establecido")
-                else
-                    res.send("No se pudo establecer el descuento, intente de nuevo")
-            }).catch(err => {
-                res.send("No se pudo establecer el descuento, intente de nuevo")
-            })
+        console.log('primer');
+        if (!(discounts.percentage <= 100 && discounts.percentage >= 0)) {
+            console.log('error');
+            res.redirect(url.format({ pathname: '/Hospital/UpdateService', query: { title: 'Error', message: 'Porcentaje incorrecto, valor esperado entre 1 y 100', type: 'error' } }));
         } else {
-            res.send("Complete los campos")
+            console.log('segundo');
+            if (discounts.percentage && discounts.date_initial &&
+                discounts.date_end && discounts.service_name) {
+                    console.log('tercero');
+                    discount.update({
+                    percentage: discounts.percentage,
+                    date_initial: new Date(discounts.date_initial),
+                    date_end: new Date(discounts.date_end)
+                }, {
+                    where: {
+                        id: discounts.id_discount
+                    }
+                }).then(e => {
+                    if (e && e[0]) {
+                        res.redirect(url.format({ pathname: '/Hospital/Services', query: { title: 'Exito', message: 'Descuento actualizado', type: 'success' } }));
+                    }
+                    else {
+                        res.redirect(url.format({ pathname: '/Hospital/UpdateService', query: { title: 'Error', message: 'Descuento no actualizado, intente de nuevo', type: 'error' } }));
+                    }
+
+                }).catch(err => {
+                    console.log(err);
+                    res.redirect(url.format({ pathname: '/Hospital/UpdateService', query: { title: 'Error', message: 'Descuento no actualizado, intente de nuevo', type: 'error' } }));
+                })
+            } else {
+                res.redirect(url.format({ pathname: '/Hospital/UpdateService', query: { title: 'Error', message: 'Campos incompletos', type: 'error' } }));
+            }
         }
+
     }
 })
 
