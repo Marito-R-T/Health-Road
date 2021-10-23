@@ -95,4 +95,21 @@ class Services {
       return null;
     }
   }
+
+  Future<double?> getRatingService(String service, String hospital) async {
+    final response = await http.get(
+      Uri.parse(
+          'https://health-road.herokuapp.com/mobile/service/service-rating/$service/$hospital'),
+      headers: {
+        "Accept": "application/json",
+        "Content-Type": "application/x-www-form-urlencoded"
+      },
+    );
+    if (response.statusCode == 201) {
+      print(json.decode(response.body)['rating']);
+      return double.parse(json.decode(response.body)['rating']);
+    } else {
+      return null;
+    }
+  }
 }

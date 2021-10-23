@@ -15,14 +15,18 @@ class CourseInfoScreen extends StatefulWidget {
 class _CourseInfoScreenState extends State<CourseInfoScreen>
     with TickerProviderStateMixin {
   final double infoHeight = 364.0;
+  late Future<double?> rating;
   AnimationController? animationController;
   Animation<double>? animation;
   Services services = Services();
   double opacity1 = 0.0;
   double opacity2 = 0.0;
   double opacity3 = 0.0;
+
   @override
   void initState() {
+    rating = services.getRatingService(
+        widget.service.name!, widget.service.hospital!);
     animationController = AnimationController(
         duration: const Duration(milliseconds: 1000), vsync: this);
     animation = Tween<double>(begin: 0.0, end: 1.0).animate(CurvedAnimation(
@@ -98,12 +102,7 @@ class _CourseInfoScreenState extends State<CourseInfoScreen>
                         mainAxisAlignment: MainAxisAlignment.center,
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: <Widget>[
-                          Row(
-                            children: [
-                              _getRatingService(),
-                              //Rating oficial
-                            ],
-                          ),
+                          _getRatingService(),
                           Padding(
                             padding: const EdgeInsets.only(
                                 top: 32.0, left: 18, right: 16),
@@ -137,18 +136,38 @@ class _CourseInfoScreenState extends State<CourseInfoScreen>
                                 ),
                                 Container(
                                   child: Row(
-                                    children: const <Widget>[
-                                      Text(
-                                        '4.3',
-                                        textAlign: TextAlign.left,
-                                        style: TextStyle(
-                                          fontWeight: FontWeight.w200,
-                                          fontSize: 22,
-                                          letterSpacing: 0.27,
-                                          color: DesignCourseAppTheme.grey,
-                                        ),
+                                    children: <Widget>[
+                                      FutureBuilder<double?>(
+                                        future: rating,
+                                        builder: (context, snapshot) {
+                                          if (snapshot.hasData) {
+                                            return Text(
+                                              '${snapshot.data?.toStringAsFixed(2)}',
+                                              textAlign: TextAlign.left,
+                                              style: const TextStyle(
+                                                fontWeight: FontWeight.w200,
+                                                fontSize: 22,
+                                                letterSpacing: 0.27,
+                                                color:
+                                                    DesignCourseAppTheme.grey,
+                                              ),
+                                            );
+                                          } else {
+                                            return const Text(
+                                              '0',
+                                              textAlign: TextAlign.left,
+                                              style: TextStyle(
+                                                fontWeight: FontWeight.w200,
+                                                fontSize: 22,
+                                                letterSpacing: 0.27,
+                                                color:
+                                                    DesignCourseAppTheme.grey,
+                                              ),
+                                            );
+                                          }
+                                        },
                                       ),
-                                      Icon(
+                                      const Icon(
                                         Icons.star,
                                         color: DesignCourseAppTheme.nearlyBlue,
                                         size: 24,
@@ -331,7 +350,13 @@ class _CourseInfoScreenState extends State<CourseInfoScreen>
           services.RatingService(
                   rating, widget.service.name!, widget.service.hospital!)
               .then((value) => {
-                    if (value != null) {print(value.score)}
+                    if (value != null)
+                      {
+                        setState(() {
+                          this.rating = services.getRatingService(
+                              widget.service.name!, widget.service.hospital!);
+                        })
+                      }
                     /*Aqui va a ir la modificación de la calificación global */
                   });
         },
