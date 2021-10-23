@@ -74,7 +74,7 @@ router.post('/login/', async (req, res) => {
                 req.session.email = val.email;
                 req.session.rol = val.rol;
                 if(val.rol == "0"){
-                    res.redirect(url.format({ pathname: '/Hospital/', query: { title: 'Ok', message: 'Sesion iniciada correctamente', type: 'success' } }));
+                    res.redirect(url.format({ pathname: '/Hospital/Services', query: { title: 'Ok', message: 'Sesion iniciada correctamente', type: 'success' } }));
                 }else if(val.rol == "1"){
                     res.redirect(url.format({ pathname: '/Admin/', query: { title: 'Ok', message: 'Sesion iniciada correctamente', type: 'success' } }));
                 }

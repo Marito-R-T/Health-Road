@@ -227,10 +227,18 @@ class _DesignCourseHomeScreenState extends State<DesignCourseHomeScreen> {
             splashColor: Colors.white24,
             borderRadius: const BorderRadius.all(Radius.circular(24.0)),
             onTap: () {
-              setState(() {
-                categoryType = categoryTypeData;
-                Listservices = services.getServicesByCategory(categoryTypeData);
-              });
+              if (!isSelected) {
+                setState(() {
+                  categoryType = categoryTypeData;
+                  Listservices =
+                      services.getServicesByCategory(categoryTypeData);
+                });
+              } else {
+                setState(() {
+                  categoryType = categoryTypeData;
+                  Listservices = services.getServices();
+                });
+              }
             },
             child: Padding(
               padding: const EdgeInsets.only(

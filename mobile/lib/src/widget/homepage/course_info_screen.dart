@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:mobile/src/models/Service.dart';
+import 'package:mobile/src/service/http_service.dart';
 import 'design_course_app_theme.dart';
+import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 
 class CourseInfoScreen extends StatefulWidget {
   const CourseInfoScreen({Key? key, required this.service}) : super(key: key);
@@ -15,6 +17,7 @@ class _CourseInfoScreenState extends State<CourseInfoScreen>
   final double infoHeight = 364.0;
   AnimationController? animationController;
   Animation<double>? animation;
+  Services services = Services();
   double opacity1 = 0.0;
   double opacity2 = 0.0;
   double opacity3 = 0.0;
@@ -95,6 +98,12 @@ class _CourseInfoScreenState extends State<CourseInfoScreen>
                         mainAxisAlignment: MainAxisAlignment.center,
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: <Widget>[
+                          Row(
+                            children: [
+                              _getRatingService(),
+                              //Rating oficial
+                            ],
+                          ),
                           Padding(
                             padding: const EdgeInsets.only(
                                 top: 32.0, left: 18, right: 16),
@@ -300,6 +309,32 @@ class _CourseInfoScreenState extends State<CourseInfoScreen>
             )
           ],
         ),
+      ),
+    );
+  }
+
+  Widget _getRatingService() {
+    return Expanded(
+      flex: 3,
+      child: RatingBar.builder(
+        initialRating: 3,
+        minRating: 0,
+        direction: Axis.horizontal,
+        allowHalfRating: true,
+        itemCount: 5,
+        itemPadding: const EdgeInsets.symmetric(horizontal: 4.0),
+        itemBuilder: (context, _) => const Icon(
+          Icons.star,
+          color: Colors.amber,
+        ),
+        onRatingUpdate: (rating) {
+          services.RatingService(
+                  rating, widget.service.name!, widget.service.hospital!)
+              .then((value) => {
+                    if (value != null) {print(value.score)}
+                    /*Aqui va a ir la modificación de la calificación global */
+                  });
+        },
       ),
     );
   }
