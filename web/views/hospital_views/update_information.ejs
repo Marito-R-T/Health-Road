@@ -45,6 +45,13 @@
                                  required="required"  value="<%- hospital.email  %>">
                            </div>
                         </div>
+                        <div class="col-md-12">
+                           <div class="form-group in_name">
+                              <label> <i class="far fa-phone"></i> Telefono</label>
+                              <input type="text" class="form-control" placeholder="Telefono" name="celphone"
+                                   value="<%- hospital.celphone %>">
+                           </div>
+                        </div>
 
                         <div class="col-md-12">
                            <div class="form-group in_name">
@@ -58,7 +65,7 @@
                            <div class="form-group in_message">
                               <label> <i class="fal fa-comment-medical"></i> Descripcion </label>
                               <textarea class="form-control" id="message" rows="5" name="description"
-                                 placeholder="Descripcion" required="required"> <%- hospital.description  %> </textarea>
+                                 placeholder="Descripcion" required="required"><%- hospital.description  %> </textarea>
                            </div>
                           
                         </div>
@@ -69,7 +76,7 @@
                               
                               <div class="actions">
                                  <button type="button" class="btn small submitButton" data-bs-toggle="modal"
-                                    data-bs-target="#update_hospital">
+                                    data-bs-target="#update_information">
                                     <i class="far fa-save"></i>
                                     Actualizar
                                  </button>
@@ -85,7 +92,7 @@
                </div>
             </div>
          </div>
-         <%- include("../include/confirmation_message",{id:'update_hospital',message:'¿Esta seguro de actualizar la informacion del hospital? <br>'+hospital.name ,type: 'hospital'}) %>
+         <%- include("../include/confirmation_message",{id: 'update_information',message:'¿Esta seguro de actualizar la informacion del hospital?' ,type: 'hospital'}) %>
       </form>
       </div>
 

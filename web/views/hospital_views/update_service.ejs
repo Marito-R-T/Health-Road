@@ -1,95 +1,347 @@
-<%- include("../include/header", { titulo: 'Health Road - Actualizacion Servicio' }) %>
+<%- include("../include/header", { titulo: 'Health Road - Configuracion Servicio' }) %>
 
-   <body class="clinic_version">
-      <div id="preloader">
-         <img class="preloader" src="images/loaders/heart-loading2.gif" alt="">
-      </div>
-      <header>
-         <div class="header-top wow fadeIn">
+    <body class="clinic_version">
+        <div id="preloader">
+            <img class="preloader" src="images/loaders/heart-loading2.gif" alt="">
+        </div>
+        <header>
+            <div class="header-top wow fadeIn">
+                <div class="container">
+                    <a class="navbar-brand" href="/Hospital">Health<img src="images/icon-logo.png" alt="image">Road -
+                        Regresar</a>
+
+                </div>
+            </div>
+        </header>
+        <div id="getintouch" class="section wb wow fadeIn" style="padding-bottom:0;">
             <div class="container">
-               <a class="navbar-brand" href="/Hospital">Health<img src="images/icon-logo.png" alt="image">Road -
-                  Regresar</a>
-
+                <div class="heading">
+                    <span class="icon-logo"><img src="images/icon-logo.png" alt="#"></span>
+                    <h2>Configuracion de Servicio</h2>
+                </div>
             </div>
-         </div>
-      </header>
-      <div id="getintouch" class="section wb wow fadeIn" style="padding-bottom:0;">
-         <div class="container">
-            <div class="heading">
-               <span class="icon-logo"><img src="images/icon-logo.png" alt="#"></span>
-               <h2>Actualizacion de Servicio</h2>
+            <div class="container" style="display: flow-root;">
+                <ul class="nav nav-tabs" id="myTab" role="tablist">
+                    <li class="nav-item" role="presentation">
+                        <button class="nav-link active" id="home-tab" data-bs-toggle="tab" data-bs-target="#home"
+                            type="button" role="tab" aria-controls="home" aria-selected="true">Informacion</button>
+                    </li>
+                    <li class="nav-item" role="presentation">
+
+                        <button type="submit" class="nav-link " id="contact-tab" data-bs-toggle="tab"
+                            data-bs-target="#profile" type="button" role="tab" aria-controls="contact"
+                            aria-selected="false">Horario</button>
+
+                    </li>
+                    <li class="nav-item" role="presentation">
+                        <button class="nav-link" id="contact-tab" data-bs-toggle="tab" data-bs-target="#contact"
+                            type="button" role="tab" aria-controls="contact" aria-selected="false">Descuentos y
+                            Estado</button>
+                    </li>
+                </ul>
+                <div class="tab-content" id="myTabContent">
+                    <div class="tab-pane fade show active   " id="home" role="tabpanel" aria-labelledby="home-tab">
+                        <form id="ajax-contact" action="/service/update" method="post">
+                            <div class="container forms">
+                                <div class="contact-section">
+                                    <div class="form-contant">
+
+                                        <div class="row">
+                                            <div class="col-md-12">
+                                                <div class="form-group in_name">
+                                                    <label> <i class="fas fa-hospital-symbol"></i> Nombre</label>
+                                                    <input type="text" class="form-control" placeholder="Nombre"
+                                                        value="<%- service.name  %>" name="name" required="required">
+                                                    <input hidden type="text" value="<%- service.name  %>"
+                                                        name="name_old">
+                                                </div>
+                                            </div>
+                                            <div class="col-md-12">
+                                                <div class="form-group in_email">
+                                                    <label> <i class="fal fa-usd-circle"></i> Precio </label>
+                                                    <input type="number" min="0" step="0.01" class="form-control"
+                                                        value="<%- service.price  %>" name="price" placeholder="Q."
+                                                        required="required">
+                                                </div>
+                                            </div>
+                                            <div class="col-md-12">
+                                                <div class="form-group in_email">
+                                                    <label> <i class="far fa-tag"></i> Categoria </label>
+                                                    <select name="category_name">
+                                                        <option></option>
+                                                        <% for(var i=0; i<categories.length; i++) {
+                                                            if(service.category_name==categories[i].name){ %>
+
+                                                            <option selected value="<%= categories[i].name %>">
+                                                                <%= categories[i].name %>
+                                                            </option>
+                                                            <% }else{ %>
+                                                                <option value="<%= categories[i].name %>">
+                                                                    <%= categories[i].name %>
+                                                                </option>
+                                                                <%} } %>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-12">
+                                                <div class="form-group in_message">
+                                                    <label> <i class="fal fa-comment-medical"></i> Descripcion </label>
+                                                    <textarea class="form-control" id="message" rows="5"
+                                                        name="description" placeholder="Descripcion"
+                                                        required="required"><%- service.description  %></textarea>
+                                                </div>
+                                                <div class="actions">
+                                                    <button type="button" class="btn small submitButton"
+                                                        data-bs-toggle="modal" data-bs-target="#update_service">
+                                                        <i class="far fa-save"></i>
+                                                        Actualizar
+                                                    </button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <%- include("../include/confirmation_message",{id: 'update_service' ,
+                                message: '¿Esta seguro de actualizar la informacion del servicio? <br> ' +service.name,
+                                type: 'servicio' }) %>
+                        </form>
+
+                    </div>
+                    <div class="tab-pane fade   " id="profile" role="tabpanel" aria-labelledby="profile-tab">
+                        <form id="ajax-contact" action="/service/set-schedule" method="post">
+                            <div class="container forms">
+                                <div class="contact-section">
+                                    <div class="form-contant">
+                                        <div class="row">
+
+                                            <div class="col-md-12">
+                                                <div class="form-group in_name">
+                                                    <label> <i class="far fa-calendar-week"></i> Horario</label>
+                                                    <input hidden type="text" value="<%- service.name  %>" name="name">
+                                                </div>
+                                            </div>
+                                            <div class="col-md-12">
+                                                <div class="form-group in_email">
+                                                    <div class="form-check form-check-inline">
+                                                        <input class="form-check-input excluyed" type="checkbox"
+                                                            id="inlineCheckbox1" name="Monday" <%-
+                                                            service.schedule.Monday %> value="checked">
+                                                        <label class="form-check-label"
+                                                            for="inlineCheckbox1">Lunes</label>
+                                                    </div>
+                                                    <div class="form-check form-check-inline">
+                                                        <input class="form-check-input excluyed" type="checkbox"
+                                                            id="inlineCheckbox2" name="Tuesday" <%-
+                                                            service.schedule.Tuesday %> value="checked">
+                                                        <label class="form-check-label"
+                                                            for="inlineCheckbox2">Martes</label>
+                                                    </div>
+                                                    <div class="form-check form-check-inline">
+                                                        <input class="form-check-input excluyed" type="checkbox"
+                                                            id="inlineCheckbox3" name="Wednesday" <%-
+                                                            service.schedule.Wednesday %> value="checked">
+                                                        <label class="form-check-label"
+                                                            for="inlineCheckbox3">Miercoles</label>
+                                                    </div>
+                                                    <div class="form-check form-check-inline">
+                                                        <input class="form-check-input excluyed" type="checkbox"
+                                                            id="inlineCheckbox4" name="Thursday" <%-
+                                                            service.schedule.Thursday %> value="checked">
+                                                        <label class="form-check-label"
+                                                            for="inlineCheckbox4">Jueves</label>
+                                                    </div>
+                                                    <div class="form-check form-check-inline">
+                                                        <input class="form-check-input excluyed" type="checkbox"
+                                                            id="inlineCheckbox5" name="Friday" <%-
+                                                            service.schedule.Friday %> value="checked">
+                                                        <label class="form-check-label"
+                                                            for="inlineCheckbox5">Viernes</label>
+                                                    </div>
+                                                    <div class="form-check form-check-inline">
+                                                        <input class="form-check-input excluyed" type="checkbox"
+                                                            id="inlineCheckbox6" name="Saturday" <%-
+                                                            service.schedule.Saturday %> value="checked">
+                                                        <label class="form-check-label"
+                                                            for="inlineCheckbox6">Sabado</label>
+                                                    </div>
+                                                    <div class="form-check form-check-inline">
+                                                        <input class="form-check-input excluyed" type="checkbox"
+                                                            id="inlineCheckbox7" name="Sunday" <%-
+                                                            service.schedule.Sunday %> value="checked">
+                                                        <label class="form-check-label"
+                                                            for="inlineCheckbox7">Domingo</label>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <hr>
+                                            <div class="col-md-12">
+                                                <div class="form-group in_message">
+                                                    <label> <i class="far fa-clock"></i> Hora Inicio
+                                                    </label>
+                                                    <input type="time" name="Start"
+                                                        value="<%- service.schedule.Start  %>" required>
+                                                </div>
+                                                <div class="form-group in_message">
+                                                    <label> <i class="far fa-clock"></i> Hora Fin
+                                                    </label>
+                                                    <input type="time" name="End" value="<%- service.schedule.End  %>"
+                                                        required>
+                                                </div>
+                                                <div class="actions">
+                                                    <button type="submit" class="btn small submitButton"
+                                                        data-bs-toggle="modal" data-bs-target="#set_schedule" />
+                                                    <i class="far fa-save"></i>
+                                                    Actualizar
+                                                    </button>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                </div>
+                            </div>
+                            <%- include("../include/confirmation_message",{id: 'set_schedule' ,
+                                message: '¿Esta seguro de actualizar el horario del servicio? <br> ' +service.name,
+                                type: 'servicio' }) %>
+                        </form>
+
+                    </div>
+                    <div class="tab-pane fade" id="contact" role="tabpanel" aria-labelledby="contact-tab">
+                        <form action="/service/discount/specific-service" method="POST">
+                            <div class="container forms">
+                                <div class="contact-section">
+                                    <div class="form-contant">
+                                        <div class="row">
+                                            <div class="col-md-12">
+                                                <div class="form-group in_name">
+                                                    <div class="row">
+                                                        <div class="col-md-6">
+                                                            <label> <i class="far fa-clinic-medical"></i>
+                                                                Estado</label>
+                                                            <div>
+                                                                <input type="radio" class="btn-check" name="status"
+                                                                    id="success-outlined" autocomplete="off"
+                                                                    data-bs-toggle="modal"
+                                                                    data-bs-target="#reactive_service" <% if
+                                                                    (service.status) { %>
+                                                                checked
+                                                                <% } %>
+                                                                    >
+                                                                    <label class="btn btn-outline-success"
+                                                                        for="success-outlined">Activo</label>
+
+                                                                    <input type="radio" class="btn-check" name="status"
+                                                                        id="danger-outlined" autocomplete="off"
+                                                                        data-bs-toggle="modal"
+                                                                        data-bs-target="#out_of_service" <% if
+                                                                        (!service.status) { %>
+                                                                    checked
+                                                                    <% } %>
+                                                                        >
+                                                                        <label class="btn btn-outline-danger"
+                                                                            for="danger-outlined">Fuera de
+                                                                            Servicio</label>
+
+                                                            </div>
+                                                            <br>
+                                                        </div>
+
+
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <hr>
+
+                                            <div class="col-md-12">
+                                                <div class="form-group in_email">
+                                                    <label> <i class="fas fa-percent"></i> Descuento-Vigente </label>
+                                                    <input type="number" value="<%- service.DiscountId  %>" hidden
+                                                        name="id_discount">
+                                                    <input type="number" min="0" max="100" class="form-control"
+                                                        value="<%- discount.percentage  %>" name="percentage"
+                                                        placeholder="%" required="required">
+                                                </div>
+                                            </div>
+                                            <div>
+                                                <div class="form-group in_message">
+                                                    <label> <i class="far fa-clock"></i> Fecha Inicio
+                                                    </label>
+                                                    <input type="date" name="date_initial"
+                                                        value="<%- discount.date_initial  %>" required>
+                                                </div>
+                                                <div class="form-group in_message">
+                                                    <label> <i class="far fa-clock"></i> Fecha Fin
+                                                    </label>
+                                                    <input type="date" name="date_end" value="<%- discount.date_end  %>"
+                                                        required>
+                                                </div>
+                                                <div class="actions">
+                                                    <button type="submit" class="btn small submitButton"
+                                                        data-bs-toggle="modal" data-bs-target="#set_discount" />
+                                                    <i class="far fa-save"></i>
+                                                    Actualizar
+                                                    </button>
+                                                </div>
+                                            </div>
+
+
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <input hidden type="text" value="<%- service.name  %>" name="service_name">
+                            <%- include("../include/confirmation_message",{id: 'set_discount' ,
+                                message: '¿Esta seguro de actualizar el descuento del servicio? <br> ' +service.name,
+                                type: 'servicio' }) %>
+                        </form>
+                        <form action="/service/reactive-mode-out-of-service" method="post">
+                            <input hidden type="text" value="<%- service.name  %>" name="name">
+                            <%- include("../include/confirmation_message",{id: 'reactive_service' ,
+                                message: '¿Esta seguro de habilitar el servicio? <br> ' +service.name, type: 'servicio'
+                                , funtion : 'reverse_disable()' }) %>
+                        </form>
+
+                        <form action="/service/mode-out-of-service" method="post">
+                            <input hidden type="text" value="<%- service.name  %>" name="name">
+                            <%- include("../include/confirmation_message",{id: 'out_of_service' ,
+                                message: '¿Esta seguro de deshabilitar el  servicio? <br> ' +service.name,
+                                type: 'servicio' , funtion : 'reverse_active()' }) %>
+                        </form>
+
+                    </div>
+                </div>
             </div>
-         </div>
-         <form id="ajax-contact" action="/service/update" method="post">
-            <div class="container forms">
-               <div class="contact-section">
-                  <div class="form-contant">
+        </div>
 
-                     <div class="row">
-                        <div class="col-md-12">
-                           <div class="form-group in_name">
-                              <label> <i class="fas fa-hospital-symbol"></i> Nombre</label>
-                              <input type="text" class="form-control" placeholder="Nombre" value="<%- service.name  %>"
-                                 name="name" required="required">
-                              <input hidden type="text" value="<%- service.name  %>" name="name_old">
-                           </div>
+        <div class="copyright-area wow fadeIn" id="copyright-area">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-8">
+                        <div class="footer-text">
+                            <p>© 2021 HealthRoad. Derechos Reservados.</p>
                         </div>
-                        <div class="col-md-12">
-                           <div class="form-group in_email">
-                              <label> <i class="fal fa-usd-circle"></i> Precio </label>
-                              <input type="number" min="0" step="0.01" class="form-control"
-                                 value="<%- service.price  %>" name="price" placeholder="Q." required="required">
-                           </div>
-                        </div>
-                        <div class="col-md-12">
-                           <div class="form-group in_email">
-                              <label> <i class="far fa-tag"></i> Categoria </label>
-                              <select name="category_name">
-                                 <option></option>
-                                 <% for(var i=0; i<categories.length; i++) {
-                                    if(service.category_name==categories[i].name){ %>
+                    </div>
 
-                                    <option selected value="<%= categories[i].name %>">
-                                       <%= categories[i].name %>
-                                    </option>
-                                    <% }else{ %>
-                                       <option value="<%= categories[i].name %>">
-                                          <%= categories[i].name %>
-                                       </option>
-                                       <%} } %>
-                              </select>
-                           </div>
-                        </div>
-                        <div class="col-md-12">
-                           <div class="form-group in_message">
-                              <label> <i class="fal fa-comment-medical"></i> Descripcion </label>
-                              <textarea class="form-control" id="message" rows="5" name="description"
-                                 placeholder="Descripcion" required="required"><%- service.description  %></textarea>
-                           </div>
-
-                           <div class="actions">
-                              <button type="button" class="btn small submitButton" data-bs-toggle="modal"
-                                 data-bs-target="#update_service">
-                                 <i class="far fa-save"></i>
-                                 Actualizar
-                              </button>
-                           </div>
-                        </div>
-                     </div>
-
-
-                  </div>
-
-               </div>
-
+                </div>
             </div>
-            <%- include("../include/confirmation_message",{id: 'update_service',message: '¿Esta seguro de actualizar la informacion del servicio? <br>'+service.name, type: 'servicio'}) %>
-         </form>
-      </div>
+        </div>
+        <script>
+            function reverse_active() {
+                document.getElementById('success-outlined').checked = true;
+                document.getElementById('danger-outlined').checked = false;
+            }
+            function reverse_disable() {
+                document.getElementById('success-outlined').checked = false;
+                document.getElementById('danger-outlined').checked = true;
+            }
+        </script>
 
-      <%- include("../include/scripts") %>
+        <%- include("../include/scripts") %>
 
 
-   </body>
+    </body>
 
-   </html>
+    </html>

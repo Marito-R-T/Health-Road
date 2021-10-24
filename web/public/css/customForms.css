@@ -1,28 +1,26 @@
-
 .form-group {
-    
     width: 100%;
     margin: 0;
 }
 
-.forms{
+.forms {
     max-width: 750px;
 }
 
-.form-group label{
+.form-group label {
     color: #000;
 }
 
- label{
+label {
     color: #000;
 }
 
-.mapboxgl-ctrl input{
+.mapboxgl-ctrl input {
     padding-left: 12%;
-} 
+}
 
-.form-group input, .form-group select {
-    
+.form-group input:not(.excluyed),
+.form-group select {
     width: 100%;
     border-radius: 0;
     border: solid #ccc 1px;
@@ -35,8 +33,8 @@
     height: 44px;
     background: transparent;
 }
+
 .form-group textarea {
-   
     width: 100%;
     border-radius: 0;
     border: solid #ccc 1px;
@@ -48,16 +46,19 @@
     color: #333;
     height: 90px;
 }
-.form-group input:focus, .form-group select:focus, .form-group textarea:focus {
-	box-shadow:none;
+
+.form-group input:focus,
+.form-group select:focus,
+.form-group textarea:focus {
+    box-shadow: none;
 }
+
 .select-section div.form-group:nth-child(1) {
-   
     width: 49%;
     margin-right: 2%;
 }
+
 .select-section div.form-group:nth-child(2) {
-   
     width: 49%;
 }
 
@@ -72,15 +73,16 @@
     transition: ease all 1s;
     font-weight: 600;
 }
-.form-group button:hover,.form-group button:focus {
+
+.form-group button:hover,
+.form-group button:focus {
     background: linear-gradient(to right, #39b49a 0%, #1d86df 100%);
 }
 
-
-
 .contact-section {
-	position:relative;
+    position: relative;
 }
+
 .form-contant {
     position: absolute;
     width: 100%;
@@ -88,7 +90,9 @@
     z-index: 1;
     padding: 60px;
 }
-.form-contant input, .form-contant textarea {
+
+.form-contant input:not(.form-check-input),
+.form-contant textarea {
     background: transparent;
     padding: 0;
     border: none;
@@ -97,9 +101,13 @@
     font-weight: 300;
     margin-bottom: 15px;
 }
-.form-contant input:focus, .form-contant textarea:focus {
-	color:rgb(7, 7, 7);border-color:rgb(7, 7, 7);
+
+.form-contant input:focus,
+.form-contant textarea:focus {
+    color: rgb(7, 7, 7);
+    border-color: rgb(7, 7, 7);
 }
+
 .actions {
     float: left;
     width: 100%;
@@ -107,72 +115,55 @@
     justify-content: center;
     margin-top: 10px;
 }
+
 .submitButton {
     padding: 15px 30px;
     background: linear-gradient(to right, #1d86df 0%, #39b49a 100%);
     color: #fff;
     border-radius: 50px;
     margin: 10px;
-	transition:ease all 1s;
+    transition: ease all 1s;
 }
-.submitButton:hover,.submitButton:focus {
+
+.submitButton:hover,
+.submitButton:focus {
     background: linear-gradient(to right, #39b49a 0%, #1d86df 100%);
     color: #2d2e2e
 }
 
-  
 @media (max-width:767px) {
-
-.form-contant {
-    position: absolute;
-    width: 100%;
-    background: rgba(0, 0, 0, 0.04);
-    z-index: 1;
-    padding: 20px 40px;
-}
-.contact-section {
-    width: 100%;
-}
-#copyright-area {
-
-    bottom: -20%;
-    position: absolute;
-}
-
-
-
+    .form-contant {
+        position: absolute;
+        width: 100%;
+        background: rgba(0, 0, 0, 0.04);
+        z-index: 1;
+        padding: 20px 40px;
+    }
+    .contact-section {
+        width: 100%;
+    }
+    #copyright-area {
+        bottom: -20%;
+        position: absolute;
+    }
 }
 
 @media (min-width:768px) and (max-width:991px) {
-
-
-.form-contant {position: absolute;width: 100%;background: rgba(0, 0, 0, 0.04);z-index: 1;padding: 15px 30px;}
-
-	
+    .form-contant {
+        position: absolute;
+        width: 100%;
+        background: rgba(0, 0, 0, 0.04);
+        z-index: 1;
+        padding: 15px 30px;
+    }
 }
-
 
 @media (min-width:992px) and (max-width:1000px) {
-
-
-.form-contant {position: absolute;width: 100%;background: rgba(0, 0, 0, 0.04);z-index: 1;padding: 15px 30px;}
-
-	
+    .form-contant {
+        position: absolute;
+        width: 100%;
+        background: rgba(0, 0, 0, 0.04);
+        z-index: 1;
+        padding: 15px 30px;
+    }
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
