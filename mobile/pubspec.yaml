@@ -46,6 +46,8 @@ dependencies:
   equatable: ^2.0.3
   email_validator: ^2.0.1
   confirm_dialog: ^1.0.0
+  flutter_rating_bar: ^4.0.0
+  like_button: ^2.0.3
 
 dev_dependencies:
   flutter_test:

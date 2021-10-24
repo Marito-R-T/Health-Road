@@ -32,6 +32,7 @@ class _DesignCourseHomeScreenState extends State<DesignCourseHomeScreen> {
   late Future<List<Hospital>?> nameHospital;
   bool? searchService = true;
   bool? searchHospital = false;
+  bool? suggestHospital = false;
   String? ultimoService;
 
   @override
@@ -133,30 +134,69 @@ class _DesignCourseHomeScreenState extends State<DesignCourseHomeScreen> {
                             categoryType == categories[index].name);
                       },
                     );
-                    /*Row(
-                        children: categories!
-                            .map(
-                              (category) => getButtonUI(
-                                  category.name, categoryType == category.name),
-                            )
-                            .toList());*/
                   } else {
                     return const SizedBox();
                   }
                 },
               ),
             )),
-        /*Expanded(
-          //padding: const EdgeInsets.only(left: 16, right: 16),
-          child:*/
         const SizedBox(
           height: 16,
         ),
-        /*nhospital != null
-            ? CategoryListView(
-                name: nhospital,
-              )
-            : CategoryListView(),*/
+        Row(
+          children: [
+            const Expanded(
+              flex: 7,
+              child: Padding(
+                padding: EdgeInsets.only(top: 8.0, left: 18, right: 16),
+                child: Text(
+                  'Hospitals',
+                  textAlign: TextAlign.left,
+                  style: TextStyle(
+                    fontWeight: FontWeight.w600,
+                    fontSize: 22,
+                    letterSpacing: 0.27,
+                    color: DesignCourseAppTheme.darkerText,
+                  ),
+                ),
+              ),
+            ),
+            const Expanded(
+              flex: 2,
+              child: Padding(
+                padding: EdgeInsets.only(top: 8.0, left: 18, right: 16),
+                child: Text(
+                  'Suggest',
+                  textAlign: TextAlign.left,
+                  style: TextStyle(
+                    fontWeight: FontWeight.w600,
+                    fontSize: 16,
+                    letterSpacing: 0.27,
+                    color: DesignCourseAppTheme.darkerText,
+                  ),
+                ),
+              ),
+            ),
+            Container(
+              padding: EdgeInsets.only(top: 8, right: 25),
+              child: Checkbox(
+                value: suggestHospital,
+                onChanged: (bool? value) {
+                  setState(() {
+                    suggestHospital = value;
+                    if (value != null) {
+                      if (value) {
+                        nameHospital = hospitals.getHospitalSuggestions();
+                      } else {
+                        nameHospital = hospitals.getHospitals();
+                      }
+                    }
+                  });
+                },
+              ),
+            ),
+          ],
+        ),
         FutureBuilder<List<Hospital>?>(
           future: nameHospital,
           builder: (context, snapshot) {
@@ -227,10 +267,18 @@ class _DesignCourseHomeScreenState extends State<DesignCourseHomeScreen> {
             splashColor: Colors.white24,
             borderRadius: const BorderRadius.all(Radius.circular(24.0)),
             onTap: () {
-              setState(() {
-                categoryType = categoryTypeData;
-                Listservices = services.getServicesByCategory(categoryTypeData);
-              });
+              if (!isSelected) {
+                setState(() {
+                  categoryType = categoryTypeData;
+                  Listservices =
+                      services.getServicesByCategory(categoryTypeData);
+                });
+              } else {
+                setState(() {
+                  categoryType = categoryTypeData;
+                  Listservices = services.getServices();
+                });
+              }
             },
             child: Padding(
               padding: const EdgeInsets.only(
@@ -315,7 +363,6 @@ class _DesignCourseHomeScreenState extends State<DesignCourseHomeScreen> {
                               });
                               ultimoService = _searchText.text;
                             } else if (searchHospital!) {
-                              print('hola entró');
                               setState(() {
                                 nameHospital = hospitals
                                     .getHospitalsByName(_searchText.text);

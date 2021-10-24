@@ -39,6 +39,22 @@ class Hospitals {
     }
   }
 
+  Future<List<Hospital>?> getHospitalSuggestions() async {
+    final response = await http.get(
+        Uri.parse(
+            'https://health-road.herokuapp.com/mobile/hospital/suggestion-best-hospitals/'),
+        headers: {
+          "Accept": "application/json",
+          "Content-Type": "application/x-www-form-urlencoded"
+        });
+    if (response.statusCode == 201) {
+      List hopitals = json.decode(response.body);
+      return hopitals.map((m) => Hospital.fromJson(m)).toList();
+    } else {
+      return null;
+    }
+  }
+
   Future<String?> name(String? name) async {
     return name;
   }

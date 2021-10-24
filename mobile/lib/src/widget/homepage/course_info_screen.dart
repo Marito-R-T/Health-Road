@@ -1,6 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:mobile/src/models/Service.dart';
+import 'package:mobile/src/models/User.dart';
+import 'package:mobile/src/service/http_service.dart';
 import 'design_course_app_theme.dart';
+import 'package:flutter_rating_bar/flutter_rating_bar.dart';
+import 'package:like_button/like_button.dart';
 
 class CourseInfoScreen extends StatefulWidget {
   const CourseInfoScreen({Key? key, required this.service}) : super(key: key);
@@ -13,13 +17,27 @@ class CourseInfoScreen extends StatefulWidget {
 class _CourseInfoScreenState extends State<CourseInfoScreen>
     with TickerProviderStateMixin {
   final double infoHeight = 364.0;
+  late Future<double?> rating;
   AnimationController? animationController;
   Animation<double>? animation;
+  Services services = Services();
   double opacity1 = 0.0;
   double opacity2 = 0.0;
   double opacity3 = 0.0;
+  bool? liked = false;
+
   @override
   void initState() {
+    rating = services.getRatingService(
+        widget.service.name!, widget.service.hospital!);
+    services
+        .getIsFavorite(
+            User.logged!.user, widget.service.name!, widget.service.hospital!)
+        .then((value) {
+      setState(() {
+        liked = value;
+      });
+    });
     animationController = AnimationController(
         duration: const Duration(milliseconds: 1000), vsync: this);
     animation = Tween<double>(begin: 0.0, end: 1.0).animate(CurvedAnimation(
@@ -95,6 +113,7 @@ class _CourseInfoScreenState extends State<CourseInfoScreen>
                         mainAxisAlignment: MainAxisAlignment.center,
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: <Widget>[
+                          _getRatingService(),
                           Padding(
                             padding: const EdgeInsets.only(
                                 top: 32.0, left: 18, right: 16),
@@ -128,18 +147,38 @@ class _CourseInfoScreenState extends State<CourseInfoScreen>
                                 ),
                                 Container(
                                   child: Row(
-                                    children: const <Widget>[
-                                      Text(
-                                        '4.3',
-                                        textAlign: TextAlign.left,
-                                        style: TextStyle(
-                                          fontWeight: FontWeight.w200,
-                                          fontSize: 22,
-                                          letterSpacing: 0.27,
-                                          color: DesignCourseAppTheme.grey,
-                                        ),
+                                    children: <Widget>[
+                                      FutureBuilder<double?>(
+                                        future: rating,
+                                        builder: (context, snapshot) {
+                                          if (snapshot.hasData) {
+                                            return Text(
+                                              '${snapshot.data?.toStringAsFixed(2)}',
+                                              textAlign: TextAlign.left,
+                                              style: const TextStyle(
+                                                fontWeight: FontWeight.w200,
+                                                fontSize: 22,
+                                                letterSpacing: 0.27,
+                                                color:
+                                                    DesignCourseAppTheme.grey,
+                                              ),
+                                            );
+                                          } else {
+                                            return const Text(
+                                              '0',
+                                              textAlign: TextAlign.left,
+                                              style: TextStyle(
+                                                fontWeight: FontWeight.w200,
+                                                fontSize: 22,
+                                                letterSpacing: 0.27,
+                                                color:
+                                                    DesignCourseAppTheme.grey,
+                                              ),
+                                            );
+                                          }
+                                        },
                                       ),
-                                      Icon(
+                                      const Icon(
                                         Icons.star,
                                         color: DesignCourseAppTheme.nearlyBlue,
                                         size: 24,
@@ -266,11 +305,34 @@ class _CourseInfoScreenState extends State<CourseInfoScreen>
                   child: Container(
                     width: 60,
                     height: 60,
-                    child: const Center(
-                      child: Icon(
-                        Icons.favorite,
-                        color: DesignCourseAppTheme.nearlyWhite,
-                        size: 30,
+                    child: Center(
+                      child: LikeButton(
+                        onTap: (isLiked) async {
+                          await services
+                              .changeIsFavorite(
+                                  User.logged!.user,
+                                  widget.service.name!,
+                                  widget.service.hospital!)
+                              .then((value) {
+                            setState(() {
+                              liked = value;
+                            });
+                          });
+                          return liked;
+                        },
+                        circleColor: const CircleColor(
+                            start: Color(0xff00ddff), end: Color(0xff0099cc)),
+                        bubblesColor: const BubblesColor(
+                          dotPrimaryColor: Color(0xff33b5e5),
+                          dotSecondaryColor: Color(0xff0099cc),
+                        ),
+                        likeBuilder: (bool isLiked) {
+                          return Icon(
+                              isLiked ? Icons.favorite : Icons.favorite_border,
+                              color: DesignCourseAppTheme.nearlyWhite,
+                              size: 32);
+                        },
+                        isLiked: liked,
                       ),
                     ),
                   ),
@@ -300,6 +362,38 @@ class _CourseInfoScreenState extends State<CourseInfoScreen>
             )
           ],
         ),
+      ),
+    );
+  }
+
+  Widget _getRatingService() {
+    return Expanded(
+      flex: 3,
+      child: RatingBar.builder(
+        initialRating: 3,
+        minRating: 0,
+        direction: Axis.horizontal,
+        allowHalfRating: true,
+        itemCount: 5,
+        itemPadding: const EdgeInsets.symmetric(horizontal: 4.0),
+        itemBuilder: (context, _) => const Icon(
+          Icons.star,
+          color: DesignCourseAppTheme.nearlyBlue,
+        ),
+        onRatingUpdate: (rating) {
+          services.RatingService(
+                  rating, widget.service.name!, widget.service.hospital!)
+              .then((value) => {
+                    if (value != null)
+                      {
+                        setState(() {
+                          this.rating = services.getRatingService(
+                              widget.service.name!, widget.service.hospital!);
+                        })
+                      }
+                    /*Aqui va a ir la modificación de la calificación global */
+                  });
+        },
       ),
     );
   }
