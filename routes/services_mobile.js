@@ -198,10 +198,10 @@ router.post('/add-favorite-service-rating/',async (req, res)=>{
             }
         }).then(e=>{
             user_.status=!user_.status
-            res.status(201).json(user_)
+            res.status(201).json({liked:user_.status})
         })
     }else{
-        res.status(201).json(user_)
+        res.status(201).json({liked:true})
     }
 })
 
@@ -214,12 +214,12 @@ router.post('/get-favorite-service-rating/',(req, res)=>{
     }
     }).then(e=>{
         if(e){
-            res.status(201).send(e.status)
+            res.status(201).json({liked:e.status})
         }else{
-            res.status(201).send(false)
+            res.status(201).json({liked:false})
         }
     }).catch(err=>{
-        res.status(201).send(false)
+        res.status(201).json({liked:false})
     })
 })
 
