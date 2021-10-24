@@ -106,8 +106,43 @@ class Services {
       },
     );
     if (response.statusCode == 201) {
-      print(json.decode(response.body)['rating']);
       return double.parse(json.decode(response.body)['rating']);
+    } else {
+      return null;
+    }
+  }
+
+  Future<bool?> getIsFavorite(
+      String user, String service, String hospital) async {
+    final response = await http.post(
+        Uri.parse(
+            'https://health-road.herokuapp.com/mobile/service/get-favorite-service-rating/'),
+        headers: {
+          "Accept": "application/json",
+          "Content-Type": "application/x-www-form-urlencoded"
+        },
+        body: {'user': user, 'service': service, 'hospital': hospital},
+        encoding: Encoding.getByName("utf-8"));
+    if (response.statusCode == 201) {
+      return json.decode(response.body)['liked'];
+    } else {
+      return null;
+    }
+  }
+
+  Future<bool?> changeIsFavorite(
+      String user, String service, String hospital) async {
+    final response = await http.post(
+        Uri.parse(
+            'https://health-road.herokuapp.com/mobile/service/add-favorite-service-rating/'),
+        headers: {
+          "Accept": "application/json",
+          "Content-Type": "application/x-www-form-urlencoded"
+        },
+        body: {'user': user, 'service': service, 'hospital': hospital},
+        encoding: Encoding.getByName("utf-8"));
+    if (response.statusCode == 201) {
+      return json.decode(response.body)['liked'];
     } else {
       return null;
     }
