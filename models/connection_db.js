@@ -379,7 +379,6 @@ function alter_table() {
     service_rates.sync({ alter: true }).then(function() {})
     discount.sync({ alter: true }).then(function() {})
 }
-
 function create_tables() {
     hospital.sync({ force: true }).then(function() {});
     category.sync({ force: true }).then(function() {});

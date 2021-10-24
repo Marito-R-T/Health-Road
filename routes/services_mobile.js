@@ -205,4 +205,24 @@ router.post('/add-favorite-service-rating/',async (req, res)=>{
     }
 })
 
+router.post('/get-favorite-service-rating/',(req, res)=>{
+    favorites.findAll({
+        where: {
+            user:req.body.user,
+            service:req.body.service,
+            hospital:req.body.hospital
+    }
+    }).then(e=>{
+        if(e){
+            res.status(201).send(e.status)
+        }else{
+            res.status(201).send(false)
+        }
+    }).catch(err=>{
+        res.status(201).send(false)
+    })
+})
+
+
+
 module.exports.service_router_mobile = router;
