@@ -67,7 +67,8 @@ router.post('/login/', async (req, res) => {
         await user.findOne({
             where: {
                 user: user_login.user,
-                password: user_login.password
+                password: user_login.password,
+                status:true
             }
         }).then(val => {
             if (val) {

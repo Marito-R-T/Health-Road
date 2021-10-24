@@ -223,7 +223,8 @@ router.get('/Users/', async (req, res) => {
     } else {
         user.findAll({
             where:{
-                rol:2
+                rol:2,
+                status:true
             },
             attributes: {
                 exclude: ['createdAt', 'updatedAt']
