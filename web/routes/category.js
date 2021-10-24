@@ -1,30 +1,23 @@
 var express = require('express');
 var router = express.Router();
 const { category } = require('../models/connection_db');
-const path_=require('../absolutepath').static_files
+var url = require('url');
+const path_=require('../absolutepath').static_files_public
 router.use((express.static(path_)))
 router.post('/register/', async(req, res) => {
     const category_info = req.body;
     if (category_info.name && category_info.description) {
-        let val_error = "";
         await category.create({
                 name: category_info.name,
                 description: category_info.description
             }).then(e => {
-                val_error = "categoria registrada";
+                res.redirect(url.format({ pathname: '/Admin', query: { title: 'Registro Exitoso', message: 'Categoria registrada', type: 'success' } }));
             })
             .catch(err => {
-                try {
-                    val_error = err.parent.detail;
-                } catch (error) {
-                    val_error = "No se pudo registrar, intente de nuevo"
-                }
-                
+                res.redirect(url.format({ pathname: '/Admin', query: { title: 'Error', message: 'Intente de nuevo', type: 'error' } }));         
             })
-        res.send(val_error);
     } else {
-        let val_error = "error" + category_info.name;
-        res.send(val_error);
+        res.redirect(url.format({ pathname: '/Admin', query: { title: 'Error', message: 'Campos incompletos', type: 'error' } }));
     }
 });
 

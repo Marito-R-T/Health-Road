@@ -3,6 +3,7 @@ var router = express.Router();
 var validator = require('email-validator');
 const { user } = require('../models/connection_db');
 var multer = require('multer');
+var url = require('url')
 const storage = multer.diskStorage({
     destination: 'uploads/',
     filename: (req, file, cb) => {
@@ -13,74 +14,88 @@ const storage = multer.diskStorage({
 var upload = multer({
     storage: storage
 });
-const path_=require('../absolutepath').static_files
+const path_ = require('../absolutepath').static_files_public
 router.use((express.static(path_)))
 //create a hospital
 router.post('/register/', upload.array('profile_pic', 7), async(req, res) => {
-    const user_info = req.body;
+    const hospital_info = req.body;
     const profile_pic = req.files[0]
-    if ((user_info.user && user_info.password &&
-            user_info.name && user_info.last_name &&
-            user_info.celphone && user_info.email &&
-            user_info.rol && profile_pic)) {
-        if (!validator.validate(user_info.email)) {
-            res.send("el email no esta escrito correctamente")
+    if ((hospital_info.user && hospital_info.password &&
+            hospital_info.name && hospital_info.description &&
+            hospital_info.email &&
+            profile_pic)) {
+        if (!validator.validate(hospital_info.email)) {
+            res.redirect(url.format({ pathname: '/Signup', query: { title: 'Error en escritura', message: 'Correo electronico incorrecto' , type: 'error' } }));
         }
-        let val_error = ""
+        let val_error = "";
+        let exist=false;
         await user.create({
-                user: user_info.user,
-                password: user_info.password,
-                name: user_info.name,
-                last_name: user_info.last_name,
-                email: user_info.email,
-                celphone: user_info.celphone,
-                rol: user_info.rol,
-                profile_pic: profile_pic.path
+            user: hospital_info.user,
+            password: hospital_info.password,
+            name: hospital_info.director_name?hospital_info.director_name:'',
+            email: hospital_info.email,
+            celphone: hospital_info.celphone?hospital_info.celphone:'',
+            rol: 0,
+            profile_pic: profile_pic.filename
+        }).catch(error=>exist=true)
+        if(exist){
+            val_error = "El usuario ya existe"
+        }else{
+            await hospital.create({
+                user: hospital_info.user,
+                name: hospital_info.name,
+                description: hospital_info.description,
+                payment_type: hospital_info.payment_type?hospital_info.payment_type:0,
+                director_name: hospital_info.director_name?hospital_info.director_name:'',
+                direction: {latitude: hospital_info.latitude, longitude: hospital_info.longitude, address: hospital_info.address}
             }).then(e => {
-                val_error = "usuario registrado";
+                res.redirect(url.format({ pathname: '/', query: { title: 'Registro Exitoso', message: 'Registro completado exitosamente', type: 'success' } }));
             })
             .catch(err => {
-                try {
-                    val_error = err.parent.detail;
-                } catch (error) {
-                    val_error = "No se pudo registrar el usuario"                   
-                }
+                val_error = "Error al registrar el hospital, intente de nuevo"
             })
-        res.send(val_error);
+        }
+        res.redirect(url.format({ pathname: '/Signup', query: { title: 'Error en registro', message: val_error , type: 'error' } }));
     } else {
-        res.send("error");
+        res.redirect(url.format({ pathname: '/Signup', query: { title: 'Error', message: 'Complete las credenciales', type: 'error' } }));
     }
 })
 
-router.post('/login/', async(req, res) => {
+router.post('/login/', async (req, res) => {
     const user_login = req.body;
     if ((user_login.user && user_login.password)) {
         await user.findOne({
             where: {
-                 user: user_login.user,
-                 password: user_login.password 
+                user: user_login.user,
+                password: user_login.password
             }
         }).then(val => {
-            if(val){
+            if (val) {
                 req.session.user = user_login.user;
                 req.session.email = val.email;
                 req.session.rol = val.rol;
-                res.send("Usuario logeado")
-            }else{
-                res.send("No se encontro el usuario")
+                if(val.rol == "0"){
+                    res.redirect(url.format({ pathname: '/Hospital/Services', query: { title: 'Ok', message: 'Sesion iniciada correctamente', type: 'success' } }));
+                }else if(val.rol == "1"){
+                    res.redirect(url.format({ pathname: '/Admin/', query: { title: 'Ok', message: 'Sesion iniciada correctamente', type: 'success' } }));
+                }
+                
+
+            } else {
+                res.redirect(url.format({ pathname: '/', query: { title: 'Error', message: 'Usuario no encontrado', type: 'error' } }));
             }
         }).catch(err => {
-            res.send("Error al iniciar sesion, intente de nuevo");
+            res.redirect(url.format({ pathname: '/', query: { title: 'Error', message: 'Intente de nuevo', type: 'error' } }));
         })
     } else {
-        res.send("error al iniciar sesion, intente de nuevo");
+        res.redirect(url.format({ pathname: '/', query: { title: 'Error', message: 'Complete las credenciales', type: 'error' } }));
     }
 })
 
-router.get('/logout/', function(req, res) {
+router.get('/logout/', function (req, res) {
     req.session.destroy();
     res.clearCookie(this.cookie, { path: '/' });
-    res.send("s");
+    res.redirect(url.format({ pathname: '/', query: { title: 'Sesion Cerrada', message: 'Sesion Cerrada con exito', type: 'success' } }));
 })
 
 module.exports.user_router = router;
