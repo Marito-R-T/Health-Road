@@ -134,38 +134,40 @@ router.post('/update/', async (req, res) => {
     }
 })
 
-router.put("/delete/", async (req, res) => {
+router.post("/delete/", async (req, res) => {
     const user_info = req.body;
-    if (user_info.user) {
-        await user.findOne({
-            where: {
-                user: user_info.user,
-                status: true,
-            },
-            include: [{
-                model: ambulance_driver,
-                required: true,
-            }]
-        }).then(e => {
-            if (e) {
-                user.update({
-                    status: false,
-                }, {
-                    where: {
-                        user: user_info.user
-                    }
-                })
-                res.send("El perfil del conductor ha sido eliminado")
-            } else {
-                res.send("error, no se pudo eliminar el perfil")
-            }
-        }).catch(error => {
-            res.send("Error, intente de nuevo")
-        })
-
+    if (user_info.confirmation != user_info.user_name) {
+        res.redirect(url.format({ pathname: '/Hospital/Users', query: { title: 'Error', message: 'Confirmacion incorrecta', type: 'error' } }));
     } else {
-        res.send("Debe escribir un usuario");
+        if (user_info.user_name) {
+            await user.findOne({
+                where: {
+                    user: user_info.user_name,
+                    status: true,
+                    rol: 2
+                },
+            }).then(e => {
+                if (e) {
+                    user.update({
+                        status: false,
+                    }, {
+                        where: {
+                            user: user_info.user_name
+                        }
+                    })
+                    res.redirect(url.format({ pathname: '/Hospital/Users', query: { title: 'Eliminacion completada', message: 'Usuario eliminado', type: 'success' } }));
+                } else {
+                    res.redirect(url.format({ pathname: '/Hospital/Users', query: { title: 'Error', message: 'No se pudo eliminar el usuario', type: 'error' } }));
+                }
+            }).catch(error => {
+                res.redirect(url.format({ pathname: '/Hospital/Users', query: { title: 'Error', message: 'Intente de nuevo', type: 'error' } }));
+            })
+
+        } else {
+            res.redirect(url.format({ pathname: '/Hospital/Users', query: { title: 'Error', message: 'No se encontro el usuario', type: 'error' } }));
+        }
     }
+
 })
 
 module.exports.ambulance_driver_router = router;

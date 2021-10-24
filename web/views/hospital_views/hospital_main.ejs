@@ -237,162 +237,13 @@
                                 <div class="d-flex align-items-start">
                                     <div class="nav flex-column nav-pills me-3" id="v-pills-tab" role="tablist"
                                         aria-orientation="vertical">
-                                        <button class="nav-link active" id="v-pills-admin-tab" data-bs-toggle="pill"
-                                            data-bs-target="#v-pills-admin" type="button" role="tab"
-                                            aria-controls="v-pills-admin" aria-selected="true">Administrador</button>
-                                        <button class="nav-link" id="v-pills-adminAmbulance-tab" data-bs-toggle="pill"
-                                            data-bs-target="#v-pills-adminAmbulance" type="button" role="tab"
-                                            aria-controls="v-pills-adminAmbulance" aria-selected="false">Administradores
-                                            de
-                                            Ambulancia</button>
-                                        <button class="nav-link" id="v-pills-drivers-tab" data-bs-toggle="pill"
+                                        <button class="nav-link active" id="v-pills-drivers-tab" data-bs-toggle="pill"
                                             data-bs-target="#v-pills-drivers" type="button" role="tab"
                                             aria-controls="v-pills-drivers" aria-selected="false">Conductores de
                                             Ambulancia</button>
                                     </div>
-                                    <div class="tab-content" id="v-pills-tabContent">
-                                        <div class="tab-pane fade show active" id="v-pills-admin" role="tabpanel"
-                                            aria-labelledby="v-pills-admin-tab">
-                                            <div class="img-profile">
-
-                                                <div class="cover-upload">
-                                                    <div class="cover-edit">
-                                                        <input type='file' id="imageUpload-cover"
-                                                            accept=".png, .jpg, .jpeg ,.jfif" />
-                                                        <label for="imageUpload-cover"><i style="margin: 8px;"
-                                                                class="fas fa-camera"></i></label>
-                                                        <textarea type="text" name="path" id="path" hidden></textarea>
-                                                    </div>
-                                                    <div class="cover-preview">
-                                                        <div id="previsualizacion-cover"
-                                                            style="background-image: url(images/logo-hospital.png);">
-                                                            <div class="avatar-upload">
-                                                                <div class="avatar-edit" style="left: 200px;">
-                                                                    <input type='file' id="imageUpload-profile"
-                                                                        accept=".png, .jpg, .jpeg ,.jfif" />
-                                                                    <label for="imageUpload-profile"><i
-                                                                            style="margin: 8px;"
-                                                                            class="fas fa-camera"></i></label>
-                                                                    <textarea type="text" name="path" id="path"
-                                                                        hidden></textarea>
-                                                                </div>
-                                                                <div class="avatar-preview">
-                                                                    <div id="previsualizacion-profile"
-                                                                        style="background-image: url(https://i.pinimg.com/280x280_RS/2e/45/66/2e4566fd829bcf9eb11ccdb5f252b02f.jpg);">
-
-                                                                    </div>
-                                                                </div>
-
-                                                            </div>
-
-                                                        </div>
-                                                    </div>
-
-                                                </div>
-                                                <div class="information-user">
-                                                    <div class=" col-md-12 form-contant" style="width: 44%;">
-                                                        <form id="ajax-contact" action="" method="post">
-                                                            <div class="row">
-                                                                <div class="col-md-6">
-                                                                    <div class="form-group in_name">
-                                                                        <label> <i class="far fa-user"></i> Nombre
-                                                                        </label>
-                                                                        <input type="text" class="form-control"
-                                                                            placeholder="Nombre" required="required">
-                                                                    </div>
-                                                                </div>
-                                                                <div class="col-md-6">
-                                                                    <div class="form-group in_email">
-                                                                        <label> Apellido</label>
-                                                                        <input type="text" class="form-control"
-                                                                            placeholder="Apellido" required="required">
-                                                                    </div>
-                                                                </div>
-                                                                <div class="col-md-12">
-                                                                    <div class="form-group in_email">
-                                                                        <label> <i
-                                                                                class="fas fa-envelope-open-text"></i>
-                                                                            Email</label>
-                                                                        <input type="email" class="form-control"
-                                                                            placeholder="Email" required="required">
-                                                                    </div>
-                                                                </div>
-                                                                <div class="col-md-12">
-                                                                    <div class="form-group in_email">
-                                                                        <label> <i class="far fa-phone-rotary"></i>
-                                                                            Telefono</label>
-                                                                        <input type="text" class="form-control"
-                                                                            placeholder="Telefono" required="required">
-                                                                    </div>
-                                                                </div>
-                                                                <div class="col-md-12">
-                                                                    <div class="form-group in_email">
-                                                                        <label> <i class="far fa-lock-alt"></i>
-                                                                            Password</label>
-                                                                        <input type="password" class="form-control"
-                                                                            placeholder="Password" required="required">
-                                                                    </div>
-                                                                </div>
-                                                                <div class="col-md-12">
-                                                                    <div class="form-group in_email">
-                                                                        <label> <i class="far fa-user-tag"></i>
-                                                                            Rol</label>
-                                                                        <select name="Rol">
-
-                                                                        </select>
-                                                                    </div>
-                                                                    <div class="actions">
-                                                                        <input type="submit" value="Guardar"
-                                                                            name="submit" id="submitButton"
-                                                                            class="btn small"
-                                                                            title="Submit Your Message!">
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-
-                                                        </form>
-                                                    </div>
-                                                </div>
-
-
-
-                                            </div>
-                                        </div>
-                                        <div class="tab-pane fade" id="v-pills-adminAmbulance" role="tabpanel"
-                                            aria-labelledby="v-pills-adminAmbulance-tab">
-                                            <div class="list-group">
-                                                <div
-                                                    class="list-group-item list-group-item-action flex-column align-items-start ">
-                                                    <div class="row">
-
-                                                        <div>
-                                                            <div class="col-md-2">
-                                                                <img width="100px"
-                                                                    src="https://i.pinimg.com/280x280_RS/2e/45/66/2e4566fd829bcf9eb11ccdb5f252b02f.jpg"
-                                                                    alt="">
-                                                            </div>
-                                                            <div class="col-md-10">
-                                                                <div>
-                                                                    <p class="mb-1">Usuario</p>
-                                                                    <small>Rol</small>
-                                                                    <small class="modified-buttons">
-                                                                        <button class="form">
-                                                                            <i class="far fa-edit"></i>
-                                                                        </button>
-                                                                        <button>
-                                                                            <i class="far fa-trash-alt"></i>
-                                                                        </button>
-                                                                    </small>
-                                                                </div>
-
-                                                            </div>
-                                                        </div>
-
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="tab-pane fade" id="v-pills-drivers" role="tabpanel"
+                                    <div class="tab-content " id="v-pills-tabContent">
+                                        <div class="tab-pane fade show active" id="v-pills-drivers" role="tabpanel"
                                             aria-labelledby="v-pills-drivers-tab">
                                             <div class="service-filter">
 
@@ -434,6 +285,7 @@
                                                                             <div
                                                                                 class="d-flex w-100 justify-content-between">
                                                                                 <p class="mb-1">
+                                                                                    <%- ambulance_driver[i].user %>
                                                                                 </p>
                                                                                 
                                                                             </div>
@@ -457,7 +309,8 @@
 
                                                                                 <button class="form"
                                                                                     data-bs-toggle="modal"
-                                                                                    data-bs-target="#delete_service"
+                                                                                    onclick="send_driver('<%- ambulance_driver[i].user %>')"
+                                                                                    data-bs-target="#delete_driver"
                                                                                     >
                                                                                     <i class="far fa-trash-alt"></i>
                                                                                 </button>
@@ -682,6 +535,12 @@
                 ,message: '¿Esta seguro de eliminar el servicio?' , type: 'servicio' }) %>
         </form>
 
+        <form action="/ambulance-driver/delete" method="POST">
+            <input hidden type="text" id="delete_driver_name" name="user_name">
+            <%- include("../include/confirmation_message",{ id: 'delete_driver'
+                ,message: '¿Esta seguro de eliminar el usuario?' , type: 'usuario' }) %>
+        </form>
+
         <form action="/hospital/delete-photos" method="POST">
             <input hidden type="text" id="id_delete_photo" name="id_photo">
             <input hidden type="text" id="name_photo" name="name">
@@ -693,6 +552,10 @@
         <script>
             function send_service_name(name) {
                 var input_delete = document.getElementById('service_delete_name');
+                input_delete.value = name;
+            }
+            function send_driver(name) {
+                var input_delete = document.getElementById('delete_driver_name');
                 input_delete.value = name;
             }
             function send_id_photo(id, name) {
