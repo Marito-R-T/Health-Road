@@ -370,7 +370,7 @@ class _CourseInfoScreenState extends State<CourseInfoScreen>
     return Expanded(
       flex: 3,
       child: RatingBar.builder(
-        initialRating: 3,
+        initialRating: 0,
         minRating: 0,
         direction: Axis.horizontal,
         allowHalfRating: true,
