@@ -49,5 +49,10 @@ jQuery(document).ready(function($) {
 
 function reset_photo(name) {
     var photo = document.getElementById('previsualizacion-photo');
-    photo.style.cssText = 'background-image: url(images/imagen.png); width: 100%; height: 100%;';
+    if(name){
+        photo.style.cssText = 'background-image: url(/'+name+'); width: 100%; height: 100%;';
+    }else{
+        photo.style.cssText = 'background-image: url(images/imagen.png); width: 100%; height: 100%;';
+    }
+   
 }

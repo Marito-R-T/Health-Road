@@ -63,8 +63,10 @@ router.post('/update/', async (req, res) => {
                         name: hospital_info.name,
                         description: hospital_info.description,
                         payment_type: hospital_info.payment_type ? hospital_info.payment_type : 0,
-                        director_name: hospital_info.director_name ? hospital_info.director_name : '',
+                        director_name: hospital_info.director_name ? hospital_info.director_name : ''
+                        
                     }, {
+                        
                         where: {
                             user: req.session.user
                         }
@@ -72,13 +74,14 @@ router.post('/update/', async (req, res) => {
                         if (e && e[0]) {
                             user.update({
                                 email: hospital_info.email,
+                                celphone: hospital_info.celphone ? hospital_info.celphone : null,
                             }, {
                                 where: {
                                     user: req.session.user
                                 }
                             })
 
-                            res.redirect(url.format({ pathname: '/Hospital/Services', query: { tabs: tab, title: 'Exito', message: 'Actualizacion realizada con exito', type: 'success' } }));
+                            res.redirect(url.format({ pathname: '/Hospital/Services', query: { title: 'Exito', message: 'Actualizacion realizada con exito', type: 'success' } }));
                         } else {
                             res.redirect(url.format({ pathname: '/Hospital/Update', query: { title: 'Error', message: 'Error al actualizar, verifica que exista', type: 'error' } }));
                         }
