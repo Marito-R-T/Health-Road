@@ -108,8 +108,7 @@
                         </form>
 
                     </div>
-                    <div class="tab-pane fade   " id="profile" role="tabpanel"
-                        aria-labelledby="profile-tab">
+                    <div class="tab-pane fade   " id="profile" role="tabpanel" aria-labelledby="profile-tab">
                         <form id="ajax-contact" action="/service/set-schedule" method="post">
                             <div class="container forms">
                                 <div class="contact-section">
@@ -191,7 +190,7 @@
                                                 </div>
                                                 <div class="actions">
                                                     <button type="submit" class="btn small submitButton"
-                                                        data-bs-toggle="modal" data-bs-target="#set_schedule"  />
+                                                        data-bs-toggle="modal" data-bs-target="#set_schedule" />
                                                     <i class="far fa-save"></i>
                                                     Actualizar
                                                     </button>
@@ -210,61 +209,63 @@
                     </div>
                     <div class="tab-pane fade" id="contact" role="tabpanel" aria-labelledby="contact-tab">
                         <form action="/service/discount/specific-service" method="POST">
-                        <div class="container forms">
-                            <div class="contact-section">
-                                <div class="form-contant">
-                                    <div class="row">
-                                        <div class="col-md-12">
-                                            <div class="form-group in_name">
-                                                <div class="row">
-                                                    <div class="col-md-6">
-                                                        <label> <i class="far fa-clinic-medical"></i>
-                                                            Estado</label>
-                                                        <div>
-                                                            <input type="radio" class="btn-check" name="status"
-                                                                id="success-outlined" autocomplete="off"
-                                                                data-bs-toggle="modal"
-                                                                data-bs-target="#reactive_service" <% if
-                                                                (service.status) { %>
-                                                            checked
-                                                            <% } %>
-                                                                >
-                                                                <label class="btn btn-outline-success"
-                                                                    for="success-outlined">Activo</label>
-
+                            <div class="container forms">
+                                <div class="contact-section">
+                                    <div class="form-contant">
+                                        <div class="row">
+                                            <div class="col-md-12">
+                                                <div class="form-group in_name">
+                                                    <div class="row">
+                                                        <div class="col-md-6">
+                                                            <label> <i class="far fa-clinic-medical"></i>
+                                                                Estado</label>
+                                                            <div>
                                                                 <input type="radio" class="btn-check" name="status"
-                                                                    id="danger-outlined" autocomplete="off"
+                                                                    id="success-outlined" autocomplete="off"
                                                                     data-bs-toggle="modal"
-                                                                    data-bs-target="#out_of_service" <% if
-                                                                    (!service.status) { %>
+                                                                    data-bs-target="#reactive_service" <% if
+                                                                    (service.status) { %>
                                                                 checked
                                                                 <% } %>
                                                                     >
-                                                                    <label class="btn btn-outline-danger"
-                                                                        for="danger-outlined">Fuera de Servicio</label>
+                                                                    <label class="btn btn-outline-success"
+                                                                        for="success-outlined">Activo</label>
 
+                                                                    <input type="radio" class="btn-check" name="status"
+                                                                        id="danger-outlined" autocomplete="off"
+                                                                        data-bs-toggle="modal"
+                                                                        data-bs-target="#out_of_service" <% if
+                                                                        (!service.status) { %>
+                                                                    checked
+                                                                    <% } %>
+                                                                        >
+                                                                        <label class="btn btn-outline-danger"
+                                                                            for="danger-outlined">Fuera de
+                                                                            Servicio</label>
+
+                                                            </div>
+                                                            <br>
                                                         </div>
-                                                        <br>
+
+
                                                     </div>
-
-
                                                 </div>
                                             </div>
-                                        </div>
 
-                                        <hr>
-                                       
-                                        <div class="col-md-12">
-                                            <div class="form-group in_email">
-                                                <label> <i class="fas fa-percent"></i> Descuento-Vigente </label>
-                                                <input type="number" value="<%- service.DiscountId  %>" hidden name="id_discount" >
-                                                <input type="number" min="0" max="100" class="form-control"
-                                                    value="<%- discount.percentage  %>" name="percentage" placeholder="%"
-                                                    required="required">
+                                            <hr>
+
+                                            <div class="col-md-12">
+                                                <div class="form-group in_email">
+                                                    <label> <i class="fas fa-percent"></i> Descuento-Vigente </label>
+                                                    <input type="number" value="<%- service.DiscountId  %>" hidden
+                                                        name="id_discount">
+                                                    <input type="number" min="0" max="100" class="form-control"
+                                                        value="<%- discount.percentage  %>" name="percentage"
+                                                        placeholder="%" required="required">
+                                                </div>
                                             </div>
-                                        </div>
-                                        <div >
-                                            <div class="form-group in_message">
+                                            <div>
+                                                <div class="form-group in_message">
                                                     <label> <i class="far fa-clock"></i> Fecha Inicio
                                                     </label>
                                                     <input type="date" name="date_initial"
@@ -278,24 +279,24 @@
                                                 </div>
                                                 <div class="actions">
                                                     <button type="submit" class="btn small submitButton"
-                                                        data-bs-toggle="modal" data-bs-target="#set_discount"  />
+                                                        data-bs-toggle="modal" data-bs-target="#set_discount" />
                                                     <i class="far fa-save"></i>
                                                     Actualizar
                                                     </button>
                                                 </div>
+                                            </div>
+
+
                                         </div>
-                                        
-                                    
                                     </div>
                                 </div>
                             </div>
-                        </div>
 
-                        <input hidden type="text" value="<%- service.name  %>" name="service_name">
-                        <%- include("../include/confirmation_message",{id: 'set_discount' ,
+                            <input hidden type="text" value="<%- service.name  %>" name="service_name">
+                            <%- include("../include/confirmation_message",{id: 'set_discount' ,
                                 message: '¿Esta seguro de actualizar el descuento del servicio? <br> ' +service.name,
                                 type: 'servicio' }) %>
-                    </form>
+                        </form>
                         <form action="/service/reactive-mode-out-of-service" method="post">
                             <input hidden type="text" value="<%- service.name  %>" name="name">
                             <%- include("../include/confirmation_message",{id: 'reactive_service' ,

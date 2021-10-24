@@ -1,0 +1,189 @@
+<%- include("../include/header", { titulo: 'Health Road - Actualizar Usuario' }) %>
+
+   <body class="clinic_version">
+      <div id="preloader">
+         <img class="preloader" src="images/loaders/heart-loading2.gif" alt="">
+      </div>
+      <header>
+         <div class="header-top wow fadeIn">
+            <div class="container">
+               <a class="navbar-brand" href="/Hospital/Users">Health<img src="images/icon-logo.png" alt="image">Road -
+                  Regresar</a>
+
+            </div>
+         </div>
+      </header>
+      <div id="getintouch" class="section wb wow fadeIn" style="padding-bottom:0;">
+         <div class="container">
+            <div class="heading">
+               <span class="icon-logo"><img src="images/icon-logo.png" alt="#"></span>
+               <h2>Actualizar Usuario</h2>
+            </div>
+         </div>
+         <div class="container forms">
+            <div class="contact-section">
+               <div class="form-contant">
+                  <form id="ajax-contact" action="/ambulance-driver/update/" method="post">
+                     <div class="row">
+                        <div class="col-md-4">
+                           <div class="avatar-upload">
+                              <div class="avatar-edit">
+                                 <button type="button" style="position: absolute; left: 20px;" data-bs-toggle="modal"
+                                    data-bs-target="#add_photo">
+                                    <i class="fas fa-camera"></i>
+                                 </button>
+                              </div>
+                              <div class="avatar-preview" style="padding: 0;">
+                                 <div id="previsualizacion-profile"
+                                    style="background-image: url(/<%- user.profile_pic  %>); width: 100%; height: 100%;">
+                                 </div>
+                              </div>
+                           </div>
+                        </div>
+                        <div class="col-md-8 row">
+                           <div class="col-md-12">
+                              <div class="form-group in_email">
+                                 <label> Usuario</label>
+                                 <input type="text" class="form-control" value="<%- user.user%>" placeholder="Usuario"
+                                    name="user" required="required">
+                                 <input type="text" hidden value="<%- user.user%>" name="old_user">
+                              </div>
+                           </div>
+                           <div class="col-md-6">
+                              <div class="form-group in_name">
+                                 <label> <i class="far fa-user"></i> Nombre </label>
+                                 <input type="text" class="form-control" value="<%- user.name%>" placeholder="Nombre"
+                                    name="name" required="required">
+                                 <input type="text" hidden value="<%- user.user%>" name="user_old" required="required">
+                              </div>
+                           </div>
+                           <div class="col-md-6">
+                              <div class="form-group in_email">
+                                 <label> Apellido</label>
+                                 <input type="text" class="form-control" value="<%- user.last_name%>"
+                                    placeholder="Apellido" name="last_name" required="required">
+                              </div>
+                           </div>
+
+                           <div class="col-md-6">
+                              <div class="form-group in_email">
+                                 <label> <i class="fas fa-envelope-open-text"></i> Email</label>
+                                 <input type="email" class="form-control" value="<%- user.email%>" placeholder="Email"
+                                    name="email" required="required">
+                              </div>
+                           </div>
+                           <div class="col-md-6">
+                              <div class="form-group in_email">
+                                 <label> <i class="far fa-phone-rotary"></i> Telefono</label>
+                                 <input type="text" class="form-control" value="<%- user.celphone%>" name="celphone"
+                                    placeholder="Telefono" required="required">
+                              </div>
+                           </div>
+                           <div class="col-md-12">
+                              <div class="form-group in_email">
+                                 <label> <i class="far fa-lock-alt"></i> Password</label>
+                                 <input type="password" class="form-control" value="" name="password"
+                                    placeholder="Password" >
+                              </div>
+                           </div>
+                           <div class="form-group in_message">
+                              <label> <i class="far fa-location-circle"></i> Direccion </label>
+
+                              <textarea class="form-control" id="address" rows="3" name="address"
+                                 placeholder="Direccion"><%  if(direction){ %><%- direction.address%> <%} %></textarea>
+                              <input name="latitude" type="text"  value="<%  if(direction.latitude){ %><%- direction.latitude%><%}else{ %>14.834277919227247<%} %>" hidden id="latitude">
+                              <input name="longitude" type="text" value="<%  if(direction.longitud){ %><%- direction.longitude%><%}else{ %>-91.51832317540874<%} %>" hidden id="longitude">
+                              <button type="button" data-bs-toggle="modal" data-bs-target="#add_direction">
+                                 <i class="far fa-location-circle"></i> Buscar Direccion
+                              </button>
+                           </div>
+                           <div class="col-md-12">
+                              <div class="actions">
+                                 <button type="submit" class="btn small submitButton"><i class="far fa-save"></i>
+                                    Actualizar</button>
+                              </div>
+                           </div>
+                        </div>
+                     </div>
+                  </form>
+               </div>
+
+            </div>
+
+         </div>
+
+      </div>
+      <div class="modal fade" id="add_direction" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+         aria-labelledby="staticBackdropLabel" aria-hidden="true">
+         <div class="modal-dialog">
+            <div class="modal-content">
+               <div class="modal-header">
+                  <h5 class="modal-title" id="staticBackdropLabel">Obtener Direccion</h5>
+                  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+               </div>
+               <div class="modal-body">
+                  <div class="row">
+                     <div class="col-md-12">
+                        <div class="form-group in_email">
+                           <label> <i class="far fa-map-marker-alt"></i> Ubicacion</label>
+                        </div>
+                        <div id='map'></div>
+
+
+                     </div>
+
+                  </div>
+               </div>
+               <div class="modal-footer">
+                  <button type="button" class="btn btn-primary" data-bs-dismiss="modal"
+                     aria-label="Close">Cerrar</button>
+               </div>
+            </div>
+         </div>
+      </div>
+      <form action="/ambulance-driver/update-photo" method="POST" enctype="multipart/form-data">
+         <input hidden type="text" name="user_name" value="<%- user.user %>">
+         <input hidden type="text" name="path_old" value="<%- user.profile_pic %>">
+         <div class="modal fade" id="add_photo" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+            aria-labelledby="staticBackdropLabel" aria-hidden="true">
+            <div class="modal-dialog">
+               <div class="modal-content">
+                  <div class="modal-header">
+                     <h5 class="modal-title" id="staticBackdropLabel">Actualizar Perfil</h5>
+                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                  </div>
+                  <div class="modal-body">
+                     <div class="container">
+                        <div class="img-profile">
+                           <div class="photo-upload" style="margin: auto;">
+                              <div class="photo-edit">
+                                 <input type='file' name="profile_pic" id="photo" accept=".png, .jpg, .jpeg ,.jfif"
+                                    required />
+                                 <label for="photo"><i style="margin: 8px;" class="fas fa-camera"></i></label>
+                              </div>
+                              <div class="photo-preview" style="padding: 0;">
+                                 <div id="previsualizacion-photo"
+                                    style="background-image: url(/<%- user.profile_pic  %>); width: 100%; height: 100%;">
+                                 </div>
+                              </div>
+
+                           </div>
+                        </div>
+                     </div>
+                  </div>
+                  <div class="modal-footer">
+                     <button type="reset" class="btn btn-secondary" onclick="reset_photo('<%- user.profile_pic  %>')"
+                        data-bs-dismiss="modal">Cancelar</button>
+                     <button type="submit" class="btn btn-primary">Si</button>
+                  </div>
+               </div>
+            </div>
+         </div>
+      </form>
+
+      <%- include("../include/scripts") %>
+
+
+   </body>
+
+   </html>
