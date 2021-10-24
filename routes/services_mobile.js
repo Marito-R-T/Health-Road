@@ -206,13 +206,14 @@ router.post('/add-favorite-service-rating/',async (req, res)=>{
 })
 
 router.post('/get-favorite-service-rating/',(req, res)=>{
-    favorites.findAll({
+    favorites.findOne({
         where: {
             user:req.body.user,
             service:req.body.service,
             hospital:req.body.hospital
     }
     }).then(e=>{
+        console.log(e)
         if(e){
             res.status(201).json({liked:e.status})
         }else{
