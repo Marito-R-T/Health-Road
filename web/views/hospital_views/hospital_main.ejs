@@ -467,7 +467,7 @@
                             <i class="fas fa-star"></i><i class="fas fa-star-half-alt"></i><i class="far fa-star"></i><i
                                 class="far fa-star"></i><i class="far fa-star"></i>
                         </div>
-                        <form action="user/logout/">
+                        <form action="/user/logout/">
                             <button>
                                 Cerrar Sesion
                             </button>
@@ -476,7 +476,7 @@
                             <button class="form" data-bs-toggle="modal" data-bs-target="#delete_hospital">
                                 <i class="far fa-trash-alt"></i>
                             </button>
-                            <input hidden type="text" name="name">
+                            <input hidden type="text" value="<%- hospital.name %>" name="name">
                             <%- include("../include/confirmation_message",{id: 'delete_hospital'
                                 ,message: '¿Esta seguro de eliminar el hospital? <br> ' +hospital.name ,
                                 type: 'hospital' }) %>

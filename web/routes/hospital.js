@@ -102,7 +102,7 @@ router.post('/update/', async (req, res) => {
 //historia 39
 router.post('/delete/', async (req, res) => {
     const hospital_info = req.body;
-    const exist = await hospital.findByPk(hospital_info.user);
+    const exist = await hospital.findByPk(req.session.user);
     if (hospital_info.confirmation != hospital_info.name) {
         res.redirect(url.format({ pathname: '/Hospital/Services', query: { title: 'Error', message: 'Incorrecta confirmacion', type: 'error' } }));
     }else{
@@ -115,16 +115,23 @@ router.post('/delete/', async (req, res) => {
                 }
             }).then((e) => {
                 if (e && e[0]) {
+                    user.update({
+                        status:false
+                    },{
+                        where:{
+                            user: req.session.user
+                        }
+                    })
                     res.redirect(url.format({ pathname: '/', query: { title: 'Exito', message: 'Cuenta eliminada con exito', type: 'success' } }));
                 } else {
-                    res.send("Error al eliminar el hospital, verifique que exista")
+                    rres.redirect(url.format({ pathname: '/', query: { title: 'Error', message: 'Verifique la existencia de la cuenta', type: 'error' } }));
                 }
             })
                 .catch(err => {
-                    res.send("No se pudo eliminar, intente de nuevo")
+                    res.redirect(url.format({ pathname: '/Hospital', query: { title: 'Error', message: 'No se pudo eliminar la cuenta', type: 'error' } }));
                 })
         } else {
-            res.send("Error al eliminar, no existe el hospital")
+            res.redirect(url.format({ pathname: '/', query: { title: 'Error', message: 'Error al eliminar no existe la cuenta', type: 'error' } }));
         }
     }
     
