@@ -211,24 +211,35 @@ router.get('/Services/', async (req, res) => {
 
 router.get('/Users/', async (req, res) => {
     let response = await getHospitalInfo(req);
-    if (response.message.message) {
+    if (response.message) {
         res.redirect(url.format({
             pathname: '/',
             query: {
-                title: response.message.title,
-                message: response.message.message,
-                type: response.message.type
+                title: response.title,
+                message: response.message,
+                type: response.type
             }
         }));
     } else {
-        ambulance_driver.findAll({
-            where: {
-                hospital_user: req.session.user
+        user.findAll({
+            where:{
+                rol:2,
+                status:true
             },
             attributes: {
                 exclude: ['createdAt', 'updatedAt']
             },
-            raw: true
+            include:[{model: ambulance_driver,
+
+                where:{
+                    hospital_user: req.session.user
+                },
+                attributes: {
+                    exclude: ['createdAt', 'updatedAt']
+                }
+            }],
+            raw:true
+
         }).then(val2 => {
             if (val2) {
                 let tab = {
@@ -237,7 +248,7 @@ router.get('/Users/', async (req, res) => {
                     rates: '',
                     gallery: ''
                 }
-                res.render("hospital_views/hospital_main", { hospital: response.hospital_info, ambulance_driver: val2, tabs: tab });
+                res.render("hospital_views/hospital_main", { hospital: response, ambulance_driver: val2, tabs: tab });
             } else {
                 res.redirect(url.format({ pathname: '/', query: { title: 'Error', message: 'Informacion no encontrada', type: 'error' } }));
             }
@@ -245,6 +256,43 @@ router.get('/Users/', async (req, res) => {
             res.redirect(url.format({ pathname: '/', query: { title: 'Error', message: 'Intente de nuevo', type: 'error' } }));
         })
     }
+
+
+
+
+})
+
+router.get('/UpdateUsers/', async (req, res) => {
+    const user_info = req.query;
+        user.findOne({
+            where:{
+                rol:2,
+                user: user_info.user_name
+            },
+            attributes: {
+                exclude: ['createdAt', 'updatedAt']
+            },
+            include:[{model: ambulance_driver,
+
+                where:{
+                    hospital_user: req.session.user
+                },
+                attributes: {
+                    exclude: ['createdAt', 'updatedAt']
+                }
+            }],
+
+        }).then(val2 => {
+            if (val2) {
+                let direction_info= val2.AmbulanceDrivers[0].direction;
+                res.render("hospital_views/update_user", { user: val2, direction: direction_info });
+            } else {
+                res.redirect(url.format({ pathname: '/', query: { title: 'Error', message: 'Informacion no encontrada', type: 'error' } }));
+            }
+        }).catch(err => {
+            res.redirect(url.format({ pathname: '/', query: { title: 'Error', message: 'Intente de nuevo', type: 'error' } }));
+        })
+    
 
 
 
@@ -296,6 +344,7 @@ async function getHospitalInfo(req) {
                     hospital_info_.gallery = val1.Hospitals[0].photos;
                     hospital_info_.director_name = val1.Hospitals[0].director_name;
                     hospital_info_.description = val1.Hospitals[0].description;
+                    hospital_info_.celphone = val1.celphone;
                     resolve(hospital_info_);
                 } else {
                     message_.title = 'Error';

@@ -63,8 +63,10 @@ router.post('/update/', async (req, res) => {
                         name: hospital_info.name,
                         description: hospital_info.description,
                         payment_type: hospital_info.payment_type ? hospital_info.payment_type : 0,
-                        director_name: hospital_info.director_name ? hospital_info.director_name : '',
+                        director_name: hospital_info.director_name ? hospital_info.director_name : ''
+                        
                     }, {
+                        
                         where: {
                             user: req.session.user
                         }
@@ -72,13 +74,14 @@ router.post('/update/', async (req, res) => {
                         if (e && e[0]) {
                             user.update({
                                 email: hospital_info.email,
+                                celphone: hospital_info.celphone ? hospital_info.celphone : null,
                             }, {
                                 where: {
                                     user: req.session.user
                                 }
                             })
 
-                            res.redirect(url.format({ pathname: '/Hospital/Services', query: { tabs: tab, title: 'Exito', message: 'Actualizacion realizada con exito', type: 'success' } }));
+                            res.redirect(url.format({ pathname: '/Hospital/Services', query: { title: 'Exito', message: 'Actualizacion realizada con exito', type: 'success' } }));
                         } else {
                             res.redirect(url.format({ pathname: '/Hospital/Update', query: { title: 'Error', message: 'Error al actualizar, verifica que exista', type: 'error' } }));
                         }
@@ -97,29 +100,41 @@ router.post('/update/', async (req, res) => {
 })
 
 //historia 39
-router.delete('/delete/', async (req, res) => {
+router.post('/delete/', async (req, res) => {
     const hospital_info = req.body;
-    const exist = await hospital.findByPk(hospital_info.user);
-    if (exist) {
-        hospital.update({
-            status: true
-        }, {
-            where: {
-                user: hospital_info.user
-            }
-        }).then((e) => {
-            if (e && e[0]) {
-                res.send("Hospital eliminado")
-            } else {
-                res.send("Error al eliminar el hospital, verifique que exista")
-            }
-        })
-            .catch(err => {
-                res.send("No se pudo eliminar, intente de nuevo")
+    const exist = await hospital.findByPk(req.session.user);
+    if (hospital_info.confirmation != hospital_info.name) {
+        res.redirect(url.format({ pathname: '/Hospital/Services', query: { title: 'Error', message: 'Incorrecta confirmacion', type: 'error' } }));
+    }else{
+        if (exist) {
+            hospital.update({
+                status: true
+            }, {
+                where: {
+                    user: req.session.user
+                }
+            }).then((e) => {
+                if (e && e[0]) {
+                    user.update({
+                        status:false
+                    },{
+                        where:{
+                            user: req.session.user
+                        }
+                    })
+                    res.redirect(url.format({ pathname: '/', query: { title: 'Exito', message: 'Cuenta eliminada con exito', type: 'success' } }));
+                } else {
+                    rres.redirect(url.format({ pathname: '/', query: { title: 'Error', message: 'Verifique la existencia de la cuenta', type: 'error' } }));
+                }
             })
-    } else {
-        res.send("Error al eliminar, no existe el hospital")
+                .catch(err => {
+                    res.redirect(url.format({ pathname: '/Hospital', query: { title: 'Error', message: 'No se pudo eliminar la cuenta', type: 'error' } }));
+                })
+        } else {
+            res.redirect(url.format({ pathname: '/', query: { title: 'Error', message: 'Error al eliminar no existe la cuenta', type: 'error' } }));
+        }
     }
+    
 })
 
 //historia 16

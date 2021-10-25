@@ -34,6 +34,7 @@ router.post('/register/', upload.array('profile_pic', 7), async(req, res) => {
             password: hospital_info.password,
             name: hospital_info.director_name?hospital_info.director_name:'',
             email: hospital_info.email,
+            celphone: hospital_info.celphone?hospital_info.celphone:'',
             rol: 0,
             profile_pic: profile_pic.filename
         }).catch(error=>exist=true)
@@ -66,7 +67,8 @@ router.post('/login/', async (req, res) => {
         await user.findOne({
             where: {
                 user: user_login.user,
-                password: user_login.password
+                password: user_login.password,
+                status:true
             }
         }).then(val => {
             if (val) {
