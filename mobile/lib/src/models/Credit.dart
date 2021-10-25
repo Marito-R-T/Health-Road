@@ -2,7 +2,7 @@ import 'package:intl/intl.dart';
 
 class Credit {
   String? expiration;
-  int? cvv;
+  String? cvv;
   String card_number;
   String? holder;
 
@@ -15,7 +15,7 @@ class Credit {
   factory Credit.fromJson(Map<String, dynamic> json) {
     return Credit(
         expiration: json['expiration'].toString().replaceAll(" ", ""),
-        cvv: json['cvv'],
+        cvv: json['cvv'].toString(),
         card_number: json['card_number'],
         holder: json['holder']);
   }
