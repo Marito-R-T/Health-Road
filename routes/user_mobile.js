@@ -152,7 +152,8 @@ router.post('/register-credit-card/',(req, res)=>{
         card_number:req.body.card_number,
         cvv:req.body.cvv,
         expiration:new Date(req.body.expiration),
-        user:req.body.user
+        user:req.body.user,
+        holder:req.body.holder,
     }).then(e=>{
         if(e){
             res.status(201).json(e)
@@ -167,7 +168,8 @@ router.post('/register-credit-card/',(req, res)=>{
 router.put('/update-credit-card/',(req, res)=>{
     creditCard.update({
         cvv:req.body.cvv,
-        expiration:new Date(req.body.expiration)
+        expiration:new Date(req.body.expiration),
+        holder:req.body.holder
     },{
         where:{
             user:req.body.user,
