@@ -6,7 +6,6 @@ const path_=require('../absolutepath').static_files_public
 router.use((express.static(path_)))
 router.post('/register/', async(req, res) => {
     const category_info = req.body;
-    console.log("registrando");
     if (category_info.name && category_info.description) {
         await category.create({
                 name: category_info.name,

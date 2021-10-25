@@ -2,46 +2,81 @@
     File Name: custom.css
 /****************************************** */
 
+
 /** ADD YOUR AWESOME CODES HERE **/
-::-webkit-input-placeholder { /* Chrome */
-  color: #333;opacity:1;
+
+::-webkit-input-placeholder {
+    /* Chrome */
+    color: #333;
+    opacity: 1;
 }
-:-ms-input-placeholder { /* IE 10+ */
-  color: #333;opacity:1;
+
+:-ms-input-placeholder {
+    /* IE 10+ */
+    color: #333;
+    opacity: 1;
 }
-::-moz-placeholder { /* Firefox 19+ */
-  color: #333;opacity:1;
+
+::-moz-placeholder {
+    /* Firefox 19+ */
+    color: #333;
+    opacity: 1;
 }
-:-moz-placeholder { /* Firefox 4 - 18 */
-  color: #333;opacity:1;
+
+:-moz-placeholder {
+    /* Firefox 4 - 18 */
+    color: #333;
+    opacity: 1;
 }
-::-webkit-textarea-placeholder { /* Chrome */
-  color: #333;opacity:1;
+
+::-webkit-textarea-placeholder {
+    /* Chrome */
+    color: #333;
+    opacity: 1;
 }
-:-ms-textarea-placeholder { /* IE 10+ */
-  color: #333;opacity:1;
+
+:-ms-textarea-placeholder {
+    /* IE 10+ */
+    color: #333;
+    opacity: 1;
 }
+
 @import url('https://fonts.googleapis.com/css?family=Poppins:300,400,500');
 @import url('https://fonts.googleapis.com/css?family=Roboto:300,400,500,700');
 @import url('https://fonts.googleapis.com/css?family=Raleway:300,400,500,600,700');
 @import url('https://fonts.googleapis.com/css?family=Arvo:400,400i,700');
-* {font-family: 'Poppins', sans-serif;}
-h1,h2,h3,h4,h5,h6 {font-family: 'Poppins', sans-serif;}
+* {
+    font-family: 'Poppins', sans-serif;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+    font-family: 'Poppins', sans-serif;
+}
+
 p {
     font-family: 'Poppins', sans-serif;
     font-size: 16px;
     font-weight: 300;
 }
+
 .header_style_01 .navbar-brand {
     padding: 0;
 }
+
 .navbar-brand img {
     width: 30px;
     display: inline;
 }
-.navbar-nav{
+
+.navbar-nav {
     width: 100%;
 }
+
 #preloader {
     width: 100%;
     height: 100%;
@@ -56,11 +91,13 @@ p {
     justify-content: center;
     align-items: center;
 }
+
 .header-bottom {
     float: left;
     width: 100%;
     background: #157fda;
 }
+
 header {
     float: left;
     width: 100%;
@@ -70,11 +107,13 @@ header {
     box-shadow: 0 20px 40px -40px #000;
     top: 0;
 }
+
 #home.first-section {
     position: relative;
     min-height: 650px;
     margin-top: 145px;
 }
+
 .header-bottom nav.main-menu {
     margin: 0;
     padding: 0;
@@ -83,7 +122,8 @@ header {
     float: left;
     width: 100%;
 }
-.header-bottom nav.main-menu ul.nav.navbar-nav > li a {
+
+.header-bottom nav.main-menu ul.nav.navbar-nav>li a {
     color: #fff;
     font-size: 15px;
     padding: 20px 20px;
@@ -91,29 +131,35 @@ header {
     letter-spacing: 0;
     font-weight: 700;
 }
-.header-bottom nav.main-menu ul.nav.navbar-nav > li a:hover, .header-bottom nav.main-menu ul.nav.navbar-nav > li a:focus, .header-bottom nav.main-menu ul.nav.navbar-nav > li a.active {
+
+.header-bottom nav.main-menu ul.nav.navbar-nav>li a:hover,
+.header-bottom nav.main-menu ul.nav.navbar-nav>li a:focus,
+.header-bottom nav.main-menu ul.nav.navbar-nav>li a.active {
     color: #fff;
     background: #39b49b;
     box-shadow: 0px 1px 0 0px #fff;
 }
+
 .header-top {
     float: left;
     width: 100%;
     padding: 10px 0;
-}	
+}
+
 .header-top .navbar-brand {
     float: left;
     height: auto;
 }
+
 .right-header {
     float: right;
-	margin:11px 0;
+    margin: 11px 0;
 }
+
 .header-info {
     float: left;
     width: 100%;
 }
-
 
 #login {
     float: right;
@@ -122,6 +168,7 @@ header {
 .info-inner {
     float: left;
 }
+
 .info-inner span.icontop {
     float: left;
     background: #157fda;
@@ -133,26 +180,33 @@ header {
     margin-right: 15px;
     color: #fff;
     font-size: 18px;
-	transition: ease all 1s;
+    transition: ease all 1s;
 }
+
 .iconcont {
     float: left;
     font-size: 20px;
     letter-spacing: -1px;
     margin: 4px 0;
 }
+
 .info-inner {
     float: left;
     margin-left: 50px;
 }
+
 .info-inner span.icontop img {
-	width:100%;
+    width: 100%;
 }
+
 .serch-bar {
     float: right;
     width: 250px;
 }
+
+
 /** search bar **/
+
 #custom-search-input {
     padding: 0;
     border: none;
@@ -161,6 +215,7 @@ header {
     overflow: hidden;
     margin: 10px 0;
 }
+
 #custom-search-input .form-control.input-lg {
     border-radius: 50px;
     overflow: hidden;
@@ -172,6 +227,7 @@ header {
     width: 200px;
     height: 40px;
 }
+
 #custom-search-input button {
     margin: 0;
     background: none;
@@ -179,15 +235,18 @@ header {
     color: #222;
     padding: 0;
 }
+
 #custom-search-input button i {
     font-size: 18px;
     color: #333;
 }
-#custom-search-input input{
+
+#custom-search-input input {
     border: 0;
     box-shadow: none;
 }
-#custom-search-input button{
+
+#custom-search-input button {
     margin: 0;
     background: none;
     box-shadow: none;
@@ -197,31 +256,34 @@ header {
     border-left: solid 1px #ccc;
 }
 
-#custom-search-input button:hover{
+#custom-search-input button:hover {
     border: 0;
     box-shadow: none;
     border-left: solid 1px #ccc;
 }
 
-#custom-search-input .glyphicon-search{
+#custom-search-input .glyphicon-search {
     font-size: 23px;
 }
+
 .big-tagline {
     float: left;
     width: 100%;
-    background: rgba(255,255,255,7);
+    background: rgba(255, 255, 255, 7);
     padding: 0;
     margin: 0;
 }
+
 .appointment-form {
     float: left;
     width: 100%;
     background: #fff;
     min-height: 425px;
-    box-shadow: 0 0 50px -22px rgba(0,0,0,0.3);
+    box-shadow: 0 0 50px -22px rgba(0, 0, 0, 0.3);
     padding: 20px;
     margin-top: 8%;
 }
+
 .appointment-form h3 {
     float: left;
     margin: 0;
@@ -232,10 +294,12 @@ header {
     font-size: 18px;
     font-weight: 600;
 }
+
 #home.first-section {
     position: relative;
     min-height: 650px;
 }
+
 #home.first-section::after {
     content: "";
     display: block;
@@ -244,8 +308,9 @@ header {
     position: absolute;
     top: 0;
     left: 0;
-    background: rgba(0,0,0,0);
+    background: rgba(0, 0, 0, 0);
 }
+
 .text-contant {
     float: left;
     width: 80%;
@@ -255,11 +320,15 @@ header {
     text-align: center;
     position: relative;
     z-index: 2;
-}	
-.text-contant h2 a, .text-contant h2 a:hover, .text-contant h2 a:focus {
+}
+
+.text-contant h2 a,
+.text-contant h2 a:hover,
+.text-contant h2 a:focus {
     color: #222;
     opacity: 1;
 }
+
 .icon {
     background: #fff;
     border-radius: 100%;
@@ -271,10 +340,12 @@ header {
     justify-content: center;
     border: solid #39b49b 3px;
 }
+
 .icon img {
     width: 50px;
     margin-top: 2px;
 }
+
 .text-contant .center {
     float: left;
     width: 100%;
@@ -283,23 +354,28 @@ header {
     display: flex;
     margin-bottom: 20px;
 }
+
 .info-inner span.icontop i.fa-clock-o {
     font-size: 25px;
 }
-.info-inner:hover span.icontop,.info-inner:focus span.icontop {
+
+.info-inner:hover span.icontop,
+.info-inner:focus span.icontop {
     border-radius: 100%;
     background: #39b49b;
 }
+
 .typewrite {
     font-size: 60px;
     margin-top: 10px;
     float: left;
     width: 100%;
     text-align: center;
-    text-shadow: 4px 3px 0 rgba(0,0,0,0.0);
+    text-shadow: 4px 3px 0 rgba(0, 0, 0, 0.0);
     letter-spacing: -1px;
     font-weight: 400;
 }
+
 body.clinic_version .first-section h2 {
     color: #1f1f1f;
     text-transform: capitalize;
@@ -309,12 +385,14 @@ body.clinic_version .first-section h2 {
     width: 100%;
     padding: 0;
 }
+
 .padding-section {
-	padding:75px 0;
+    padding: 75px 0;
 }
-#time-table{
-    bottom: 0; 
-    position: absolute; 
+
+#time-table {
+    bottom: 0;
+    position: absolute;
     width: 100%;
 }
 
@@ -326,6 +404,7 @@ body.clinic_version .first-section h2 {
     color: #fff;
     position: relative;
 }
+
 .info-icon {
     float: left;
     width: 100%;
@@ -335,6 +414,7 @@ body.clinic_version .first-section h2 {
     margin-bottom: 20px;
     margin-top: 5%;
 }
+
 .service-time h3 {
     float: left;
     width: 100%;
@@ -346,6 +426,7 @@ body.clinic_version .first-section h2 {
     font-weight: 600;
     text-transform: none;
 }
+
 .service-time p {
     float: left;
     width: 100%;
@@ -354,11 +435,8 @@ body.clinic_version .first-section h2 {
     font-size: 14px;
 }
 
-.information-table div{
+.information-table div {
     float: left;
-    
-
-    
 }
 
 .service-time ul {
@@ -368,6 +446,7 @@ body.clinic_version .first-section h2 {
     width: 100%;
     padding: 0;
 }
+
 .service-time ul li {
     float: left;
     width: 100%;
@@ -376,16 +455,16 @@ body.clinic_version .first-section h2 {
     padding-bottom: 10px;
     padding-top: 10px;
 }
+
 .left {
-	float:left;
-}
-.right {
-	float:right;
+    float: left;
 }
 
+.right {
+    float: right;
+}
 
 .service-time.middle::before {
-
     content: "";
     display: block;
     width: 0;
@@ -397,7 +476,6 @@ body.clinic_version .first-section h2 {
     border-bottom: solid transparent 65px;
     border-right: solid #a0cff7 70px;
     left: -70px;
-
 }
 
 .service-time.middle::after {
@@ -418,12 +496,14 @@ body.clinic_version .first-section h2 {
     position: relative;
     z-index: 1;
 }
+
 .heading {
     text-align: center;
     float: left;
     width: 100%;
     margin: 0 0 50px 0;
 }
+
 .heading h2 {
     font-size: 35px;
     text-transform: none;
@@ -434,9 +514,11 @@ body.clinic_version .first-section h2 {
     padding: 0;
     position: relative;
 }
+
 .icon-logo img {
     width: 60px;
-}	
+}
+
 .heading h2::after {
     width: 50px;
     height: 4px;
@@ -445,9 +527,11 @@ body.clinic_version .first-section h2 {
     display: block;
     margin: 10px auto 0;
 }
+
 body.clinic_version .first-section {
-   padding: 1em 0;
+    padding: 1em 0;
 }
+
 .message-box .lead {
     padding-top: 10px;
     font-size: 16px;
@@ -456,14 +540,17 @@ body.clinic_version .first-section {
     padding-bottom: 0;
     font-weight: 400;
 }
+
 body.clinic_version .section {
     padding: 90px 0;
     float: left;
     width: 100%;
 }
+
 .message-box p {
     margin-bottom: 15px;
 }
+
 .service-widget h3 {
     font-size: 16px;
     color: #ffffff;
@@ -472,16 +559,19 @@ body.clinic_version .section {
     background: #157fda;
     text-align: center;
 }
+
 hr.hr1 {
     position: relative;
     margin: 60px 0;
     border: 1px dashed #f0f0f0;
 }
+
 .services {
     width: 100%;
     background: linear-gradient(to right, #1d86df 0%, #39b49a 100%);
     padding: 75px 0;
 }
+
 .services {
     width: 100%;
     background: url('../images/service-bg.png');
@@ -489,19 +579,22 @@ hr.hr1 {
     background-size: cover;
     background-attachment: fixed;
     background-repeat: no-repeat;
-	float:left;
-	width:100%;
+    float: left;
+    width: 100%;
 }
+
 .serv {
     float: left;
     width: 100%;
     text-align: center;
     color: #fff;
     margin: 25px 0px;
-}	
+}
+
 .heading h2.white {
     color: #fff;
 }
+
 .serv h4 {
     font-size: 15px;
     color: #fff;
@@ -511,6 +604,7 @@ hr.hr1 {
     float: left;
     width: 100%;
 }
+
 .serv p {
     float: left;
     width: 100%;
@@ -519,6 +613,7 @@ hr.hr1 {
     font-weight: 400;
     margin-top: 5px;
 }
+
 .icon-service {
     float: left;
     width: 100%;
@@ -526,95 +621,51 @@ hr.hr1 {
     margin-bottom: 10px;
     font-size: xxx-large;
 }
+
 .icon-service img {
     width: 60px;
 }
+
 .inner-services {
     float: left;
     width: 100%;
     margin: 30px 0;
 }
+
 .appointment-form .form {
     float: left;
     width: 100%;
 }
+
 .appointment-form .form form {
     float: left;
     width: 100%;
     margin: 0;
 }
+
 .appointment-form .form form fieldset {
     float: left;
     width: 100%;
 }
-.form-group {
-    float: left;
-    width: 100%;
-    margin: 0;
-}
 
-.forms{
-    max-width: 750px;
-}
-
-.form-group input, .form-group select {
-    float: left;
-    width: 100%;
-    border-radius: 0;
-    border: solid #ccc 1px;
-    padding: 8px 15px;
-    font-weight: 400;
-    font-size: 13px;
-    margin: 12px 0 0;
-    box-shadow: none;
-    color: rgb(255, 255, 255);
-    height: 44px;
-}
-.form-group textarea {
-    float: left;
-    width: 100%;
-    border-radius: 0;
-    border: solid #ccc 1px;
-    padding: 8px 15px;
-    font-weight: 400;
-    font-size: 13px;
-    margin: 12px 0 0;
-    box-shadow: none;
-    color: #333;
-    height: 90px;
-}
-.form-group input:focus, .form-group select:focus, .form-group textarea:focus {
-	box-shadow:none;
-}
 .select-section div.form-group:nth-child(1) {
     float: left;
     width: 49%;
     margin-right: 2%;
 }
+
 .select-section div.form-group:nth-child(2) {
     float: left;
     width: 49%;
 }
+
 .center {
     float: left;
     width: 100%;
     justify-content: center;
     display: flex;
 }
-.form-group button {
-    background: linear-gradient(to right, #1d86df 0%, #39b49a 100%);
-    border: none;
-    margin-top: 15px;
-    margin-bottom: 5px;
-    color: #fff;
-    padding: 8px 30px;
-    border-radius: 50px;
-    transition: ease all 1s;
-    font-weight: 600;
-}
-.form-group button:hover,.form-group button:focus {
-    background: linear-gradient(to right, #39b49a 0%, #1d86df 100%);
-}
+
 body.clinic_version .dev-list .widget h3 {
     display: inline-block;
     font-size: 20px;
@@ -624,11 +675,13 @@ body.clinic_version .dev-list .widget h3 {
     position: relative;
     top: -25px;
 }
+
 body.clinic_version .dev-list .widget small {
     display: block;
     margin: -15px 0 -5px;
     font-size: 16px;
 }
+
 .message-box h4 {
     text-transform: uppercase;
     padding: 0;
@@ -638,35 +691,43 @@ body.clinic_version .dev-list .widget small {
     font-size: 17px;
     color: #0071d1;
 }
+
 #price.section {
     background-attachment: fixed;
     background-size: cover;
     position: relative;
     z-index: 1;
 }
+
 body.clinic_version .tab-pane p {
     margin-bottom: 0;
     padding-top: 0;
 }
+
 .pricing-table-header h3 {
     font-size: 15px;
 }
+
 .pricing-table strong {
     font-weight: 400;
 }
+
 .pricing-table.pricing-table-highlighted {
     margin-top: -15px;
     border: solid #fff 5px;
     transition: ease all 1s;
 }
+
 .pricing-table {
     margin: 50px -10px 0;
     background: #fff;
     box-shadow: 0px 10px 25px -20px #000;
 }
+
 .footer {
     padding: 0 0 80px !important;
 }
+
 .contact-info {
     float: left;
     width: 100%;
@@ -675,6 +736,7 @@ body.clinic_version .tab-pane p {
     position: relative;
     margin-bottom: 25px;
 }
+
 .inform {
     float: left;
     width: 100%;
@@ -683,6 +745,7 @@ body.clinic_version .tab-pane p {
     color: #fff;
     position: relative;
 }
+
 .inform span.icon-f {
     float: left;
     width: 70px;
@@ -692,25 +755,30 @@ body.clinic_version .tab-pane p {
     font-size: 40px;
     line-height: normal;
     left: 0;
-}	
+}
+
 .footer-info h3 {
     font-size: 16px;
     font-weight: 400;
     color: #fff;
 }
+
 .inform span.icon-f img {
     width: 30px;
 }
+
 .footer-info address {
     font-size: 14px;
     font-weight: 300;
     margin: 0;
 }
+
 .footer-info .phone-no {
     font-size: 14px;
     line-height: normal;
     margin: 0;
 }
+
 .contact-info::before {
     content: "";
     display: block;
@@ -723,6 +791,7 @@ body.clinic_version .tab-pane p {
     left: -45px;
     z-index: 0;
 }
+
 .contact-info::after {
     content: "";
     display: block;
@@ -735,49 +804,37 @@ body.clinic_version .tab-pane p {
     right: -45px;
     z-index: 0;
 }
+
 .contact-info .col-lg-12 {
     position: relative;
     z-index: 1;
 }
+
 body.clinic_version .footer {
     background-color: #15191c;
 }
+
 .footer .widget-title img {
     width: 245px;
 }
+
 .footer .widget-title small {
     padding: 0;
 }
+
 body.clinic_version .footer .widget-title h3 {
     color: #fff;
 }
+
 .contact-section {
     float: left;
     width: 100%;
 }
+
 .contact-section {
-	position:relative;
+    position: relative;
 }
-.form-contant {
-    float: left;
-    position: absolute;
-    width: 100%;
-    background: rgba(0,0,0,.8);
-    z-index: 1;
-    padding: 60px;
-}
-.form-contant input, .form-contant textarea {
-    background: transparent;
-    padding: 0;
-    border: none;
-    border-bottom: solid #fff 2px;
-    font-size: 15px;
-    font-weight: 300;
-    margin-bottom: 15px;
-}
-.form-contant input:focus, .form-contant textarea:focus {
-	color:#fff;border-color:#fff;
-}
+
 .actions {
     float: left;
     width: 100%;
@@ -785,17 +842,21 @@ body.clinic_version .footer .widget-title h3 {
     justify-content: center;
     margin-top: 10px;
 }
+
 #submitButton {
     padding: 15px 30px;
     background: linear-gradient(to right, #1d86df 0%, #39b49a 100%);
     color: #fff;
     border-radius: 50px;
     margin-top: 10px;
-	transition:ease all 1s;
+    transition: ease all 1s;
 }
-#submitButton:hover,#submitButton:focus {
+
+#submitButton:hover,
+#submitButton:focus {
     background: linear-gradient(to right, #39b49a 0%, #1d86df 100%);
 }
+
 .footer-area {
     background: #fff;
     padding: 80px 0px;
@@ -804,23 +865,26 @@ body.clinic_version .footer .widget-title h3 {
     float: left;
     width: 100%;
 }
+
 .logo img {
     width: 250px;
     margin-bottom: 30px;
 }
+
 .logo2 a {
     font-size: xx-large;
 }
 
 .logo2 img {
-    width: 20%;}
-
+    width: 20%;
+}
 
 .footer-area p {
     color: #999;
     font-size: 16px;
     font-weight: 400;
 }
+
 .footer-info {
     float: left;
     width: 100%;
@@ -828,7 +892,9 @@ body.clinic_version .footer .widget-title h3 {
     padding: 0;
     position: relative;
 }
-.footer-info h3, .subcriber-info h3 {
+
+.footer-info h3,
+.subcriber-info h3 {
     color: #222;
     font-size: 22px;
     font-weight: 600;
@@ -836,7 +902,9 @@ body.clinic_version .footer .widget-title h3 {
     padding: 0 0 0 15px;
     margin-bottom: 24px;
 }
-.testimonial small, .testimonial .lead {
+
+.testimonial small,
+.testimonial .lead {
     background-color: transparent;
     color: #aaa;
     display: block;
@@ -848,72 +916,84 @@ body.clinic_version .footer .widget-title h3 {
     position: relative;
     font-weight: 400;
 }
+
 .copyright-area {
     padding: 20px 0px;
     background: #157fda;
     color: #fff;
-	float:left;
-	width:100%;
+    float: left;
+    width: 100%;
 }
-#copyright-area {
 
+#copyright-area {
     position: absolute;
 }
 
 #copyright-area-index {
-
-    bottom:0;
+    bottom: 0;
     position: absolute;
 }
 
 .footer-text p {
     margin: 0;
 }
+
 .footer-text p {
     margin: 0;
     color: #fff;
 }
+
 .social-links li a i {
     color: #fff;
     font-size: 24px;
     margin-right: 20px;
 }
+
 .social-links li a i {
     color: #fff;
     font-size: 24px;
     margin-right: 20px;
 }
+
 .footer-info i {
     position: absolute;
     left: 0;
     font-size: 25px;
     width: 30px;
     text-align: center;
-	color: #157fda;
+    color: #157fda;
 }
+
 .preloader {
     width: 350px;
 }
+
 .footer-info p {
     padding-left: 40px;
     margin-bottom: 15px;
 }
+
 .social-links {
     padding: 0;
     list-style: none;
     float: left;
     width: 100%;
-	margin:0;
+    margin: 0;
 }
-.social-links {float:left;}
+
+.social-links {
+    float: left;
+}
 
 .social-links li {
     float: right;
     margin: 0;
 }
+
 .footer-info p {
     padding-left: 40px;
 }
+
 .newsletter-form input {
     display: inline-block;
     height: 50px;
@@ -925,6 +1005,7 @@ body.clinic_version .footer .widget-title h3 {
     border: none;
     box-shadow: none;
 }
+
 .newsletter-form .mc-submit {
     height: 50px;
     width: 20%;
@@ -938,54 +1019,69 @@ body.clinic_version .footer .widget-title h3 {
     float: left;
     text-align: center;
 }
-.newsletter-form .mc-submit:hover,.newsletter-form .mc-submit:focus {
+
+.newsletter-form .mc-submit:hover,
+.newsletter-form .mc-submit:focus {
     background: linear-gradient(to right, #39b49a 0%, #1d86df 100%);
 }
+
 #testimonials {
     background-image: url('../images/bg-testimonial.png');
     background-position: bottom;
     background-attachment: fixed;
 }
+
 #about {
     float: left;
     width: 100%;
 }
+
 .tabs-information {
     float: left;
     width: 100%;
     margin: 0;
     padding: 0;
 }
+
 .tabs-information .nav.nav-tabs {
     list-style: none;
     float: left;
     width: 100%;
     border: none;
 }
+
 .tabs-information .nav.nav-tabs li {
     float: left;
     width: 31.33%;
     margin-right: 2%;
     text-align: center;
-	border:none;
-	border-radius:0;
+    border: none;
+    border-radius: 0;
 }
-.tabs-information .nav.nav-tabs li a,.tabs-information .nav.nav-tabs li a:hover,.tabs-information .nav.nav-tabs li a:focus {
+
+.tabs-information .nav.nav-tabs li a,
+.tabs-information .nav.nav-tabs li a:hover,
+.tabs-information .nav.nav-tabs li a:focus {
     border: solid #ddd 1px;
     margin: 0;
-	background:transparent;
-	border-radius:0;
+    background: transparent;
+    border-radius: 0;
 }
-.tabs-information .nav.nav-tabs li:hover a,.tabs-information .nav.nav-tabs li:focus a,.tabs-information .nav.nav-tabs li.active a {
+
+.tabs-information .nav.nav-tabs li:hover a,
+.tabs-information .nav.nav-tabs li:focus a,
+.tabs-information .nav.nav-tabs li.active a {
     background: linear-gradient(to right, #1d86df 0%, #39b49a 100%);
     border-color: transparent;
     color: #fff;
 }
+
 .tab-content {
     float: left;
     width: 98%;
     margin-top: 20px;
-}	
+}
+
 .tab-content ul {
     list-style: none;
     float: left;
@@ -993,6 +1089,7 @@ body.clinic_version .footer .widget-title h3 {
     padding: 0;
     margin: 0;
 }
+
 .tab-content ul li {
     float: left;
     width: 100%;
@@ -1003,6 +1100,7 @@ body.clinic_version .footer .widget-title h3 {
     padding-left: 30px;
     line-height: 32px;
 }
+
 .tab-content ul li i {
     position: absolute;
     left: 0;
@@ -1010,6 +1108,7 @@ body.clinic_version .footer .widget-title h3 {
     font-size: 18px;
     color: #39b49b;
 }
+
 .banner-inner {
     float: left;
     width: 100%;
@@ -1025,6 +1124,7 @@ body.clinic_version .footer .widget-title h3 {
     position: relative;
     border-bottom: solid #157fda 2px;
 }
+
 .banner-inner::after {
     content: "";
     display: block;
@@ -1033,12 +1133,14 @@ body.clinic_version .footer .widget-title h3 {
     position: absolute;
     left: 0;
     top: 0;
-    background: rgba(0,0,0,0);
+    background: rgba(0, 0, 0, 0);
 }
+
 .banner-inner div.row {
     position: relative;
     z-index: 1;
 }
+
 .banner-inner h4 {
     font-size: 24px;
     color: #222;
@@ -1048,6 +1150,7 @@ body.clinic_version .footer .widget-title h3 {
     margin: 0;
     position: relative;
 }
+
 .banner-inner h4::after {
     content: "";
     display: block;
@@ -1056,36 +1159,43 @@ body.clinic_version .footer .widget-title h3 {
     background: #39b49b;
     margin: 8px auto 5px;
 }
+
 .breadcrum {
     float: left;
     width: 100%;
 }
+
 .breadcrum ul {
     list-style: none;
-	padding:0;
-	margin:0;
+    padding: 0;
+    margin: 0;
 }
+
 .breadcrum ul li {
     font-size: 16px;
     color: #222;
     margin-top: 5px;
 }
+
 .breadcrum ul li a {
-	color:#39b49b;
+    color: #39b49b;
 }
+
 .box {
     float: left;
     background: #fff;
     padding: 25px 40px;
     margin-top: 118px;
-    box-shadow: 0 0 40px -20px rgba(0,0,0,.4);
+    box-shadow: 0 0 40px -20px rgba(0, 0, 0, .4);
     margin-bottom: -62px;
     border: solid #157fda 2px;
 }
+
 .about2 {
     float: left;
     width: 100%;
 }
+
 .girl-with-lap {
     float: left;
     width: 100%;
@@ -1094,9 +1204,11 @@ body.clinic_version .footer .widget-title h3 {
     margin-top: -20px;
     color: #fff;
 }
+
 .aboutus-cont {
-	text-align:center;
+    text-align: center;
 }
+
 .aboutus-cont {
     margin-top: 0;
     float: left;
@@ -1108,14 +1220,17 @@ body.clinic_version .footer .widget-title h3 {
     padding: 160px 50px;
     color: #333;
 }
+
 .aboutus-cont p {
     font-size: 16px;
     font-weight: 400;
     margin-bottom: 25px;
 }
+
 .iconcont a {
     font-family: 'Arvo', serif;
 }
+
 .services-paert {
     float: left;
     width: 100%;
@@ -1124,22 +1239,28 @@ body.clinic_version .footer .widget-title h3 {
     background: #fff;
     position: relative;
 }
+
 .services-paert .icon-ser {
     position: absolute;
 }
+
 .cont-ser {
     padding-left: 85px;
 }
+
 .services-paert img {
-	width:65px;
+    width: 65px;
 }
+
 .services-paert .icon-ser {
     float: left;
     margin-right: 25px;
 }
+
 #price {
     color: #666;
 }
+
 nav.main-menu .navbar-toggler {
     position: relative;
     float: right;
@@ -1155,6 +1276,7 @@ nav.main-menu .navbar-toggler {
     color: #fff;
     border-radius: 5px;
 }
+
 .navbar-header {
     float: right;
     position: absolute;
@@ -1164,7 +1286,8 @@ nav.main-menu .navbar-toggler {
     width: auto;
     height: auto;
 }
-.header-bottom nav.main-menu ul.nav.navbar-nav > li a {
+
+.header-bottom nav.main-menu ul.nav.navbar-nav>li a {
     color: #fff;
     font-size: 17px;
     padding: 20px 20px;
@@ -1172,245 +1295,338 @@ nav.main-menu .navbar-toggler {
     letter-spacing: 0;
     font-weight: 500;
     margin-right: 5px;
-}	
+}
 
 
 /** mobile **/
 
 @media (max-width:767px) {
-
-#time-table {bottom: 400px;
-position: sticky;}
-header {
-    float: left;
-    width: 100%;
-    position: fixed;
-    z-index: 5;
-    background: #fff;
-    box-shadow: 0 20px 40px -40px #000;
-    top: 0;
-    z-index: 999;
-}
-#home.first-section {
-    margin-top: 0;
-}
-.navbar-brand img {
-    width: 15px;
-    position: relative;
-}
-.right-header {
-    display: none;
-}
-.navbar-header {
-    float: right;
-    position: absolute;
-    top: 8px;
-    right: 20px;
-    background: transparent;
-    width: 40px;
-    height: 40px;
-}
-.navbar-brand {
-    padding: 15px 0;
-}	
-.header-bottom nav.main-menu {
-    margin: 0;
-    padding: 0;
-    border: none;
-    background: transparent;
-    float: left;
-    width: 100%;
-}	
-.header-bottom nav.main-menu #navbar {
-    margin: 0;
-}
-.header-bottom nav.main-menu #navbar .nav.navbar-nav {
-    margin-top: 0;
-}
-.header-bottom nav.main-menu ul.nav.navbar-nav > li a {
-    color: #fff;
-    font-size: 15px;
-    padding: 12px 0;
-    text-transform: uppercase;
-    letter-spacing: 0;
-    font-weight: 700;
-}
-		
-.service-time {
-    float: left;
-    width: 100%;
-    min-height: auto;
-    margin-top: 25px;
-    padding: 35px 20px;
-    color: #fff;
-    position: relative;
-}
-#home.first-section {
-    position: relative;
-    min-height: auto;
-}	
-.service-time.middle::before {
-	display:none;
-}
-.service-time.middle::after {
-	display:none;
-}	
-.typewrite {
-    font-size: 28px;
-}
-.appointment-form {
-    padding: 15px;
-}		
-.heading h2 {
-    font-size: 28px;
-    margin: 10px 0;
-}
-.pricing-table-features {
-    padding: 0 10px 15px 30px;
-}
-.pricing-table-header h2 {
-    font-size: 23px;
-    font-weight: 400;
-}
-body.clinic_version .desc {
-    position: relative;
-    background: #fff;
-    border: 1px solid #ededed;
-    float: left;
-    width: 100%;
-    margin-bottom: 25px;
-}
-.form-contant {
-    float: left;
-    position: absolute;
-    width: 100%;
-    background: rgba(0,0,0,.8);
-    z-index: 1;
-    padding: 20px 40px;
-}
-.contact-section {
-    float: left;
-    width: 100%;
-}
-.contact-section #googleMap {
-    height: 550px !important;
-}
-.footer-info h3, .subcriber-info h3 {
-    margin-bottom: 20px;
-    margin-top: 10px;
-}	
-#home.first-section {
-    margin-top: 135px !important;
-}
-.text-contant {
-    width: 90%;
-    margin: 0 5% 0;
-    padding: 0;
-}
-.typewrite {
-    font-size: 24px;
-    font-weight: 500;
-	margin-top:0;
-}
-.service-time {
-    padding: 25px 20px 35px;
-}
-.footer-info h3, .subcriber-info h3 {
-    float: left;
-    width: 100%;
-}
-.footer-info p {
-    float: left;
-    width: 100%;
-}
-.serch-bar {
-    float: right;
-    width: 100%;
-}
-	
+    #time-table {
+        bottom: 400px;
+        position: sticky;
+    }
+    header {
+        float: left;
+        width: 100%;
+        position: fixed;
+        z-index: 5;
+        background: #fff;
+        box-shadow: 0 20px 40px -40px #000;
+        top: 0;
+        z-index: 999;
+    }
+    #home.first-section {
+        margin-top: 0;
+    }
+    .navbar-brand img {
+        width: 15px;
+        position: relative;
+    }
+    .right-header {
+        display: none;
+    }
+    .navbar-header {
+        float: right;
+        position: absolute;
+        top: 8px;
+        right: 20px;
+        background: transparent;
+        width: 40px;
+        height: 40px;
+    }
+    .navbar-brand {
+        padding: 15px 0;
+    }
+    .header-bottom nav.main-menu {
+        margin: 0;
+        padding: 0;
+        border: none;
+        background: transparent;
+        float: left;
+        width: 100%;
+    }
+    .header-bottom nav.main-menu #navbar {
+        margin: 0;
+    }
+    .header-bottom nav.main-menu #navbar .nav.navbar-nav {
+        margin-top: 0;
+    }
+    .header-bottom nav.main-menu ul.nav.navbar-nav>li a {
+        color: #fff;
+        font-size: 15px;
+        padding: 12px 0;
+        text-transform: uppercase;
+        letter-spacing: 0;
+        font-weight: 700;
+    }
+    .service-time {
+        float: left;
+        width: 100%;
+        min-height: auto;
+        margin-top: 25px;
+        padding: 35px 20px;
+        color: #fff;
+        position: relative;
+    }
+    #home.first-section {
+        position: relative;
+        min-height: auto;
+    }
+    .service-time.middle::before {
+        display: none;
+    }
+    .service-time.middle::after {
+        display: none;
+    }
+    .typewrite {
+        font-size: 28px;
+    }
+    .appointment-form {
+        padding: 15px;
+    }
+    .heading h2 {
+        font-size: 28px;
+        margin: 10px 0;
+    }
+    .pricing-table-features {
+        padding: 0 10px 15px 30px;
+    }
+    .pricing-table-header h2 {
+        font-size: 23px;
+        font-weight: 400;
+    }
+    body.clinic_version .desc {
+        position: relative;
+        background: #fff;
+        border: 1px solid #ededed;
+        float: left;
+        width: 100%;
+        margin-bottom: 25px;
+    }
+    .form-contant {
+        float: left;
+        position: absolute;
+        width: 100%;
+        background: rgba(0, 0, 0, .8);
+        z-index: 1;
+        padding: 20px 40px;
+    }
+    .contact-section {
+        float: left;
+        width: 100%;
+    }
+    .contact-section #googleMap {
+        height: 550px !important;
+    }
+    .footer-info h3,
+    .subcriber-info h3 {
+        margin-bottom: 20px;
+        margin-top: 10px;
+    }
+    #home.first-section {
+        margin-top: 135px !important;
+    }
+    .text-contant {
+        width: 90%;
+        margin: 0 5% 0;
+        padding: 0;
+    }
+    .typewrite {
+        font-size: 24px;
+        font-weight: 500;
+        margin-top: 0;
+    }
+    .service-time {
+        padding: 25px 20px 35px;
+    }
+    .footer-info h3,
+    .subcriber-info h3 {
+        float: left;
+        width: 100%;
+    }
+    .footer-info p {
+        float: left;
+        width: 100%;
+    }
+    .serch-bar {
+        float: right;
+        width: 100%;
+    }
 }
 
 @media (min-width:768px) and (max-width:991px) {
-
-nav.main-menu .navbar-header {float: left;position: relative;top: 0px;right: 0;background: transparent;width: auto;height: auto;}	
-.right-header {float: right;margin: 11px 0;display: none;}
-.header-top div.container {display: flex;justify-content: center;}
-#navbar.navbar-collapse {float: left;width: 100%;padding: 0;}
-.header-bottom nav.main-menu ul.nav.navbar-nav > li a {color: #fff;font-size: 16px;padding: 15px 15px;
-    text-transform: none;letter-spacing: 0;font-weight: 500;margin-right: 5px;}
-.typewrite {font-size: 45px;}	
-.service-time.middle::before,.service-time.middle::after {display:none;}
-.service-time {margin-top: 0;}
-.serv p {display: none;}
-.inner-services {margin: 0 0;}
-.form-contant {float: left;position: absolute;width: 100%;background: rgba(0,0,0,.8);z-index: 1;padding: 15px 30px;}
-#googleMap {height: 540px !important;}
-.footer-info h3, .subcriber-info h3 {float: left;width: 100%;}
-.footer-info p {float: left;width: 100%;}
-.logo2 a {
-    font-size: x-large;
+    nav.main-menu .navbar-header {
+        float: left;
+        position: relative;
+        top: 0px;
+        right: 0;
+        background: transparent;
+        width: auto;
+        height: auto;
+    }
+    .right-header {
+        float: right;
+        margin: 11px 0;
+        display: none;
+    }
+    .header-top div.container {
+        display: flex;
+        justify-content: center;
+    }
+    #navbar.navbar-collapse {
+        float: left;
+        width: 100%;
+        padding: 0;
+    }
+    .header-bottom nav.main-menu ul.nav.navbar-nav>li a {
+        color: #fff;
+        font-size: 16px;
+        padding: 15px 15px;
+        text-transform: none;
+        letter-spacing: 0;
+        font-weight: 500;
+        margin-right: 5px;
+    }
+    .typewrite {
+        font-size: 45px;
+    }
+    .service-time.middle::before,
+    .service-time.middle::after {
+        display: none;
+    }
+    .service-time {
+        margin-top: 0;
+    }
+    .serv p {
+        display: none;
+    }
+    .inner-services {
+        margin: 0 0;
+    }
+    .form-contant {
+        float: left;
+        position: absolute;
+        width: 100%;
+        background: rgba(0, 0, 0, .8);
+        z-index: 1;
+        padding: 15px 30px;
+    }
+    #googleMap {
+        height: 540px !important;
+    }
+    .footer-info h3,
+    .subcriber-info h3 {
+        float: left;
+        width: 100%;
+    }
+    .footer-info p {
+        float: left;
+        width: 100%;
+    }
+    .logo2 a {
+        font-size: x-large;
+    }
+    .logo2 img {
+        width: 10%;
+    }
 }
-
-.logo2 img {
-    width: 10%;}
-	
-
-}
-
 
 @media (min-width:992px) and (max-width:1000px) {
-
-nav.main-menu .navbar-header {float: left;position: relative;top: 0px;right: 0;background: transparent;width: auto;height: auto;}	
-.right-header {float: right;margin: 11px 0;display: none;}
-nav.main-menu .navbar-toggler {border: solid #fff 2px;}
-.header-top div.container {display: flex;justify-content: center;}
-#navbar.navbar-collapse {float: left;width: 100%;padding: 0;}
-.header-bottom nav.main-menu ul.nav.navbar-nav > li a {color: #fff;font-size: 16px;padding: 15px 15px;
-    text-transform: none;letter-spacing: 0;font-weight: 500;margin-right: 5px;}
-.typewrite {font-size: 45px;}	
-.service-time.middle::before,.service-time.middle::after {display:none;}
-.serv p {display: none;}
-.inner-services {margin: 0 0;}
-.form-contant {float: left;position: absolute;width: 100%;background: rgba(0,0,0,.8);z-index: 1;padding: 15px 30px;}
-.footer-info h3, .subcriber-info h3 {float: left;width: 100%;}
-.footer-info p {float: left;width: 100%;}
-.service-time {padding: 50px 25px;}
-.pricing-table-header h2 {font-size: 25px;}
-.pricing-table-features {padding: 0 10px 15px 0;}
-.logo2 a {
-    font-size: small;
+    nav.main-menu .navbar-header {
+        float: left;
+        position: relative;
+        top: 0px;
+        right: 0;
+        background: transparent;
+        width: auto;
+        height: auto;
+    }
+    .right-header {
+        float: right;
+        margin: 11px 0;
+        display: none;
+    }
+    nav.main-menu .navbar-toggler {
+        border: solid #fff 2px;
+    }
+    .header-top div.container {
+        display: flex;
+        justify-content: center;
+    }
+    #navbar.navbar-collapse {
+        float: left;
+        width: 100%;
+        padding: 0;
+    }
+    .header-bottom nav.main-menu ul.nav.navbar-nav>li a {
+        color: #fff;
+        font-size: 16px;
+        padding: 15px 15px;
+        text-transform: none;
+        letter-spacing: 0;
+        font-weight: 500;
+        margin-right: 5px;
+    }
+    .typewrite {
+        font-size: 45px;
+    }
+    .service-time.middle::before,
+    .service-time.middle::after {
+        display: none;
+    }
+    .serv p {
+        display: none;
+    }
+    .inner-services {
+        margin: 0 0;
+    }
+    .form-contant {
+        float: left;
+        position: absolute;
+        width: 100%;
+        background: rgba(0, 0, 0, .8);
+        z-index: 1;
+        padding: 15px 30px;
+    }
+    .footer-info h3,
+    .subcriber-info h3 {
+        float: left;
+        width: 100%;
+    }
+    .footer-info p {
+        float: left;
+        width: 100%;
+    }
+    .service-time {
+        padding: 50px 25px;
+    }
+    .pricing-table-header h2 {
+        font-size: 25px;
+    }
+    .pricing-table-features {
+        padding: 0 10px 15px 0;
+    }
+    .logo2 a {
+        font-size: small;
+    }
+    .logo2 img {
+        width: 5%;
+    }
 }
 
-.logo2 img {
-    width: 5%;}
-	
+@media (min-width:1001px) and (max-width:1199px) {
+    .header-bottom nav.main-menu ul.nav.navbar-nav>li a {
+        padding: 20px 18px;
+    }
+    .info-inner {
+        float: left;
+        margin-left: 30px;
+    }
 }
 
-@media (min-width:1001px) and (max-width:1199px) { 	
-
-.header-bottom nav.main-menu ul.nav.navbar-nav > li a {padding: 20px 18px;}
-.info-inner {float: left;margin-left: 30px;}
-
+@media (min-width:1200px) and (max-width:1240px) {
+    .info-inner {
+        float: left;
+        margin-left: 30px;
+    }
 }
-
-@media (min-width:1200px) and (max-width:1240px) {  
-
-.info-inner {float: left;margin-left: 30px;}
-
-}
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

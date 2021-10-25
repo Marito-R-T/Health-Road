@@ -1,9 +1,9 @@
-.modified-buttons{
+.modified-buttons {
     float: right;
     display: block ruby;
 }
 
-.modified-buttons button{
+.modified-buttons button {
     background: transparent;
     border: none;
 }
@@ -12,7 +12,7 @@
     color: green;
 }
 
-.dias{
+.dias {
     display: block ruby;
 }
 
@@ -20,8 +20,36 @@
     background-color: #39b49b;
     border-color: #39b49b;
 }
-.form-check-input[type="checkbox"] {
-    border: solid;
 
 .badge {
     background-color: cadetblue;
+}
+
+.out-service {
+    background-color: tomato;
+}
+
+.btn-check:checked + .btn-outline-success {
+    color: #fff;
+    background-color: cadetblue;
+    border-color: cadetblue;
+}
+
+.btn-check:checked + .btn-outline-danger {
+    color: #fff;
+    background-color: tomato;
+    border-color: tomato;
+}
+
+
+.btn-outline-success:hover {
+    color: #fff;
+    background-color: cadetblue;
+    border-color: cadetblue;
+}
+
+.btn-outline-danger:hover {
+    color: #fff;
+    background-color: tomato;
+    border-color: tomato;
+}

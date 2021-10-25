@@ -5,7 +5,7 @@ var url = require('url');
 const { static_files_public, root_path } = require('../absolutepath')
 const fs = require('fs');
 const { hospital, user } = require('../models/connection_db');
-const { upload } = require('./functions')
+const { upload } = require('./functions');
 
 
 //create a hospital historia 17
@@ -63,24 +63,25 @@ router.post('/update/', async (req, res) => {
                         name: hospital_info.name,
                         description: hospital_info.description,
                         payment_type: hospital_info.payment_type ? hospital_info.payment_type : 0,
-                        director_name: hospital_info.director_name ? hospital_info.director_name : '',
+                        director_name: hospital_info.director_name ? hospital_info.director_name : ''
+                        
                     }, {
+                        
                         where: {
                             user: req.session.user
                         }
                     }).then(e => {
                         if (e && e[0]) {
-                            user.update(
-                                {
-                                    email: hospital_info.email,
-                                }, {
+                            user.update({
+                                email: hospital_info.email,
+                                celphone: hospital_info.celphone ? hospital_info.celphone : null,
+                            }, {
                                 where: {
                                     user: req.session.user
                                 }
-                            }
-                            )
+                            })
 
-                            res.redirect(url.format({ pathname: '/Hospital/Services', query: { tabs: tab, title: 'Exito', message: 'Actualizacion realizada con exito', type: 'success' } }));
+                            res.redirect(url.format({ pathname: '/Hospital/Services', query: { title: 'Exito', message: 'Actualizacion realizada con exito', type: 'success' } }));
                         } else {
                             res.redirect(url.format({ pathname: '/Hospital/Update', query: { title: 'Error', message: 'Error al actualizar, verifica que exista', type: 'error' } }));
                         }
@@ -99,88 +100,107 @@ router.post('/update/', async (req, res) => {
 })
 
 //historia 39
-router.delete('/delete/', async (req, res) => {
+router.post('/delete/', async (req, res) => {
     const hospital_info = req.body;
-    const exist = await hospital.findByPk(hospital_info.user);
-    if (exist) {
-        hospital.update({
-            status: true
-        }, {
-            where: {
-                user: hospital_info.user
-            }
-        }).then((e) => {
-            if (e && e[0]) {
-                res.send("Hospital eliminado")
-            } else {
-                res.send("Error al eliminar el hospital, verifique que exista")
-            }
-        })
-            .catch(err => {
-                res.send("No se pudo eliminar, intente de nuevo")
+    const exist = await hospital.findByPk(req.session.user);
+    if (hospital_info.confirmation != hospital_info.name) {
+        res.redirect(url.format({ pathname: '/Hospital/Services', query: { title: 'Error', message: 'Incorrecta confirmacion', type: 'error' } }));
+    }else{
+        if (exist) {
+            hospital.update({
+                status: true
+            }, {
+                where: {
+                    user: req.session.user
+                }
+            }).then((e) => {
+                if (e && e[0]) {
+                    user.update({
+                        status:false
+                    },{
+                        where:{
+                            user: req.session.user
+                        }
+                    })
+                    res.redirect(url.format({ pathname: '/', query: { title: 'Exito', message: 'Cuenta eliminada con exito', type: 'success' } }));
+                } else {
+                    rres.redirect(url.format({ pathname: '/', query: { title: 'Error', message: 'Verifique la existencia de la cuenta', type: 'error' } }));
+                }
             })
-    } else {
-        res.send("Error al eliminar, no existe el hospital")
+                .catch(err => {
+                    res.redirect(url.format({ pathname: '/Hospital', query: { title: 'Error', message: 'No se pudo eliminar la cuenta', type: 'error' } }));
+                })
+        } else {
+            res.redirect(url.format({ pathname: '/', query: { title: 'Error', message: 'Error al eliminar no existe la cuenta', type: 'error' } }));
+        }
     }
+    
 })
 
 //historia 16
-router.put('/add-photo/', upload.single('photo'), async (req, res) => {
-    let data = await hospital.findByPk(req.body.user)
+router.post('/add-photo/', upload.single('photo'), async (req, res) => {
+    let data = await hospital.findByPk(req.session.user)
     let photos = data.photos
     if (photos) {
-        const count = Object.keys(photos).length + 1
-        photos[count.toString()] = req.file.path
+        const count = Object.keys(photos).length
+        photos[count.toString()] = req.file.filename
     } else {
-        photos = {}
-        photos["0"] = req.file.path
+        photos = []
+        photos["0"] = req.file.filename
     }
-    await hospital.update({ photos: photos },
-        {
-            where: {
-                user: req.body.user
-            }
+    await hospital.update({ photos: photos }, {
+        where: {
+            user: req.session.user
         }
-    ).then(e => {
+    }).then(e => {
         if (e && e[0]) {
-            res.send("Foto agregada")
+            res.redirect(url.format({ pathname: '/Hospital/Gallery', query: { title: 'Exito', message: 'Foto agregada correctamente', type: 'success' } }));
         } else {
-            res.send("error al agregar foto, verifique que exista el hospital")
+            res.redirect(url.format({ pathname: '/Hospital/Update', query: { title: 'Error', message: 'Error al agregar la fotografia', type: 'error' } }));
         }
-    }
-    )
+    })
         .catch(error => {
-            res.send("No se pudo agregar la foto, intente de nuevo")
-        }
-        );
+            res.redirect(url.format({ pathname: '/Hospital/Update', query: { title: 'Error', message: 'No se pudo agregar la fotografia, intente de nuevo', type: 'error' } }));
+        });
 });
 
 //delete hospital photos history 59
-router.put('/delete-photos/', async (req, res) => {
-    const photos = {}
-    for (const key in req.body) {
-        const path_img = req.body[key]
-        if (path_img && key != "user") {
-            photos[key] = path_img
-            try {
-                fs.unlinkSync(root_path + "/" + path_img)
-            } catch (error) { }
-        }
+router.post('/delete-photos/', async (req, res) => {
+
+    let data = await hospital.findByPk(req.session.user)
+
+    const photo_info = req.body;
+    if (photo_info.confirmation != data.name) {
+        res.redirect(url.format({ pathname: '/Hospital/Gallery', query: { title: 'Error', message: 'Incorrecta confirmacion', type: 'error' } }));
+    } else {
+        const photos = data.photos;
+        let path_img = photo_info.name_photo;
+        let id_photo = photo_info.id_photo;
+        var result = [];
+
+        for (var i in photos)
+            
+            result.push(photos[i]);
+        result.splice(id_photo, 1);
+        await hospital.update({ photos: result }, {
+            where: { user: req.session.user }
+        }).then(e => {
+            if (e && e[0]) {
+                try {
+                    fs.unlinkSync(root_path + "/uploads/" + path_img)
+                } catch (error) {
+
+                }
+                res.redirect(url.format({ pathname: '/Hospital/Gallery', query: { title: 'Exito', message: 'Fotos eliminadas exitosamente', type: 'success' } }));
+            } else {
+                res.redirect(url.format({ pathname: '/Hospital/Gallery', query: { title: 'Error', message: 'No se pudo eliminar la foto', type: 'error' } }));
+            }
+        }).catch(er => {
+
+            res.redirect(url.format({ pathname: '/Hospital/Gallery', query: { title: 'Error', message: 'Error en la eliminacion, intente de nuevo', type: 'error' } }));
+        })
     }
-    await hospital.update({ photos: photos },
-        {
-            where: { user: req.body.user }
-        }
-    ).then(e => {
-        console.log(req.body.user, photos, e)
-        if (e && e[0]) {
-            res.send("Fotos eliminadas exitosamente")
-        } else {
-            res.send("No se pudo eliminar la fotos")
-        }
-    }).catch(er => {
-        res.send("Error al eliminar las fotos, intente de nuevo")
-    })
+
 });
 
 module.exports.hospital_router = router;
