@@ -256,7 +256,7 @@ var favorites = sequelize.define('Favorites', {
 
 var creditCard = sequelize.define('CreditCard', {
     card_number:{
-        type: DataTypes.INTEGER,
+        type: DataTypes.BIGINT,
         allowNull: false,
         primaryKey: true,
     },
@@ -267,6 +267,11 @@ var creditCard = sequelize.define('CreditCard', {
     cvv:{
         type: DataTypes.INTEGER,
         allowNull: false,
+    },
+    holder:{
+        type: DataTypes.TEXT,
+        allowNull: true,
+        defaultValue: ''
     }
 }, {
     freezeTableName: true,

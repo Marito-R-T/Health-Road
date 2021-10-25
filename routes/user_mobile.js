@@ -199,4 +199,25 @@ router.delete('/eliminar-credit-card/',(req, res)=>{
     })
 })
 
+router.post('/get-credit-card/',(req, res)=>{
+    creditCard.findOne(
+        {
+            where:{
+                user: req.body.user
+            }
+        }
+    )
+    .then(e=>{
+        if(e){
+            res.status(201).json(e)
+        }else{
+            res.status(400).json({error:"No se encontro la tarjeta"})
+        }
+    })
+    .catch(err=>{
+        console.error(err)
+        res.status(500).json({ error:"No se encontra la tarjeta de credito"})
+    })
+})
+
 module.exports.user_router_mobile = router;
