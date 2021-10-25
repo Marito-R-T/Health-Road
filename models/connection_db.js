@@ -256,8 +256,8 @@ var favorites = sequelize.define('Favorites', {
 
 var creditCard = sequelize.define('CreditCard', {
     card_number:{
-        type: DataTypes.TEXT,
-        allowNull: false,
+        type: DataTypes.CHAR(length =17),
+        allowNull: true,
         primaryKey: true,
     },
     expiration:{
@@ -374,6 +374,7 @@ ambulance_driver.hasMany(hospital,{
 //service.sync({ alter: true }).then(function() {});
 
 //creditCard.sync({ alter: true }).then(function() {})
+//creditCard.sync({ force: true }).then(function() {})
 //hospital.sync({ alter: true }).then(function() {});
 function alter_table() {
     hospital.sync({ alter: true }).then(function() {});
