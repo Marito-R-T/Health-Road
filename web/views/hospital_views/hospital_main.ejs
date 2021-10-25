@@ -193,29 +193,49 @@
                                                             </span>
 
                                                             <br>
-                                                            <small> <i class="fas fa-star"></i><i
-                                                                    class="fas fa-star-half-alt"></i><i
-                                                                    class="far fa-star"></i><i
-                                                                    class="far fa-star"></i><i
-                                                                    class="far fa-star"></i></small>
-                                                            <small class="modified-buttons">
-                                                                <form action="/Hospital/UpdateService">
-                                                                    <input type="text" hidden class="form-control"
-                                                                        name="name" value="<%- services[i].name %>">
-                                                                    <button type="submit" class="form">
-                                                                        <i class="far fa-edit"></i>
-                                                                    </button>
-                                                                </form>
+                                                            <% if(locals.rates){ console.log(rates[0]); %>
+                                                                <% for(var j=0; j<rates.length; j++) {%>
+                                                                    <% if(rates[j].name==services[i].name){ %>
+                                                                        <small>
+                                                                            <% var number=5 - rates[i].scores; for(var
+                                                                                k=0; k<rates[j].scores; k++) {%>
+
+                                                                                <i class="fas fa-star"></i>
+
+                                                                                <%}
+                                                                                for(var
+                                                                                k=0; k<number; k++){ %>
+                                                                                    <i class="far fa-star"></i>
+                                                                        </small>
+                                                                        <%} %>
+                                                                            <%} %>
+                                                                                <%} %>
+                                                                                <%} %>
+                                                                                    <small class="modified-buttons">
+                                                                                        <form
+                                                                                            action="/Hospital/UpdateService">
+                                                                                            <input type="text" hidden
+                                                                                                class="form-control"
+                                                                                                name="name"
+                                                                                                value="<%- services[i].name %>">
+                                                                                            <button type="submit"
+                                                                                                class="form">
+                                                                                                <i
+                                                                                                    class="far fa-edit"></i>
+                                                                                            </button>
+                                                                                        </form>
 
 
-                                                                <button class="form" data-bs-toggle="modal"
-                                                                    data-bs-target="#delete_service"
-                                                                    onclick="send_service_name('<%- services[i].name %>')">
-                                                                    <i class="far fa-trash-alt"></i>
-                                                                </button>
+                                                                                        <button class="form"
+                                                                                            data-bs-toggle="modal"
+                                                                                            data-bs-target="#delete_service"
+                                                                                            onclick="send_service_name('<%- services[i].name %>')">
+                                                                                            <i
+                                                                                                class="far fa-trash-alt"></i>
+                                                                                        </button>
 
 
-                                                            </small>
+                                                                                    </small>
                                                         </div>
 
 
@@ -277,17 +297,18 @@
                                                                                 class="d-flex w-100 justify-content-between">
                                                                                 <h5 class="mb-1">
                                                                                     <%= ambulance_driver[i].name %>
-                                                                                    <%= ambulance_driver[i].last_name %>
+                                                                                        <%= ambulance_driver[i].last_name
+                                                                                            %>
                                                                                 </h5>
 
-                                                                                
+
                                                                             </div>
                                                                             <div
                                                                                 class="d-flex w-100 justify-content-between">
                                                                                 <p class="mb-1">
                                                                                     <%- ambulance_driver[i].user %>
                                                                                 </p>
-                                                                                
+
                                                                             </div>
                                                                             <span
                                                                                 class="badge badge-pill badge-secondary">
@@ -295,11 +316,12 @@
                                                                             </span>
 
                                                                             <br>
-                                                                           
+
                                                                             <small class="modified-buttons">
                                                                                 <form action="/Hospital/UpdateUsers">
                                                                                     <input type="text" hidden
-                                                                                        class="form-control" name="user_name"
+                                                                                        class="form-control"
+                                                                                        name="user_name"
                                                                                         value="<%- ambulance_driver[i].user %>">
                                                                                     <button type="submit" class="form">
                                                                                         <i class="far fa-edit"></i>
@@ -310,8 +332,7 @@
                                                                                 <button class="form"
                                                                                     data-bs-toggle="modal"
                                                                                     onclick="send_driver('<%- ambulance_driver[i].user %>')"
-                                                                                    data-bs-target="#delete_driver"
-                                                                                    >
+                                                                                    data-bs-target="#delete_driver">
                                                                                     <i class="far fa-trash-alt"></i>
                                                                                 </button>
 
