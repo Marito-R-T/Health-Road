@@ -1,0 +1,10 @@
+ambulance driver 2
+category_mobile 1
+category 0
+hospital_mobile 0
+hospital 2
+html to pdf 1
+send_emait 1
+service_mobile 0
+services 2
+
