@@ -256,7 +256,7 @@ var favorites = sequelize.define('Favorites', {
 
 var creditCard = sequelize.define('CreditCard', {
     card_number:{
-        type: DataTypes.BIGINT,
+        type: DataTypes.TEXT,
         allowNull: false,
         primaryKey: true,
     },

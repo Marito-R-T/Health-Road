@@ -161,6 +161,7 @@ router.post('/register-credit-card/',(req, res)=>{
             res.status(400).json({ error:"No se pudo registrar la tarjeta, intente de nuevo"})
         }
     }).catch(err=>{
+        console.log(err)
         res.status(500).json({ error:"No se pudo registrar la tarjeta, intente de nuevo"})
     })
 })
