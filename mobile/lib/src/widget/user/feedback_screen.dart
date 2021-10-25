@@ -1,3 +1,10 @@
+import 'package:flutter_credit_card/credit_card_brand.dart';
+import 'package:flutter_credit_card/credit_card_widget.dart';
+import 'package:flutter_credit_card/flutter_credit_card.dart';
+import 'package:mobile/src/models/Credit.dart';
+import 'package:mobile/src/models/User.dart';
+import 'package:mobile/src/service/http_users.dart';
+import 'package:mobile/src/widget/homepage/design_course_app_theme.dart';
 import 'package:mobile/src/widget/user/app_theme.dart';
 import 'package:flutter/material.dart';
 
@@ -7,8 +14,31 @@ class FeedbackScreen extends StatefulWidget {
 }
 
 class _FeedbackScreenState extends State<FeedbackScreen> {
+  String cardNumber = '';
+  String expiryDate = '';
+  String cardHolderName = '';
+  String cvvCode = '';
+  bool enabled = true;
+  bool isCvvFocused = false;
+  bool useGlassMorphism = false;
+  bool useBackgroundImage = false;
+  OutlineInputBorder? border;
+  final GlobalKey<FormState> formKey = GlobalKey<FormState>();
+  Users users = Users();
+
   @override
   void initState() {
+    users.getCreditCard(User.logged!.user).then((value) {
+      if (value != null) {
+        setState(() {
+          cardNumber = value.card_number;
+          cvvCode = value.cvv.toString();
+          cardHolderName = value.holder!;
+          expiryDate = Credit.covertToexpiration(value.expiration!);
+          enabled = false;
+        });
+      }
+    });
     super.initState();
   }
 
@@ -20,79 +50,205 @@ class _FeedbackScreenState extends State<FeedbackScreen> {
         top: false,
         child: Scaffold(
           backgroundColor: AppTheme.nearlyWhite,
-          body: SingleChildScrollView(
-            child: SizedBox(
-              height: MediaQuery.of(context).size.height,
-              child: ListView(
+          body: Container(
+            decoration: const BoxDecoration(
+              color: DesignCourseAppTheme.nearlyWhite,
+            ),
+            child: SafeArea(
+              child: Column(
                 children: <Widget>[
-                  Container(
-                    padding: EdgeInsets.only(
-                        top: MediaQuery.of(context).padding.top,
-                        left: 16,
-                        right: 16),
-                    child: Image.asset('images/feedbackImage.png'),
+                  const SizedBox(
+                    height: 30,
                   ),
-                  Container(
-                    padding: const EdgeInsets.only(top: 8),
-                    child: Text(
-                      'Your FeedBack',
-                      style: TextStyle(
-                        fontSize: 20,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                  ),
-                  Container(
-                    padding: const EdgeInsets.only(top: 16),
-                    child: const Text(
-                      'Give your best time for this moment.',
-                      textAlign: TextAlign.center,
-                      style: TextStyle(
-                        fontSize: 16,
-                      ),
-                    ),
-                  ),
-                  _buildComposer(),
-                  Padding(
-                    padding: const EdgeInsets.only(top: 16),
-                    child: Center(
-                      child: Container(
-                        width: 120,
-                        height: 40,
-                        decoration: BoxDecoration(
-                          color: Colors.blue,
-                          borderRadius:
-                              const BorderRadius.all(Radius.circular(4.0)),
-                          boxShadow: <BoxShadow>[
-                            BoxShadow(
-                                color: Colors.grey.withOpacity(0.6),
-                                offset: const Offset(4, 4),
-                                blurRadius: 8.0),
-                          ],
+                  CreditCardWidget(
+                    glassmorphismConfig:
+                        useGlassMorphism ? Glassmorphism.defaultConfig() : null,
+                    cardNumber: cardNumber,
+                    expiryDate: expiryDate,
+                    cardHolderName: cardHolderName,
+                    cvvCode: cvvCode,
+                    showBackView: isCvvFocused,
+                    obscureCardNumber: true,
+                    obscureCardCvv: true,
+                    isHolderNameVisible: true,
+                    cardBgColor: DesignCourseAppTheme.nearlyBlue,
+                    isSwipeGestureEnabled: true,
+                    onCreditCardWidgetChange:
+                        (CreditCardBrand creditCardBrand) {},
+                    customCardTypeIcons: <CustomCardTypeIcon>[
+                      CustomCardTypeIcon(
+                        cardType: CardType.mastercard,
+                        cardImage: Image.asset(
+                          'homepage/icon-logo.png',
+                          height: 48,
+                          width: 48,
                         ),
-                        child: Material(
-                          color: Colors.transparent,
-                          child: InkWell(
-                            onTap: () {
-                              FocusScope.of(context).requestFocus(FocusNode());
-                            },
-                            child: Center(
-                              child: Padding(
-                                padding: const EdgeInsets.all(4.0),
-                                child: Text(
-                                  'Send',
-                                  style: TextStyle(
-                                    fontWeight: FontWeight.w500,
-                                    color: Colors.white,
-                                  ),
+                      ),
+                    ],
+                  ),
+                  Expanded(
+                    child: SingleChildScrollView(
+                      child: Column(
+                        children: <Widget>[
+                          CreditCardForm(
+                            formKey: formKey,
+                            obscureCvv: true,
+                            obscureNumber: true,
+                            cardNumber: cardNumber,
+                            cvvCode: cvvCode,
+                            isHolderNameVisible: true,
+                            isCardNumberVisible: true,
+                            isExpiryDateVisible: true,
+                            cardHolderName: cardHolderName,
+                            expiryDate: expiryDate,
+                            themeColor: Colors.blue,
+                            textColor: DesignCourseAppTheme.darkerText,
+                            cardNumberDecoration: InputDecoration(
+                              labelText: 'Number',
+                              hintText: 'XXXX XXXX XXXX XXXX',
+                              hintStyle: const TextStyle(
+                                  color: DesignCourseAppTheme.darkText),
+                              labelStyle: const TextStyle(
+                                  color: DesignCourseAppTheme.darkerText),
+                              focusedBorder: border,
+                              enabledBorder: border,
+                              enabled: enabled,
+                            ),
+                            expiryDateDecoration: InputDecoration(
+                              hintStyle: const TextStyle(
+                                  color: DesignCourseAppTheme.darkText),
+                              labelStyle: const TextStyle(
+                                  color: DesignCourseAppTheme.darkerText),
+                              focusedBorder: border,
+                              enabledBorder: border,
+                              labelText: 'Expired Date',
+                              hintText: 'XX/XX',
+                              enabled: enabled,
+                            ),
+                            cvvCodeDecoration: InputDecoration(
+                              hintStyle: const TextStyle(
+                                  color: DesignCourseAppTheme.darkText),
+                              labelStyle: const TextStyle(
+                                  color: DesignCourseAppTheme.darkerText),
+                              focusedBorder: border,
+                              enabledBorder: border,
+                              labelText: 'CVV',
+                              hintText: 'XXX',
+                              enabled: enabled,
+                            ),
+                            cardHolderDecoration: InputDecoration(
+                              hintStyle: const TextStyle(
+                                  color: DesignCourseAppTheme.darkText),
+                              labelStyle: const TextStyle(
+                                  color: DesignCourseAppTheme.darkerText),
+                              focusedBorder: border,
+                              enabledBorder: border,
+                              labelText: 'Card Holder',
+                              enabled: enabled,
+                            ),
+                            onCreditCardModelChange: onCreditCardModelChange,
+                          ),
+                          const SizedBox(
+                            height: 20,
+                          ),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: <Widget>[
+                              const Text(
+                                'Modify',
+                                style: TextStyle(
+                                  color: Colors.white,
+                                  fontSize: 18,
                                 ),
                               ),
-                            ),
+                              Switch(
+                                value: useGlassMorphism,
+                                inactiveTrackColor: Colors.grey,
+                                activeColor: Colors.white,
+                                activeTrackColor:
+                                    DesignCourseAppTheme.nearlyBlue,
+                                onChanged: (bool value) => setState(() {
+                                  enabled = value;
+                                }),
+                              ),
+                            ],
                           ),
-                        ),
+                          const SizedBox(
+                            height: 20,
+                          ),
+                          ElevatedButton(
+                            style: ElevatedButton.styleFrom(
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(8.0),
+                              ),
+                              primary: const Color(0xff1b447b),
+                            ),
+                            child: Container(
+                              margin: const EdgeInsets.all(12),
+                              child: enabled
+                                  ? const Text(
+                                      'Add Credit Card',
+                                      style: TextStyle(
+                                        color: Colors.white,
+                                        fontFamily: 'halter',
+                                        fontSize: 14,
+                                        package: 'flutter_credit_card',
+                                      ),
+                                    )
+                                  : const Text(
+                                      'Change Credit Card',
+                                      style: TextStyle(
+                                        color: Colors.white,
+                                        fontFamily: 'halter',
+                                        fontSize: 14,
+                                        package: 'flutter_credit_card',
+                                      ),
+                                    ),
+                            ),
+                            onPressed: () {
+                              if (formKey.currentState!.validate()) {
+                                print('format' +
+                                    Credit.convertexpiration(expiryDate));
+                                users
+                                    .createCreditCard(
+                                        cvvCode,
+                                        cardNumber,
+                                        expiryDate,
+                                        User.logged!.user,
+                                        cardHolderName)
+                                    .then((value) {
+                                  if (value != null) {
+                                    ScaffoldMessenger.of(context)
+                                        .showSnackBar(const SnackBar(
+                                      content: Text('Se ha agregado con exito'),
+                                      duration: Duration(seconds: 2),
+                                    ));
+                                    setState(() {
+                                      enabled = false;
+                                    });
+                                  } else {
+                                    ScaffoldMessenger.of(context)
+                                        .showSnackBar(const SnackBar(
+                                      content: Text(
+                                          'Error al Agregar Tarjeta de Credito \n Ver si ya esta agregado a otra cuenta'),
+                                      duration: Duration(seconds: 2),
+                                    ));
+                                  }
+                                });
+                              } else {
+                                ScaffoldMessenger.of(context)
+                                    .showSnackBar(const SnackBar(
+                                  content: Text(
+                                      'Arreglar los campos mal ingresados'),
+                                  duration: Duration(seconds: 1),
+                                ));
+                              }
+                            },
+                          ),
+                        ],
                       ),
                     ),
-                  )
+                  ),
                 ],
               ),
             ),
@@ -102,7 +258,17 @@ class _FeedbackScreenState extends State<FeedbackScreen> {
     );
   }
 
-  Widget _buildComposer() {
+  void onCreditCardModelChange(CreditCardModel? creditCardModel) {
+    setState(() {
+      cardNumber = creditCardModel!.cardNumber;
+      expiryDate = creditCardModel.expiryDate;
+      cardHolderName = creditCardModel.cardHolderName;
+      cvvCode = creditCardModel.cvvCode;
+      isCvvFocused = creditCardModel.isCvvFocused;
+    });
+  }
+
+  /*Widget _buildComposer() {
     return Padding(
       padding: const EdgeInsets.only(top: 16, left: 32, right: 32),
       child: Container(
@@ -143,5 +309,5 @@ class _FeedbackScreenState extends State<FeedbackScreen> {
         ),
       ),
     );
-  }
+  }*/
 }
