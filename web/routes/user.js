@@ -86,6 +86,9 @@ router.post('/login/', async (req, res) => {
                 res.redirect(url.format({ pathname: '/', query: { title: 'Error', message: 'Usuario no encontrado', type: 'error' } }));
             }
         }).catch(err => {
+
+
+            console.log(err);
             res.redirect(url.format({ pathname: '/', query: { title: 'Error', message: 'Intente de nuevo', type: 'error' } }));
         })
     } else {

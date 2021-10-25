@@ -5,7 +5,6 @@ const { static_files_public, static_files_pdf } = require('../absolutepath')
 const fs = require('fs');
 var url = require('url');
 var Sequelize = require('sequelize');
-const Op = Sequelize.Op;
 const pdfwritter = require('./html_pdf')
 router.use((express.static(static_files_public)))
 router.use((express.static(static_files_pdf)))
