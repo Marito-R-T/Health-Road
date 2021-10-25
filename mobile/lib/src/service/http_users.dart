@@ -133,12 +133,6 @@ class Users {
           "holder": holder
         },
         encoding: Encoding.getByName("utf-8"));
-    print(user);
-    print(cvv);
-    print(cardNumber.replaceAll(" ", ""));
-    print(Credit.convertexpiration(expiration));
-    print(response.statusCode);
-    print(response.body);
     if (response.statusCode == 201) {
       return Credit.fromJson(jsonDecode(response.body));
     } else {
@@ -146,7 +140,7 @@ class Users {
     }
   }
 
-  Future<Credit?> updateCreditCard(String cvv, String cardNumber,
+  Future<bool> updateCreditCard(String cvv, String cardNumber,
       String expiration, String user, String holder) async {
     final response = await http.put(
         Uri.parse(
@@ -158,15 +152,15 @@ class Users {
         body: {
           'user': user,
           "cvv": cvv,
-          "card_number": cardNumber,
-          "expiration": expiration
+          "card_number": cardNumber.replaceAll(" ", ""),
+          "expiration": Credit.convertexpiration(expiration),
+          "holder": holder,
         },
         encoding: Encoding.getByName("utf-8"));
-    print(response.body);
     if (response.statusCode == 201) {
-      return Credit.fromJson(jsonDecode(response.body));
+      return true;
     } else {
-      return null;
+      return false;
     }
   }
 

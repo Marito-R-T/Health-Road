@@ -1,3 +1,4 @@
+import 'package:confirm_dialog/confirm_dialog.dart';
 import 'package:flutter_credit_card/credit_card_brand.dart';
 import 'package:flutter_credit_card/credit_card_widget.dart';
 import 'package:flutter_credit_card/flutter_credit_card.dart';
@@ -9,6 +10,8 @@ import 'package:mobile/src/widget/user/app_theme.dart';
 import 'package:flutter/material.dart';
 
 class FeedbackScreen extends StatefulWidget {
+  const FeedbackScreen({Key? key}) : super(key: key);
+
   @override
   _FeedbackScreenState createState() => _FeedbackScreenState();
 }
@@ -18,26 +21,20 @@ class _FeedbackScreenState extends State<FeedbackScreen> {
   String expiryDate = '';
   String cardHolderName = '';
   String cvvCode = '';
-  bool enabled = true;
+  bool create = false;
+  bool enabled = false;
   bool isCvvFocused = false;
   bool useGlassMorphism = false;
   bool useBackgroundImage = false;
+  late Future<Credit?>? credit;
   OutlineInputBorder? border;
   final GlobalKey<FormState> formKey = GlobalKey<FormState>();
   Users users = Users();
 
   @override
   void initState() {
-    users.getCreditCard(User.logged!.user).then((value) {
-      if (value != null) {
-        setState(() {
-          cardNumber = value.card_number;
-          cvvCode = value.cvv.toString();
-          cardHolderName = value.holder!;
-          expiryDate = Credit.covertToexpiration(value.expiration!);
-          enabled = false;
-        });
-      }
+    setState(() {
+      credit = users.getCreditCard(User.logged!.user);
     });
     super.initState();
   }
@@ -60,9 +57,43 @@ class _FeedbackScreenState extends State<FeedbackScreen> {
                   const SizedBox(
                     height: 30,
                   ),
+                  FutureBuilder<Credit?>(
+                    future: credit,
+                    builder: (context, snapshot) {
+                      if (snapshot.hasData) {
+                        create = false;
+                        return Center(
+                            child: Text(
+                          'Tarjeta Ya Ingresada con el Nombre de: \n                             ${snapshot.data!.holder}',
+                          textAlign: TextAlign.left,
+                          style: const TextStyle(
+                            fontWeight: FontWeight.w600,
+                            fontSize: 18,
+                            letterSpacing: 0.0,
+                            color: DesignCourseAppTheme.nearlyBlack,
+                          ),
+                        ));
+                      } else {
+                        create = true;
+                        enabled = true;
+                        return const Center(
+                            child: Text(
+                          'No Tiene Ninguna Tarjeta Ingresada',
+                          textAlign: TextAlign.left,
+                          style: TextStyle(
+                            fontWeight: FontWeight.w600,
+                            fontSize: 22,
+                            letterSpacing: 0.0,
+                            color: DesignCourseAppTheme.nearlyBlack,
+                          ),
+                        ));
+                      }
+                    },
+                  ),
+                  const SizedBox(
+                    height: 30,
+                  ),
                   CreditCardWidget(
-                    glassmorphismConfig:
-                        useGlassMorphism ? Glassmorphism.defaultConfig() : null,
                     cardNumber: cardNumber,
                     expiryDate: expiryDate,
                     cardHolderName: cardHolderName,
@@ -157,12 +188,12 @@ class _FeedbackScreenState extends State<FeedbackScreen> {
                               const Text(
                                 'Modify',
                                 style: TextStyle(
-                                  color: Colors.white,
+                                  color: Colors.black,
                                   fontSize: 18,
                                 ),
                               ),
                               Switch(
-                                value: useGlassMorphism,
+                                value: enabled,
                                 inactiveTrackColor: Colors.grey,
                                 activeColor: Colors.white,
                                 activeTrackColor:
@@ -185,7 +216,7 @@ class _FeedbackScreenState extends State<FeedbackScreen> {
                             ),
                             child: Container(
                               margin: const EdgeInsets.all(12),
-                              child: enabled
+                              child: create
                                   ? const Text(
                                       'Add Credit Card',
                                       style: TextStyle(
@@ -207,34 +238,11 @@ class _FeedbackScreenState extends State<FeedbackScreen> {
                             ),
                             onPressed: () {
                               if (formKey.currentState!.validate()) {
-                                print('format' +
-                                    Credit.convertexpiration(expiryDate));
-                                users
-                                    .createCreditCard(
-                                        cvvCode,
-                                        cardNumber,
-                                        expiryDate,
-                                        User.logged!.user,
-                                        cardHolderName)
-                                    .then((value) {
-                                  if (value != null) {
-                                    ScaffoldMessenger.of(context)
-                                        .showSnackBar(const SnackBar(
-                                      content: Text('Se ha agregado con exito'),
-                                      duration: Duration(seconds: 2),
-                                    ));
-                                    setState(() {
-                                      enabled = false;
-                                    });
-                                  } else {
-                                    ScaffoldMessenger.of(context)
-                                        .showSnackBar(const SnackBar(
-                                      content: Text(
-                                          'Error al Agregar Tarjeta de Credito \n Ver si ya esta agregado a otra cuenta'),
-                                      duration: Duration(seconds: 2),
-                                    ));
-                                  }
-                                });
+                                if (create) {
+                                  _createCreditCard();
+                                } else {
+                                  _updateCreditCard();
+                                }
                               } else {
                                 ScaffoldMessenger.of(context)
                                     .showSnackBar(const SnackBar(
@@ -258,6 +266,59 @@ class _FeedbackScreenState extends State<FeedbackScreen> {
     );
   }
 
+  void _createCreditCard() {
+    users
+        .createCreditCard(
+            cvvCode, cardNumber, expiryDate, User.logged!.user, cardHolderName)
+        .then((value) {
+      if (value != null) {
+        ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+          content: Text('Se ha agregado con exito'),
+          duration: Duration(seconds: 2),
+        ));
+        setState(() {
+          enabled = false;
+          create = false;
+        });
+      } else {
+        ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+          content: Text(
+              'Error al Agregar Tarjeta de Credito \n Ver si ya esta agregado a otra cuenta'),
+          duration: Duration(seconds: 2),
+        ));
+      }
+    });
+  }
+
+  void _updateCreditCard() async {
+    if (await confirm(context,
+        title: const Text('Change Credit Card'),
+        content: const Text('Are you want change your credit card?'))) {
+      users
+          .updateCreditCard(cvvCode, cardNumber, expiryDate, User.logged!.user,
+              cardHolderName)
+          .then((value) {
+        if (value) {
+          ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+            content: Text('Se ha cambiado con exito'),
+            duration: Duration(seconds: 2),
+          ));
+          setState(() {
+            enabled = false;
+            create = false;
+            credit = users.getCreditCard(User.logged!.user);
+          });
+        } else {
+          ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+            content: Text(
+                'Error al Cambiar Tarjeta de Credito \n Ver si ya esta agregado a otra cuenta'),
+            duration: Duration(seconds: 2),
+          ));
+        }
+      });
+    }
+  }
+
   void onCreditCardModelChange(CreditCardModel? creditCardModel) {
     setState(() {
       cardNumber = creditCardModel!.cardNumber;
@@ -267,47 +328,4 @@ class _FeedbackScreenState extends State<FeedbackScreen> {
       isCvvFocused = creditCardModel.isCvvFocused;
     });
   }
-
-  /*Widget _buildComposer() {
-    return Padding(
-      padding: const EdgeInsets.only(top: 16, left: 32, right: 32),
-      child: Container(
-        decoration: BoxDecoration(
-          color: AppTheme.white,
-          borderRadius: BorderRadius.circular(8),
-          boxShadow: <BoxShadow>[
-            BoxShadow(
-                color: Colors.grey.withOpacity(0.8),
-                offset: const Offset(4, 4),
-                blurRadius: 8),
-          ],
-        ),
-        child: ClipRRect(
-          borderRadius: BorderRadius.circular(25),
-          child: Container(
-            padding: const EdgeInsets.all(4.0),
-            constraints: const BoxConstraints(minHeight: 80, maxHeight: 160),
-            color: AppTheme.white,
-            child: SingleChildScrollView(
-              padding:
-                  const EdgeInsets.only(left: 10, right: 10, top: 0, bottom: 0),
-              child: TextField(
-                maxLines: null,
-                onChanged: (String txt) {},
-                style: TextStyle(
-                  fontFamily: AppTheme.fontName,
-                  fontSize: 16,
-                  color: AppTheme.dark_grey,
-                ),
-                cursorColor: Colors.blue,
-                decoration: InputDecoration(
-                    border: InputBorder.none,
-                    hintText: 'Enter your feedback...'),
-              ),
-            ),
-          ),
-        ),
-      ),
-    );
-  }*/
 }
