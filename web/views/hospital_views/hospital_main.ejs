@@ -552,12 +552,12 @@
         <%- include("../include/scripts") %>
             <% if (locals.rates && locals.names) { %>
                 <script>
-                    var test = <%- JSON.stringify(rates) %>;
+                    var test = <%-JSON.stringify(rates)%>;
                     var result_scores = [];
                     for (var i in test)
                         result_scores.push(test[i].scores);
 
-                    var test2 = <%- JSON.stringify(names) %>;
+                    var test2 = <%-JSON.stringify(names)%>;
                     var result_names = [];
                     var colors = [];
                     for (var i in test2){
