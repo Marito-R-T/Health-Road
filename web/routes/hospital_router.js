@@ -81,6 +81,12 @@ router.get('/AddDriver/', (req, res) => {
 
 })
 
+router.get('/Get_Rates/', (req, res) => {
+
+    res.redirect("/service/get-rates/all-services")
+
+})
+
 router.get('/Update/', async (req, res) => {
     let response = await getHospitalInfo(req);
     if (response.message) {
@@ -179,6 +185,10 @@ router.get('/Services/', async (req, res) => {
         }));
     } else {
         const rates = await service.findAll({
+            where:{
+                hospital_user: req.session.user,
+                deleted:false
+            },
             include: [{
                 model: service_rates,
                 required: true,
@@ -332,6 +342,58 @@ router.get('/Gallery/', async (req, res) => {
             gallery: 'active show'
         }
         res.render("hospital_views/hospital_main", { hospital: response, tabs: tab, gallery: response.gallery });
+    }
+})
+
+router.get('/Rates/', async (req, res) => {
+    let response = await getHospitalInfo(req);
+    if (response.message) {
+        res.redirect(url.format({
+            pathname: '/',
+            query: {
+                title: response.title,
+                message: response.message,
+                type: response.type
+            }
+        }));
+    } else {
+        const names = await service.findAll({
+            where:{
+                hospital_user: req.session.user,
+                deleted:false
+            },
+            include: [{
+                model: service_rates,
+                required: true,
+                attributes: []
+            },],
+            attributes: [
+                'name'
+            ],
+            group: ['name'],
+            raw:true
+        })
+        const rates = await service.findAll({
+            where:{
+                hospital_user: req.session.user,
+                deleted:false
+            },
+            include: [{
+                model: service_rates,
+                required: true,
+                attributes: []
+            },],
+            attributes: [ [sequelize.cast(sequelize.fn('AVG', sequelize.col('ServiceRates.score')),'int'), 'scores']
+            ],
+            group: ['name'],
+        })
+        let tab = {
+            service: '',
+            users: '',
+            rates: 'active show',
+            gallery: ''
+        }
+        res.render("hospital_views/hospital_main", { hospital: response, tabs: tab, rates: rates, names:names });
     }
 })
 
