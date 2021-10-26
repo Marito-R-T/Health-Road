@@ -3,7 +3,7 @@ const { Sequelize, DataTypes, Model } = require('sequelize');
 //credentials
 //const USER = '
 //const USER = 'marito';
-const USER = 'postgres';
+/*const USER = 'postgres';
 const HOST = 'localhost';
 const DATABASE = 'health_road';
 const PASSWORD = 'Odra20$'
@@ -15,6 +15,27 @@ const sequelize = new Sequelize(DATABASE, USER, PASSWORD, {
     PORT,
     dialect: 'postgres',
     logging: false,
+});*/
+
+const USER = 'rougxvplrsupiu';
+const HOST = 'ec2-54-209-52-160.compute-1.amazonaws.com';
+const DATABASE = 'dcbbqpd0tlkl89';
+const PASSWORD = 'b6dbf4d79e10aff839a37bfa1a078fbf70ffc7282ebf8ac81c05e229660911e2';
+const PORT = '5432';
+
+//connection
+const sequelize = new Sequelize(
+    'postgres://rougxvplrsupiu:b6dbf4d79e10aff839a37bfa1a078fbf70ffc7282ebf8ac81c05e229660911e2@ec2-54-209-52-160.compute-1.amazonaws.com:5432/dcbbqpd0tlkl89'
+,
+{
+    dialect: 'postgres',
+    protocol: 'postgres',
+    dialectOptions: {
+        ssl: {
+            require: true,
+            rejectUnauthorized: false
+        }
+    }
 });
 
 var hospital = sequelize.define('Hospital', {
@@ -241,6 +262,31 @@ var creditCard = sequelize.define('CreditCard', {
     }
 })
 
+var solicitudes = sequelize.define('Solicitudes', {
+    name:{
+        type: DataTypes.STRING(length = 50),
+        allowNull: false,
+    },
+    email:{
+        type: DataTypes.STRING(length = 30),
+        allowNull: false,
+    },
+    hospital_register:{
+        type: DataTypes.STRING(length = 10),
+        allowNull: false,
+    },
+    description:{
+        type: DataTypes.TEXT,
+        allowNull: false,
+    },
+    readed: {
+        type: DataTypes.BOOLEAN,
+        defaultValue: false
+    },
+},{
+    freezeTableName: true,
+})
+
 //usuarios
 //user.sync({ force: true }).then(function() {});
 //ambulance_driver.sync({ force: true }).then(function() {});
@@ -372,3 +418,4 @@ module.exports.service_rates = service_rates;
 module.exports.discount = discount;
 module.exports.favorites = favorites;
 module.exports.creditCard = creditCard;
+module.exports.solicitudes = solicitudes;

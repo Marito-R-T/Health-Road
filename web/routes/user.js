@@ -47,7 +47,8 @@ router.post('/register/', upload.array('profile_pic', 7), async(req, res) => {
                 description: hospital_info.description,
                 payment_type: hospital_info.payment_type?hospital_info.payment_type:0,
                 director_name: hospital_info.director_name?hospital_info.director_name:'',
-                direction: {latitude: hospital_info.latitude, longitude: hospital_info.longitude, address: hospital_info.address}
+                direction: {latitude: hospital_info.latitude, longitude: hospital_info.longitude, address: hospital_info.address},
+                status: true
             }).then(e => {
                 res.redirect(url.format({ pathname: '/', query: { title: 'Registro Exitoso', message: 'Registro completado exitosamente', type: 'success' } }));
             })
@@ -78,7 +79,7 @@ router.post('/login/', async (req, res) => {
                 if(val.rol == "0"){
                     res.redirect(url.format({ pathname: '/Hospital/Services', query: { title: 'Ok', message: 'Sesion iniciada correctamente', type: 'success' } }));
                 }else if(val.rol == "1"){
-                    res.redirect(url.format({ pathname: '/Admin/', query: { title: 'Ok', message: 'Sesion iniciada correctamente', type: 'success' } }));
+                    res.redirect(url.format({ pathname: '/Admin/Hospitals', query: { title: 'Ok', message: 'Sesion iniciada correctamente', type: 'success' } }));
                 }
                 
 
