@@ -5,7 +5,6 @@ const { static_files_public, static_files_pdf } = require('../absolutepath')
 const fs = require('fs');
 var url = require('url');
 var Sequelize = require('sequelize');
-const Op = Sequelize.Op;
 const pdfwritter = require('./html_pdf')
 router.use((express.static(static_files_public)))
 router.use((express.static(static_files_pdf)))
@@ -249,16 +248,19 @@ router.post('/set-schedule/', (req, res) => {
 //see the rates of a service
 router.get("/get-rates/all-services/", async (req, res) => {
     const rates = await service.findAll({
+        where:{
+            hospital_user: req.session.user,
+            deleted:false
+        },
         include: [{
             model: service_rates,
             required: true,
             attributes: []
         },],
         attributes: [
-            'name', [sequelize.fn('sum', sequelize.col('ServiceRates.score')), 'scores']
+            'name', [sequelize.fn('avg', sequelize.col('ServiceRates.score')), 'scores']
         ],
         group: ['name'],
-        logging: console.log
     })
     pdfwritter.html_to_pdf(rates, res)
 })

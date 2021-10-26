@@ -4,7 +4,7 @@ var url = require('url');
 const { static_files_public, root_path, static_upload } = require('../absolutepath')
 const fs = require('fs');
 
-const { hospital, user, service, ambulance_driver, category, discount } = require('../models/connection_db');
+const { hospital, user, service, sequelize, ambulance_driver, category, discount, service_rates } = require('../models/connection_db');
 const { response } = require('express');
 const { Console } = require('console');
 
@@ -78,6 +78,12 @@ router.get('/AddService/', (req, res) => {
 router.get('/AddDriver/', (req, res) => {
 
     res.render("hospital_views/register_user")
+
+})
+
+router.get('/Get_Rates/', (req, res) => {
+
+    res.redirect("/service/get-rates/all-services")
 
 })
 
@@ -178,15 +184,28 @@ router.get('/Services/', async (req, res) => {
             }
         }));
     } else {
+        const rates = await service.findAll({
+            where:{
+                hospital_user: req.session.user,
+                deleted:false
+            },
+            include: [{
+                model: service_rates,
+                required: true,
+                attributes: []
+            },],
+            attributes: [
+                'name', [sequelize.cast(sequelize.fn('AVG', sequelize.col('ServiceRates.score')),'int'), 'scores']
+            ],
+            group: ['name'],
+            raw:true
+        })
         service.findAll({
             where: {
                 deleted: false,
                 hospital_user: req.session.user
             },
-            attributes: {
-                exclude: ['createdAt', 'updatedAt']
-            },
-            raw: true
+            raw: true,
         }).then(val => {
             if (val) {
                 let tab = {
@@ -195,11 +214,14 @@ router.get('/Services/', async (req, res) => {
                     rates: '',
                     gallery: ''
                 }
-                res.render("hospital_views/hospital_main", { hospital: response, services: val, tabs: tab });
+                res.render("hospital_views/hospital_main", { hospital: response, services: val, tabs: tab, rates:rates });
             } else {
                 res.redirect(url.format({ pathname: '/', query: { title: 'Error', message: 'Informacion no encontrada', type: 'error' } }));
             }
         }).catch(err => {
+
+
+            console.log(err);
             res.redirect(url.format({ pathname: '/', query: { title: 'Error', message: 'Intente de nuevo', type: 'error' } }));
         })
     }
@@ -222,23 +244,24 @@ router.get('/Users/', async (req, res) => {
         }));
     } else {
         user.findAll({
-            where:{
-                rol:2,
-                status:true
+            where: {
+                rol: 2,
+                status: true
             },
             attributes: {
                 exclude: ['createdAt', 'updatedAt']
             },
-            include:[{model: ambulance_driver,
+            include: [{
+                model: ambulance_driver,
 
-                where:{
+                where: {
                     hospital_user: req.session.user
                 },
                 attributes: {
                     exclude: ['createdAt', 'updatedAt']
                 }
             }],
-            raw:true
+            raw: true
 
         }).then(val2 => {
             if (val2) {
@@ -264,35 +287,36 @@ router.get('/Users/', async (req, res) => {
 
 router.get('/UpdateUsers/', async (req, res) => {
     const user_info = req.query;
-        user.findOne({
-            where:{
-                rol:2,
-                user: user_info.user_name
+    user.findOne({
+        where: {
+            rol: 2,
+            user: user_info.user_name
+        },
+        attributes: {
+            exclude: ['createdAt', 'updatedAt']
+        },
+        include: [{
+            model: ambulance_driver,
+
+            where: {
+                hospital_user: req.session.user
             },
             attributes: {
                 exclude: ['createdAt', 'updatedAt']
-            },
-            include:[{model: ambulance_driver,
-
-                where:{
-                    hospital_user: req.session.user
-                },
-                attributes: {
-                    exclude: ['createdAt', 'updatedAt']
-                }
-            }],
-
-        }).then(val2 => {
-            if (val2) {
-                let direction_info= val2.AmbulanceDrivers[0].direction;
-                res.render("hospital_views/update_user", { user: val2, direction: direction_info });
-            } else {
-                res.redirect(url.format({ pathname: '/', query: { title: 'Error', message: 'Informacion no encontrada', type: 'error' } }));
             }
-        }).catch(err => {
-            res.redirect(url.format({ pathname: '/', query: { title: 'Error', message: 'Intente de nuevo', type: 'error' } }));
-        })
-    
+        }],
+
+    }).then(val2 => {
+        if (val2) {
+            let direction_info = val2.AmbulanceDrivers[0].direction;
+            res.render("hospital_views/update_user", { user: val2, direction: direction_info });
+        } else {
+            res.redirect(url.format({ pathname: '/', query: { title: 'Error', message: 'Informacion no encontrada', type: 'error' } }));
+        }
+    }).catch(err => {
+        res.redirect(url.format({ pathname: '/', query: { title: 'Error', message: 'Intente de nuevo', type: 'error' } }));
+    })
+
 
 
 
@@ -318,6 +342,58 @@ router.get('/Gallery/', async (req, res) => {
             gallery: 'active show'
         }
         res.render("hospital_views/hospital_main", { hospital: response, tabs: tab, gallery: response.gallery });
+    }
+})
+
+router.get('/Rates/', async (req, res) => {
+    let response = await getHospitalInfo(req);
+    if (response.message) {
+        res.redirect(url.format({
+            pathname: '/',
+            query: {
+                title: response.title,
+                message: response.message,
+                type: response.type
+            }
+        }));
+    } else {
+        const names = await service.findAll({
+            where:{
+                hospital_user: req.session.user,
+                deleted:false
+            },
+            include: [{
+                model: service_rates,
+                required: true,
+                attributes: []
+            },],
+            attributes: [
+                'name'
+            ],
+            group: ['name'],
+            raw:true
+        })
+        const rates = await service.findAll({
+            where:{
+                hospital_user: req.session.user,
+                deleted:false
+            },
+            include: [{
+                model: service_rates,
+                required: true,
+                attributes: []
+            },],
+            attributes: [ [sequelize.cast(sequelize.fn('AVG', sequelize.col('ServiceRates.score')),'int'), 'scores']
+            ],
+            group: ['name'],
+        })
+        let tab = {
+            service: '',
+            users: '',
+            rates: 'active show',
+            gallery: ''
+        }
+        res.render("hospital_views/hospital_main", { hospital: response, tabs: tab, rates: rates, names:names });
     }
 })
 
@@ -355,6 +431,9 @@ async function getHospitalInfo(req) {
 
 
             }).catch(err => {
+
+
+                console.log(err);
                 message_.title = 'Error';
                 message_.message = 'Intente de nuevo';
                 message_.type = 'error';
