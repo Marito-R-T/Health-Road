@@ -7,7 +7,7 @@ const { Sequelize, DataTypes, Model } = require('sequelize');
 const USER = 'postgres';
 const HOST = 'localhost';
 const DATABASE = 'health_road';
-const PASSWORD = 'Jhon$19PVT'
+const PASSWORD = 'Odra20$'
 const PORT = '5432';
 
 //connection
@@ -127,6 +127,9 @@ var service = sequelize.define('Service', {
             "Sunday":"0",
             "Saturday":"0"
         }
+    },deleted: {
+        type: DataTypes.BOOLEAN,
+        defaultValue: false
     }
 }, {
     freezeTableName: true,
@@ -277,6 +280,31 @@ var creditCard = sequelize.define('CreditCard', {
     freezeTableName: true,
 })
 
+var solicitudes = sequelize.define('Solicitudes', {
+    name:{
+        type: DataTypes.STRING(length = 50),
+        allowNull: false,
+    },
+    email:{
+        type: DataTypes.STRING(length = 30),
+        allowNull: false,
+    },
+    hospital_register:{
+        type: DataTypes.STRING(length = 10),
+        allowNull: false,
+    },
+    description:{
+        type: DataTypes.TEXT,
+        allowNull: false,
+    },
+    readed: {
+        type: DataTypes.BOOLEAN,
+        defaultValue: false
+    },
+},{
+    freezeTableName: true,
+})
+//solicitudes.sync({ force: true }).then(function() {});
 //usuarios
 //user.sync({ force: true }).then(function() {});
 //ambulance_driver.sync({ force: true }).then(function() {});
@@ -362,7 +390,7 @@ user.hasOne(creditCard, {
     }
 })
 
-ambulance_driver.hasMany(hospital,{
+hospital.hasMany(ambulance_driver,{
     onDelete: 'CASCADE',
     foreignKey: {
         allowNull:true,
@@ -370,8 +398,11 @@ ambulance_driver.hasMany(hospital,{
         name:'hospital_user'
     }
 })
+
+
 //ambulance_driver.sync({ alter: true }).then(function() {});
 //service.sync({ alter: true }).then(function() {});
+//creditCard.sync({ alter: true }).then(function() {})
 
 //creditCard.sync({ alter: true }).then(function() {})
 //creditCard.sync({ force: true }).then(function() {})
@@ -397,6 +428,7 @@ function create_tables() {
 
 //create_tables();
 //alter_table();
+//ambulance_driver.sync({ alter: true }).then(function() {});
 module.exports.sequelize = sequelize;
 module.exports.hospital = hospital;
 module.exports.service = service;

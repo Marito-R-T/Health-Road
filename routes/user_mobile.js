@@ -170,11 +170,11 @@ router.put('/update-credit-card/',(req, res)=>{
     creditCard.update({
         cvv:req.body.cvv,
         expiration:new Date(req.body.expiration),
-        holder:req.body.holder,
-        card_number:req.body.card_number,
+        holder:req.body.holder
     },{
         where:{
             user:req.body.user,
+            card_number:req.body.card_number,
         }
     })
     .then(e=>{
@@ -193,16 +193,11 @@ router.delete('/eliminar-credit-card/',(req, res)=>{
     creditCard.destroy({
         where:{
             user:req.body.user,
+            card_number:req.body.card_number,    
         }
     }).then(e=>{
-       if(e){
         res.status(201).json({ error:"tarjeta eliminada"})
-       }else{
-        res.status(401).json({ error:"La tarjeta no pudo ser eliminada"})
-       }     
-        
     }).catch(err=>{
-        console.log(err)
         res.status(201).json({ error:"No se pudo eliminar la tarjeta, intente de nuevo"})
     })
 })
