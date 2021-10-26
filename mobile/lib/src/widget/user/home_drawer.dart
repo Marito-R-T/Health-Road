@@ -1,4 +1,5 @@
 import 'package:mobile/src/models/User.dart';
+import 'package:mobile/src/widget/homepage/design_course_app_theme.dart';
 import 'package:mobile/src/widget/login.dart';
 import 'package:mobile/src/widget/user/app_theme.dart';
 import 'package:flutter/material.dart';
@@ -168,8 +169,8 @@ class _HomeDrawerState extends State<HomeDrawer> {
                   textAlign: TextAlign.left,
                 ),
                 trailing: const Icon(
-                  Icons.power_settings_new,
-                  color: Colors.red,
+                  Icons.door_back_door_sharp,
+                  color: DesignCourseAppTheme.nearlyBlue,
                 ),
                 onTap: () {
                   onTapped();

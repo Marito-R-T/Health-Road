@@ -215,12 +215,12 @@ class HospitalView extends StatelessWidget {
                                               crossAxisAlignment:
                                                   CrossAxisAlignment.start,
                                               children: <Widget>[
-                                                hospital!.direction != null
-                                                    ? Text(
-                                                        '${hospital!.direction}',
+                                                hospital!.status!
+                                                    ? const Text(
+                                                        'Habilitado',
                                                         textAlign:
                                                             TextAlign.left,
-                                                        style: const TextStyle(
+                                                        style: TextStyle(
                                                           fontWeight:
                                                               FontWeight.w600,
                                                           fontSize: 14,
@@ -231,7 +231,7 @@ class HospitalView extends StatelessWidget {
                                                         ),
                                                       )
                                                     : const Text(
-                                                        'Sin dirección',
+                                                        'Sin Servicio',
                                                         textAlign:
                                                             TextAlign.left,
                                                         style: TextStyle(
@@ -258,42 +258,29 @@ class HospitalView extends StatelessWidget {
                         ],
                       ),
                     ),
-                    hospital!.profile_pic != null
-                        ? Container(
-                            child: Padding(
-                              padding: const EdgeInsets.only(
-                                  top: 24, bottom: 24, left: 16),
-                              child: Row(
-                                children: <Widget>[
-                                  ClipRRect(
-                                    borderRadius: const BorderRadius.all(
-                                        Radius.circular(16.0)),
-                                    child: AspectRatio(
-                                        aspectRatio: 1.0,
-                                        child: Image.network(
-                                            'https://health-road.herokuapp.com/mobile/hospital/image/${hospital!.profile_pic}')),
-                                  )
-                                ],
-                              ),
-                            ),
-                          )
-                        : Container(
-                            child: Padding(
-                              padding: const EdgeInsets.only(
-                                  top: 24, bottom: 24, left: 16),
-                              child: Row(
-                                children: const <Widget>[
-                                  ClipRRect(
-                                    borderRadius:
-                                        BorderRadius.all(Radius.circular(16.0)),
-                                    child: AspectRatio(
+                    Container(
+                      child: Padding(
+                        padding: const EdgeInsets.only(
+                            top: 24, bottom: 24, left: 16),
+                        child: Row(
+                          children: <Widget>[
+                            ClipRRect(
+                              borderRadius:
+                                  const BorderRadius.all(Radius.circular(16.0)),
+                              child: hospital!.profile_pic != null
+                                  ? AspectRatio(
                                       aspectRatio: 1.0,
-                                    ),
-                                  )
-                                ],
-                              ),
-                            ),
-                          ),
+                                      child: Image.network(
+                                          'https://health-road.herokuapp.com/mobile/hospital/image/uploads/${hospital!.profile_pic}'))
+                                  : AspectRatio(
+                                      aspectRatio: 1.0,
+                                      child: Image.asset(
+                                          'homepage/icon-logo.png')),
+                            )
+                          ],
+                        ),
+                      ),
+                    )
                   ],
                 ),
               ),
