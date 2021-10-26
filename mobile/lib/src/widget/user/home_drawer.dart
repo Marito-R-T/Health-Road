@@ -44,8 +44,8 @@ class _HomeDrawerState extends State<HomeDrawer> {
       ),
       DrawerList(
         index: DrawerIndex.FeedBack,
-        labelName: 'FeedBack',
-        icon: const Icon(Icons.help),
+        labelName: 'Credit Card',
+        icon: const Icon(Icons.credit_card),
       ),
       DrawerList(
         index: DrawerIndex.Invite,
@@ -111,18 +111,18 @@ class _HomeDrawerState extends State<HomeDrawer> {
                             child: ClipRRect(
                               borderRadius:
                                   const BorderRadius.all(Radius.circular(60.0)),
-                              child: Image.asset('images/userImage.png'),
+                              child: Image.asset('images/usericon.png'),
                             ),
                           ),
                         ),
                       );
                     },
                   ),
-                  const Padding(
-                    padding: EdgeInsets.only(top: 8, left: 4),
+                  Padding(
+                    padding: const EdgeInsets.only(top: 8, left: 4),
                     child: Text(
-                      'Chris Hemsworth',
-                      style: TextStyle(
+                      User.logged!.user,
+                      style: const TextStyle(
                         fontWeight: FontWeight.w600,
                         color: AppTheme.grey,
                         fontSize: 18,

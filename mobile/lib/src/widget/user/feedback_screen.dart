@@ -21,7 +21,7 @@ class _FeedbackScreenState extends State<FeedbackScreen> {
   String expiryDate = '';
   String cardHolderName = '';
   String cvvCode = '';
-  bool create = false;
+  bool create = true;
   bool enabled = false;
   bool isCvvFocused = false;
   bool useGlassMorphism = false;
@@ -35,6 +35,13 @@ class _FeedbackScreenState extends State<FeedbackScreen> {
   void initState() {
     setState(() {
       credit = users.getCreditCard(User.logged!.user);
+    });
+    users.getCreditCard(User.logged!.user).then((value) {
+      if (value != null) {
+        setState(() {
+          create = false;
+        });
+      }
     });
     super.initState();
   }
@@ -75,7 +82,6 @@ class _FeedbackScreenState extends State<FeedbackScreen> {
                         ));
                       } else {
                         create = true;
-                        enabled = true;
                         return const Center(
                             child: Text(
                           'No Tiene Ninguna Tarjeta Ingresada',
@@ -207,51 +213,83 @@ class _FeedbackScreenState extends State<FeedbackScreen> {
                           const SizedBox(
                             height: 20,
                           ),
-                          ElevatedButton(
-                            style: ElevatedButton.styleFrom(
-                              shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(8.0),
-                              ),
-                              primary: const Color(0xff1b447b),
-                            ),
-                            child: Container(
-                              margin: const EdgeInsets.all(12),
-                              child: create
-                                  ? const Text(
-                                      'Add Credit Card',
-                                      style: TextStyle(
-                                        color: Colors.white,
-                                        fontFamily: 'halter',
-                                        fontSize: 14,
-                                        package: 'flutter_credit_card',
-                                      ),
-                                    )
-                                  : const Text(
-                                      'Change Credit Card',
-                                      style: TextStyle(
-                                        color: Colors.white,
-                                        fontFamily: 'halter',
-                                        fontSize: 14,
-                                        package: 'flutter_credit_card',
-                                      ),
+                          Row(
+                            children: [
+                              Expanded(
+                                child: ElevatedButton(
+                                  style: ElevatedButton.styleFrom(
+                                    shape: RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(8.0),
                                     ),
-                            ),
-                            onPressed: () {
-                              if (formKey.currentState!.validate()) {
-                                if (create) {
-                                  _createCreditCard();
-                                } else {
-                                  _updateCreditCard();
-                                }
-                              } else {
-                                ScaffoldMessenger.of(context)
-                                    .showSnackBar(const SnackBar(
-                                  content: Text(
-                                      'Arreglar los campos mal ingresados'),
-                                  duration: Duration(seconds: 1),
-                                ));
-                              }
-                            },
+                                    primary: const Color(0xff1b447b),
+                                  ),
+                                  child: Container(
+                                    margin: const EdgeInsets.all(12),
+                                    child: create
+                                        ? const Text(
+                                            'Add Credit Card',
+                                            style: TextStyle(
+                                              color: Colors.white,
+                                              fontFamily: 'halter',
+                                              fontSize: 14,
+                                              package: 'flutter_credit_card',
+                                            ),
+                                          )
+                                        : const Text(
+                                            'Change Credit Card',
+                                            style: TextStyle(
+                                              color: Colors.white,
+                                              fontFamily: 'halter',
+                                              fontSize: 14,
+                                              package: 'flutter_credit_card',
+                                            ),
+                                          ),
+                                  ),
+                                  onPressed: () {
+                                    if (formKey.currentState!.validate()) {
+                                      if (create) {
+                                        _createCreditCard();
+                                      } else {
+                                        _updateCreditCard();
+                                      }
+                                    } else {
+                                      ScaffoldMessenger.of(context)
+                                          .showSnackBar(const SnackBar(
+                                        content: Text(
+                                            'Arreglar los campos mal ingresados'),
+                                        duration: Duration(seconds: 1),
+                                      ));
+                                    }
+                                  },
+                                ),
+                              ),
+                              !create
+                                  ? Expanded(
+                                      child: ElevatedButton(
+                                      style: ElevatedButton.styleFrom(
+                                        shape: RoundedRectangleBorder(
+                                          borderRadius:
+                                              BorderRadius.circular(8.0),
+                                        ),
+                                        primary: const Color(0xff1b447b),
+                                      ),
+                                      child: Container(
+                                          margin: const EdgeInsets.all(12),
+                                          child: const Text(
+                                            'Delete Credit Card',
+                                            style: TextStyle(
+                                              color: Colors.white,
+                                              fontFamily: 'halter',
+                                              fontSize: 14,
+                                              package: 'flutter_credit_card',
+                                            ),
+                                          )),
+                                      onPressed: () {
+                                        _deleteCreditCard();
+                                      },
+                                    ))
+                                  : Container(),
+                            ],
                           ),
                         ],
                       ),
@@ -277,6 +315,7 @@ class _FeedbackScreenState extends State<FeedbackScreen> {
           duration: Duration(seconds: 2),
         ));
         setState(() {
+          credit = users.getCreditCard(User.logged!.user);
           enabled = false;
           create = false;
         });
@@ -304,9 +343,9 @@ class _FeedbackScreenState extends State<FeedbackScreen> {
             duration: Duration(seconds: 2),
           ));
           setState(() {
+            credit = users.getCreditCard(User.logged!.user);
             enabled = false;
             create = false;
-            credit = users.getCreditCard(User.logged!.user);
           });
         } else {
           ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
@@ -315,6 +354,30 @@ class _FeedbackScreenState extends State<FeedbackScreen> {
             duration: Duration(seconds: 2),
           ));
         }
+      });
+    }
+  }
+
+  void _deleteCreditCard() async {
+    if (await confirm(context,
+        title: const Text('Delete Credit Card'),
+        content: const Text('Are you want delete your credit card?'))) {
+      users.deleteCreditCard(User.logged!.user).then((value) {
+        if (value.compareTo("tarjeta eliminada") == 0) {
+          setState(() {
+            credit = users.returnNull();
+            enabled = false;
+            create = true;
+            cvvCode = '';
+            cardHolderName = '';
+            cardNumber = '';
+            expiryDate = '';
+          });
+        }
+        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+          content: Text(value),
+          duration: const Duration(seconds: 2),
+        ));
       });
     }
   }
