@@ -164,7 +164,7 @@ class Users {
     }
   }
 
-  Future<String?> deleteCreditCard(String cardNumber, String user) async {
+  Future<String> deleteCreditCard(String user) async {
     final response = await http.delete(
         Uri.parse(
             'https://health-road.herokuapp.com/mobile/user/eliminar-credit-card/'),
@@ -172,14 +172,9 @@ class Users {
           "Accept": "application/json",
           "Content-Type": "application/x-www-form-urlencoded"
         },
-        body: {'user': user, "card_number": cardNumber},
+        body: {'user': user},
         encoding: Encoding.getByName("utf-8"));
-    print(response.body);
-    if (response.statusCode == 201) {
-      return jsonDecode(response.body)['error'];
-    } else {
-      return null;
-    }
+    return jsonDecode(response.body)['error'];
   }
 
   Future<Credit?> getCreditCard(String user) async {
@@ -192,11 +187,14 @@ class Users {
         },
         body: {'user': user},
         encoding: Encoding.getByName("utf-8"));
-    print(response.body);
     if (response.statusCode == 201) {
       return Credit.fromJson(jsonDecode(response.body));
     } else {
       return null;
     }
+  }
+
+  Future<Credit?> returnNull() async {
+    return null;
   }
 }
