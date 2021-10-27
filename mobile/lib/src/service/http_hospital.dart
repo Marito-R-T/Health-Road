@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import "package:http/http.dart" as http;
 import 'package:mobile/src/models/Hospital.dart';
 import "dart:async";
@@ -53,6 +54,15 @@ class Hospitals {
     } else {
       return null;
     }
+  }
+
+  static Image getImageOnline(String name) {
+    return Image.network(
+      'https://health-road.herokuapp.com/mobile/hospital/image/uploads/$name',
+      errorBuilder: (context, exception, stackTrace) {
+        return Image.asset('assets/homepage/icon-logo.png');
+      },
+    );
   }
 
   Future<String?> name(String? name) async {
