@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_map/flutter_map.dart';
+import 'package:latlong2/latlong.dart';
 import 'package:mobile/src/models/Hospital.dart';
 import 'design_course_app_theme.dart';
 
@@ -59,13 +61,84 @@ class _HospitalInfoScreenState extends State<HospitalInfoScreen>
           children: <Widget>[
             Column(
               children: <Widget>[
-                AspectRatio(
-                  aspectRatio: 1.2,
-                  child: Image.network(
-                      'https://health-road.herokuapp.com/mobile/hospital/image/${widget.hospital.profile_pic}'),
-                ),
+                /* Expanded(
+                  flex: 2,
+                  child: */
+                widget.hospital.profile_pic != null
+                    ? AspectRatio(
+                        aspectRatio: 1.2,
+                        child: Image.network(
+                            'https://health-road.herokuapp.com/mobile/hospital/image/uploads/${widget.hospital.profile_pic}'),
+                      )
+                    : AspectRatio(
+                        aspectRatio: 1.2,
+                        child: Image.asset('homepage/icon-logo.png'),
+                      ),
+                /*),*/
               ],
             ),
+            widget.hospital.direction != null
+                ? Positioned(
+                    top: 10,
+                    right: 10,
+                    width: 230,
+                    height: 150,
+                    child: Container(
+                      decoration: BoxDecoration(
+                        color: DesignCourseAppTheme.nearlyWhite,
+                        borderRadius: const BorderRadius.only(
+                            topLeft: Radius.circular(32.0),
+                            topRight: Radius.circular(32.0)),
+                        boxShadow: <BoxShadow>[
+                          BoxShadow(
+                              color: DesignCourseAppTheme.grey.withOpacity(0.2),
+                              offset: const Offset(1.1, 1.1),
+                              blurRadius: 10.0),
+                        ],
+                      ),
+                      child: FlutterMap(
+                        options: MapOptions(
+                          center: LatLng(
+                              double.parse(
+                                  widget.hospital.direction!['latitude']),
+                              double.parse(
+                                  widget.hospital.direction!['longitude'])),
+                          zoom: 17.0,
+                        ),
+                        layers: [
+                          TileLayerOptions(
+                            urlTemplate:
+                                "https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",
+                            subdomains: ['a', 'b', 'c'],
+                            attributionBuilder: (_) {
+                              return Text("Health Road <3");
+                            },
+                          ),
+                          MarkerLayerOptions(
+                            markers: [
+                              Marker(
+                                width: 20.0,
+                                height: 20.0,
+                                point: LatLng(
+                                    double.parse(
+                                        widget.hospital.direction!['latitude']),
+                                    double.parse(widget
+                                        .hospital.direction!['longitude'])),
+                                builder: (ctx) => Container(
+                                  decoration: const BoxDecoration(
+                                      image: DecorationImage(
+                                          image: AssetImage(
+                                              'homepage/icon-logo.png'),
+                                          fit: BoxFit.fill)),
+                                ),
+                              ),
+                            ],
+                          ),
+                        ],
+                      ),
+                    ) /**/
+                    )
+                : Container(),
             Positioned(
               top: (MediaQuery.of(context).size.width / 1.2) - 24.0,
               bottom: 0,
@@ -121,11 +194,11 @@ class _HospitalInfoScreenState extends State<HospitalInfoScreen>
                                 (widget.hospital.direction != null &&
                                         widget.hospital.direction!.isNotEmpty)
                                     ? Text(
-                                        '${widget.hospital.direction![0]}',
+                                        '${widget.hospital.direction!['address']}',
                                         textAlign: TextAlign.left,
                                         style: const TextStyle(
                                           fontWeight: FontWeight.w200,
-                                          fontSize: 22,
+                                          fontSize: 14,
                                           letterSpacing: 0.27,
                                           color:
                                               DesignCourseAppTheme.nearlyBlue,
@@ -209,10 +282,18 @@ class _HospitalInfoScreenState extends State<HospitalInfoScreen>
                                                       const BorderRadius.all(
                                                           Radius.circular(
                                                               16.0)),
-                                                  child: AspectRatio(
-                                                      aspectRatio: 1.0,
-                                                      child: Image.network(
-                                                          'https://health-road.herokuapp.com/mobile/hospital/image/${widget.hospital.photos![index]}')),
+                                                  child: widget.hospital
+                                                              .profile_pic !=
+                                                          null
+                                                      ? AspectRatio(
+                                                          aspectRatio: 1.0,
+                                                          child: Image.network(
+                                                              'https://health-road.herokuapp.com/mobile/hospital/image/uploads/${widget.hospital.photos![index]}'))
+                                                      : AspectRatio(
+                                                          aspectRatio: 1.0,
+                                                          child: Image.asset(
+                                                              'homepage/icon-logo.png'),
+                                                        ),
                                                 )
                                               ],
                                             ),

@@ -31,7 +31,7 @@ class _InviteFriendState extends State<InviteFriend> {
               ),
               Container(
                 padding: const EdgeInsets.only(top: 8),
-                child: Text(
+                child: const Text(
                   'Invite Your Friends',
                   style: TextStyle(
                     fontSize: 20,
@@ -78,14 +78,14 @@ class _InviteFriendState extends State<InviteFriend> {
                             child: Row(
                               mainAxisAlignment: MainAxisAlignment.center,
                               crossAxisAlignment: CrossAxisAlignment.center,
-                              children: <Widget>[
+                              children: const <Widget>[
                                 Icon(
                                   Icons.share,
                                   color: Colors.white,
                                   size: 22,
                                 ),
                                 Padding(
-                                  padding: const EdgeInsets.all(4.0),
+                                  padding: EdgeInsets.all(4.0),
                                   child: Text(
                                     'Share',
                                     style: TextStyle(

@@ -4,6 +4,7 @@ class Service {
   String? name;
   String? description;
   double? price;
+  double? discount;
   bool? status;
   Map<String, dynamic>? schedule;
   String? hospital;
@@ -17,7 +18,8 @@ class Service {
       required this.status,
       required this.schedule,
       required this.hospital,
-      required this.category_name});
+      required this.category_name,
+      required this.discount});
 
   factory Service.fromJson(Map<String, dynamic> json) {
     return Service(
@@ -28,6 +30,11 @@ class Service {
         schedule: json['schedule'],
         //hospital: Hospital.fromJson(json['hospital_user']));
         hospital: json['hospital_user'],
-        category_name: json['category_name']);
+        category_name: json['category_name'],
+        discount: json['percentage']);
+  }
+
+  static double getDiscount(double price, percentage) {
+    return price - (price * percentage / 100);
   }
 }

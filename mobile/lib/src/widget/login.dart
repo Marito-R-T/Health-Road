@@ -32,7 +32,7 @@ class _LoginScreenState extends State<LoginScreen> {
                   height: 400,
                   decoration: const BoxDecoration(
                       image: DecorationImage(
-                          image: AssetImage('assets/images/background.png'),
+                          image: AssetImage('images/background.png'),
                           fit: BoxFit.fill)),
                   child: Stack(
                     children: <Widget>[
@@ -45,8 +45,7 @@ class _LoginScreenState extends State<LoginScreen> {
                             Container(
                               decoration: const BoxDecoration(
                                   image: DecorationImage(
-                                      image: AssetImage(
-                                          'assets/images/light-1.png'))),
+                                      image: AssetImage('images/light-1.png'))),
                             )),
                       ),
                       Positioned(
@@ -58,22 +57,21 @@ class _LoginScreenState extends State<LoginScreen> {
                             Container(
                               decoration: const BoxDecoration(
                                   image: DecorationImage(
-                                      image: AssetImage(
-                                          'assets/images/light-2.png'))),
+                                      image: AssetImage('images/light-2.png'))),
                             )),
                       ),
                       Positioned(
-                        right: 40,
-                        top: 40,
+                        right: 220,
+                        top: 300,
                         width: 80,
-                        height: 150,
+                        height: 120,
                         child: FadeAnimation(
                             1.5,
                             Container(
                               decoration: const BoxDecoration(
                                   image: DecorationImage(
                                       image: AssetImage(
-                                          'assets/images/clock.png'))),
+                                          'homepage/icon-logo.png'))),
                             )),
                       ),
                       Positioned(
@@ -84,6 +82,22 @@ class _LoginScreenState extends State<LoginScreen> {
                               child: const Center(
                                 child: Text(
                                   "Login",
+                                  style: TextStyle(
+                                      color: Colors.white,
+                                      fontSize: 40,
+                                      fontWeight: FontWeight.bold),
+                                ),
+                              ),
+                            )),
+                      ),
+                      Positioned(
+                        child: FadeAnimation(
+                            1.6,
+                            Container(
+                              margin: const EdgeInsets.only(top: 150),
+                              child: const Center(
+                                child: Text(
+                                  "Health Road",
                                   style: TextStyle(
                                       color: Colors.white,
                                       fontSize: 40,

@@ -18,6 +18,7 @@ class _CourseInfoScreenState extends State<CourseInfoScreen>
     with TickerProviderStateMixin {
   final double infoHeight = 364.0;
   late Future<double?> rating;
+  late Future<double?> percentage;
   AnimationController? animationController;
   Animation<double>? animation;
   Services services = Services();
@@ -28,8 +29,16 @@ class _CourseInfoScreenState extends State<CourseInfoScreen>
 
   @override
   void initState() {
+    percentage = services.getDiscount(0);
     rating = services.getRatingService(
         widget.service.name!, widget.service.hospital!);
+    services.getInforService(widget.service.name!).then((value) {
+      if (value != null) {
+        setState(() {
+          percentage = services.getDiscount(value.discount!);
+        });
+      }
+    });
     services
         .getIsFavorite(
             User.logged!.user, widget.service.name!, widget.service.hospital!)
@@ -135,15 +144,52 @@ class _CourseInfoScreenState extends State<CourseInfoScreen>
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               crossAxisAlignment: CrossAxisAlignment.center,
                               children: <Widget>[
-                                Text(
-                                  'Q.${widget.service.price}',
-                                  textAlign: TextAlign.left,
-                                  style: const TextStyle(
-                                    fontWeight: FontWeight.w200,
-                                    fontSize: 22,
-                                    letterSpacing: 0.27,
-                                    color: DesignCourseAppTheme.nearlyBlue,
-                                  ),
+                                FutureBuilder<double?>(
+                                  future: percentage,
+                                  builder: (context, snapshot) {
+                                    if (snapshot.hasData &&
+                                        snapshot.data! > 0) {
+                                      return Row(children: [
+                                        Text(
+                                          'Q.${widget.service.price!.toStringAsFixed(2)}',
+                                          textAlign: TextAlign.left,
+                                          style: const TextStyle(
+                                            decoration:
+                                                TextDecoration.lineThrough,
+                                            fontWeight: FontWeight.w200,
+                                            fontSize: 20,
+                                            letterSpacing: 0.27,
+                                            color:
+                                                DesignCourseAppTheme.nearlyBlue,
+                                          ),
+                                        ),
+                                        Text(
+                                          ' Q.${Service.getDiscount(widget.service.price!, snapshot.data!).toStringAsFixed(2)}',
+                                          textAlign: TextAlign.left,
+                                          style: const TextStyle(
+                                            fontWeight: FontWeight.w200,
+                                            fontSize: 22,
+                                            letterSpacing: 0.27,
+                                            color:
+                                                DesignCourseAppTheme.nearlyBlue,
+                                          ),
+                                        ),
+                                      ]);
+                                    } else {
+                                      return Expanded(
+                                          child: Text(
+                                        'Q.${widget.service.price!.toStringAsFixed(2)}',
+                                        textAlign: TextAlign.left,
+                                        style: const TextStyle(
+                                          fontWeight: FontWeight.w200,
+                                          fontSize: 22,
+                                          letterSpacing: 0.27,
+                                          color:
+                                              DesignCourseAppTheme.nearlyBlue,
+                                        ),
+                                      ));
+                                    }
+                                  },
                                 ),
                                 Container(
                                   child: Row(
