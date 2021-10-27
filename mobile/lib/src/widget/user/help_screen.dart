@@ -1,5 +1,3 @@
-import 'dart:html';
-
 import 'package:mobile/src/models/User.dart';
 import 'package:mobile/src/service/http_users.dart';
 import 'package:mobile/src/widget/homepage/design_course_app_theme.dart';
