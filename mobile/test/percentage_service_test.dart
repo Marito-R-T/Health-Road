@@ -11,10 +11,10 @@ import 'package:mobile/src/models/Service.dart';
 void main() {
   test('Discount prices of services', () {
     // Assign price an percentage of discount.
-    double percentage = 0.1;
+    double percentage = 10;
     double price = 100;
 
-    // Verify that the discount is correctly.
-    expect(Service.getDiscount(price, percentage), 10);
+    // Verify that the value with discount is correctly.
+    expect(Service.getDiscount(price, percentage), 90);
   });
 }

@@ -31,10 +31,10 @@ class Service {
         //hospital: Hospital.fromJson(json['hospital_user']));
         hospital: json['hospital_user'],
         category_name: json['category_name'],
-        discount: json['discount']);
+        discount: json['percentage']);
   }
 
   static double getDiscount(double price, percentage) {
-    return price * percentage;
+    return price - (price * percentage / 100);
   }
 }

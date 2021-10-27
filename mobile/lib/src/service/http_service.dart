@@ -37,6 +37,22 @@ class Services {
     }
   }
 
+  ///get-info-service/:name
+  Future<Service?> getInforService(String name) async {
+    final uri = Uri.https(
+        'health-road.herokuapp.com', '/mobile/service/get-info-service/$name/');
+    final response = await http.get(uri);
+    if (response.statusCode == 201) {
+      return Service.fromJson(json.decode(response.body));
+    } else {
+      return null;
+    }
+  }
+
+  Future<double?> getDiscount(double discount) async {
+    return discount;
+  }
+
   Future<List<Service>?> getServicesByName(String name) async {
     final uri = Uri.https(
         'health-road.herokuapp.com', '/mobile/service/get-services/$name/');
