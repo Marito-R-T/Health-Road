@@ -69,7 +69,7 @@ class _CategoryListViewState extends State<CategoryListView>
             final Animation<double> animation =
                 Tween<double>(begin: 0.0, end: 1.0).animate(CurvedAnimation(
                     parent: animationController!,
-                    curve: Interval((1 / count) * index, 1.0,
+                    curve: Interval((1 / count) * (index), 1.0,
                         curve: Curves.fastOutSlowIn)));
             animationController?.forward();
 
@@ -270,8 +270,8 @@ class HospitalView extends StatelessWidget {
                               child: hospital!.profile_pic != null
                                   ? AspectRatio(
                                       aspectRatio: 1.0,
-                                      child: Image.network(
-                                          'https://health-road.herokuapp.com/mobile/hospital/image/uploads/${hospital!.profile_pic}'))
+                                      child: Hospitals.getImageOnline(
+                                          hospital!.profile_pic!))
                                   : AspectRatio(
                                       aspectRatio: 1.0,
                                       child: Image.asset(

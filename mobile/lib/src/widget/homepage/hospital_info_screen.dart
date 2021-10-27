@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_map/flutter_map.dart';
 import 'package:latlong2/latlong.dart';
 import 'package:mobile/src/models/Hospital.dart';
+import 'package:mobile/src/service/http_hospital.dart';
 import 'design_course_app_theme.dart';
 
 class HospitalInfoScreen extends StatefulWidget {
@@ -67,8 +68,8 @@ class _HospitalInfoScreenState extends State<HospitalInfoScreen>
                 widget.hospital.profile_pic != null
                     ? AspectRatio(
                         aspectRatio: 1.2,
-                        child: Image.network(
-                            'https://health-road.herokuapp.com/mobile/hospital/image/uploads/${widget.hospital.profile_pic}'),
+                        child: Hospitals.getImageOnline(
+                            widget.hospital.profile_pic!),
                       )
                     : AspectRatio(
                         aspectRatio: 1.2,
@@ -77,7 +78,9 @@ class _HospitalInfoScreenState extends State<HospitalInfoScreen>
                 /*),*/
               ],
             ),
-            widget.hospital.direction != null
+            widget.hospital.direction != null &&
+                    widget.hospital.direction!['latitude'] != null &&
+                    widget.hospital.direction!['longitude'] != null
                 ? Positioned(
                     top: 10,
                     right: 10,
@@ -174,7 +177,7 @@ class _HospitalInfoScreenState extends State<HospitalInfoScreen>
                             padding: const EdgeInsets.only(
                                 top: 32.0, left: 18, right: 16),
                             child: Text(
-                              widget.hospital.name!,
+                              '${widget.hospital.name}',
                               textAlign: TextAlign.left,
                               style: const TextStyle(
                                 fontWeight: FontWeight.w600,
@@ -192,7 +195,8 @@ class _HospitalInfoScreenState extends State<HospitalInfoScreen>
                               crossAxisAlignment: CrossAxisAlignment.center,
                               children: <Widget>[
                                 (widget.hospital.direction != null &&
-                                        widget.hospital.direction!.isNotEmpty)
+                                        widget.hospital.direction!['address'] !=
+                                            null)
                                     ? Text(
                                         '${widget.hospital.direction!['address']}',
                                         textAlign: TextAlign.left,
@@ -287,8 +291,11 @@ class _HospitalInfoScreenState extends State<HospitalInfoScreen>
                                                           null
                                                       ? AspectRatio(
                                                           aspectRatio: 1.0,
-                                                          child: Image.network(
-                                                              'https://health-road.herokuapp.com/mobile/hospital/image/uploads/${widget.hospital.photos![index]}'))
+                                                          child: Hospitals
+                                                              .getImageOnline(widget
+                                                                      .hospital
+                                                                      .photos![
+                                                                  index]))
                                                       : AspectRatio(
                                                           aspectRatio: 1.0,
                                                           child: Image.asset(
