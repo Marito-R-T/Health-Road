@@ -72,7 +72,7 @@ class _HospitalInfoScreenState extends State<HospitalInfoScreen>
                       )
                     : AspectRatio(
                         aspectRatio: 1.2,
-                        child: Image.asset('homepage/icon-logo.png'),
+                        child: Image.asset('assets/homepage/icon-logo.png'),
                       ),
                 /*),*/
               ],
@@ -128,7 +128,7 @@ class _HospitalInfoScreenState extends State<HospitalInfoScreen>
                                   decoration: const BoxDecoration(
                                       image: DecorationImage(
                                           image: AssetImage(
-                                              'homepage/icon-logo.png'),
+                                              'assets/homepage/icon-logo.png'),
                                           fit: BoxFit.fill)),
                                 ),
                               ),
@@ -292,7 +292,7 @@ class _HospitalInfoScreenState extends State<HospitalInfoScreen>
                                                       : AspectRatio(
                                                           aspectRatio: 1.0,
                                                           child: Image.asset(
-                                                              'homepage/icon-logo.png'),
+                                                              'assets/homepage/icon-logo.png'),
                                                         ),
                                                 )
                                               ],

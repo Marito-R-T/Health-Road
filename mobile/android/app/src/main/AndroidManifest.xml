@@ -2,8 +2,8 @@
     package="com.example.mobile">
     <uses-permission android:name="android.permission.INTERNET"/>
     <application
-        android:label="mobile"
-        android:icon="@mipmap/ic_launcher">
+        android:label="Health Road"
+        android:icon="@mipmap/launcher_icon">
         <activity
             android:name=".MainActivity"
             android:launchMode="singleTop"

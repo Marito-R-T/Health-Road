@@ -275,7 +275,7 @@ class HospitalView extends StatelessWidget {
                                   : AspectRatio(
                                       aspectRatio: 1.0,
                                       child: Image.asset(
-                                          'homepage/icon-logo.png')),
+                                          'assets/homepage/icon-logo.png')),
                             )
                           ],
                         ),

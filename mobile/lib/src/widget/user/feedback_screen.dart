@@ -116,7 +116,7 @@ class _FeedbackScreenState extends State<FeedbackScreen> {
                       CustomCardTypeIcon(
                         cardType: CardType.mastercard,
                         cardImage: Image.asset(
-                          'homepage/icon-logo.png',
+                          'assets/homepage/icon-logo.png',
                           height: 48,
                           width: 48,
                         ),

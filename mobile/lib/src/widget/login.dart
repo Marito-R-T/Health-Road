@@ -32,7 +32,7 @@ class _LoginScreenState extends State<LoginScreen> {
                   height: 400,
                   decoration: const BoxDecoration(
                       image: DecorationImage(
-                          image: AssetImage('images/background.png'),
+                          image: AssetImage('assets/images/background.png'),
                           fit: BoxFit.fill)),
                   child: Stack(
                     children: <Widget>[
@@ -45,7 +45,8 @@ class _LoginScreenState extends State<LoginScreen> {
                             Container(
                               decoration: const BoxDecoration(
                                   image: DecorationImage(
-                                      image: AssetImage('images/light-1.png'))),
+                                      image: AssetImage(
+                                          'assets/images/light-1.png'))),
                             )),
                       ),
                       Positioned(
@@ -57,7 +58,8 @@ class _LoginScreenState extends State<LoginScreen> {
                             Container(
                               decoration: const BoxDecoration(
                                   image: DecorationImage(
-                                      image: AssetImage('images/light-2.png'))),
+                                      image: AssetImage(
+                                          'assets/images/light-2.png'))),
                             )),
                       ),
                       Positioned(
@@ -71,7 +73,7 @@ class _LoginScreenState extends State<LoginScreen> {
                               decoration: const BoxDecoration(
                                   image: DecorationImage(
                                       image: AssetImage(
-                                          'homepage/icon-logo.png'))),
+                                          'assets/homepage/icon-logo.png'))),
                             )),
                       ),
                       Positioned(
