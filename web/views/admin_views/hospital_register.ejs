@@ -25,20 +25,22 @@
          <div class="container forms">
             <div class="contact-section">
                <div class="form-contant">
-                  <form id="ajax-contact" action="user/register/" method="post" enctype="multipart/form-data">
+                  <form id="ajax-contact" class="was-validated" action="/Admin/register/" method="post" enctype="multipart/form-data">
                      <div class="row" id="first-div">
                         <div class="col-md-6">
                            <div class="form-group in_name">
                               <label> <i class="far fa-user"></i> Usuario </label>
-                              <input type="text" class="form-control" placeholder="Usuario" name="user"
+                              <input name="request_id" type="text" <%if (locals.hospital) { %>value="<%- hospital.request_id  %>"<%}  %> hidden >
+                              <input type="text" class="form-control" placeholder="Usuario" value="<%if (locals.hospital) { %><%- hospital.name  %>_User<%}  %>" name="user"
                                  required="required">
                            </div>
                         </div>
-                        <div class="col-md-6">
-                           <div class="form-group in_email">
-                              <label> Password</label>
-                              <input type="password" class="form-control" placeholder="Password" name="password"
+                        <div class="col-md-6 ">
+                           <div class="form-group in_email align-items-center">
+                              <label> Password</label>                         
+                              <input type="password" id="password" class="form-control" placeholder="Password" name="password"
                                  required="required">
+                                 <i onclick="seePassword()" id="Password_icon" style="color: black;position: relative;bottom: 50px;left: 80%;" class="far fa-eye"></i>
                            </div>
                         </div>
 
@@ -46,14 +48,14 @@
                         <div class="col-md-12">
                            <div class="form-group in_name">
                               <label> <i class="fas fa-hospital-symbol"></i> Nombre</label>
-                              <input type="text" class="form-control" placeholder="Nombre" name="name"
+                              <input type="text" class="form-control" placeholder="Nombre" name="name" value="<%if (locals.hospital) { %><%- hospital.name  %><%}  %>"
                                  required="required">
                            </div>
                         </div>
                         <div class="col-md-12">
                            <div class="form-group in_email">
                               <label> <i class="fas fa-envelope-open-text"></i> Email</label>
-                              <input type="email" class="form-control" placeholder="Email" name="email"
+                              <input type="email" class="form-control" placeholder="Email" value="<%if (locals.hospital) { %><%- hospital.email  %><%}  %>" name="email"
                                  required="required">
                            </div>
                         </div>
@@ -67,8 +69,8 @@
                         <div class="col-md-12">
                            <div class="form-group in_name">
                               <label> <i class="far fa-hospital-user"></i> Director</label>
-                              <input type="text" class="form-control" placeholder="Nombre" name="director_name"
-                                 required="required">
+                              <input type="text" class="form-control" placeholder="Nombre" required name="director_name"
+                                >
                            </div>
                         </div>
 
@@ -76,7 +78,7 @@
                            <div class="form-group in_message">
                               <label> <i class="fal fa-comment-medical"></i> Descripcion </label>
                               <textarea class="form-control" id="message" rows="5" name="description"
-                                 placeholder="Descripcion" required="required"></textarea>
+                                 placeholder="Descripcion" required="required"><%if (locals.hospital) { %>Codigo de Registro: <%= hospital.register  %> &#13;<%= hospital.description  %><%}  %></textarea>
                            </div>
                            <div class="actions">
                               <a class="btn small submitButton" onclick="secondDiv()"><i
@@ -91,14 +93,13 @@
                            </div>
                            <div class="avatar-upload" style="margin: auto;">
                               <div class="avatar-edit">
-                                 <input type='file' name="profile_pic" id="imageUpload-profile"
+                                 <input type='file' class="form-control" required name="profile_pic" id="imageUpload-profile"
                                     accept=".png, .jpg, .jpeg ,.jfif" />
-                                 <label for="imageUpload-profile"><i style="margin: 8px;"
-                                       class="fas fa-camera"></i></label>
-                              </div>
+                                    </div>
+                                 
                               <div class="avatar-preview" style="padding: 0;">
                                  <div id="previsualizacion-profile"
-                                    style="background-image: url(images/logo-hospital.png); width: 100%; height: 100%;">
+                                    style="background-image: url(/images/imagen.png); width: 100%; height: 100%;">
                                  </div>
                               </div>
 
@@ -109,39 +110,10 @@
                            <a class="btn small submitButton" onclick="firstDiv()"><i
                                  class="far fa-arrow-circle-left"></i>
                               Atras</a>
-                           <a class="btn small submitButton" onclick="thirdDiv()"><i
-                                 class="far fa-arrow-circle-right"></i>
-                              Siguiente</a>
-                        </div>
-                     </div>
-                     <div class="row" id="third-div" hidden>
-                        <div class="col-md-12">
-                           <div class="form-group in_email">
-                              <label> <i class="far fa-map-marker-alt"></i> Ubicacion</label>
-                           </div>
-                           <div id='map'></div>
-                           <input name="latitude" type="text" value="14.834277919227247" hidden id="latitude">
-                           <input name="longitude" type="text" value="-91.51832317540874" hidden id="longitude">
-
-                        </div>
-                        <div class="form-group in_message">
-                           <label> <i class="far fa-location-circle"></i> Direccion </label>
-                           <textarea class="form-control" id="address" rows="3" name="address"
-                              placeholder="Direccion"> </textarea>
-                        </div>
-                        <br>
-                        <div class="col-md-12">
-                           <div class="actions">
-                              <a class="btn small submitButton" onclick="secondDiv()"><i
-                                    class="far fa-arrow-circle-left"></i>
-                                 Atras</a>
                               <button type="submit" class="btn small submitButton"><i class="far fa-save"></i>
                                  Registrar</button>
-
-                           </div>
                         </div>
                      </div>
-
                   </form>
                </div>
             </div>
@@ -177,10 +149,6 @@
             document.getElementById('third-div').hidden = true;
          }
 
-         function thirdDiv() {
-            document.getElementById('third-div').hidden = false;
-            document.getElementById('second-div').hidden = true;
-         }
 
       </script>
 

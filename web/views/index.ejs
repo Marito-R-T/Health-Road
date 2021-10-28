@@ -215,26 +215,26 @@
                   <div class="appointment-form">
                      <h3>¿Quieres suscribir a tu hospital?</h3>
                      <div class="form">
-                        <form action="/SendRequest" method="POST">
+                        <form class="was-validated" action="/SendRequest" method="POST">
                            <fieldset>
                               <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                                  <div class="row">
                                     <div class="form-group">
-                                       <input type="text" id="name" name="name" required placeholder="Tu Nombre" />
+                                       <input type="text" class="form-control" id="name" name="name" required placeholder="Nombre del Hospital" />
                                     </div>
                                  </div>
                               </div>
                               <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                                  <div class="row">
                                     <div class="form-group">
-                                       <input type="email" required name="email" placeholder="Correo Electronico" id="email" />
+                                       <input type="email" class="form-control" required name="email" placeholder="Correo Electronico" id="email" />
                                     </div>
                                  </div>
                               </div>
                               <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 ">
                                  <div class="row">
                                     <div class="form-group">
-                                       <input type="text" required max="10" name="hospital_register" placeholder="No. Registro de Hospital" id="registro" />
+                                       <input type="text" class="form-control"  required max="10" name="hospital_register" placeholder="No. Registro de Hospital" id="registro" />
 
                                     </div>
 
@@ -278,34 +278,8 @@
                   <div class="footer-info padding">
                      <h3>CONTACTANOS</h3>
                      <p><i class="fa fa-map-marker" aria-hidden="true"></i> Quetzaltenango, Guatemala</p>
-                     <p><i class="fa fa-paper-plane" aria-hidden="true"></i> HealthRoad@ healtroad.org</p>
+                     <p><i class="fa fa-paper-plane" aria-hidden="true"></i> healthroads141618@gmail.com</p>
                      <p><i class="fa fa-phone" aria-hidden="true"></i> (+502) 11111111</p>
-                  </div>
-               </div>
-               <div class="col-md-4">
-                  <div class="subcriber-info">
-                     <h3>SUSCRIBETE</h3>
-                     <p>Informate de los descuentos y promociones que ofrecen los hospitales</p>
-                     <div class="subcriber-box">
-                        <form id="mc-form" class="mc-form">
-                           <div class="newsletter-form">
-                              <input type="email" autocomplete="off" id="mc-email" placeholder="Correo Electronico"
-                                 class="form-control" name="EMAIL">
-                              <button class="mc-submit" type="submit"><i class="fa fa-paper-plane"></i></button>
-                              <div class="clearfix"></div>
-                              <!-- mailchimp-alerts Start -->
-                              <div class="mailchimp-alerts">
-                                 <div class="mailchimp-submitting"></div>
-                                 <!-- mailchimp-submitting end -->
-                                 <div class="mailchimp-success"></div>
-                                 <!-- mailchimp-success end -->
-                                 <div class="mailchimp-error"></div>
-                                 <!-- mailchimp-error end -->
-                              </div>
-                              <!-- mailchimp-alerts end -->
-                           </div>
-                        </form>
-                     </div>
                   </div>
                </div>
             </div>
