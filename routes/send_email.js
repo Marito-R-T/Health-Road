@@ -17,6 +17,7 @@ async function register_mail (req,res,code) {
     };
     await transporter.sendMail(mailOptions, function(error, info){
         if (error){
+            console.log(error);
             res.send("Error al enviar")
         } else {
             user.update({code:code},{where: {user:req.params.user}}).then(e=>{

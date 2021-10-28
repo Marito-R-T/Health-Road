@@ -192,8 +192,7 @@ router.put('/update-credit-card/',(req, res)=>{
 router.delete('/eliminar-credit-card/',(req, res)=>{
     creditCard.destroy({
         where:{
-            user:req.body.user,
-            card_number:req.body.card_number,    
+            user:req.body.user,  
         }
     }).then(e=>{
         res.status(201).json({ error:"tarjeta eliminada"})
