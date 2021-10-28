@@ -3,19 +3,20 @@ const { Sequelize, DataTypes, Model } = require('sequelize');
 //credentials
 //const USER = '
 //const USER = 'marito';
-/*const USER = 'postgres';
+/*
+const USER = 'postgres';
 const HOST = 'localhost';
 const DATABASE = 'health_road';
 const PASSWORD = 'Odra20$'
 const PORT = '5432';
-
 //connection
 const sequelize = new Sequelize(DATABASE, USER, PASSWORD, {
     HOST,
     PORT,
     dialect: 'postgres',
     logging: false,
-});*/
+});
+*/
 
 const USER = 'rougxvplrsupiu';
 const HOST = 'ec2-54-209-52-160.compute-1.amazonaws.com';
@@ -108,6 +109,11 @@ var service = sequelize.define('Service', {
     status: {
         type: DataTypes.BOOLEAN,
         defaultValue: false
+    },
+    deleted: {
+        type: DataTypes.BOOLEAN,
+        defaultValue: false,
+        allowNull:true
     },
     schedule: {
         type: DataTypes.JSON,
@@ -225,6 +231,8 @@ var discount = sequelize.define('Discount', {
         type:DataTypes.DATE,
         defaultValue: Date.now(),
     },
+}, {
+    freezeTableName: true,
 })
 
 var favorites = sequelize.define('Favorites', {
@@ -244,12 +252,14 @@ var favorites = sequelize.define('Favorites', {
         type: DataTypes.BOOLEAN,
         defaultValue:true
     }
+}, {
+    freezeTableName: true,
 })
 
 var creditCard = sequelize.define('CreditCard', {
     card_number:{
-        type: DataTypes.INTEGER,
-        allowNull: false,
+        type: DataTypes.CHAR(length =17),
+        allowNull: true,
         primaryKey: true,
     },
     expiration:{
@@ -259,7 +269,14 @@ var creditCard = sequelize.define('CreditCard', {
     cvv:{
         type: DataTypes.INTEGER,
         allowNull: false,
+    },
+    holder:{
+        type: DataTypes.TEXT,
+        allowNull: true,
+        defaultValue: ''
     }
+}, {
+    freezeTableName: true,
 })
 
 var solicitudes = sequelize.define('Solicitudes', {
@@ -286,7 +303,7 @@ var solicitudes = sequelize.define('Solicitudes', {
 },{
     freezeTableName: true,
 })
-
+//solicitudes.sync({ force: true }).then(function() {});
 //usuarios
 //user.sync({ force: true }).then(function() {});
 //ambulance_driver.sync({ force: true }).then(function() {});
@@ -307,8 +324,6 @@ user.hasMany(hospital, {
         allowNull: false,
     }
 })
-
-
 
 //-------servbicios
 //category.sync({ force: true }).then(function() {});
@@ -382,9 +397,15 @@ hospital.hasMany(ambulance_driver,{
         name:'hospital_user'
     }
 })
+
+
 //ambulance_driver.sync({ alter: true }).then(function() {});
+//service.sync({ alter: true }).then(function() {});
 //creditCard.sync({ alter: true }).then(function() {})
 
+//creditCard.sync({ alter: true }).then(function() {})
+//creditCard.sync({ force: true }).then(function() {})
+//hospital.sync({ alter: true }).then(function() {});
 function alter_table() {
     hospital.sync({ alter: true }).then(function() {});
     category.sync({ alter: true }).then(function() {});
@@ -394,7 +415,6 @@ function alter_table() {
     service_rates.sync({ alter: true }).then(function() {})
     discount.sync({ alter: true }).then(function() {})
 }
-
 function create_tables() {
     hospital.sync({ force: true }).then(function() {});
     category.sync({ force: true }).then(function() {});
@@ -418,4 +438,3 @@ module.exports.service_rates = service_rates;
 module.exports.discount = discount;
 module.exports.favorites = favorites;
 module.exports.creditCard = creditCard;
-module.exports.solicitudes = solicitudes;

@@ -1,6 +1,7 @@
 var nodemailer = require('nodemailer');
 const { user } = require('../models/connection_db');
-async function register_mail (req,res,code) {
+var url = require('url');
+async function register_mail (req,res,code,email) {
     let transporter = nodemailer.createTransport({
         host: 'smtp.gmail.com',
         port: 587,
@@ -11,24 +12,15 @@ async function register_mail (req,res,code) {
     });
     var mailOptions = {
         from: 'healthroads141618@gmail.com',
-        to: req.params.correo,
-        subject: 'Asunto',
+        to: email,
+        subject: 'Credenciales',
         text: code
     };
     await transporter.sendMail(mailOptions, function(error, info){
         if (error){
-            res.send("Error al enviar")
+            res.redirect(url.format({ pathname: '/Admin/Hospitals', query: { title: 'Error', message: 'Error al enviar correo de informacion', type: 'error' } }));
         } else {
-            user.update({code:code},{where: {user:req.params.user}}).then(e=>{
-                if(e && e[0]){
-                    res.status(201).send(true)
-                }else{
-                    res.status(400).send(false)
-                }
-            }).catch(err=>{
-                res.status(500).send(false)
-            })
-            
+            res.redirect(url.format({ pathname: '/Admin/Hospitals', query: { title: 'Registro Exitoso', message: 'Registro completado exitosamente', type: 'success' } }));            
         }
     });
 };

@@ -14,7 +14,6 @@ router.get('/Login', (req, res) => {
 
 router.post('/SendRequest', async (req, res) => {
   const request_info = req.body;
-  console.log(request_info);
   if (!validator.validate(request_info.email)) {
     res.redirect(url.format({ pathname: '/', query: { title: 'Error', message: 'Email incorrecto', type: 'error' } }));
   } else {
