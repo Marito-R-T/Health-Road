@@ -36,60 +36,45 @@ class _PopularCourseListViewState extends State<PopularCourseListView>
     super.initState();
   }
 
-  Future<bool> getData() async {
-    await Future<dynamic>.delayed(const Duration(milliseconds: 200));
-    return true;
-  }
-
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.only(top: 8),
-      child: FutureBuilder<bool>(
-        future: getData(),
-        builder: (BuildContext context, AsyncSnapshot<bool> snapshot) {
-          if (!snapshot.hasData) {
-            return const SizedBox();
-          } else {
-            return GridView(
-              controller: ScrollController(),
-              padding: const EdgeInsets.all(8),
-              physics: const BouncingScrollPhysics(),
-              scrollDirection: Axis.vertical,
-              children: List<Widget>.generate(
-                widget.services.length,
-                (int index) {
-                  final int count = widget.services.length;
-                  final Animation<double> animation =
-                      Tween<double>(begin: 0.0, end: 1.0).animate(
-                    CurvedAnimation(
-                      parent: animationController!,
-                      curve: Interval((1 / count) * index, 1.0,
-                          curve: Curves.fastOutSlowIn),
-                    ),
-                  );
-                  animationController?.forward();
-                  return CategoryView(
-                    callback: () {
-                      moveToService(widget.services[index]);
-                    },
-                    service: widget.services[index],
-                    animation: animation,
-                    animationController: animationController,
-                  );
+        padding: const EdgeInsets.only(top: 8),
+        child: GridView(
+          controller: ScrollController(),
+          padding: const EdgeInsets.all(8),
+          physics: const BouncingScrollPhysics(),
+          scrollDirection: Axis.vertical,
+          children: List<Widget>.generate(
+            widget.services.length,
+            (int index) {
+              final int count = widget.services.length;
+              final Animation<double> animation =
+                  Tween<double>(begin: 0.0, end: 1.0).animate(
+                CurvedAnimation(
+                  parent: animationController!,
+                  curve: Interval((1 / count) * index, 1.0,
+                      curve: Curves.fastOutSlowIn),
+                ),
+              );
+              animationController?.forward();
+              return CategoryView(
+                callback: () {
+                  moveToService(widget.services[index]);
                 },
-              ),
-              gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                crossAxisCount: 2,
-                mainAxisSpacing: 32.0,
-                crossAxisSpacing: 32.0,
-                childAspectRatio: 2.8,
-              ),
-            );
-          }
-        },
-      ),
-    );
+                service: widget.services[index],
+                animation: animation,
+                animationController: animationController,
+              );
+            },
+          ),
+          gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+            crossAxisCount: 2,
+            mainAxisSpacing: 32.0,
+            crossAxisSpacing: 32.0,
+            childAspectRatio: 2.8,
+          ),
+        ));
   }
 }
 

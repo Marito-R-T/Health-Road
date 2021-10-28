@@ -55,33 +55,30 @@ class _DesignCourseHomeScreenState extends State<DesignCourseHomeScreen> {
             ),
             getAppBarUI(),
             Expanded(
-              child: SingleChildScrollView(
-                controller: ScrollController(),
-                child: Container(
-                  height: MediaQuery.of(context).size.height,
-                  child: Column(
-                    children: <Widget>[
-                      getSearchBarUI(),
-                      const Padding(
-                        padding: EdgeInsets.only(top: 8.0, left: 18, right: 16),
-                        child: Text(
-                          'Range Price Service',
-                          textAlign: TextAlign.left,
-                          style: TextStyle(
-                            fontWeight: FontWeight.w600,
-                            fontSize: 12,
-                            letterSpacing: 0.27,
-                            color: DesignCourseAppTheme.darkerText,
-                          ),
+              child: Container(
+                height: MediaQuery.of(context).size.height,
+                child: Column(
+                  children: <Widget>[
+                    getSearchBarUI(),
+                    const Padding(
+                      padding: EdgeInsets.only(top: 8.0, left: 18, right: 16),
+                      child: Text(
+                        'Range Price Service',
+                        textAlign: TextAlign.left,
+                        style: TextStyle(
+                          fontWeight: FontWeight.w600,
+                          fontSize: 12,
+                          letterSpacing: 0.27,
+                          color: DesignCourseAppTheme.darkerText,
                         ),
                       ),
-                      getRangeSlider(),
-                      getCategoryUI(),
-                      Flexible(
-                        child: getPopularCourseUI(),
-                      ),
-                    ],
-                  ),
+                    ),
+                    getRangeSlider(),
+                    getCategoryUI(),
+                    Expanded(
+                      child: getPopularCourseUI(),
+                    ),
+                  ],
                 ),
               ),
             ),
@@ -214,13 +211,16 @@ class _DesignCourseHomeScreenState extends State<DesignCourseHomeScreen> {
   }
 
   Widget getPopularCourseUI() {
-    return Padding(
+    return /*Padding(
       padding: const EdgeInsets.only(top: 8.0, left: 18, right: 16),
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: <Widget>[
-          const Text(
+      child:*/
+        Column(
+      mainAxisAlignment: MainAxisAlignment.center,
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: <Widget>[
+        const Padding(
+          padding: EdgeInsets.only(left: 18, right: 16),
+          child: Text(
             'Services',
             textAlign: TextAlign.left,
             style: TextStyle(
@@ -230,25 +230,26 @@ class _DesignCourseHomeScreenState extends State<DesignCourseHomeScreen> {
               color: DesignCourseAppTheme.darkerText,
             ),
           ),
-          Flexible(
-              child: FutureBuilder<List<Service>?>(
-            future: Listservices,
-            builder: (context, snapshot) {
-              if (snapshot.hasData) {
-                return PopularCourseListView(
-                  services: snapshot.data!,
-                );
-              } else {
-                return const SizedBox(
-                  width: double.maxFinite,
-                  height: 50,
-                );
-              }
-            },
-          ))
-        ],
-      ),
+        ),
+        Flexible(
+            child: FutureBuilder<List<Service>?>(
+          future: Listservices,
+          builder: (context, snapshot) {
+            if (snapshot.hasData) {
+              return PopularCourseListView(
+                services: snapshot.data!,
+              );
+            } else {
+              return const SizedBox(
+                width: double.maxFinite,
+                height: 50,
+              );
+            }
+          },
+        ))
+      ],
     );
+    /*);*/
   }
 
   Widget getButtonUI(String categoryTypeData, bool isSelected) {
