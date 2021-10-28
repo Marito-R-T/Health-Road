@@ -29,7 +29,7 @@ body.clinic_version .navbar-nav span {
 body.clinic_version .testimonial h4,
 body.clinic_version .lead strong,
 body.clinic_version .icon-wrapper:hover a,
-body.clinic_version a:hover,
+body.clinic_version a:hover:not(.excluyed),
 body.clinic_version a:focus {
     color: #2d2e2e
 }
