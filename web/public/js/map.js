@@ -55,7 +55,9 @@ geocoder.on('result', e => {
    })
 })
 map.addControl(geocoder);
-const marker1 = new mapboxgl.Marker()
+const marker1 = new mapboxgl.Marker({
+   color: '#00000',
+})
 .setLngLat([longitude_number, latitude_number])
 .addTo(map);
 

@@ -3,18 +3,40 @@ const { Sequelize, DataTypes, Model } = require('sequelize');
 //credentials
 //const USER = '
 //const USER = 'marito';
+/*
 const USER = 'postgres';
 const HOST = 'localhost';
 const DATABASE = 'health_road';
 const PASSWORD = 'Odra20$'
 const PORT = '5432';
-
 //connection
 const sequelize = new Sequelize(DATABASE, USER, PASSWORD, {
     HOST,
     PORT,
     dialect: 'postgres',
     logging: false,
+});
+*/
+
+const USER = 'rougxvplrsupiu';
+const HOST = 'ec2-54-209-52-160.compute-1.amazonaws.com';
+const DATABASE = 'dcbbqpd0tlkl89';
+const PASSWORD = 'b6dbf4d79e10aff839a37bfa1a078fbf70ffc7282ebf8ac81c05e229660911e2';
+const PORT = '5432';
+
+//connection
+const sequelize = new Sequelize(
+    'postgres://rougxvplrsupiu:b6dbf4d79e10aff839a37bfa1a078fbf70ffc7282ebf8ac81c05e229660911e2@ec2-54-209-52-160.compute-1.amazonaws.com:5432/dcbbqpd0tlkl89'
+,
+{
+    dialect: 'postgres',
+    protocol: 'postgres',
+    dialectOptions: {
+        ssl: {
+            require: true,
+            rejectUnauthorized: false
+        }
+    }
 });
 
 var hospital = sequelize.define('Hospital', {
@@ -87,6 +109,11 @@ var service = sequelize.define('Service', {
     status: {
         type: DataTypes.BOOLEAN,
         defaultValue: false
+    },
+    deleted: {
+        type: DataTypes.BOOLEAN,
+        defaultValue: false,
+        allowNull:true
     },
     schedule: {
         type: DataTypes.JSON,
@@ -204,6 +231,8 @@ var discount = sequelize.define('Discount', {
         type:DataTypes.DATE,
         defaultValue: Date.now(),
     },
+}, {
+    freezeTableName: true,
 })
 
 var favorites = sequelize.define('Favorites', {
@@ -223,12 +252,14 @@ var favorites = sequelize.define('Favorites', {
         type: DataTypes.BOOLEAN,
         defaultValue:true
     }
+}, {
+    freezeTableName: true,
 })
 
 var creditCard = sequelize.define('CreditCard', {
     card_number:{
-        type: DataTypes.INTEGER,
-        allowNull: false,
+        type: DataTypes.CHAR(length =17),
+        allowNull: true,
         primaryKey: true,
     },
     expiration:{
@@ -238,9 +269,41 @@ var creditCard = sequelize.define('CreditCard', {
     cvv:{
         type: DataTypes.INTEGER,
         allowNull: false,
+    },
+    holder:{
+        type: DataTypes.TEXT,
+        allowNull: true,
+        defaultValue: ''
     }
+}, {
+    freezeTableName: true,
 })
 
+var solicitudes = sequelize.define('Solicitudes', {
+    name:{
+        type: DataTypes.STRING(length = 50),
+        allowNull: false,
+    },
+    email:{
+        type: DataTypes.STRING(length = 30),
+        allowNull: false,
+    },
+    hospital_register:{
+        type: DataTypes.STRING(length = 10),
+        allowNull: false,
+    },
+    description:{
+        type: DataTypes.TEXT,
+        allowNull: false,
+    },
+    readed: {
+        type: DataTypes.BOOLEAN,
+        defaultValue: false
+    },
+},{
+    freezeTableName: true,
+})
+//solicitudes.sync({ force: true }).then(function() {});
 //usuarios
 //user.sync({ force: true }).then(function() {});
 //ambulance_driver.sync({ force: true }).then(function() {});
@@ -261,8 +324,6 @@ user.hasMany(hospital, {
         allowNull: false,
     }
 })
-
-
 
 //-------servbicios
 //category.sync({ force: true }).then(function() {});
@@ -336,9 +397,15 @@ hospital.hasMany(ambulance_driver,{
         name:'hospital_user'
     }
 })
+
+
 //ambulance_driver.sync({ alter: true }).then(function() {});
+//service.sync({ alter: true }).then(function() {});
 //creditCard.sync({ alter: true }).then(function() {})
 
+//creditCard.sync({ alter: true }).then(function() {})
+//creditCard.sync({ force: true }).then(function() {})
+//hospital.sync({ alter: true }).then(function() {});
 function alter_table() {
     hospital.sync({ alter: true }).then(function() {});
     category.sync({ alter: true }).then(function() {});
@@ -348,7 +415,6 @@ function alter_table() {
     service_rates.sync({ alter: true }).then(function() {})
     discount.sync({ alter: true }).then(function() {})
 }
-
 function create_tables() {
     hospital.sync({ force: true }).then(function() {});
     category.sync({ force: true }).then(function() {});

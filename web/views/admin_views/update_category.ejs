@@ -1,4 +1,4 @@
-<%- include("../include/header", { titulo: 'Health Road - Registro Categoria' }) %>
+<%- include("../include/header", { titulo: 'Health Road - Actualizar Categoria' }) %>
 
 <body class="clinic_version">
    <div id="preloader">
@@ -16,28 +16,28 @@
       <div class="container">
          <div class="heading">
             <span class="icon-logo"><img src="images/icon-logo.png" alt="#"></span>
-            <h2>Registrar Categoria</h2>
+            <h2>Actualizar Categoria</h2>
          </div>
       </div>
       <div class="container forms">
          <div class="contact-section">
             <div class="form-contant">
-               <form id="ajax-contact" class="was-validated" action="/category/register/" method="post">
+               <form id="ajax-contact" class="was-validated" action="/category/update/" method="post">
                   <div class="row">
                      <div class="col-md-12">
                         <div class="form-group in_email">
                            <label> <i class="far fa-tags"></i> Nombre</label>
-                           <input type="text" class="form-control" placeholder="Nombre" name="name" required="required">
+                           <input type="text" class="form-control" readonly placeholder="Nombre" name="name" value="<%- category.name  %>" required="required">
                         </div>
                      </div>
                      <div class="col-md-12">
                         <div class="form-group in_message">
                            <label> <i class="fal fa-comment-medical"></i> Descripcion </label>
                            <textarea class="form-control" id="message" rows="5" name="description" placeholder="Descripcion"
-                              required="required"></textarea>
+                              required="required"><%= category.description %></textarea>
                         </div>
                         <div class="actions">
-                           <button type="submit"  class="btn small submitButton" ><i class="far fa-save"></i> Guardar</button>
+                           <button type="submit"  class="btn small submitButton" ><i class="far fa-save"></i> Actualizar</button>
                         </div>
                      </div>
                   </div>

@@ -10,30 +10,30 @@
       <div id="getintouch" class="section wb wow fadeIn" style="padding-bottom:0;">
          <div class="container">
             <div class="img-profile">
-   
+
                <div class="cover-upload">
                   <div class="cover-edit">
-                   
+
                   </div>
                   <div class="cover-preview">
                      <div id="previsualizacion-cover" style="background-image: url(images/logo-hospital.png);">
                         <div class="avatar-upload">
                            <div class="avatar-edit" style="left: 200px;">
-                             
+
                            </div>
                            <div class="avatar-preview">
-                              
+
                            </div>
-   
+
                         </div>
-   
+
                      </div>
                   </div>
-   
+
                </div>
-   
-   
-   
+
+
+
             </div>
          </div>
          <div class="container profile-container">
@@ -42,132 +42,331 @@
                <div class="col-md-9 nav-profile">
                   <ul class="nav nav-tabs" id="myTab" role="tablist">
                      <li class="nav-item" role="presentation">
-                        <button class="nav-link active" id="home-tab" data-bs-toggle="tab" data-bs-target="#home"
-                           type="button" role="tab" aria-controls="home" aria-selected="true">Hospitales</button>
+
+                        <form action="/Admin/Hospitals">
+                           <button class="nav-link <%-tabs.hosp%>" id="home-tab" data-bs-toggle="tab"
+                              data-bs-target="#home" type="submit" role="tab" aria-controls="home"
+                              aria-selected="true">Hospitales</button>
+                        </form>
+
                      </li>
                      <li class="nav-item" role="presentation">
-                        <button class="nav-link" id="profile-tab" data-bs-toggle="tab" data-bs-target="#profile"
-                           type="button" role="tab" aria-controls="profile" aria-selected="false">Categorias</button>
+                        <form action="/Admin/Category">
+                           <button type="submit" class="nav-link  <%-tabs.cat%>" id="profile-tab" data-bs-toggle="tab"
+                              data-bs-target="#profile" type="button" role="tab" aria-controls="profile"
+                              aria-selected="false">Categoria</button>
+                        </form>
+                     </li>
+
+                     <li class="nav-item" role="presentation">
+                        <form action="/Admin/Request">
+                           <button type="submit" class="nav-link  <%-tabs.sol%>" id="gallery-tab" data-bs-toggle="tab"
+                              data-bs-target="#gallery" type="button" role="tab" aria-controls="gallery"
+                              aria-selected="false">Solicitudes</button>
+                        </form>
                      </li>
                      <li class="nav-item" role="presentation">
-                        <button class="nav-link" id="contact-tab" data-bs-toggle="tab" data-bs-target="#contact"
-                           type="button" role="tab" aria-controls="contact"
-                           aria-selected="false">Calificaciones</button>
-                     </li>
-                     <li class="nav-item" role="presentation">
-                        <button class="nav-link" id="gallery-tab" data-bs-toggle="tab" data-bs-target="#gallery"
-                           type="button" role="tab" aria-controls="gallery" aria-selected="false">Galeria</button>
+                        <form action="/Admin/HospitalLocations">
+                           <button type="submit" class="nav-link  <%-tabs.lochosp%>" id="location-tab"
+                              data-bs-toggle="tab" data-bs-target="#location" type="button" role="tab"
+                              aria-controls="location" aria-selected="false">Localizacion de hospitales</button>
+                        </form>
                      </li>
                   </ul>
                   <div class="tab-content" id="myTabContent">
 
-                     <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
-                       
-                        <div class="list-group">
-                           <div class="list-group-item list-group-item-action flex-column align-items-start ">
-                              <div class="service-control-panel">
-                            
-                              <div class="row">
-                                 <div class="col-md-2">
-                                    <img width="100px"
-                                       src="https://i.pinimg.com/280x280_RS/2e/45/66/2e4566fd829bcf9eb11ccdb5f252b02f.jpg"
-                                       alt="">
-                                 </div>
-                                 <div class="col-md-10">
-                                    <div>
-                                       <div class="d-flex w-100 justify-content-between">
-                                          <h5 class="mb-1">Nombre Servicio</h5>
-                                          <small>Q. 10000</small>
-                                       </div>
-                                       <p class="mb-1">Descripcion</p>
-                                       <small>Calificacion </small>
-                                       <small> <i class="fas fa-star"></i><i class="fas fa-star-half-alt"></i><i
-                                             class="far fa-star"></i><i class="far fa-star"></i><i
-                                             class="far fa-star"></i></small>
-                                       <small class="modified-buttons">
-                                          <button class="form">
-                                             <i class="far fa-edit"></i>
-                                          </button>
-                                          <button>
-                                             <i class="far fa-trash-alt"></i>
-                                          </button>
-                                       </small>
-                                    </div>
-
-
-                                 </div>
-                              </div>
-
-
-                           </div>
-                        </div>
-
-                     </div>
-
-                     </div>
-                     <div class="tab-pane fade" id="profile" role="tabpanel" aria-labelledby="profile-tab">
-                        <div class="service-control-panel">
-                           <div class="service-filter">
-
-                           </div>
+                     <div class="tab-pane fade <%-tabs.hosp%>" id="home" role="tabpanel" aria-labelledby="home-tab">
+                        <%if(locals.hospitals){%>
                            <div class="service-actions">
-                              <form action="/Admin/Add_Category" >
-                                 <button class="form">
-                                    <i class="far fa-notes-medical"></i> Categoria</i>
-                                 </button>
+
+                              <form action="/Admin/AddHospital">
+                                 <button  class="form button button--shikoba button--text-medium button--round-l button--inverted">
+                                    <i class="button__icon fad fa-notes-medical"></i></i> <span>Hospital</span>
+                                </button>
+                                 
                               </form>
                            </div>
+                           <div class="list-group" style="height: 900px; overflow: auto;">
 
-
-                        </div>
-                        <div class="list-group">
-                           <div class="list-group-item list-group-item-action flex-column align-items-start ">
-                              <div class="row">
-                                 <div class="col-md-2">
-                                    <img width="100px"
-                                       src="https://i.pinimg.com/280x280_RS/2e/45/66/2e4566fd829bcf9eb11ccdb5f252b02f.jpg"
-                                       alt="">
-                                 </div>
-                                 <div class="col-md-10">
-                                    <div>
-                                       <div class="d-flex w-100 justify-content-between">
-                                          <h5 class="mb-1">Nombre Categoria</h5>
+                              <% for(var i=0; i<hospitals.length; i++){%>
+                                 <div class="list-group-item list-group-item-action flex-column align-items-start ">
+                                    <div class="row">
+                                       <div class="col-md-2">
+                                          <img width="100px"
+                                             src="https://static.vecteezy.com/system/resources/thumbnails/000/353/690/small/Health__28208_29.jpg"
+                                             alt="">
                                        </div>
-                                       <p class="mb-1">Descripcion</p>
-                                       <small>Calificacion </small>
-                                       <small> <i class="fas fa-star"></i><i class="fas fa-star-half-alt"></i><i
-                                             class="far fa-star"></i><i class="far fa-star"></i><i
-                                             class="far fa-star"></i></small>
-                                       <small class="modified-buttons">
-                                          <button class="form">
-                                             <i class="far fa-edit"></i>
-                                          </button>
-                                          <button>
-                                             <i class="far fa-trash-alt"></i>
-                                          </button>
-                                       </small>
+                                       <div class="col-md-10">
+                                          <div>
+                                             <div class="d-flex w-100 justify-content-between">
+                                                <h4 class="mb-1">
+                                                   <%-hospitals[i].hospital_name %>
+                                                </h4>
+
+                                                <small>
+                                                   <%- hospitals[i].user %>
+                                                </small>
+                                             </div>
+                                             <div class="d-flex w-100 justify-content-between">
+                                                <p class="mb-1">
+                                                   <%if (hospitals[i].direction) { %>
+                                                      <%- hospitals[i].direction.address %>
+                                                         <% } %>
+                                                            <br>
+                                                            <%- hospitals[i].email %>
+                                                               <br>
+                                                               <%- hospitals[i].celphone %>
+                                                </p>
+
+                                                <% if(hospitals[i].hospital_status) {%>
+                                                   <span class="badge badge-pill badge-secondary"
+                                                      style="height: -moz-available; align-self: center;">
+                                                      Activo
+                                                   </span>
+                                                   <% }else{ %>
+                                                      <span class="badge badge-pill out-service"
+                                                         style="height: -moz-available; align-self: center;">
+                                                         Eliminado
+                                                      </span>
+
+                                                      <%} %>
+                                             </div>
+
+
+                                             <br>
+
+
+                                          </div>
+
+
+                                       </div>
                                     </div>
 
 
                                  </div>
+                                 <hr>
+                                 <% } %>
+                           </div>
+                           <%}%>
+
+
+                     </div>
+                     <div class="tab-pane fade <%-tabs.cat%>" id="profile" role="tabpanel"
+                        aria-labelledby="profile-tab">
+                        <%if(locals.categories){%>
+                           <div class="service-control-panel">
+                              <div class="service-filter">
+
+                              </div>
+                              <div class="service-actions">
+                                 <form action="/Admin/Add_Category">
+                                    <button  class="form button button--shikoba button--text-medium button--round-l button--inverted">
+                                       <i class="button__icon fad fa-notes-medical"></i></i> <span>Categoria</span>
+                                   </button>
+                                 </form>
                               </div>
 
 
                            </div>
+                           <div class="list-group" style="height: 900px; overflow: auto;">
+                              <% for(var i=0; i<categories.length; i++){%>
+                                 <div class="list-group-item list-group-item-action flex-column align-items-start ">
+                                    <div class="row">
+                                       <div class="col-md-2">
+                                          <img width="100px"
+                                             src="https://thumbs.dreamstime.com/b/category-icon-189057199.jpg" alt="">
+                                       </div>
+                                       <div class="col-md-10">
+                                          <div>
+                                             <div class="d-flex w-100 justify-content-between">
+                                                <h5 class="mb-1">
+                                                   <%-categories[i].name %>
+                                                </h5>
+                                             </div>
+                                             <p class="mb-1">
+                                                <%-categories[i].description %>
+                                             </p>
 
-                        </div>
+                                          </div>
+
+
+                                       </div>
+                                    </div>
+                                    <small class="modified-buttons">
+                                       <form action="/Admin/UpdateCategory">
+                                          <input type="text" hidden class="form-control" name="name"
+                                             value="<%-categories[i].name%>">
+                                          <button type="submit" class="form">
+                                             <i class="far fa-edit"></i>
+                                          </button>
+                                       </form>
+                                    </small>
+
+                                 </div>
+                                 <hr>
+                                 <% } %>
+                           </div>
+                           <% } %>
                      </div>
-                     <div class="tab-pane fade" id="contact" role="tabpanel" aria-labelledby="contact-tab">
+                     <div class="tab-pane fade <%-tabs.sol%>" id="gallery" role="tabpanel"
+                        aria-labelledby="gallery-tab">
+                        <%if(locals.solicitudes){%>
+                           <div class="list-group">
+                              <% for(var i=0; i<solicitudes.length; i++){%>
+                                 <div class="list-group-item list-group-item-action flex-column align-items-start ">
+                                    <div class="row">
+                                       <div class="col-md-2">
+                                          <img width="100px"
+                                             src="https://previews.123rf.com/images/cowpland/cowpland1706/cowpland170600041/80179641-concepto-de-solicitud-de-cita-con-documento-reloj-y-l%C3%A1piz-ilustraci%C3%B3n-vectorial-en-estilo-plano.jpg"
+                                             alt="">
+                                       </div>
+                                       <div class="col-md-10">
+                                          <div>
+                                             <div class="d-flex w-100 justify-content-between">
+                                                <h5 class="mb-1">
+                                                   <%-solicitudes[i].name %>
+                                                </h5>
+                                             </div>
+                                             <p class="mb-1">
+
+                                                <%- solicitudes[i].email %>
+                                                   <br>
+                                                   <%- solicitudes[i].hospital_register %>
+                                                      <br>
+                                                      <%-solicitudes[i].description %>
+                                             </p>
+                                             <% if(!solicitudes[i].readed) {%>
+                                                <span class="badge badge-pill badge-secondary"
+                                                   style="height: -moz-available; align-self: center;">
+                                                   Pendiente
+                                                </span>
+                                                <% }else{ %>
+                                                   <span class="badge badge-pill out-service"
+                                                      style="height: -moz-available; align-self: center;">
+                                                      Procesada
+                                                   </span>
+
+                                                   <%} %>
+
+                                          </div>
+                                          <small class="modified-buttons">
+                                             <% if(!solicitudes[i].readed) {%>
+                                                <form action="/Admin/AddHospital">
+                                                   <input type="text" hidden class="form-control" name="name"
+                                                      value="<%-solicitudes[i].name %>">
+                                                   <input type="text" hidden class="form-control" name="email"
+                                                      value="<%-solicitudes[i].email %>">
+                                                   <input type="text" hidden class="form-control" name="register"
+                                                      value="<%-solicitudes[i].hospital_register %>">
+                                                   <input type="text" hidden class="form-control" name="description"
+                                                      value="<%-solicitudes[i].description %>">
+                                                   <input type="text" hidden class="form-control" name="request_id"
+                                                      value="<%-solicitudes[i].id %>">
+                                                   <button type="submit" class="form">
+                                                      <i class="fad fa-hospital"></i><br> Añadir Hospital
+                                                   </button>
+                                                </form>
+                                                <form action="/Admin/Request_Process">
+                                                   <input type="text" hidden class="form-control" name="request_id"
+                                                      value="<%-solicitudes[i].id %>">
+                                                   <button class="form">
+                                                      <i class="far fa-times-square"></i> Marcar como Procesada
+                                                   </button>
+                                                </form>
+                                                <%} %>
+
+                                          </small>
+
+                                       </div>
+                                    </div>
 
 
+                                 </div>
+                                 <hr>
+                                 <% } %>
+                           </div>
+                           <%} %>
                      </div>
-                     <div class="tab-pane fade" id="gallery" role="tabpanel" aria-labelledby="gallery-tab">
+                     <div class="tab-pane fade <%-tabs.lochosp%>" id="location" role="tabpanel">
+                        <%if(locals.locations){%>
+                           <style>
+                              body {
+                                 margin: 0;
+                                 padding: 0;
+                              }
+                           </style>
+                           <style>
+                              #marker {
+                                 background-image: url('https://cdn2.vectorstock.com/i/1000x1000/08/41/hospital-building-vector-4910841.jpg');
+                                 background-size: cover;
+                                 width: 50px;
+                                 height: 50px;
+                                 border-radius: 50%;
+                                 cursor: pointer;
+                              }
 
+                              .mapboxgl-popup {
+                                 max-width: 200px;
+                              }
+                           </style>
 
+                           <div id="map"></div>
+
+                           <script>
+                              mapboxgl.accessToken = 'pk.eyJ1Ijoib2RyYTEyMjAiLCJhIjoiY2t1N2xmN243MDF2MzJvcDN0M2lpdDA1ZSJ9.8i8Nib_WvoHPO06k7LypaA';
+                              const center = [-91.51832317540874, 14.834277919227247];
+                              const map = new mapboxgl.Map({
+                                 container: 'map',
+                                 zoom: 12.5,
+                                 center: center,
+                                 pitch: 60,
+                                 style: 'mapbox://styles/mapbox/streets-v11'
+                              });
+
+                              var test = <%- JSON.stringify(locations)%>;
+                              for (var i in test) {
+                                 var latitude = test[i].direction.latitude;
+                                 var longitude = test[i].direction.longitude;
+                                 var address = test[i].direction.address;
+                                 var name = test[i].name;
+                                 const popup = new mapboxgl.Popup({ offset: 25 }).setText(
+                                    'Hospital: '+name+' \n '+'Direccion: '+address
+                                 );
+                                 const el = document.createElement('div');
+                                 el.id = 'marker';
+                                 new mapboxgl.Marker(el)
+                                    .setLngLat([parseFloat(longitude),parseFloat(latitude)])
+                                    .setPopup(popup) 
+                                    .addTo(map);
+                              }
+
+                              function toggleSidebar(id) {
+                                 const elem = document.getElementById(id);
+                                 const collapsed = elem.classList.toggle('collapsed');
+                                 const padding = {};
+                                 padding[id] = collapsed ? 0 : 300;
+                                 map.easeTo({
+                                    padding: padding,
+                                    duration: 1000
+                                 });
+                              }
+
+                              map.on('load', () => {
+                                 toggleSidebar('left');
+                              });
+                           </script>
+                           <% } %>
                      </div>
-
-
                   </div>
+               </div>
+               <div class="col-md-3 basic-information">
+                  <label> <i class="fas fa-hospital-symbol"></i> Panel de control</label>
+                  <form action="/user/logout/">
+                     <button class="form button button--shikoba button--text-medium button--round-l button--inverted">
+                        <i class="button__icon fas fa-sign-out-alt"></i>
+                        <span> Cerrar Sesion</span>
+                    </button>
+                  </form>
                </div>
             </div>
 

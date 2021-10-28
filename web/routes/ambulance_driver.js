@@ -134,6 +134,34 @@ router.post('/update/', async (req, res) => {
     }
 })
 
+router.post('/updatepass/', async (req, res) => {
+    const user_info = req.body;
+    if ((user_info.user && user_info.password && user_info.confirmation)) {
+        if (user_info.confirmation != user_info.user) {
+            res.redirect(url.format({ pathname: '/Hospital/Users', query: { title: 'Error', message: 'Confirmacion incorrecta', type: 'error' } }));
+        } else {
+            await user.update({
+                password: user_info.password,
+            }, {
+                where: {
+                    user: user_info.user
+                }
+            }).then(e => {
+
+                res.redirect(url.format({ pathname: '/Hospital/Users', query: { title: 'Exito', message: 'Informacion del conductor actualizada', type: 'success' } }));
+
+            })
+                .catch(err => {
+                    res.redirect(url.format({ pathname: '/Hospital/Users', query: { title: 'Error', message: 'No se pudo actualizar, intente de nuevo', type: 'error' } }));
+                })
+        }
+
+
+    } else {
+        res.redirect(url.format({ pathname: '/Hospital/Users', query: { title: 'Error', message: 'No se pudo actualizar, intente de nuevo', type: 'error' } }));
+    }
+})
+
 router.post("/delete/", async (req, res) => {
     const user_info = req.body;
     if (user_info.confirmation != user_info.user_name) {

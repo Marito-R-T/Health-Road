@@ -23,12 +23,12 @@
          <div class="container forms">
             <div class="contact-section">
                <div class="form-contant">
-                  <form id="ajax-contact" action="/ambulance-driver/update/" method="post">
+                  <form id="ajax-contact" class="was-validated" action="/ambulance-driver/update/" method="post">
                      <div class="row">
                         <div class="col-md-4">
                            <div class="avatar-upload">
                               <div class="avatar-edit">
-                                 <button type="button" style="position: absolute; left: 20px;" data-bs-toggle="modal"
+                                 <button type="button" style="position: absolute;" data-bs-toggle="modal"
                                     data-bs-target="#add_photo">
                                     <i class="fas fa-camera"></i>
                                  </button>
@@ -79,20 +79,14 @@
                                     placeholder="Telefono" required="required">
                               </div>
                            </div>
-                           <div class="col-md-12">
-                              <div class="form-group in_email">
-                                 <label> <i class="far fa-lock-alt"></i> Password</label>
-                                 <input type="password" class="form-control" value="" name="password"
-                                    placeholder="Password" >
-                              </div>
-                           </div>
+                          
                            <div class="form-group in_message">
                               <label> <i class="far fa-location-circle"></i> Direccion </label>
 
                               <textarea class="form-control" id="address" rows="3" name="address"
                                  placeholder="Direccion"><%  if(direction){ %><%- direction.address%> <%} %></textarea>
-                              <input name="latitude" type="text"  value="<%  if(direction.latitude){ %><%- direction.latitude%><%}else{ %>14.834277919227247<%} %>" hidden id="latitude">
-                              <input name="longitude" type="text" value="<%  if(direction.longitud){ %><%- direction.longitude%><%}else{ %>-91.51832317540874<%} %>" hidden id="longitude">
+                              <input name="latitude" type="text"  <%  if(direction.latitude){ %>value="<%- direction.latitude%>"<%} %> hidden id="latitude">
+                              <input name="longitude" type="text" <%  if(direction.longitude){ %>value="<%- direction.longitude%>"<%}%> hidden id="longitude">
                               <button type="button" data-bs-toggle="modal" data-bs-target="#add_direction">
                                  <i class="far fa-location-circle"></i> Buscar Direccion
                               </button>
@@ -141,7 +135,7 @@
             </div>
          </div>
       </div>
-      <form action="/ambulance-driver/update-photo" method="POST" enctype="multipart/form-data">
+      <form action="/ambulance-driver/update-photo" class="was-validated" method="POST" enctype="multipart/form-data">
          <input hidden type="text" name="user_name" value="<%- user.user %>">
          <input hidden type="text" name="path_old" value="<%- user.profile_pic %>">
          <div class="modal fade" id="add_photo" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
@@ -157,9 +151,11 @@
                         <div class="img-profile">
                            <div class="photo-upload" style="margin: auto;">
                               <div class="photo-edit">
-                                 <input type='file' name="profile_pic" id="photo" accept=".png, .jpg, .jpeg ,.jfif"
+                                 <input type='file' class="form-control" name="profile_pic" id="photo" accept=".png, .jpg, .jpeg ,.jfif"
                                     required />
-                                 <label for="photo"><i style="margin: 8px;" class="fas fa-camera"></i></label>
+                                <label for="photo"><i style="margin: 8px;"
+                                                class="fas fa-camera"></i></label>
+                                    
                               </div>
                               <div class="photo-preview" style="padding: 0;">
                                  <div id="previsualizacion-photo"
