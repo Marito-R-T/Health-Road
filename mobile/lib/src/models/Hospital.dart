@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 class Hospital {
   String user;
   String? name;
@@ -29,7 +31,14 @@ class Hospital {
         payment_type: json['payment_type'],
         director_name: json['director_name'],
         status: json['status'],
-        photos: json['photos'],
+        photos: json['photos'] != null
+            ? json['photos']
+                .toString()
+                .replaceAll("[", "")
+                .replaceAll("]", "")
+                .replaceAll(" ", "")
+                .split(',')
+            : null,
         profile_pic: json['profile_pic']);
   }
 }

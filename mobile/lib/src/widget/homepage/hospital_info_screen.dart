@@ -3,6 +3,7 @@ import 'package:flutter_map/flutter_map.dart';
 import 'package:latlong2/latlong.dart';
 import 'package:mobile/src/models/Hospital.dart';
 import 'package:mobile/src/service/http_hospital.dart';
+import 'package:mobile/src/widget/homepage/photos_list_view.dart';
 import 'design_course_app_theme.dart';
 
 class HospitalInfoScreen extends StatefulWidget {
@@ -219,27 +220,6 @@ class _HospitalInfoScreenState extends State<HospitalInfoScreen>
                                               DesignCourseAppTheme.nearlyBlue,
                                         ),
                                       ),
-                                Container(
-                                  child: Row(
-                                    children: const <Widget>[
-                                      Text(
-                                        '4.3',
-                                        textAlign: TextAlign.left,
-                                        style: TextStyle(
-                                          fontWeight: FontWeight.w200,
-                                          fontSize: 22,
-                                          letterSpacing: 0.27,
-                                          color: DesignCourseAppTheme.grey,
-                                        ),
-                                      ),
-                                      Icon(
-                                        Icons.star,
-                                        color: DesignCourseAppTheme.nearlyBlue,
-                                        size: 24,
-                                      ),
-                                    ],
-                                  ),
-                                )
                               ],
                             ),
                           ),
@@ -249,65 +229,8 @@ class _HospitalInfoScreenState extends State<HospitalInfoScreen>
                             child: Padding(
                               padding: const EdgeInsets.all(8),
                               child: widget.hospital.photos != null
-                                  ? ListView.builder(
-                                      padding: const EdgeInsets.only(
-                                          top: 0,
-                                          bottom: 0,
-                                          right: 16,
-                                          left: 16),
-                                      itemCount: widget.hospital.photos!.length,
-                                      scrollDirection: Axis.horizontal,
-                                      itemBuilder:
-                                          (BuildContext context, int index) {
-                                        final int count =
-                                            widget.hospital.photos!.length > 10
-                                                ? 10
-                                                : widget
-                                                    .hospital.photos!.length;
-                                        final Animation<double> animation =
-                                            Tween<double>(begin: 0.0, end: 1.0)
-                                                .animate(CurvedAnimation(
-                                                    parent:
-                                                        animationController!,
-                                                    curve: Interval(
-                                                        (1 / count) * index,
-                                                        1.0,
-                                                        curve: Curves
-                                                            .fastOutSlowIn)));
-                                        animationController?.forward();
-                                        return Container(
-                                          child: Padding(
-                                            padding: const EdgeInsets.only(
-                                                top: 24, bottom: 24, left: 16),
-                                            child: Row(
-                                              children: <Widget>[
-                                                ClipRRect(
-                                                  borderRadius:
-                                                      const BorderRadius.all(
-                                                          Radius.circular(
-                                                              16.0)),
-                                                  child: widget.hospital
-                                                              .profile_pic !=
-                                                          null
-                                                      ? AspectRatio(
-                                                          aspectRatio: 1.0,
-                                                          child: Hospitals
-                                                              .getImageOnline(widget
-                                                                      .hospital
-                                                                      .photos![
-                                                                  index]))
-                                                      : AspectRatio(
-                                                          aspectRatio: 1.0,
-                                                          child: Image.asset(
-                                                              'assets/homepage/icon-logo.png'),
-                                                        ),
-                                                )
-                                              ],
-                                            ),
-                                          ),
-                                        );
-                                      },
-                                    )
+                                  ? PhotoListView(
+                                      listphoto: widget.hospital.photos!)
                                   /*Row(
                                       children: <Widget>[
                                         getTimeBoxUI('24', 'Classe'),

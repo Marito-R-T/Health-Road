@@ -1,5 +1,3 @@
-import 'dart:convert';
-
 import 'package:mobile/src/models/Hospital.dart';
 import 'package:mobile/src/service/http_hospital.dart';
 import 'package:mobile/src/widget/homepage/design_course_app_theme.dart';
