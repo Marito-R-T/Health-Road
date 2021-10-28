@@ -398,7 +398,7 @@ hospital.hasMany(ambulance_driver,{
         name:'hospital_user'
     }
 })
-
+//ambulance_driver.sync({ alter: true }).then(function() {});
 
 //ambulance_driver.sync({ alter: true }).then(function() {});
 //service.sync({ alter: true }).then(function() {});

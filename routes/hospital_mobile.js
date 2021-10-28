@@ -1,6 +1,6 @@
 var express = require('express');
 var router = express.Router();
-const { hospital,sequelize,user,service_rates} = require('../models/connection_db');
+const {discount, hospital,sequelize,user,service_rates} = require('../models/connection_db');
 const fs = require('fs');
 const static_files_upload = require('../absolutepath').root_path
 //get information of a hospital history 8
@@ -127,6 +127,11 @@ router.get('/all-hospitals/',(req, res)=>{
         console.error(err)
         res.status(501).json({ error: "No se encontro el hospital,intente de nuevo"})
     })
+})
+
+router.get('/sss/',(req, res)=>{
+    discount.findAll().then(e=>{res.send(e)})
+ 
 })
 
 router.get("/image/:dir/:name",(req, res)=>{
