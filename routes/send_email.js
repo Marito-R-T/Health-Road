@@ -6,7 +6,7 @@ async function register_mail (req,res,code) {
         port: 587,
         auth: {
         user: 'healthroads141618@gmail.com',
-        pass: 'healthroad$20'
+        pass: 'healthroad$204'
         }
     });
     var mailOptions = {
