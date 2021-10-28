@@ -8,7 +8,7 @@ module.exports.html_to_pdf =  function (data,res) {
     }
     return pdf.create(content?content:'<h1>Empty</h1>').toStream(function(err, stream) {
         if (err) {
-            console.log(err)
+            res.redirect(url.format({ pathname: '/Hospital/Rates', query: { title: 'Error', message: 'No se pudo procesar el archivo', type: 'error' } }));
         } else {
             res.set('Content-type', 'application/pdf');
             stream.pipe(res)
