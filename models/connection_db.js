@@ -273,11 +273,7 @@ var solicitudes = sequelize.define('Solicitudes', {
 },{
     freezeTableName: true,
 })
-//solicitudes.sync({ force: true }).then(function() {});
-//usuarios
-//user.sync({ force: true }).then(function() {});
-//ambulance_driver.sync({ force: true }).then(function() {});
-//hospital.sync({ force: true }).then(function() {});
+
 user.hasMany(ambulance_driver, {
     onDelete: 'CASCADE',
     foreignKey: {
@@ -295,9 +291,6 @@ user.hasMany(hospital, {
     }
 })
 
-//-------servbicios
-//category.sync({ force: true }).then(function() {});
-//service.sync({ force: true }).then(function() {});
 category.hasMany(service, {
     onDelete: 'CASCADE',
     foreignKey: {
@@ -312,7 +305,7 @@ hospital.hasMany(service, {
         primaryKey: true,
     }
 });
-//discount.sync({ force: true }).then(function() {})
+
 discount.hasMany(service, {
     onDelete: 'CASCADE',
     foreignKey: {
@@ -320,8 +313,6 @@ discount.hasMany(service, {
     }
 })
 
-//rates
-//service_rates.sync({ alter: true }).then(function() {})
 service.hasMany(service_rates, {
     onDelete: 'CASCADE',
     foreignKey: {
@@ -338,7 +329,6 @@ hospital.hasMany(service_rates, {
     }
 })
 
-//service_rates.sync({ alter: true }).then(function() {})
 
 //favorites
 user.hasMany(favorites, {
@@ -349,7 +339,6 @@ user.hasMany(favorites, {
     }    
 })
 
-//favorites.sync({ alter: true }).then(function() {})
 
 //CreditCard
 user.hasOne(creditCard, {
@@ -379,3 +368,4 @@ module.exports.service_rates = service_rates;
 module.exports.discount = discount;
 module.exports.favorites = favorites;
 module.exports.creditCard = creditCard;
+module.exports.solicitudes = solicitudes;
