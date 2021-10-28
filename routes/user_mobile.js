@@ -170,11 +170,12 @@ router.put('/update-credit-card/',(req, res)=>{
     creditCard.update({
         cvv:req.body.cvv,
         expiration:new Date(req.body.expiration),
-        holder:req.body.holder
+        holder:req.body.holder,
+        card_number:req.body.card_number,
     },{
         where:{
             user:req.body.user,
-            card_number:req.body.card_number,
+            
         }
     })
     .then(e=>{
