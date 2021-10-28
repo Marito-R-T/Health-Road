@@ -270,7 +270,7 @@ router.get("/get-rates/all-services/", async (req, res) => {
             attributes: []
         },],
         attributes: [
-            'name', [sequelize.fn('avg', sequelize.col('ServiceRates.score')), 'scores']
+            'name', [sequelize.cast(sequelize.fn('AVG', sequelize.col('ServiceRates.score')),'int'), 'scores']
         ],
         group: ['name'],
     })
