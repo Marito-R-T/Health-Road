@@ -1,20 +1,12 @@
 .avatar-upload {
     position: relative;
-    max-width: 205px;
+    max-width: 250px;
     width: 75%;
     height: 75%;
 }
 
-.avatar-upload .avatar-edit {
-    position: absolute;
-    right: 12px;
-    z-index: 1;
-    top: 10px;
-}
 
-.avatar-upload .avatar-edit input {
-    display: none;
-}
+
 
 .avatar-upload .avatar-edit label {
     display: inline-block;
@@ -130,9 +122,7 @@
     top: 10px;
 }
 
-.photo-upload .photo-edit input {
-    display: none;
-}
+
 
 .photo-upload .photo-edit label {
     display: inline-block;

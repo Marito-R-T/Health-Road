@@ -14,19 +14,13 @@
 
                     <div class="cover-upload">
                         <div class="cover-edit">
-                            <input type='file' id="imageUpload-cover" accept=".png, .jpg, .jpeg ,.jfif" />
-                            <label for="imageUpload-cover"><i style="margin: 8px;" class="fas fa-camera"></i></label>
-                            <textarea type="text" name="path" id="path" hidden></textarea>
+                            
                         </div>
                         <div class="cover-preview">
                             <div id="previsualizacion-cover" style="background-image: url(images/logo-hospital.png);">
                                 <div class="avatar-upload">
                                     <div class="avatar-edit" style="left: 200px;">
-                                        <input type='file' id="imageUpload-profile" accept=".png, .jpg, .jpeg ,.jfif" />
-                                        <label for="imageUpload-profile"><i style="margin: 8px;"
-                                                class="fas fa-camera"></i></label>
-                                        <textarea type="text" name="path" id="path" hidden></textarea>
-                                    </div>
+                                        
                                     <div class="avatar-preview">
                                         <div id="previsualizacion-profile"
                                             style="background-image: url(/<%-hospital.photo%>);">
@@ -86,7 +80,7 @@
                             <div class="tab-pane fade  <%-tabs.service%>" id="home" role="tabpanel"
                                 aria-labelledby="home-tab">
                                 <%if(locals.services){%>
-                                    <div class="service-control-panel">
+                                    <div class="service-control-panel" style="display: flow-root;">
                                         <div class="service-filter">
 
                                         </div>
@@ -94,17 +88,18 @@
 
                                             <form action="/Hospital/AddService">
 
-                                                <button class="form">
-                                                    <i class="fad fa-notes-medical"></i> Servicio</i>
+                                                <button class="button button--shikoba button--text-medium button--round-l button--inverted" >
+                                                    <i class="button__icon  fad fa-notes-medical"></i><span>Servicio</span> </i>
                                                 </button>
+                                                
                                             </form>
-                                            <form action="/service/discount/all-services" method="POST">
+                                            <form class="was-validated" action="/service/discount/all-services" method="POST">
                                                 <p>
 
-                                                    <button class="form " type="button" data-bs-toggle="collapse"
+                                                    <button class="form button button--shikoba button--text-medium button--round-l button--inverted " type="button" data-bs-toggle="collapse"
                                                         data-bs-target="#collapseExample" aria-expanded="false"
                                                         aria-controls="collapseExample">
-                                                        <i class="fad fa-percent"></i> Descuento</i>
+                                                        <i class="button__icon fad fa-percent"></i><span>Descuento</span> </i>
                                                     </button>
                                                 </p>
                                                 <div class="collapse" id="collapseExample">
@@ -133,9 +128,7 @@
                                                                 <input type="date" name="date_end" value="" required>
                                                             </div>
                                                             <div class="actions">
-                                                                <button type="submit" class="btn small submitButton"
-                                                                    data-bs-toggle="modal"
-                                                                    data-bs-target="#set_discount" />
+                                                                <button type="submit" class="btn small submitButton" data-bs-toggle="modal" data-bs-target="#set_discount" />
                                                                 <i class="far fa-save"></i>
                                                                 Actualizar
                                                                 </button>
@@ -158,7 +151,7 @@
                                                 <div class="row">
                                                     <div class="col-md-2">
                                                         <img width="100px"
-                                                            src="https://i.pinimg.com/280x280_RS/2e/45/66/2e4566fd829bcf9eb11ccdb5f252b02f.jpg"
+                                                            src="https://static.vecteezy.com/system/resources/thumbnails/000/353/690/small/Health__28208_29.jpg"
                                                             alt="">
                                                     </div>
                                                     <div class="col-md-10">
@@ -241,7 +234,7 @@
                             </div>
                             <div class="tab-pane fade  <%- tabs.users %>" id="profile" role="tabpanel"
                                 aria-labelledby="profile-tab">
-
+                                <%if(locals.ambulance_driver){ %>
 
                                 <div class="d-flex align-items-start">
                                     <div class="nav flex-column nav-pills me-3" id="v-pills-tab" role="tablist"
@@ -254,29 +247,28 @@
                                     <div class="tab-content " id="v-pills-tabContent">
                                         <div class="tab-pane fade show active" id="v-pills-drivers" role="tabpanel"
                                             aria-labelledby="v-pills-drivers-tab">
-                                            <div class="service-filter">
-
-                                            </div>
-                                            <div class="service-actions">
+                                            <div class="service-actions col-md-12" style="display: -webkit-inline-box;">
                                                 <form action="/Hospital/AddDriver">
-                                                    <button class="form">
-                                                        <i class="far fa-ambulance"></i> Nuevo
+                                                    <button  class="form button button--shikoba button--text-medium button--round-l button--inverted">
+                                                        <i class="button__icon far fa-ambulance"></i> <span>Nuevo</span>
                                                     </button>
                                                 </form>
                                             </div>
-                                            <div class="list-group">
-                                                <div
-                                                    class="list-group-item list-group-item-action flex-column align-items-start ">
+                                            <br>
+                                            <hr>
+                                           
+                                            <div class="list-group" style="height: 900px; overflow: auto;">
+                                                <div >
                                                     <div class="row">
 
-                                                        <%if(locals.ambulance_driver){ %>
+                                                       
                                                             <% var count=Object.keys(ambulance_driver).length; %>
                                                                 <%for(var i=0;i<count; i++) {%>
                                                                     <div
                                                                         class="list-group-item list-group-item-action flex-column align-items-start ">
                                                                         <div class="row">
                                                                             <div class="col-md-2">
-                                                                                <img width="100px"
+                                                                                <img width="100px" height="100px"
                                                                                     src="/<%- ambulance_driver[i].profile_pic %>"
                                                                                     alt="">
                                                                             </div>
@@ -285,10 +277,8 @@
                                                                                     <div
                                                                                         class="d-flex w-100 justify-content-between">
                                                                                         <h5 class="mb-1">
-                                                                                            <%=
-                                                                                                ambulance_driver[i].name%>
-                                                                                                <%=
-                                                                                                    ambulance_driver[i].last_name%>
+                                                                                            <%= ambulance_driver[i].name%>
+                                                                                                <%= ambulance_driver[i].last_name%>
                                                                                         </h5>
 
 
@@ -309,6 +299,13 @@
                                                                                     <br>
 
                                                                                     <small class="modified-buttons">
+                                                                                        <button class="form"
+                                                                                            data-bs-toggle="modal"
+                                                                                            onclick="send_driver_pass('<%- ambulance_driver[i].user %>')"
+                                                                                            data-bs-target="#update_driver_pass">
+                                                                                            <i class="fal fa-lock-open-alt"></i>
+                                                                                        </button>
+
                                                                                         <form
                                                                                             action="/Hospital/UpdateUsers">
                                                                                             <input type="text" hidden
@@ -343,7 +340,7 @@
                                                                     </div>
                                                                     <hr>
 
-                                                                    <% } }%>
+                                                                    <% }%>
                                                     </div>
                                                 </div>
                                             </div>
@@ -354,14 +351,16 @@
 
                                     </div>
                                 </div>
+                                <% }%>
                             </div>
                             <div class="tab-pane fade  <%-tabs.rates%>" id="contact" role="tabpanel"
                                 aria-labelledby="contact-tab">
                                 <div class="service-actions">
                                     <form action="/Hospital/Get-Rates">
-                                        <button class="form">
-                                            <i class="far fa-ambulance"></i> Descargar
+                                        <button  class="form button button--shikoba button--text-medium button--round-l button--inverted">
+                                            <i class="button__icon fas fa-download"></i></i> <span>Descargar</span>
                                         </button>
+                                       
                                     </form>
                                 </div>
                                 
@@ -375,20 +374,22 @@
                                     <div class="service-filter">
                                     </div>
                                     <div class="service-actions">
-                                        <button class="form" data-bs-toggle="modal" data-bs-target="#add_photo">
-                                            <i class="fal fa-images"></i> Agregar Fotografia
+                                        
+
+                                        <button class="form button button--shikoba button--text-medium button--round-l button--inverted" data-bs-toggle="modal" data-bs-target="#add_photo">
+                                            <i class="button__icon fal fa-images"></i> <span>  Agregar Fotografia </span>
                                         </button>
                                     </div>
                                 </div>
                                 <% if(locals.gallery){ %>
-                                    <div class="row">
+                                    <div class="row" >
                                         <% var count=Object.keys(gallery).length;%>
                                             <% for(var i=0; i<count; i++) {%>
-                                                <div class="col-md-6 gallery-photo ">
+                                                <div class="col-md-12 gallery-photo " >
                                                     <div class="card shadow-sm">
-                                                        <div class="card-body">
+                                                        <div class="card-body ">
                                                             <div class="col-md-12">
-                                                                <img src="/<%= gallery[i] %>" alt="">
+                                                                <img width="300px" height="200px" style="margin-left: 17%;"  src="/<%= gallery[i] %>" alt="">
                                                             </div>
                                                             <div
                                                                 class="d-flex justify-content-between align-items-center">
@@ -402,6 +403,7 @@
                                                         </div>
                                                     </div>
                                                 </div>
+                                                <hr>
                                                 <% } %>
                                     </div>
                                     <% } %>
@@ -409,12 +411,12 @@
                             </div>
                         </div>
                     </div>
-                    <div class="col-md-3 basic-information">
+                    <div class="col-md-3 basic-information ">
                         <label> <i class="fas fa-hospital-symbol"></i> Informacion Basica</label>
 
-                        <small class="modified-buttons">
+                        <small style="display: ruby;">
                             <form action="/Hospital/Update">
-                                <button type="submit" class="form">
+                                <button type="submit" style="top: 20px;" class="form button button--sacnite button--round-s button--inverted">
                                     <i class="far fa-edit"></i>
                                 </button>
                             </form>
@@ -447,25 +449,32 @@
 
                         </div>
 
-                        <div class="col-md-12">
-                            <label> Calificacion</label><br>
-                            <i class="fas fa-star"></i><i class="fas fa-star-half-alt"></i><i class="far fa-star"></i><i
-                                class="far fa-star"></i><i class="far fa-star"></i>
-                        </div>
-                        <form action="/user/logout/">
-                            <button>
-                                Cerrar Sesion
-                            </button>
-                        </form>
-                        <form action="/hospital/delete" method="POST">
-                            <button class="form" data-bs-toggle="modal" data-bs-target="#delete_hospital">
+                                                      
+                        <form class="was-validated" action="/hospital/delete" method="POST">
+                            <small>
+                            <button class="form button button--sacnite button--round-s button--inverted" data-bs-toggle="modal" data-bs-target="#delete_hospital">
                                 <i class="far fa-trash-alt"></i>
                             </button>
+                        </small>
                             <input hidden type="text" value="<%- hospital.name %>" name="name">
-                            <%- include("../include/confirmation_message",{id: 'delete_hospital'
-                                ,message: '¿Esta seguro de eliminar el hospital? <br> ' +hospital.name ,
-                                type: 'hospital' }) %>
+                            <%- include("../include/confirmation_message",{id: 'delete_hospital',message: '¿Esta seguro de eliminar el hospital? <br> ' +hospital.name , type: 'hospital' }) %>
                         </form>
+                        <form class="was-validated" action="/hospital/updatepass" method="POST">
+                            <small >
+                            <button class="form button button--sacnite button--round-s button--inverted" data-bs-toggle="modal" data-bs-target="#change-password">
+                                <i class="fal fa-lock-open-alt"></i>
+                            </button>
+                            </small>
+                            <input hidden type="text" value="<%- hospital.name %>" name="name">
+                            <%- include("../include/change_password",{ id:'change-password', type: 'hospital' }) %>
+                        </form>
+                        <form action="/user/logout/">
+                            <button class="form button button--shikoba button--text-medium button--round-l button--inverted">
+                                <i class="button__icon fas fa-sign-out-alt"></i>
+                                <span> Cerrar Sesion</span>
+                            </button>
+                        </form>
+                        
 
                     </div>
                 </div>
@@ -474,7 +483,7 @@
 
 
         </div>
-        <form action="/hospital/add-photo" method="POST" enctype="multipart/form-data">
+        <form class="was-validated" action="/hospital/add-photo" method="POST" enctype="multipart/form-data">
             <input hidden type="text" id="service_delete_name" name="name">
             <div class="modal fade" id="add_photo" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
                 aria-labelledby="staticBackdropLabel" aria-hidden="true">
@@ -489,14 +498,12 @@
                                 <div class="img-profile">
                                     <div class="photo-upload" style="margin: auto;">
                                         <div class="photo-edit">
-                                            <input type='file' name="photo" id="photo" accept=".png, .jpg, .jpeg ,.jfif"
+                                            <input type='file' class="form-control" name="photo" id="photo" accept=".png, .jpg, .jpeg ,.jfif"
                                                 required />
-                                            <label for="photo"><i style="margin: 8px;"
-                                                    class="fas fa-camera"></i></label>
+    
                                         </div>
                                         <div class="photo-preview" style="padding: 0;">
-                                            <div id="previsualizacion-photo"
-                                                style="background-image: url(images/imagen.png); width: 100%; height: 100%;">
+                                            <div id="previsualizacion-photo" style="background-image: url(images/imagen.png); width: 100%; height: 100%;" >
                                             </div>
                                         </div>
 
@@ -514,23 +521,25 @@
             </div>
         </form>
 
-        <form action="/service/delete" method="POST">
+        <form class="was-validated" action="/service/delete" method="POST">
             <input hidden type="text" id="service_delete_name" name="name">
-            <%- include("../include/confirmation_message",{ id: 'delete_service'
-                ,message: '¿Esta seguro de eliminar el servicio?' , type: 'servicio' }) %>
+            <%- include("../include/confirmation_message",{ id: 'delete_service',message: '¿Esta seguro de eliminar el servicio?' , type: 'servicio' }) %>
         </form>
 
-        <form action="/ambulance-driver/delete" method="POST">
+        <form class="was-validated" action="/ambulance-driver/updatepass" method="POST">
+            <input hidden type="text" id="update_pass_driver" name="user">          
+            <%- include("../include/change_password",{ id:'update_driver_pass',type: 'hospital' }) %>
+        </form>
+
+        <form class="was-validated" action="/ambulance-driver/delete" method="POST">
             <input hidden type="text" id="delete_driver_name" name="user_name">
-            <%- include("../include/confirmation_message",{ id: 'delete_driver'
-                ,message: '¿Esta seguro de eliminar el usuario?' , type: 'usuario' }) %>
+            <%- include("../include/confirmation_message",{ id: 'delete_driver' ,message: '¿Esta seguro de eliminar el usuario?' , type: 'usuario' }) %>
         </form>
 
-        <form action="/hospital/delete-photos" method="POST">
+        <form class="was-validated" action="/hospital/delete-photos" method="POST">
             <input hidden type="text" id="id_delete_photo" name="id_photo">
             <input hidden type="text" id="name_photo" name="name">
-            <%- include("../include/confirmation_message",{ id: 'delete-photo'
-                ,message: '¿Esta seguro de eliminar la foto?' , type: 'Hospital' }) %>
+            <%- include("../include/confirmation_message",{ id: 'delete-photo' ,message: '¿Esta seguro de eliminar la foto?' , type: 'Hospital' }) %>
         </form>
 
         <script>
@@ -540,6 +549,10 @@
             }
             function send_driver(name) {
                 var input_delete = document.getElementById('delete_driver_name');
+                input_delete.value = name;
+            }
+            function send_driver_pass(name) {
+                var input_delete = document.getElementById('update_pass_driver');
                 input_delete.value = name;
             }
             function send_id_photo(id, name) {
@@ -552,12 +565,12 @@
         <%- include("../include/scripts") %>
             <% if (locals.rates && locals.names) { %>
                 <script>
-                    var test = <%- JSON.stringify(rates) %>;
+                    var test = <%-JSON.stringify(rates)%>;
                     var result_scores = [];
                     for (var i in test)
                         result_scores.push(test[i].scores);
 
-                    var test2 = <%- JSON.stringify(names) %>;
+                    var test2 = <%-JSON.stringify(names)%>;
                     var result_names = [];
                     var colors = [];
                     for (var i in test2){

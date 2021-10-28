@@ -23,7 +23,7 @@
          <div class="container forms">
             <div class="contact-section">
                <div class="form-contant">
-                  <form id="ajax-contact" action="user/login/" method="post">
+                  <form id="ajax-contact" class="was-validated" action="user/login/" method="post">
                      <div class="row">
                         <div class="col-md-12">
                            <div class="form-group in_name">
@@ -35,8 +35,9 @@
                         <div class="col-md-12">
                            <div class="form-group in_email">
                               <label> <i class="fas fa-key"></i> Password * </label>
-                              <input type="password" class="form-control" placeholder="Password" name="password"
-                                 id="password" required="required">
+                              <input type="password" id="password" class="form-control" placeholder="Password" name="password"
+                                 required="required">
+                                 <i onclick="seePassword()" id="Password_icon" style="color: black;position: relative;bottom: 50px;left: 90%;" class="far fa-eye"></i>
                            </div>
                         </div>
 

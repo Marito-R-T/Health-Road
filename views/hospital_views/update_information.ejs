@@ -10,7 +10,8 @@
       <header>
          <div class="header-top wow fadeIn">
             <div class="container">
-               <a class="navbar-brand" href="/Hospital">Health<img src="images/icon-logo.png" alt="image">Road - Regresar</a>
+               <a class="navbar-brand" href="/Hospital">Health<img src="images/icon-logo.png" alt="image">Road -
+                  Regresar</a>
 
             </div>
          </div>
@@ -22,34 +23,34 @@
                <h2>Actualizar Hospital</h2>
             </div>
          </div>
-         <form id="ajax-contact" action="/hospital/update" method="POST" >
-         <div class="container forms">
-            <div class="contact-section">
-               <div class="form-contant">
-                 
+         <form class="was-validated" id="ajax-contact" action="/hospital/update" method="POST">
+            <div class="container forms">
+               <div class="contact-section">
+                  <div class="form-contant">
+
                      <div class="row" id="first-div">
-                        
+
 
                         <div class="col-md-12">
                            <div class="form-group in_name">
                               <label> <i class="fas fa-hospital-symbol"></i> Nombre</label>
                               <input type="text" class="form-control" placeholder="Nombre" name="name"
                                  required="required" value="<%- hospital.name  %>">
-                                 <input type="text" hidden name="name_old" value="<%- hospital.name  %>">
+                              <input type="text" hidden name="name_old" value="<%- hospital.name  %>">
                            </div>
                         </div>
                         <div class="col-md-12">
                            <div class="form-group in_email">
                               <label> <i class="fas fa-envelope-open-text"></i> Email</label>
                               <input type="email" class="form-control" placeholder="Email" name="email"
-                                 required="required"  value="<%- hospital.email  %>">
+                                 required="required" value="<%- hospital.email  %>">
                            </div>
                         </div>
                         <div class="col-md-12">
                            <div class="form-group in_name">
                               <label> <i class="far fa-phone"></i> Telefono</label>
                               <input type="text" class="form-control" placeholder="Telefono" name="celphone"
-                                   value="<%- hospital.celphone %>">
+                                 value="<%- hospital.celphone %>">
                            </div>
                         </div>
 
@@ -57,7 +58,7 @@
                            <div class="form-group in_name">
                               <label> <i class="far fa-hospital-user"></i> Director</label>
                               <input type="text" class="form-control" placeholder="Nombre" name="director_name"
-                                 required="required"  value="<%- hospital.director_name %>">
+                                 required="required" value="<%- hospital.director_name %>">
                            </div>
                         </div>
 
@@ -67,33 +68,54 @@
                               <textarea class="form-control" id="message" rows="5" name="description"
                                  placeholder="Descripcion" required="required"><%- hospital.description  %> </textarea>
                            </div>
-                          
-                        </div>
 
+                        </div>
+                       
+                     </div>
+                    
+
+                        <div class="form-group in_message">
+                           <label> <i class="far fa-location-circle"></i> Direccion </label>
+
+                           <textarea class="form-control" id="address" rows="3" name="address"
+                              placeholder="Direccion"><%  if(hospital.direction){ %><%- hospital.direction.address%> <%} %></textarea>
+                           <input name="latitude" type="text"
+                              <%  if(hospital.direction.latitude){ %>value="<%- hospital.direction.latitude%>"<%}%>
+                              hidden id="latitude">
+                           <input name="longitude" type="text"
+                             <%  if(hospital.direction.longitude){ %>value="<%- hospital.direction.longitude%>"<%}%>
+                              hidden id="longitude">
+                           <button type="button" data-bs-toggle="modal" data-bs-target="#add_direction">
+                              <i class="far fa-location-circle"></i> Buscar Direccion
+                           </button>
+                        </div>
 
                         <div class="col-md-12">
-                           <div class="actions">
-                              
-                              <div class="actions">
-                                 <button type="button" class="btn small submitButton" data-bs-toggle="modal"
-                                    data-bs-target="#update_information">
-                                    <i class="far fa-save"></i>
-                                    Actualizar
-                                 </button>
-                              </div>
-                            
-                             
 
+                           <div class="actions">
+                     
+                              <button type="button" class="btn small submitButton" data-bs-toggle="modal"
+                                 data-bs-target="#update_information">
+                                 <i class="far fa-save"></i>
+                                 Actualizar
+                              </button>
                            </div>
+
+
+
                         </div>
-                     </div>
 
                  
+
+
+
+
+
+                  </div>
                </div>
             </div>
-         </div>
-         <%- include("../include/confirmation_message",{id: 'update_information',message:'¿Esta seguro de actualizar la informacion del hospital?' ,type: 'hospital'}) %>
-      </form>
+            <%- include("../include/confirmation_message",{id: 'update_information' ,message:'¿Esta seguro de actualizar la informacion del hospital?' ,type: 'hospital' }) %>
+         </form>
       </div>
 
       <div class="copyright-area wow fadeIn" id="copyright-area">
@@ -109,7 +131,34 @@
          </div>
       </div>
 
+      <div class="modal fade" id="add_direction" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+      aria-labelledby="staticBackdropLabel" aria-hidden="true">
+      <div class="modal-dialog">
+         <div class="modal-content">
+            <div class="modal-header">
+               <h5 class="modal-title" id="staticBackdropLabel">Obtener Direccion</h5>
+               <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+               <div class="row">
+                  <div class="col-md-12">
+                     <div class="form-group in_email">
+                        <label> <i class="far fa-map-marker-alt"></i> Ubicacion</label>
+                     </div>
+                     <div id='map'></div>
 
+
+                  </div>
+
+               </div>
+            </div>
+            <div class="modal-footer">
+               <button type="button" class="btn btn-primary" data-bs-dismiss="modal"
+                  aria-label="Close">Cerrar</button>
+            </div>
+         </div>
+      </div>
+   </div>
       <script>
 
 
@@ -122,12 +171,6 @@
          function secondDiv() {
             document.getElementById('first-div').hidden = true;
             document.getElementById('second-div').hidden = false;
-            document.getElementById('third-div').hidden = true;
-         }
-
-         function thirdDiv() {
-            document.getElementById('third-div').hidden = false;
-            document.getElementById('second-div').hidden = true;
          }
 
       </script>

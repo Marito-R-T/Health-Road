@@ -1,23 +1,5 @@
-const { Sequelize, DataTypes, Model } = require('sequelize');
+const { Sequelize, DataTypes } = require('sequelize');
 
-//credentials
-//const USER = '
-//const USER = 'marito';
-/*
-const USER = 'postgres';
-const HOST = 'localhost';
-const DATABASE = 'health_road';
-const PASSWORD = 'Odra20$'
-const PORT = '5432';
-
-//connection
-const sequelize = new Sequelize(DATABASE, USER, PASSWORD, {
-    HOST,
-    PORT,
-    dialect: 'postgres',
-    logging: false,
-});
-*/
 
 const USER = 'rougxvplrsupiu';
 const HOST = 'ec2-54-209-52-160.compute-1.amazonaws.com';
@@ -55,19 +37,6 @@ var hospital = sequelize.define('Hospital', {
         type: DataTypes.JSON,
         allowNull: true,
     },
-    /*profile_pic: {
-        type: DataTypes.TEXT,
-        allowNull: true,
-    },
-    password: {
-        type: DataTypes.STRING(length = 50),
-        allowNull: false,
-    },
-    email: {
-        type: DataTypes.STRING(length = 30),
-        allowNull: false,
-    },
-    */
     description: {
         type: DataTypes.TEXT,
         allowNull: false,
@@ -398,37 +367,8 @@ hospital.hasMany(ambulance_driver,{
         name:'hospital_user'
     }
 })
-//ambulance_driver.sync({ alter: true }).then(function() {});
 
-//ambulance_driver.sync({ alter: true }).then(function() {});
-//service.sync({ alter: true }).then(function() {});
-//creditCard.sync({ alter: true }).then(function() {})
 
-//creditCard.sync({ alter: true }).then(function() {})
-//creditCard.sync({ force: true }).then(function() {})
-//hospital.sync({ alter: true }).then(function() {});
-function alter_table() {
-    hospital.sync({ alter: true }).then(function() {});
-    category.sync({ alter: true }).then(function() {});
-    service.sync({ alter: true }).then(function() {});
-    user.sync({ alter: true }).then(function() {});
-    ambulance_driver.sync({ alter: true }).then(function() {});
-    service_rates.sync({ alter: true }).then(function() {})
-    discount.sync({ alter: true }).then(function() {})
-}
-function create_tables() {
-    hospital.sync({ force: true }).then(function() {});
-    category.sync({ force: true }).then(function() {});
-    service.sync({ force: true }).then(function() {});
-    user.sync({ force: true }).then(function() {});
-    ambulance_driver.sync({ force: true }).then(function() {});
-    discount.sync({ force: true }).then(function() {});
-    service_rates.sync({ alter: true }).then(function() {})
-}
-
-//create_tables();
-//alter_table();
-//ambulance_driver.sync({ alter: true }).then(function() {});
 module.exports.sequelize = sequelize;
 module.exports.hospital = hospital;
 module.exports.service = service;

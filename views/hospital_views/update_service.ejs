@@ -41,7 +41,7 @@
                 </ul>
                 <div class="tab-content" id="myTabContent">
                     <div class="tab-pane fade show active   " id="home" role="tabpanel" aria-labelledby="home-tab">
-                        <form id="ajax-contact" action="/service/update" method="post">
+                        <form class="was-validated" id="ajax-contact" action="/service/update" method="post">
                             <div class="container forms">
                                 <div class="contact-section">
                                     <div class="form-contant">
@@ -109,7 +109,7 @@
 
                     </div>
                     <div class="tab-pane fade   " id="profile" role="tabpanel" aria-labelledby="profile-tab">
-                        <form id="ajax-contact" action="/service/set-schedule" method="post">
+                        <form class="was-validated" id="ajax-contact" action="/service/set-schedule" method="post">
                             <div class="container forms">
                                 <div class="contact-section">
                                     <div class="form-contant">
@@ -208,7 +208,7 @@
 
                     </div>
                     <div class="tab-pane fade" id="contact" role="tabpanel" aria-labelledby="contact-tab">
-                        <form action="/service/discount/specific-service" method="POST">
+                        <form class="was-validated" action="/service/discount/specific-service" method="POST">
                             <div class="container forms">
                                 <div class="contact-section">
                                     <div class="form-contant">
@@ -297,14 +297,14 @@
                                 message: '¿Esta seguro de actualizar el descuento del servicio? <br> ' +service.name,
                                 type: 'servicio' }) %>
                         </form>
-                        <form action="/service/reactive-mode-out-of-service" method="post">
+                        <form  class="was-validated" action="/service/reactive-mode-out-of-service" method="post">
                             <input hidden type="text" value="<%- service.name  %>" name="name">
                             <%- include("../include/confirmation_message",{id: 'reactive_service' ,
                                 message: '¿Esta seguro de habilitar el servicio? <br> ' +service.name, type: 'servicio'
                                 , funtion : 'reverse_disable()' }) %>
                         </form>
 
-                        <form action="/service/mode-out-of-service" method="post">
+                        <form class="was-validated" action="/service/mode-out-of-service" method="post">
                             <input hidden type="text" value="<%- service.name  %>" name="name">
                             <%- include("../include/confirmation_message",{id: 'out_of_service' ,
                                 message: '¿Esta seguro de deshabilitar el  servicio? <br> ' +service.name,

@@ -23,17 +23,16 @@
          <div class="container forms">
             <div class="contact-section">
                <div class="form-contant">
-                  <form id="ajax-contact" action="/ambulance-driver/register/" method="post"  enctype="multipart/form-data">
+                  <form id="ajax-contact" class="was-validated" action="/ambulance-driver/register/" method="post"  enctype="multipart/form-data">
                      <div class="row">
                        
-                           <div class="col-md-4">
+                           <div class="col-md-5">
 
                               <div class="avatar-upload" >
                                  <div class="avatar-edit">
-                                    <input type='file' name="profile_pic" id="imageUpload-profile"
+                                    <input type='file' class="form-control" name="profile_pic" id="imageUpload-profile"
                                        accept=".png, .jpg, .jpeg ,.jfif" required/>
-                                    <label for="imageUpload-profile" style="position: absolute; left: 20px;"><i style="margin: 8px;"
-                                          class="fas fa-camera"></i></label>
+                                    
                                  </div>
                                  <div class="avatar-preview" style="padding: 0;">
                                     <div id="previsualizacion-profile"
@@ -43,7 +42,7 @@
 
                               </div>
                            </div>
-                           <div class="col-md-8 row">
+                           <div class="col-md-7 row">
                               <div class="col-md-12">
                                  <div class="form-group in_email">
                                     <label> Usuario</label>
@@ -78,8 +77,9 @@
                               <div class="col-md-12">
                                  <div class="form-group in_email">
                                     <label> <i class="far fa-lock-alt"></i> Password</label>
-                                    <input type="password" class="form-control" name="password" placeholder="Password"
-                                       required="required">
+                                    <input type="password" id="password" class="form-control" placeholder="Password" name="password"
+                                 required="required">
+                                 <i onclick="seePassword()" id="Password_icon" style="color: black;position: relative;bottom: 50px;left: 80%;" class="far fa-eye"></i>
                                  </div>
                               </div>
                               <div class="col-md-12">

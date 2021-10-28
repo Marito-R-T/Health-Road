@@ -220,8 +220,6 @@ router.get('/Services/', async (req, res) => {
             }
         }).catch(err => {
 
-
-            console.log(err);
             res.redirect(url.format({ pathname: '/', query: { title: 'Error', message: 'Intente de nuevo', type: 'error' } }));
         })
     }
@@ -415,6 +413,7 @@ async function getHospitalInfo(req) {
                 if (val1) {
                     hospital_info_.name = val1.Hospitals[0].name;
                     hospital_info_.address = val1.Hospitals[0].direction.address;
+                    hospital_info_.direction = val1.Hospitals[0].direction;
                     hospital_info_.email = val1.email;
                     hospital_info_.photo = val1.profile_pic;
                     hospital_info_.gallery = val1.Hospitals[0].photos;
@@ -431,9 +430,6 @@ async function getHospitalInfo(req) {
 
 
             }).catch(err => {
-
-
-                console.log(err);
                 message_.title = 'Error';
                 message_.message = 'Intente de nuevo';
                 message_.type = 'error';

@@ -43,7 +43,7 @@ router.post('/register/', async (req, res) => {
                     })
                     res.redirect(url.format({ pathname: '/Hospital/Services', query: { title: 'Registro exitoso', message: 'Servicio registrado', type: 'success' } }));
                 }).catch(error => {
-
+console.log(error);
                     res.redirect(url.format({ pathname: '/Hospital/AddService', query: { title: 'Error', message: 'Intente de nuevo', type: 'error' } }));
                 })
             }
@@ -331,7 +331,7 @@ router.post('/discount/all-services/', async (req, res) => {
         res.redirect(url.format({ pathname: '/Hospital/Services', query: { title: 'Error', message: 'Confirmacion incorrecta', type: 'error' } }));
     } else {
         if (discounts.percentage && discounts.date_initial && discounts.date_end) {
-            await sequelize.query('UPDATE "Discounts" set "percentage" = ' + discounts.percentage + ' , "date_initial" = \'' + discounts.date_initial + '\' , "date_end" = \'' + discounts.date_end + '\' FROM "Service" where "Service"."DiscountId" = "Discounts"."id" and "Service"."hospital_user" = \'' + req.session.user + '\' and "Service"."deleted" = FALSE',
+            await sequelize.query('UPDATE "Discount" set "percentage" = ' + discounts.percentage + ' , "date_initial" = \'' + discounts.date_initial + '\' , "date_end" = \'' + discounts.date_end + '\' FROM "Service" where "Service"."DiscountId" = "Discount"."id" and "Service"."hospital_user" = \'' + req.session.user + '\' and "Service"."deleted" = FALSE',
                 {
                     type: Sequelize.QueryTypes.UPDATE,
                 }).then(e => {
